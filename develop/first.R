@@ -6,10 +6,9 @@ library(ggplot2)
 
 CTT(J15S500)
 
-result.IRT <- IRT(J15S500, model = 4)
+result.IRT <- IRT(J15S500, model = 2)
 
 class(result.IRT)
-
 
 result.IRT
 
@@ -113,7 +112,7 @@ result.IRT$params
 
 ggplot(data = result.IRT$params)
 
-plot_ICC(5)
+ICC_plot(5)
 
 ICC_plot(result.IRT)
 
@@ -179,18 +178,23 @@ Item_Characteristic_function <- function(x, slope, location, lowerAsym, upperAsy
     lowerAsym + ((upperAsym - lowerAsym) / (1 + exp(-1.7 * slope * (x - location))))
 }
 
+Item_Characteristic_function <- function(a = 1, b, c = 0, d = 1, theta) {
+    p <- c + ((d - c) / (1 + exp(-a * (theta - b))))
+    return(p)
+}
+
 plots <- NULL
 
 for (i in 1:nrow(result.IRT$params)) {
     plots[[i]] <-
-        ggplot(data = data.frame(x = seq(-4, 4, length.out = 100))) +
+        ggplot(data = data.frame(x = c(-4, 4))) +
         xlim(-4,4) +
         ylim(0,1) +
         stat_function(fun = Item_Characteristic_function,
-                      args = list(slope = result.IRT$params$slope[i],
-                                  location = result.IRT$params$location[i],
-                                  lowerAsym = result.IRT$params$lowerAsym[i],
-                                  upperAsym = result.IRT$params$upperAsym[i])) +
+                      args = list(a = result.IRT$params$slope[i],
+                                  b = result.IRT$params$location[i],
+                                  c = result.IRT$params$lowerAsym[i],
+                                  d = result.IRT$params$upperAsym[i])) +
         labs(
             title = paste0("Item Characteristic Curve, item ",i)
         )
@@ -198,7 +202,9 @@ for (i in 1:nrow(result.IRT$params)) {
 
 result.IRT$params$upperAsym
 
-plots[8]
+plots[2]
+
+
 
 for (i in 1:nrow(result.IRT$params)) {
     plots[[i]] <-
@@ -212,6 +218,7 @@ for (i in 1:nrow(result.IRT$params)) {
         )
 }
 
+plots[[7]]
 
 plots[[2]] <- ggplot(data = data.frame(x = seq(-4, 4, length.out = 100))) +
     xlim(-4,4) +
@@ -226,7 +233,6 @@ a <- list(plots)
 
 print(plots)
 
-plots[[7]]
 
 print(plots[[6]])
 
@@ -286,11 +292,76 @@ for (i in 1:nrow(result.IRT$params)) {
         stat_function(fun =function(x) 1/(1+exp(-1.7*result.IRT$params$slope[i]*(x-(result.IRT$params$location[i])))))
 }
 
+
+ICC_plot <- function(data, xvariable = c(-4,4)){
+    if (all(class(data) == c("Exametrika","IRT"))) {
+
+        plots <- NULL
+
+        for (i in 1:nrow(data$params)) {
+            plots[[i]] <-
+                ggplot(data = data.frame(x = xvariable)) +
+                xlim(xvariable[1],xvariable[2]) +
+                ylim(0,1) +
+                stat_function(fun = Item_Characteristic_function,
+                              args = list(a = data$params$slope[i],
+                                          b = data$params$location[i],
+                                          c = data$params$lowerAsym[i],
+                                          d = data$params$upperAsym[i])) +
+                labs(
+                    title = paste0("Item Characteristic Curve, item ",i)
+                )
+
+        }
+
+        return(plots)
+
+
+    }else{
+        stop("The input variable is not from Exametrika output, nor is it an output from IRT.")
+    }
+
+
+}
+
+Item_Characteristic_function <- function(a = 1, b, c = 0, d = 1, theta) {
+    p <- c + ((d - c) / (1 + exp(-a * (theta - b))))
+    return(p)
+}
+
+m <- c(-4,4)
+
+m[2]
+
+ICC_plot(result.IRT, xvariable = c(-4,4))
+
+
+warnings()
+
+
+
 # ここまでICC
 
 # ここからIIC
 
 plot(result.IRT, type = "IIC", items = 1:6, nc = 2, nr = 3)
 
+result.IRT$params
 
+for (i in 1:nrow(result.IRT$params)) {
+    plots[[i]] <-
+        ggplot(data = data.frame(x = c(-4,4))) +
+        xlim(-4,4) +
+        ylim(0,1) +
+        stat_function(fun = Item_Characteristic_function,
+                      args = list(a = result.IRT$params$slope[i],
+                                  b = result.IRT$params$location[i],
+                                  c = result.IRT$params$lowerAsym[i],
+                                  d = result.IRT$params$upperAsym[i])) +
+        labs(
+            title = paste0("Item Characteristic Curve, item ",i)
+        )
 
+}
+
+plots[5]
