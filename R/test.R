@@ -3,6 +3,11 @@
 #' plot_ICC
 #' @param data output_Exametrika
 #' @param type description
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 xlim
+#' @importFrom ggplot2 ylim
+#' @importFrom ggplot2 stat_function
+#' @importFrom ggplot2 labs
 #' @export
 
 

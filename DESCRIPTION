@@ -2,21 +2,14 @@ Package: ggExametrika
 Type: Package
 Title: Visualization of Exametrika Output using ggplot
 Version: 0.0.9
-Authors@R: person("Koji", "Kosugi", role = c("aut", "cre"), 
-                    email = "kosugitti@gmail.com",
-                    comment = c(ORCID = "0000-0001-5816-0099")),
-            person("Daichi", "Kamimura", role = c("aut"))
-Description:Exametrika is a powerful tool developed by Shojima(2022) for data analysis, 
-available in Mathematica and an Excel Add-on. It has been developed as an R package at
-[https://kosugitti.github.io/Exametrika/](https://kosugitti.github.io/Exametrika/).
-This package, ggExametrika, is built to enhance the visualization capabilities of 
-Exametrika pacakge using ggplot functions. 
-It integrates seamlessly with the Exametrika package, providing beautiful and 
-logically arranged plots for simplified data interpretation in R.
+Authors@R: c(
+    person(given = "Koji", family = "Kosugi", role = c("aut", "cre"), email = "kosugitti@gmail.com", comment = c(ORCID = "0000-0001-5816-0099")),
+    person(given = "Daichi", family = "Kamimura", role = c("aut")))
+Description: Exametrika is a powerful tool developed by Shojima(2022) for data analysis, available in Mathematica and an Excel Add-on. It has been developed as an R package at [https://kosugitti.github.io/Exametrika/](https://kosugitti.github.io/Exametrika/). This package, ggExametrika, is built to enhance the visualization capabilities of Exametrika pacakge using ggplot functions. It integrates seamlessly with the Exametrika package, providing beautiful and logically arranged plots for simplified data interpretation in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
+Depends: ggplot2
 RoxygenNote: 7.2.3
-Reference: Shojima, Kojiro (2022) Test Data Engineering: Latent Rank Analysis, Biclustering, andBayesian Network (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), 
-Springer, [https://amzn.to/42eNArd](https://amzn.to/42eNArd)
+Reference: Shojima, Kojiro (2022) Test Data Engineering: Latent Rank Analysis, Biclustering, andBayesian Network (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), Springer
