@@ -42,7 +42,7 @@ ICC_plot <- function(data, xvariable = c(-4,4)) {
             ylim(0, 1) +
             stat_function(fun = Item_Characteristic_function, args = args) +
             labs(
-                title = paste0("Item Characteristic Curve, ", rownames(result.IRT$params)[i]),
+                title = paste0("Item Characteristic Curve, ", rownames(data$params)[i]),
                 x = "ability",
                 y = "probability"
             )

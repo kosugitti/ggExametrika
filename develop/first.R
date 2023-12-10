@@ -331,10 +331,11 @@ Item_Characteristic_function <- function(a = 1, b, c = 0, d = 1, theta) {
 
 m <- c(-4,4)
 
-m[2]
+m[7]
 
-ICC_plot(result.IRT, xvariable = c(-4,4))
+a <- ICC_plot(result.IRT, xvariable = c(-4,4))
 
+a[[7]]
 
 warnings()
 

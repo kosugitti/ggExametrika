@@ -2,15 +2,15 @@
 % Please edit documentation in R/test.R
 \name{ICC_plot}
 \alias{ICC_plot}
-\title{test}
+\title{ICC function defin}
 \usage{
-ICC_plot(data, type = 1)
+ICC_plot(data, xvariable = c(-4, 4))
 }
 \arguments{
-\item{data}{output_Exametrika}
+\item{data}{Exametrika output results}
 
-\item{type}{description}
+\item{Xvariable}{Specify the vector to set the drawing range at both ends of the x-axis}
 }
 \description{
-plot_ICC
+This function, when provided with parameters, returns a logistic function
 }
