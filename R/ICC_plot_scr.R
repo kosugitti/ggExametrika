@@ -2,7 +2,8 @@
 #' @description
 #' This function, when provided with parameters, returns a logistic function
 #' @param data Exametrika output results
-#' @param Xvariable Specify the vector to set the drawing range at both ends of the x-axis
+#' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
+#'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 ylim

@@ -9,7 +9,7 @@ ICC_plot(data, xvariable = c(-4, 4))
 \arguments{
 \item{data}{Exametrika output results}
 
-\item{Xvariable}{Specify the vector to set the drawing range at both ends of the x-axis}
+\item{xvariable}{Specify the vector to set the drawing range at both ends of the x-axis}
 }
 \description{
 This function, when provided with parameters, returns a logistic function
