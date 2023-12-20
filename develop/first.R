@@ -8,7 +8,7 @@ CTT(J15S500)
 
 result.IRT <- IRT(J15S500, model = 2)
 
-plotTIC_gg(result.IRT)
+plotTIC_gg(result.IRT,xvariable = c(-20,3))
 
 class(result.IRT)
 
@@ -1035,3 +1035,6 @@ multi <- function(x) {
     }
     return(total)
 }
+
+a <- c(-5,5)
+is.numeric(a)

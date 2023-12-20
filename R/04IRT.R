@@ -52,7 +52,6 @@ plotICC_gg <- function(data, xvariable = c(-4,4)) {
     }
 
     return(plots)
-    combinePlots_gg(plots)
 }
 
 
