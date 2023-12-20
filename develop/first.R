@@ -6,16 +6,16 @@ library(ggplot2)
 
 CTT(J15S500)
 
-result.IRT <- IRT(J15S500, model = 3)
+result.IRT <- IRT(J15S500, model = 2)
 
-plotIIC_gg(result.IRT)
+plotTIC_gg(result.IRT)
 
 class(result.IRT)
 
 result.IRT
 
 
-plot(result.IRT, type = "IIC", items = 1:6, nc = 2, nr = 3)
+plot(result.IRT, type = "TIC")
 
 k <- NULL
 
@@ -646,6 +646,392 @@ TestInformationFunc <- function(params, theta) {
     return(tmp)
 }
 
-curve(TestInformationFunc(params, theta = x))
+plll <- TestInformationFunc(result.IRT$params, c(1:101))
+
+curve(TestInformationFunc(result.IRT$params, x),
+      from = -4,
+      to = 4,
+      xlab = "ability", ylab = "Information",
+      main = "Test Informaiton Curve"
+      )
+
+curve(TestInformationFunc(mm, theta = x))
 
 plot(result.IRT, type = "TIC", items = 1:6, nc = 2, nr = 3)
+
+result.IRT <- IRT(J15S500, model = 3)
+
+plot(result.IRT, type = "TIC")
+
+plotTIC_gg <- function(data, xvariable = c(-4, 4)) {
+    if (!all(class(data) %in% c("Exametrika", "IRT"))) {
+        stop("Invalid input. The variable must be from Exametrika output or an output from IRT.")
+    }
+
+    TestInformationFunc <- function(params, theta) {
+        tl <- nrow(params)
+        tmp <- 0
+        for (i in 1:tl) {
+            a <- params[i, 1]
+            b <- params[i, 2]
+            if (ncol(params) > 2) {
+                c <- params[i, 3]
+            } else {
+                c <- 0
+            }
+            if (ncol(params) > 3) {
+                d <- params[i, 4]
+            } else {
+                d <- 1
+            }
+            tmp <- tmp + ItemInformationFunc(x, a = a, b = b, c = c, d = d)
+        }
+        return(tmp)
+    }
+
+
+    n_params <- ncol(data$params)
+
+    if (n_params < 2 || n_params > 4) {
+        stop("Invalid number of parameters.")
+    }
+
+    plots <- list()
+
+    for (i in 1:nrow(data$params)) {
+        args <- c(a = data$params$slope[i], b = data$params$location[i])
+        if (n_params == 3) {
+            args["c"] <- data$params$lowerAsym[i]
+        }
+        if (n_params == 4) {
+            args["d"] <- data$params$upperAsym[i]
+        }
+
+        plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
+            xlim(xvariable[1], xvariable[2]) +
+            stat_function(fun = ItemInformationFunc, args = args) +
+            labs(
+                title = paste0("Item Information Curve, ", rownames(data$params)[i]),
+                x = "ability",
+                y = "information"
+            )
+    }
+
+    return(plots)
+}
+
+tl <- nrow(result.IRT$params)
+
+params <- result.IRT$params
+
+tmp <- 0
+
+for (i in 1:tl) {
+    a <- params[i, 1]
+    b <- params[i, 2]
+    if (ncol(params) > 2) {
+        c <- params[i, 3]
+    } else {
+        c <- 0
+    }
+    if (ncol(params) > 3) {
+        d <- params[i, 4]
+    } else {
+        d <- 1
+    }
+    tmp <- tmp + ItemInformationFunc(x, a = a, b = b, c = c, d = d)
+}
+
+ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
+    numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
+        (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
+    denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
+    tmp <- numerator / denominator
+    return(tmp)
+}
+
+TestInformationFunc <- function(x, params) {
+
+    ItemInformationFunc <- function(a = 1, b, c = 1, d = 0, theta) {
+        numerator <- a^2 * (LogisticModel(a, b, c, d, theta) - c) * (d - LogisticModel(a, b, c, d, theta)) *
+            (LogisticModel(a, b, c, d, theta) * (c + d - LogisticModel(a, b, c, d, theta)) - c * d)
+        denominator <- (d - c)^2 * LogisticModel(a, b, c, d, theta) * (1 - LogisticModel(a, b, c, d, theta))
+        tmp <- numerator / denominator
+        return(tmp)
+    }
+
+    tl <- nrow(params)
+    tmp <- 0
+    for (i in 1:tl) {
+        a <- params[i, 1]
+        b <- params[i, 2]
+        if (ncol(params) > 2) {
+            c <- params[i, 3]
+        } else {
+            c <- 0
+        }
+        if (ncol(params) > 3) {
+            d <- params[i, 4]
+        } else {
+            d <- 1
+        }
+        tmp <- tmp + ItemInformationFunc(x, a = a, b = b, c = c, d = d)
+    }
+    return(tmp)
+}
+
+
+tl <- nrow(result.IRT$params)
+
+a <- result.IRT$params[1, 1]
+
+
+
+
+
+
+
+
+ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
+    numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
+        (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
+    denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
+    tmp <- numerator / denominator
+    return(tmp)
+}
+
+
+
+ggplot(data = data.frame(x = c(-4,4))) +
+    xlim(-4, 4) +
+    stat_function(fun = TestInformationFunc, args = result.IRT$params) +
+    labs(
+        title = "Test Information Curve",
+        x = "ability",
+        y = "information"
+    )
+
+
+x <- c(1:101)
+
+TestInformationFunc(result.IRT$params, 2)
+
+
+
+curve(TestInformationFunc(params =  result.IRT$params, theta = x),
+      from = -4,
+      to = 4,
+      xlab = "ability", ylab = "Information",
+      main = "Test Informaiton Curve"
+      )
+
+ItemInformationFunc <- function(theta, a = 1, b, c = 1, d = 0) {
+    numerator <- a^2 * (LogisticModel(a, b, c, d, theta) - c) * (d - LogisticModel(a, b, c, d, theta)) *
+        (LogisticModel(a, b, c, d, theta) * (c + d - LogisticModel(a, b, c, d, theta)) - c * d)
+    denominator <- (d - c)^2 * LogisticModel(a, b, c, d, theta) * (1 - LogisticModel(a, b, c, d, theta))
+    tmp <- numerator / denominator
+    return(tmp)
+}
+
+plotTIC_gg(result.IRT)
+
+TestInformationFunc()
+
+result.IRT$params[1,4]
+
+result.IRT$params
+
+ncol(result.IRT$params)
+
+plotTIC_gg(result.IRT)
+
+TestInformationFunc <- function(theta, params) {
+    tl <- nrow(params)
+    tmp <- 0
+    for (i in 1:tl) {
+        a <- params[i, 1]
+        b <- params[i, 2]
+        if (ncol(params) > 2) {
+            c <- params[i, 3]
+        } else {
+            c <- 0
+        }
+        if (ncol(params) > 3) {
+            d <- params[i, 4]
+        } else {
+            d <- 1
+        }
+        tmp <- tmp + ItemInformationFunc(a = a, b = b, c = c, d = d, theta)
+    }
+    return(tmp)
+}
+
+ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
+    numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
+        (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
+    denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
+    tmp <- numerator / denominator
+    return(tmp)
+}
+
+x <- seq(-4,4,101)
+
+ItemInformationFunc(x, result.IRT$params[1,1], result.IRT$params[1,2], result.IRT$params[1,3], 1)
+
+is.null(result.IRT$params[1,4])
+
+
+multi <- function(x) {
+    total <- 0
+    for (i in 1:15) {
+        total <- total + ItemInformationFunc(
+            x,
+            result.IRT$params[i, 1],  # slope
+            result.IRT$params[i, 2],  # location
+            ifelse(is.null(result.IRT$params[i, 3]), 0, result.IRT$params[i, 3]),  # rower
+            ifelse(is.null(result.IRT$params[i, 4]), 1, result.IRT$params[i, 4])  # upper
+        )
+    }
+    return(total)
+}
+
+
+
+plotTIC_gg <- function(data, xvariable = c(-4, 4)) {
+    if (!all(class(data) %in% c("Exametrika", "IRT"))) {
+        stop("Invalid input. The variable must be from Exametrika output or an output from IRT.")
+    }
+
+
+    n_params <- ncol(data$params)
+
+    if (n_params < 2 || n_params > 4) {
+        stop("Invalid number of parameters.")
+    }
+
+    plot <- NULL
+
+    multi <- function(x) {
+        total <- 0
+        for (i in 1:15) {
+            total <- total + ItemInformationFunc(
+                x,
+                data$params[i, 1],  # slope
+                data$params[i, 2],  # location
+                ifelse(is.null(data$params[i, 3]), 0, data$params[i, 3]),  # rower
+                ifelse(is.null(data$params[i, 4]), 1, data$params[i, 4])  # upper
+            )
+        }
+        return(total)
+    }
+
+    plot <- ggplot(data = data.frame(x = xvariable)) +
+        xlim(xvariable[1], xvariable[2]) +
+        stat_function(fun = multi) +
+        labs(
+            title = "Test Information Curve",
+            x = "ability",
+            y = "information"
+        )
+
+    return(plot)
+
+}
+
+plotTIC_gg(result.IRT)
+
+
+IIC <- list()
+
+x <- seq(-4,4,0.07)
+
+
+p <- ggplot(data=data.frame(X=c(-4,4)), aes(x=X))
+p <- p + stat_function(fun=dnorm)
+p <- p + stat_function(fun=dnorm, args=list(mean=2, sd=.5))
+p <- p + stat_function(fun=function(x) 0.01*x^2-0.1)
+
+p <- plotIIC_gg(result.IRT)
+
+p[[12]]
+
+
+library(ggplot2)
+
+# 複数の関数を定義
+func1 <- function(x) x^2
+func2 <- function(x) 2 * x
+func3 <- function(x) sin(x)
+
+# ggplot2で描画
+ggplot(data.frame(x = c(-5, 5)), aes(x)) +
+    stat_function(fun = func1, color = "red") +
+    stat_function(fun = func2, color = "blue") +
+    stat_function(fun = func3, color = "green") +
+    xlim(-5, 5)
+
+
+combined_function <- function(x) sin(x) + cos(x)
+
+# ggplot2で描画
+ggplot(data.frame(x = c(-2 * pi, 2 * pi)), aes(x)) +
+    stat_function(fun = combined_function, color = "blue") +
+    xlim(-2 * pi, 2 * pi) +
+    ylim(-2, 2)
+
+
+ggplot(data = data.frame(x = c(-4, 4))) +
+    xlim(-4, 4) +
+    stat_function(fun = multi) +
+    labs(
+        title = "Item Information Curve, ",
+        x = "ability",
+        y = "information"
+    )
+
+multi <- function(x) ItemInformationFunc(x, result.IRT$params[1,1],result.IRT$params[1,2],result.IRT$params[1,3],1) + ItemInformationFunc(x, result.IRT$params[2,1],result.IRT$params[2,2],result.IRT$params[2,3],1) + ItemInformationFunc(x, result.IRT$params[3,1],result.IRT$params[3,2],result.IRT$params[3,3],1) +
+    ItemInformationFunc(x, result.IRT$params[4,1],result.IRT$params[4,2],result.IRT$params[4,3],1) + ItemInformationFunc(x, result.IRT$params[5,1],result.IRT$params[5,2],result.IRT$params[5,3],1) + ItemInformationFunc(x, result.IRT$params[6,1],result.IRT$params[6,2],result.IRT$params[6,3],1) +
+    ItemInformationFunc(x, result.IRT$params[7,1],result.IRT$params[7,2],result.IRT$params[7,3],1) + ItemInformationFunc(x, result.IRT$params[8,1],result.IRT$params[8,2],result.IRT$params[8,3],1) + ItemInformationFunc(x, result.IRT$params[9,1],result.IRT$params[9,2],result.IRT$params[9,3],1) +
+    ItemInformationFunc(x, result.IRT$params[10,1],result.IRT$params[10,2],result.IRT$params[10,3],1) + ItemInformationFunc(x, result.IRT$params[11,1],result.IRT$params[11,2],result.IRT$params[11,3],1) + ItemInformationFunc(x, result.IRT$params[12,1],result.IRT$params[12,2],result.IRT$params[12,3],1) +
+    ItemInformationFunc(x, result.IRT$params[13,1],result.IRT$params[13,2],result.IRT$params[13,3],1) + ItemInformationFunc(x, result.IRT$params[14,1],result.IRT$params[14,2],result.IRT$params[14,3],1) + ItemInformationFunc(x, result.IRT$params[15,1],result.IRT$params[15,2],result.IRT$params[15,3],1)
+
+multi <- function(x, params) {
+    total <- 0
+    for (i in 1:15) {
+        total <- total + ItemInformationFunc(
+            x,
+            params[i, 1],  # slope
+            params[i, 2],  # location
+            params[i, 3],  # other parameters
+            1              # constant parameter
+        )
+    }
+    return(total)
+}
+
+multi <- function(x) {
+    result <- Reduce(`+`, lapply(1:nrow(params), function(i) {
+        ItemInformationFunc(
+            x,
+            result.IRT$params[i, 1],  # slope
+            result.IRT$params[i, 2],  # location
+            result.IRT$params[i, 3],  # other parameters
+            1              # constant parameter
+        )
+    }))
+    return(result)
+}
+
+multi <- function(x) {
+    total <- 0
+    for (i in 1:15) {
+        total <- total + ItemInformationFunc(
+            x,
+            result.IRT$params[i, 1],  # slope
+            result.IRT$params[i, 2],  # location
+            result.IRT$params[i, 3],  # other parameters
+            1              # constant parameter
+        )
+    }
+    return(total)
+}

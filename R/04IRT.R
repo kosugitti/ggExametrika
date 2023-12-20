@@ -173,27 +173,6 @@ plotTIC_gg <- function(data, xvariable = c(-4, 4)) {
         stop("Invalid input. The variable must be from Exametrika output or an output from IRT.")
     }
 
-    TestInformationFunc <- function(params, theta) {
-        tl <- nrow(params)
-        tmp <- 0
-        for (i in 1:tl) {
-            a <- params[i, 1]
-            b <- params[i, 2]
-            if (ncol(params) > 2) {
-                c <- params[i, 3]
-            } else {
-                c <- 0
-            }
-            if (ncol(params) > 3) {
-                d <- params[i, 4]
-            } else {
-                d <- 1
-            }
-            tmp <- tmp + ItemInformationFunc(x, a = a, b = b, c = c, d = d)
-        }
-        return(tmp)
-    }
-
 
     n_params <- ncol(data$params)
 
@@ -201,27 +180,33 @@ plotTIC_gg <- function(data, xvariable = c(-4, 4)) {
         stop("Invalid number of parameters.")
     }
 
-    plots <- list()
+    plot <- NULL
 
-    for (i in 1:nrow(data$params)) {
-        args <- c(a = data$params$slope[i], b = data$params$location[i])
-        if (n_params == 3) {
-            args["c"] <- data$params$lowerAsym[i]
-        }
-        if (n_params == 4) {
-            args["d"] <- data$params$upperAsym[i]
-        }
-
-        plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
-            xlim(xvariable[1], xvariable[2]) +
-            stat_function(fun = ItemInformationFunc, args = args) +
-            labs(
-                title = paste0("Item Information Curve, ", rownames(data$params)[i]),
-                x = "ability",
-                y = "information"
+    multi <- function(x) {
+        total <- 0
+        for (i in 1:nrow(data$params)) {
+            total <- total + ItemInformationFunc(
+                x,
+                data$params[i, 1],  # slope
+                data$params[i, 2],  # location
+                ifelse(is.null(data$params[i, 3]), 0, data$params[i, 3]),  # rower
+                ifelse(is.null(data$params[i, 4]), 1, data$params[i, 4])  # upper
             )
+        }
+        return(total)
     }
 
-    return(plots)
+    plot <- ggplot(data = data.frame(x = xvariable)) +
+        xlim(xvariable[1], xvariable[2]) +
+        stat_function(fun = multi) +
+        labs(
+            title = "Test Information Curve",
+            x = "ability",
+            y = "information"
+        )
+
+    return(plot)
+
 }
+
 
