@@ -1,7 +1,8 @@
 #' @title Plot Item Characteristic Curves (ICC) from Exametrika
 #' @description
-#' This function takes Exametrika output or from Item Response Theory (IRT) as input
+#' This function takes Exametrika output as input
 #' and generates Item Characteristic Curves (ICC) using ggplot2.
+#' The applicable analytical method is Item Response Theory (IRT).
 #'
 #' @param data Exametrika output results
 #' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
@@ -93,8 +94,9 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 
 #' @title Plot Item Characteristic Curves (IIC) from Exametrika
 #' @description
-#' This function takes Exametrika output or from Item Response Theory (IRT) as input
+#' This function takes Exametrika output as input
 #' and generates Item Characteristic Curves (IIC) using ggplot2.
+#' The applicable analytical method is Item Response Theory (IRT).
 #'
 #' @param data Exametrika output results
 #' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
@@ -153,8 +155,9 @@ plotIIC_gg <- function(data, xvariable = c(-4, 4)) {
 
 #' @title Plot Test Information Curves (TIC) from Exametrika
 #' @description
-#' This function takes Exametrika output or from Item Response Theory (IRT) as input
+#' This function takes Exametrika output as input
 #' and generates Test Information Curves (TIC) using ggplot2.
+#' The applicable analytical method is Item Response Theory (IRT).
 #'
 #' @param data Exametrika output results
 #' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
