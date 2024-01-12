@@ -10,6 +10,12 @@ result.IRT <- IRT(J15S500, model = 2)
 
 plotTIC_gg(result.IRT,xvariable = c(-20,3))
 
+plots <- plotICC_gg(result.IRT)
+
+plots[5]
+
+combinePlots_gg(plots)
+
 class(result.IRT)
 
 result.IRT
@@ -1038,3 +1044,5 @@ multi <- function(x) {
 
 a <- c(-5,5)
 is.numeric(a)
+
+??Exametrika

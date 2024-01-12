@@ -53,6 +53,7 @@ To run this code, you need the Exametrika package.
 
 ```{r}
 library(Exametrika)
+library(ggExametrika)
 result.IRT <- IRT(J15S500, model = 3)
 result.IRT
 ```
