@@ -43,3 +43,35 @@ devtools::install_github("kosugitti/ggExametrika")
 ```
 
 ## Example
+
+In this package, you can create plots using ggplot2 directly by inputting the output results from Exametrika. The functions responsible for generating plots are named in the format plotxxx_gg. Additionally, there are options available to display multiple plots.
+
+## plotICC_gg Example
+
+plotICC_gg is specifically designed for the output of IRT. Below is an example code using the Exametrika package.
+To run this code, you need the Exametrika package.
+
+```{r}
+library(Exametrika)
+result.IRT <- IRT(J15S500, model = 3)
+result.IRT
+```
+
+If you want to plot ICC, input the stored results directly into the plotICC_gg function. You can also specify the range of the X-axis with a vector. If no specific range is provided, it will be plotted in the range from -4 to 4, and the function will return a list.
+
+```{r}
+plots <- plotICC_gg(result.IRT) 
+# If you want to specify a range, provide a vector for the xvariable argument.
+# plotICC_gg(result.IRT,xvariable = c(-7, 7))
+```
+
+This way, the ICC for each item is stored in a list called plots. If you want to see the figures, you can specify it as follows. Also, if you want to draw multiple figures simultaneously, you can use the combinePlots_gg() function.
+
+```{r}
+# Draw the ICC for Item5.
+plots[5]
+
+# Output multiple plots simultaneously (default is 6). Refer to the combinePlots_gg() documentation for specifying the figures.
+combinePlots_gg(plots)
+```
+

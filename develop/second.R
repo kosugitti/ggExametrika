@@ -265,3 +265,4 @@ plot(result.LDLRA, type = "IRP", nc = 4, nr = 3)
 class(result.LDLRA)
 
 ??Exametrika
+
