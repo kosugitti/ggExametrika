@@ -7,11 +7,6 @@
 #' @export
 
 combinePlots_gg <- function(plots, selectPlots = c(1:6)) {
-    selected <- lapply(selectPlots, function(i) plots[[i]])
-    return(grid.arrange(grobs = selected))
-}
-
-combinePlots_gg <- function(plots, selectPlots = c(1:6)) {
 
     selectPlots <- selectPlots[selectPlots <= length(plots)]
 

@@ -6,6 +6,7 @@
 #' Biclustering, and Local Dependent Latent Rank Analysis (LDLRA).
 #'
 #' @param data Exametrika output results
+#'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 ylim
