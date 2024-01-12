@@ -20,10 +20,10 @@
 plotIRP_gg <- function(data) {
     if (all(class(data) %in% c("Exametrika", "LCA"))) {
         xlabel <- "Latent Class"
-    } else if (all(class(data) %in% c("Exametrika", "LRA"))){
+    } else if (all(class(data) %in% c("Exametrika", "LRA"))||all(class(data) %in% c("Exametrika", "LDLRA"))){
         xlabel <- "Latent Rank"
     } else {
-        stop("Invalid input. The variable must be from Exametrika output or an output from LCA.")
+        stop("Invalid input. The variable must be from Exametrika output or an output from LCA, LRA, Biclustering, or LDLRA.")
     }
 
 
@@ -49,11 +49,10 @@ plotIRP_gg <- function(data) {
             labs(
                 title = paste0("Item Reference Profile, ", rownames(data$IRP)[i]),
                 x = xlabel,
-                y = "probability"
+                y = "Correct Response Rate"
             )
     }
 
     return(plots)
 }
-
 

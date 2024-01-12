@@ -11,5 +11,5 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Depends: ggplot2, gridExtra
-RoxygenNote: 7.2.3.9000
+RoxygenNote: 7.3.0
 Reference: Shojima, Kojiro (2022) Test Data Engineering: Latent Rank Analysis, Biclustering, andBayesian Network (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), Springer
