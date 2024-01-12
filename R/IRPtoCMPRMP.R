@@ -6,8 +6,6 @@
 #' Biclustering, and Local Dependent Latent Rank Analysis (LDLRA).
 #'
 #' @param data Exametrika output results
-#' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
-#'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 ylim
@@ -55,4 +53,3 @@ plotIRP_gg <- function(data) {
 
     return(plots)
 }
-

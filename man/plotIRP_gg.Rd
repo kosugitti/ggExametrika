@@ -8,8 +8,6 @@ plotIRP_gg(data)
 }
 \arguments{
 \item{data}{Exametrika output results}
-
-\item{xvariable}{Specify the vector to set the drawing range at both ends of the x-axis}
 }
 \description{
 This function takes Exametrika output as input
