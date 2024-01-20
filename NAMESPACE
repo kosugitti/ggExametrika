@@ -3,6 +3,7 @@
 export(ItemInformationFunc)
 export(LogisticModel)
 export(combinePlots_gg)
+export(plotFRP_gg)
 export(plotICC_gg)
 export(plotIIC_gg)
 export(plotIRP_gg)
