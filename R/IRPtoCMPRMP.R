@@ -55,7 +55,7 @@ plotIRP_gg <- function(data) {
 }
 
 
-#' @title Plot Item Reference Profile (FRP) from Exametrika
+#' @title Plot Field Reference Profile (FRP) from Exametrika
 #' @description
 #' This function takes Exametrika output as input
 #' and generates Field Reference Profile (FRP) using ggplot2.
@@ -103,5 +103,119 @@ plotFRP_gg <- function(data) {
     }
 
     return(plots)
+}
+
+#' @title Plot Test Reference Profile (TRP) from Exametrika
+#' @description
+#' This function takes Exametrika output as input
+#' and generates Test Reference Profile (TRP) using ggplot2.
+#' The applicable analytical methods are Latent Class Analysis (LCA), Latent Rank Analysis (LRA), Biclustering,
+#' Infinite Relational Model (IRM), Local Dependence Biclustering (LDB), and Bicluster Network Model (BINET).
+#'
+#'
+#' @param data Exametrika output results
+#' @param title Toggle the presence of the title using TRUE/FALSE
+#'
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 xlim
+#' @importFrom ggplot2 ylim
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 scale_x_continuous
+#' @importFrom ggplot2 scale_y_continuous
+#' @importFrom ggplot2 annotate
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 labs
+#' @export
+
+plotTRP_gg <- function(data,
+                       Num_Students = TRUE,
+                       title = T) {
+    if (all(class(data) %in% c("Exametrika", "LCA")) ||
+        all(class(data) %in% c("Exametrika", "BINET"))) {
+        xlabel <- "Latent Class"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LRA")) ||
+               all(class(data) %in% c("Exametrika", "Biclustering")) ||
+               all(class(data) %in% c("Exametrika", "IRM"))) {
+        xlabel <- "Latent Rank"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LDB"))) {
+        xlabel <- "Latent Rank"
+        con_bran <- TRUE
+    } else {
+        stop(
+            "Invalid input. The variable must be from Exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET."
+        )
+    }
+
+    if (con_bran == TRUE) {
+        x1 <- data.frame(LC = c(1:length(data$LRD)),
+                         Num = c(data$LRD))
+    } else {
+        x1 <- data.frame(LC = c(1:length(data$LCD)),
+                         Num = c(data$LCD))
+    }
+
+    x2 <- data.frame(LC = c(1:length(data$TRP)),
+                     ES = c(data$TRP))
+
+    variable_scaler <- function(y2, yaxis1, yaxis2) {
+        a <- diff(yaxis1) / diff(yaxis2)
+        b <-
+            (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
+        a * y2 + b
+    }
+
+    axis_scaler <- function(y1, yaxis1, yaxis2) {
+        c <- diff(yaxis2) / diff(yaxis1)
+        d <-
+            (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
+        c * y1 + d
+    }
+
+
+    yaxis1 <- c(0, max(x1$Num))
+    yaxis2 <- c(0, max(x2$ES))
+
+    if (Num_Students == T) {
+        Num_label <- c(x1$Num)
+    } else {
+        Num_label <- ""
+    }
+
+    if (title == T) {
+        title <- "Test Reference Profile"
+    } else {
+        title <- ""
+    }
+
+
+    plot <- ggplot(x1, aes(x = LC, y = Num)) +
+        geom_bar(stat = "identity",
+                 fill = "gray",
+                 colour = "black") +
+        geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
+        geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)) , linetype = "dashed") +
+        scale_x_continuous(breaks = c(1:length(data$TRP))) +
+        scale_y_continuous(name = "Number of Students",
+                           sec.axis = sec_axis(trans = ~ (axis_scaler(
+                               ., yaxis1, yaxis2
+                           )), name = "Expected Score")) +
+        annotate(
+            "text",
+            x = x1$LC,
+            y = x1$Num - (median(x1$Num) * 0.05),
+            label = Num_label
+        ) +
+        theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
+        labs(title = title,
+             x = xlabel)
+
+
+
+
+    return(plot)
 }
 

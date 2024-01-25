@@ -11,7 +11,6 @@ plotIRP_gg(data)
 }
 \description{
 This function takes Exametrika output as input
-and generates Test Information Curves (IRP) using ggplot2.
-The applicable analytical methods are Latent Class Analysis (LCA), Latent Rank Analysis (LRA),
-Biclustering, and Local Dependent Latent Rank Analysis (LDLRA).
+and generates Item Reference Profile (IRP) using ggplot2.
+The applicable analytical methods are Latent Class Analysis (LCA), Latent Rank Analysis (LRA), and Local Dependent Latent Rank Analysis (LDLRA).
 }

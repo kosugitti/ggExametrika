@@ -645,7 +645,7 @@ result.BINET <- BINET(
 
 result.BINET
 
-plot(result.BINET, type = "FRP", nc = 3, nr = 2)
+plot(result.BINET, type = "TRP")
 
 class(result.BINET)
 
@@ -686,10 +686,37 @@ x2 <- data.frame(
     ES = c(result.LCA$TRP)
 )
 
+x <- c(0:10)
+df <- data.frame(x = x,
+                 y1 = 0.1*x + 1,
+                 y2 = 20*x + 100)
+df
+
 plot(result.LCA, type = "TRP")
 
-base1 <- ggplot(x1, aes(x = LC, y = Num)) +
-    geom_bar(stat = "identity", fill = "gray", colour = "black")
+yaxis1 <- c(0, max(result.LCA$LCD))
+yaxis2 <- c(0, max(result.LCA$TRP))
+
+
+ggplot(x1, aes(x = LC, y = Num)) +
+    geom_bar(stat = "identity", fill = "gray", colour = "black") +
+    geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
+    geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)) ,linetype = "dashed" ) +
+    scale_y_continuous(
+        name = "Number of Students",
+        sec.axis = sec_axis(trans = ~(axis_scaler(., yaxis1, yaxis2)), name = "Expected Score")
+    ) +
+    theme(
+        axis.title.y.right = element_text(angle = 90, vjust = 0.5)
+    ) +
+    labs(
+        title = "Test Reference Profile",
+        x = "Latent Rank"
+    )
+
+
+
+result.LCA$TRP
 
 base2 <- ggplot(x2, aes(x = LC, y = ES)) +
                     geom_point()
@@ -698,8 +725,8 @@ com <- base1 + base2
 
 (max(result.LCA$LCD)/2)/median(result.LCA$TRP)
 
-yaxis1 <- c(0, 4)
-yaxis2 <- c(100, 300)
+yaxis1 <- c(0, 120)
+yaxis2 <- c(0, 15)
 
 variable_scaler <- function(y2, yaxis1, yaxis2){
     a <- (yaxis1[2] - yaxis1[1]) / (yaxis2[2] - yaxis2[1])
@@ -755,15 +782,416 @@ ggplot(df, aes(x = x)) +
                               name = "y2")
     )
 
+yaxis1 <- c(0, max(result.LCA$LCD))
+yaxis2 <- c(0, max(result.LCA$TRP))
 
-# サンプルデータ
-df1 <- data.frame(category = c("A", "B", "C", "D"), value = c(10, 20, 15, 25))
-df2 <- data.frame(category = c("A", "B", "C", "D"), line_value = c(5, 15, 10, 20))
+median(x1$Num)
 
-# ggplot2でプロット
-library(ggplot2)
+ggplot(x1, aes(x = LC, y = Num)) +
+    geom_bar(stat = "identity", fill = "gray", colour = "black") +
+    geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
+    geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)) ,linetype = "dashed" ) +
+    scale_y_continuous(
+        name = "Number of Students",
+        sec.axis = sec_axis(trans = ~(axis_scaler(., yaxis1, yaxis2)), name = "Expected Score")
+    ) +
 
-ggplot() +
-    geom_col(data = df1, aes(x = category, y = value), fill = "blue", stat = "identity") +
-    geom_line(data = df2, aes(x = category, y = line_value, group = 1), color = "red") +
-    labs(title = "Bar and Line Plot", x = "Category", y = "Value")
+    theme(
+        axis.title.y.right = element_text(angle = 90, vjust = 0.5)
+    ) +
+    labs(
+        title = "Test Reference Profile",
+        x = "Latent Rank"
+    )
+
+class(result.IRM)
+
+plotTRP_gg <- function(data, Num_Students = TRUE) {
+    if (all(class(data) %in% c("Exametrika", "LCA"))) {
+        xlabel <- "Latent Class"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LRA"))||all(class(data) %in% c("Exametrika", "LDLRA"))||all(class(data) %in% c("Exametrika", "Biclustering"))||all(class(data) %in% c("Exametrika", "IRM"))){
+        xlabel <- "Latent Rank"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LDB"))){
+        xlabel <- "Latent Rank"
+        con_bran <- TRUE
+    } else {
+        error <- TRUE
+    }
+
+    ifelse(error == TRUE, stop("Invalid input. The variable must be from Exametrika output or from either LCA, LRA, or LDLRA."),)
+
+    if (con_bran == TRUE) {
+        x1 <- data.frame(
+            LC = c(1:length(data$LRD)),
+            Num = c(data$LRD)
+        )
+    } else {
+        x1 <- data.frame(
+            LC = c(1:length(data$LCD)),
+            Num = c(data$LCD)
+        )
+    }
+
+    x2 <- data.frame(
+        LC = c(1:length(data$TRP)),
+        ES = c(data$TRP)
+    )
+
+    variable_scaler <- function(y2, yaxis1, yaxis2) {
+        a <- diff(yaxis1) / diff(yaxis2)
+        b <- (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
+        a * y2 + b
+    }
+
+    axis_scaler <- function(y1, yaxis1, yaxis2) {
+        c <- diff(yaxis2) / diff(yaxis1)
+        d <- (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
+        c * y1 + d
+    }
+
+
+    yaxis1 <- c(0, max(x1$Num))
+    yaxis2 <- c(0, max(x2$ES))
+
+    if (Num_Students == T) {
+        Num_label <- c(x1$Num)
+    } else {
+        Num_label <- ""
+    }
+
+    plot <- ggplot(x1, aes(x = LC, y = Num)) +
+        geom_bar(stat = "identity",
+                 fill = "gray",
+                 colour = "black") +
+        geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
+        geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)) , linetype = "dashed") +
+        scale_x_continuous(breaks = c(1:length(data$TRP))) +
+        scale_y_continuous(name = "Number of Students",
+                           sec.axis = sec_axis(trans = ~ (axis_scaler(., yaxis1, yaxis2)), name = "Expected Score")) +
+        annotate("text", x = x1$LC, y = x1$Num-(median(x1$Num)*0.05), label = Num_label) +
+        theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
+        labs(title = "Test Reference Profile",
+             x = xlabel)
+
+
+
+
+    return(plot)
+}
+
+
+error <- F
+
+ifelse(error == TRUE, stop("Invalid input. The variable must be from Exametrika output or from either LCA, LRA, or LDLRA."), )
+
+data <- result.LDB
+
+if (all(class(data) %in% c("Exametrika", "LCA"))) {
+    test <- 1
+}  else if (all(class(data) %in% c("Exametrika", "LRA"))||all(class(data) %in% c("Exametrika", "LDLRA"))||all(class(data) %in% c("Exametrika", "Biclustering"))||all(class(data) %in% c("Exametrika", "IRM"))){
+    test <- 2
+} else {
+    stop("Invalid input. The variable must be from Exametrika output or from either LCA, LRA, or LDLRA.")
+}
+
+test
+
+plotTRP_gg(result.LCA, Num_Students = F, title = F)
+plotTRP_gg(result.LRA)
+plotTRP_gg(result.Ranklusteing)
+plotTRP_gg(result.IRM)
+plotTRP_gg(result.LDB)
+plotTRP_gg(result.BINET)
+plotTRP_gg(result.LDLRA.PBIL)
+
+
+
+x1 <- data.frame(
+    LC = c(1:length(result.LDB$LRD)),
+    Num = c(result.LDB$LRD))
+
+result.LDB$TRP
+result.LDB$LRD
+
+x1
+
+class(result.LDB)
+
+length(result.LCA$LCD)
+
+Num_Students <- TRUE
+Num_Students <-
+
+Num_label <- ifelse(Num_Students == T,x1$Num, NULL)
+
+Num_label
+
+length(result.LCA$TRP)
+
+plot(result.LDB, type = "TRP")
+
+plotFRP_gg(result.LDB)
+
+length(result.LRA$TRP)
+result.LRA$TRP
+
+x1 <- data.frame(
+    LC = c(1:5),
+    Num = c(result.LCA$LCD)
+)
+
+plotTRP_gg <- function(data, Num_Students = TRUE, title = T) {
+    if (all(class(data) %in% c("Exametrika", "LCA"))||all(class(data) %in% c("Exametrika", "BINET"))) {
+        xlabel <- "Latent Class"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LRA"))||all(class(data) %in% c("Exametrika", "Biclustering"))||all(class(data) %in% c("Exametrika", "IRM"))){
+        xlabel <- "Latent Rank"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LDB"))){
+        xlabel <- "Latent Rank"
+        con_bran <- TRUE
+    } else {
+        stop("Invalid input. The variable must be from Exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET.")
+    }
+
+    if (con_bran == TRUE) {
+        x1 <- data.frame(
+            LC = c(1:length(data$LRD)),
+            Num = c(data$LRD)
+        )
+    } else {
+        x1 <- data.frame(
+            LC = c(1:length(data$LCD)),
+            Num = c(data$LCD)
+        )
+    }
+
+    x2 <- data.frame(
+        LC = c(1:length(data$TRP)),
+        ES = c(data$TRP)
+    )
+
+    variable_scaler <- function(y2, yaxis1, yaxis2) {
+        a <- diff(yaxis1) / diff(yaxis2)
+        b <- (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
+        a * y2 + b
+    }
+
+    axis_scaler <- function(y1, yaxis1, yaxis2) {
+        c <- diff(yaxis2) / diff(yaxis1)
+        d <- (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
+        c * y1 + d
+    }
+
+
+    yaxis1 <- c(0, max(x1$Num))
+    yaxis2 <- c(0, max(x2$ES))
+
+    if (Num_Students == T) {
+        Num_label <- c(x1$Num)
+    } else {
+        Num_label <- ""
+    }
+
+    if (title == T) {
+        title <- "Test Reference Profile"
+    } else {
+        title <- ""
+    }
+
+
+    plot <- ggplot(x1, aes(x = LC, y = Num)) +
+        geom_bar(stat = "identity",
+                 fill = "gray",
+                 colour = "black") +
+        geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
+        geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)) , linetype = "dashed") +
+        scale_x_continuous(breaks = c(1:length(data$TRP))) +
+        scale_y_continuous(name = "Number of Students",
+                           sec.axis = sec_axis(trans = ~ (axis_scaler(., yaxis1, yaxis2)), name = "Expected Score")) +
+        annotate("text", x = x1$LC, y = x1$Num-(median(x1$Num)*0.05), label = Num_label) +
+        theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
+        labs(title = title,
+             x = xlabel)
+
+
+
+
+    return(plot)
+}
+
+
+plotTRP_gg <- function(data, Num_Students = TRUE, title = TRUE, type = "normal") {
+    class_options_LCA <- c("LCA", "BINET")
+    class_options_LRA <- c("LRA", "Biclustering", "IRM")
+    class_options_LDB <- c("LDB")
+
+    if (!(all(class(data) %in% c("Exametrika", class_options_LCA)) || all(class(data) %in% c("Exametrika", class_options_LRA)) || all(class(data) %in% c("Exametrika", class_options_LDB)))) {
+        stop("Invalid input. The variable must be from Exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET.")
+    }
+
+    xlabel <- if (all(class(data) %in% c("Exametrika", class_options_LCA))) "Latent Class" else "Latent Rank"
+    con_bran <- all(class(data) %in% c("Exametrika", class_options_LDB))
+
+    LC_col <- if (con_bran) "LRD" else "LCD"
+    x1 <- data.frame(LC = seq_along(data[[LC_col]]), Num = data[[LC_col]])
+
+    x2 <- data.frame(LC = seq_along(data$TRP), ES = data$TRP)
+
+    variable_scaler <- function(y2, yaxis1, yaxis2) {
+        a <- diff(yaxis1) / diff(yaxis2)
+        b <- (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
+        a * y2 + b
+    }
+
+    axis_scaler <- function(y1, yaxis1, yaxis2) {
+        c <- diff(yaxis2) / diff(yaxis1)
+        d <- (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
+        c * y1 + d
+    }
+
+    yaxis1 <- c(0, max(x1$Num))
+    yaxis2 <- c(0, max(x2$ES))
+
+    Num_label <- if (Num_Students) x1$Num else ""
+
+    title <- if (title) "Test Reference Profile" else ""
+
+    ggplot(x1, aes(x = LC, y = Num)) +
+        geom_bar(stat = "identity", fill = "gray", colour = "black") +
+        geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
+        geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), linetype = "dashed") +
+        scale_x_continuous(breaks = seq_along(data$TRP)) +
+        scale_y_continuous(name = "Number of Students", sec.axis = sec_axis(trans = ~axis_scaler(., yaxis1, yaxis2), name = "Expected Score")) +
+        annotate("text", x = x1$LC, y = x1$Num - (median(x1$Num) * 0.05), label = Num_label) +
+        theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
+        labs(title = title, x = xlabel)
+}
+
+plotTRP_gg <- function(data, Num_Students = TRUE, title = TRUE) {
+    class_options_LCA <- c("LCA", "BINET")
+    class_options_LRA <- c("LRA", "Biclustering", "IRM")
+    class_options_LDB <- c("LDB")
+
+    if (!(all(class(data) %in% c("Exametrika", class_options_LCA)) ||
+          all(class(data) %in% c("Exametrika", class_options_LRA, class_options_LDB)))) {
+        stop("Invalid input. The variable must be from Exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET.")
+    }
+
+    xlabel <- if (all(class(data) %in% c("Exametrika", class_options_LCA))) "Latent Class" else "Latent Rank"
+    con_bran <- all(class(data) %in% c("Exametrika", class_options_LDB))
+
+    LC_col <- if (con_bran) "LRD" else "LCD"
+    x1 <- data.frame(LC = seq_along(data[[LC_col]]), Num = data[[LC_col]])
+    x2 <- data.frame(LC = seq_along(data$TRP), ES = data$TRP)
+
+    yaxis1 <- c(0, max(x1$Num))
+    yaxis2 <- c(0, max(x2$ES))
+
+    Num_label <- if (Num_Students) x1$Num else ""
+    title_label <- if (title) "Test Reference Profile" else ""
+
+    ggplot(x1, aes(x = LC, y = Num)) +
+        geom_bar(stat = "identity", fill = "gray", colour = "black") +
+        geom_point(aes(y = (y2 <- variable_scaler(x2$ES, yaxis1, yaxis2))), size = 2.1) +
+        geom_line(aes(y = y2), linetype = "dashed") +
+        scale_x_continuous(breaks = seq_along(data$TRP)) +
+        scale_y_continuous(name = "Number of Students",
+                           sec.axis = sec_axis(trans = ~ axis_scaler(., yaxis1, yaxis2), name = "Expected Score")) +
+        annotate("text", x = x1$LC, y = x1$Num - (median(x1$Num) * 0.05), label = Num_label) +
+        theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
+        labs(title = title_label, x = xlabel)
+}
+
+#一応完成
+plotTRP_gg <- function(data,
+                       Num_Students = TRUE,
+                       title = T) {
+    if (all(class(data) %in% c("Exametrika", "LCA")) ||
+        all(class(data) %in% c("Exametrika", "BINET"))) {
+        xlabel <- "Latent Class"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LRA")) ||
+               all(class(data) %in% c("Exametrika", "Biclustering")) ||
+               all(class(data) %in% c("Exametrika", "IRM"))) {
+        xlabel <- "Latent Rank"
+        con_bran <- FALSE
+    } else if (all(class(data) %in% c("Exametrika", "LDB"))) {
+        xlabel <- "Latent Rank"
+        con_bran <- TRUE
+    } else {
+        stop(
+            "Invalid input. The variable must be from Exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET."
+        )
+    }
+
+    if (con_bran == TRUE) {
+        x1 <- data.frame(LC = c(1:length(data$LRD)),
+                         Num = c(data$LRD))
+    } else {
+        x1 <- data.frame(LC = c(1:length(data$LCD)),
+                         Num = c(data$LCD))
+    }
+
+    x2 <- data.frame(LC = c(1:length(data$TRP)),
+                     ES = c(data$TRP))
+
+    variable_scaler <- function(y2, yaxis1, yaxis2) {
+        a <- diff(yaxis1) / diff(yaxis2)
+        b <-
+            (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
+        a * y2 + b
+    }
+
+    axis_scaler <- function(y1, yaxis1, yaxis2) {
+        c <- diff(yaxis2) / diff(yaxis1)
+        d <-
+            (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
+        c * y1 + d
+    }
+
+
+    yaxis1 <- c(0, max(x1$Num))
+    yaxis2 <- c(0, max(x2$ES))
+
+    if (Num_Students == T) {
+        Num_label <- c(x1$Num)
+    } else {
+        Num_label <- ""
+    }
+
+    if (title == T) {
+        title <- "Test Reference Profile"
+    } else {
+        title <- ""
+    }
+
+
+    plot <- ggplot(x1, aes(x = LC, y = Num)) +
+        geom_bar(stat = "identity",
+                 fill = "gray",
+                 colour = "black") +
+        geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
+        geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)) , linetype = "dashed") +
+        scale_x_continuous(breaks = c(1:length(data$TRP))) +
+        scale_y_continuous(name = "Number of Students",
+                           sec.axis = sec_axis(trans = ~ (axis_scaler(
+                               ., yaxis1, yaxis2
+                           )), name = "Expected Score")) +
+        annotate(
+            "text",
+            x = x1$LC,
+            y = x1$Num - (median(x1$Num) * 0.05),
+            label = Num_label
+        ) +
+        theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
+        labs(title = title,
+             x = xlabel)
+
+
+
+
+    return(plot)
+}

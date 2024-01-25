@@ -2,7 +2,7 @@
 % Please edit documentation in R/IRPtoCMPRMP.R
 \name{plotFRP_gg}
 \alias{plotFRP_gg}
-\title{Plot Item Reference Profile (FRP) from Exametrika}
+\title{Plot Field Reference Profile (FRP) from Exametrika}
 \usage{
 plotFRP_gg(data)
 }
