@@ -4,10 +4,12 @@
 \alias{plotTRP_gg}
 \title{Plot Test Reference Profile (TRP) from Exametrika}
 \usage{
-plotTRP_gg(data, Num_Students = TRUE, title = T)
+plotTRP_gg(data, Num_Students = TRUE, title = TRUE)
 }
 \arguments{
 \item{data}{Exametrika output results}
+
+\item{Num_Students}{Display the number of students on the bar graph}
 
 \item{title}{Toggle the presence of the title using TRUE/FALSE}
 }

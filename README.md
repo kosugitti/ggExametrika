@@ -47,26 +47,26 @@ the Exametrika package.
 
 ``` r
 library(Exametrika)
-#> Loading required package: mvtnorm
-#> Loading required package: igraph
+#>  要求されたパッケージ mvtnorm をロード中です
+#>  要求されたパッケージ igraph をロード中です
 #> 
-#> Attaching package: 'igraph'
-#> The following objects are masked from 'package:stats':
+#>  次のパッケージを付け加えます: 'igraph'
+#>  以下のオブジェクトは 'package:stats' からマスクされています:
 #> 
 #>     decompose, spectrum
-#> The following object is masked from 'package:base':
+#>  以下のオブジェクトは 'package:base' からマスクされています:
 #> 
 #>     union
 library(ggExametrika)
-#> Loading required package: ggplot2
-#> Loading required package: gridExtra
+#>  要求されたパッケージ ggplot2 をロード中です
+#>  要求されたパッケージ gridExtra をロード中です
 #> 
-#> Attaching package: 'ggExametrika'
-#> The following objects are masked from 'package:Exametrika':
+#>  次のパッケージを付け加えます: 'ggExametrika'
+#>  以下のオブジェクトは 'package:Exametrika' からマスクされています:
 #> 
 #>     ItemInformationFunc, LogisticModel
 result.IRT <- IRT(J15S500, model = 3)
-#> iter 1 LogLik -3960.28101331483 iter 2 LogLik -3938.35071878815 iter 3 LogLik -3931.8242585693 iter 4 LogLik -3928.67994628502 iter 5 LogLik -3926.99336166615 iter 6 LogLik -3926.04823337047 iter 7 LogLik -3925.5066217873 iter 8 LogLik -3925.19177195208 iter 9 LogLik -3925.00764779178 iter 10 LogLik -3924.89916250757 iter 11 LogLik -3924.8350489758 iter 12 LogLik -3924.7970797736 iter 13 LogLik -3924.77487314189 
+#> iter 1 LogLik -3960.28101333114 iter 2 LogLik -3938.35070947795 iter 3 LogLik -3931.82420362616 iter 4 LogLik -3928.67980785132 iter 5 LogLik -3926.99346164871 iter 6 LogLik -3926.04821906922 iter 7 LogLik -3925.50624285813 iter 8 LogLik -3925.19151966721 iter 9 LogLik -3925.0075824143 iter 10 LogLik -3924.89907336992 iter 11 LogLik -3924.83501386629 iter 12 LogLik -3924.79705753799 iter 13 LogLik -3924.77485156282 
 result.IRT
 #> Item Parameters
 #>        slope location lowerAsym PSD(slope) PSD(location) PSD(lowerAsym)
@@ -91,15 +91,15 @@ result.IRT
 #> Item01       -262.979       -240.190      -283.343       45.578      86.307
 #> Item02       -253.405       -235.436      -278.949       35.937      87.025
 #> Item03       -280.640       -260.906      -293.598       39.468      65.383
-#> Item04       -204.883       -192.072      -265.962       25.623     147.780
+#> Item04       -204.884       -192.072      -265.962       25.623     147.780
 #> Item05       -232.135       -206.537      -247.403       51.196      81.732
 #> Item06       -173.669       -153.940      -198.817       39.459      89.755
 #> Item07       -250.905       -228.379      -298.345       45.052     139.933
 #> Item08       -314.781       -293.225      -338.789       43.111      91.127
 #> Item09       -321.920       -300.492      -327.842       42.856      54.700
 #> Item10       -309.318       -288.198      -319.850       42.240      63.303
-#> Item11       -248.409       -224.085      -299.265       48.647     150.360
-#> Item12       -238.877       -214.797      -293.598       48.161     157.603
+#> Item11       -248.409       -224.085      -299.265       48.648     150.360
+#> Item12       -238.877       -214.797      -293.598       48.160     157.603
 #> Item13       -293.472       -262.031      -328.396       62.882     132.730
 #> Item14       -223.473       -204.953      -273.212       37.040     136.519
 #> Item15       -271.903       -254.764      -302.847       34.279      96.166
@@ -114,8 +114,8 @@ result.IRT
 #> Item08       11      13 0.527 0.441 0.599 0.514 0.589 0.076 21.111 -25.272
 #> Item09       11      13 0.217 0.074 0.271 0.097 0.236 0.076 20.856 -25.527
 #> Item10       11      13 0.333 0.211 0.403 0.266 0.379 0.075 20.240 -26.143
-#> Item11       11      13 0.676 0.618 0.730 0.676 0.726 0.083 26.647 -19.735
-#> Item12       11      13 0.694 0.639 0.747 0.696 0.743 0.082 26.161 -20.222
+#> Item11       11      13 0.676 0.618 0.730 0.676 0.726 0.083 26.648 -19.735
+#> Item12       11      13 0.694 0.639 0.747 0.696 0.743 0.082 26.160 -20.222
 #> Item13       11      13 0.526 0.440 0.574 0.488 0.567 0.097 40.882  -5.501
 #> Item14       11      13 0.729 0.679 0.793 0.751 0.789 0.069 15.040 -31.343
 #> Item15       11      13 0.644 0.579 0.727 0.669 0.720 0.065 12.279 -34.104
@@ -187,3 +187,60 @@ combinePlots_gg(plots)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
+
+## plotIIC_gg Example
+
+You can also plot the Item Information Curve (IIC) similar to the
+plotICC_gg function. Input the output from the Exametrika package into
+the plotIIC_gg function as before.
+
+``` r
+plots <- plotIIC_gg(result.IRT) 
+# If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
+# plotIIC_gg(result.IRT,xvariable = c(-5, 7))
+# plotIIC_gg(result.IRT,xvariable = c(2, 9))
+```
+
+In this method, the IIC for each item is stored in a list called plots.
+If you want to view the figures, you can specify it as follows. Also, if
+you wish to draw multiple figures simultaneously, you can use the
+combinePlots_gg() function.
+
+``` r
+# Draw the IIC for Item8.
+plots[8]
+#> [[1]]
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+``` r
+
+# We will output multiple plots simultaneously (default is 6). This time, we will display 4 plots from the 8th to the 11th.
+combinePlots_gg(plots, selectPlots = c(8:11))
+```
+
+<img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" />
+
+## plotTIC_gg Example
+
+You can also plot the Test Information Curve using the same procedure.
+Subsequent functions may have differences in their arguments, but they
+are generally used in the same way. If you input data into a plotting
+function that does not fit the model, an error will occur, so please
+check the compatibility between the model and the plotting function.
+
+``` r
+plot <- plotTIC_gg(result.IRT) 
+# If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
+```
+
+Since we are dealing with the information curve for a single test this
+time, only one plot will be generated.
+
+``` r
+# Draw the IIC for Item8.
+plot
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />

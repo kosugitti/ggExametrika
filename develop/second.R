@@ -3,7 +3,6 @@ library(Exametrika)
 library(gridExtra)
 
 
-
 LCA(J15S500, ncls = 4)
 
 result.LCA <- LCA(J15S500, ncls =5)

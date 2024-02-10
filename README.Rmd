@@ -76,3 +76,42 @@ plots[5]
 combinePlots_gg(plots)
 ```
 
+
+## plotIIC_gg Example
+
+You can also plot the Item Information Curve (IIC) similar to the plotICC_gg function. Input the output from the Exametrika package into the plotIIC_gg function as before.
+
+```{r}
+plots <- plotIIC_gg(result.IRT) 
+# If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
+# plotIIC_gg(result.IRT,xvariable = c(-5, 7))
+# plotIIC_gg(result.IRT,xvariable = c(2, 9))
+```
+
+
+In this method, the IIC for each item is stored in a list called plots. If you want to view the figures, you can specify it as follows. Also, if you wish to draw multiple figures simultaneously, you can use the combinePlots_gg() function.
+
+```{r}
+# Draw the IIC for Item8.
+plots[8]
+
+# We will output multiple plots simultaneously (default is 6). This time, we will display 4 plots from the 8th to the 11th.
+combinePlots_gg(plots, selectPlots = c(8:11))
+```
+
+## plotTIC_gg Example
+
+You can also plot the Test Information Curve using the same procedure. Subsequent functions may have differences in their arguments, but they are generally used in the same way. If you input data into a plotting function that does not fit the model, an error will occur, so please check the compatibility between the model and the plotting function.
+
+```{r}
+plot <- plotTIC_gg(result.IRT) 
+# If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
+```
+
+Since we are dealing with the information curve for a single test this time, only one plot will be generated.
+
+```{r}
+# Draw the IIC for Item8.
+plot
+```
+
