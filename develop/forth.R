@@ -268,3 +268,346 @@ plot(result.LCA, type = "CMP", items = 1:9, nc = 3, nr = 3)
 plot(result.LCA, type = "LCD")
 
 plot(result.BINET, type = "LRD")
+
+
+# Graph
+
+install.packages("ggraph")
+
+library(ggraph)
+library(igraph)
+
+result.BNM$adj
+
+StrLearningPBIL_BNM(J5S10,
+                    population = 20, Rs = 0.5, Rm = 0.005, maxParents = 2,
+                    alpha = 0.05, estimate = 4
+)
+
+g <- result.BNM$adj
+
+g %>%
+    ggraph(layout = "kk") +
+    geom_edge_link(aes())
+
+
+# 行列データ
+matrix_data <- matrix(c(0, 1, 0, 0, 0,
+                        0, 0, 1, 1, 0,
+                        0, 0, 0, 0, 1,
+                        0, 0, 0, 0, 1,
+                        0, 0, 0, 0, 0),
+                      nrow = 5,
+                      byrow = TRUE,
+                      dimnames = list(c("Item01", "Item02", "Item03", "Item04", "Item05"),
+                                      c("Item01", "Item02", "Item03", "Item04", "Item05")))
+
+# エッジリストに変換
+edges <- which(matrix_data == 1, arr.ind = TRUE)
+edges <- cbind(rownames(matrix_data)[edges[, 1]], colnames(matrix_data)[edges[, 2]])
+colnames(edges) <- c("from", "to")
+edges
+
+graph <- graph_from_data_frame(edges, directed = TRUE)
+
+ggraph(graph, layout = "grid") +
+    geom_edge_link(aes(edge_alpha = 0.5)) +
+    geom_node_point() +
+    geom_node_text(aes(label = name), repel = TRUE)
+
+ggraph(graph, layout = "dh") +
+    geom_edge_link(aes(edge_alpha = 0.5)) +
+    geom_node_point() +
+    geom_node_text(aes(label = name), repel = TRUE)
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.5), arrow = arrow(length = unit(0.2, "inches"))) +
+    geom_node_point() +
+    geom_node_text(aes(label = name), repel = TRUE)
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.5), arrow = arrow(length = unit(0.2, "inches"))) +
+    geom_node_point(size = 10) + # ポイントサイズを10に設定
+    geom_node_text(aes(label = name), repel = TRUE)
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.5), arrow = arrow(length = unit(0.2, "inches"))) +
+    geom_node_point(size = 10) +
+    geom_node_text(aes(label = name), repel = TRUE) +
+    theme(legend.position = "none")
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.5), arrow = arrow(length = unit(0.2, "inches"))) +
+    geom_node_point(size = 10, color = "lightgreen") +  # colorパラメータを使用する
+    geom_node_text(aes(label = name), repel = TRUE) +
+    theme(legend.position = "none")
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.5),
+                   arrow = arrow(length = unit(0.3, "inches")),  # 矢印の長さを増やす
+                   size = 1) +  # 線の太さを調整する
+    geom_node_point(size = 10, color = "lightgreen") +
+    geom_node_text(aes(label = name), repel = TRUE) +
+    theme(legend.position = "none")
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.5),
+                   arrow = arrow(length = unit(0.3, "inches")),
+                   size = 1) +
+    geom_node_point(size = 10, color = "lightgreen") +
+    geom_node_text(aes(label = name), repel = TRUE) +
+    theme_void()
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.5),
+                   arrow = arrow(length = unit(0.3, "inches")),
+                   size = 1) +
+    geom_node_point(size = 10, color = "lightgreen") +
+    geom_node_text(aes(label = name), repel = TRUE) +
+    theme(legend.position = "none")
+
+ggraph(graph) +
+    geom_edge_link(aes(edge_alpha = 0.7),
+                   arrow = arrow(length = unit(0.4, "inches"), type = "closed", ends = "last"),  # 矢印のサイズを増やす
+                   size = 2,  # 矢印の太さを増やす
+                   color = "darkblue") +  # 矢印の色を変更
+    geom_node_point(size = 10, color = "lightgreen") +
+    geom_node_text(aes(label = name), repel = TRUE) +
+    theme_void()
+
+# グラフ諦め
+
+# FieldPIRP
+
+plot(result.LDB, type = "FieldPIRP")
+
+plot(result.LDB, type = "LCD")
+
+result.LDB$CCRR_table
+
+result.LDB$Nfield
+
+result.LDB$Nclass
+
+class(result.LDB)
+
+result.LDB$TestFitIndices
+
+plotFieldPIRP_gg <- function(data) {
+    if (all(class(data) %in% c("Exametrika", "LDB"))) {
+    } else {
+        stop("Invalid input. The variable must be from Exametrika output or from LDB.")
+    }
+
+
+    n_cls <- data$Nclass
+
+    n_field <- data$Nfield
+
+    plots <- list()
+
+    for (i in 1:n_cls) {
+
+        field_data <- NULL
+
+        plot_data <- NULL
+
+        for (j in 1:n_field) {
+
+
+            x <- data.frame(
+                k = c(data$CCRR_table[j + (i - 1) * n_field, 3:ncol(data$CCRR_table)])
+            )
+
+            field_data <- data.frame(
+                k = t(x),
+                l = c(0:(ncol(data$CCRR_table)-3)),
+                field = data$CCRR_table$Field[j +(i - 1) * n_field]
+            )
+
+            plot_data <- rbind(plot_data, field_data)
+
+        }
+
+        plots[[i]] <- ggplot(plot_data ,aes(x = l, y = k, group = field)) +
+            ylim(0, 1) +
+            scale_x_continuous(breaks = seq(0, max(plot_data$l), 1)) +
+            geom_line() +
+            geom_text(aes(x = l, y = k-0.02), label = substr(plot_data$field,7,8)) +
+            labs(
+                title = paste0("Rank ", i),
+                x = "PIRP(Number-Right Score) in Parent Field(s) ",
+                y = "Correct Response Rate"
+            )
+
+    }
+
+    return(plots)
+}
+
+a <- plotFieldPIRP_gg(result.LDB)
+
+combinePlots_gg(a)
+
+a[[1]]
+
+a[[2]]
+
+n_cls
+
+n_cls <- data$Nclass
+
+n_field <- data$Nfield
+
+n_field
+
+data <- result.LDB
+
+data$CCRR_table
+
+result.LDB$CCRR_table[1,3]
+
+ncol(data$CCRR_table)
+
+a <- as.data.frame(data$CCRR_table)
+
+x <- data.frame(
+    k = c(data$CCRR_table[1, 3:ncol(data$CCRR_table)])
+    )
+
+t(x)
+
+xx <- data.frame(
+    k = t(x),
+    l = c(0:12)
+)
+
+is.numeric(x[1,3])
+
+ggplot(x, aes(x = rank, y = Membership)) +
+            ylim(0, 1) +
+            geom_point() +
+            geom_line(linetype = "dashed" ) +
+            scale_x_continuous(breaks = seq(1, n_cls, 1)) +
+            labs(
+                title = paste0(xlabel, " Membership Profile, ", rownames(data$Students)[i]),
+                x = paste0("Latent ", xlabel),
+                y = "Membership"
+            )
+
+x
+c(data$CCRR_table[1,3:ncol(data$CCRR_table)])
+
+
+ggplot(xx,aes(x = l, y = k)) +
+    geom_line() +
+    geom_text(aes(x = l, y = k-0.02), label = "10")
+
+ggplot(xx,aes(x = l, y = k)) +
+    geom_line() +
+    geom_text(aes(x = l, y = k-0.02), label = "1")
+
+ggplot(x, aes(x = rank, y = Membership)) +
+    ylim(0, 1) +
+    geom_point() +
+    geom_line(linetype = "dashed" ) +
+    scale_x_continuous(breaks = seq(1, n_cls, 1)) +
+    labs(
+        title = paste0(xlabel, " Membership Profile, ", rownames(data$Students)[i]),
+        x = paste0("Latent ", xlabel),
+        y = "Membership"
+    )
+
+plot_data <- NULL
+
+
+for (j in 1:n_field) {
+
+
+    x <- data.frame(
+          k = c(data$CCRR_table[j, 3:ncol(data$CCRR_table)])
+        )
+
+    field_data <- data.frame(
+        k = t(x),
+        l = c(0:(ncol(data$CCRR_table)-3)),
+        field = data$CCRR_table$Field[j]
+    )
+
+    plot_data <- rbind(plot_data, field_data)
+
+}
+
+a <- subset(plot_data, !(is.na(plot_data$k)))
+
+a
+
+ggplot(plot_data ,aes(x = l, y = k, group = field)) +
+    ylim(0, 1) +
+    scale_x_continuous(breaks = seq(0, max(plot_data$l), 1)) +
+    geom_line() +
+    geom_text(aes(x = l, y = k-0.02), label = substr(plot_data$field,7,8)) +
+    labs(
+        title = paste0("Rank ", i),
+        x = "PIRP(Number-Right Score) in Parent Field(s) ",
+        y = "Correct Response Rate"
+    )
+
+as.character(substr(plot_data$field,7,8))
+
+x <- data.frame(
+    k = c(data$CCRR_table[1, 3:ncol(data$CCRR_table)])
+)
+
+field_data <- data.frame(
+    k = t(x),
+    l = c(0:(ncol(data$CCRR_table)-3)),
+    rank = data$CCRR_table$Field[1]
+)
+
+field_data
+
+plot_data
+
+plot_data[[1]]
+
+plot_data[[1]]
+
+# ggplot(plot_data[[1]], aes(x = l, y = k)) +
+#     geom_line() +
+#     geom_text(aes(x = l, y = k-0.02), label = "1") +
+#     ggplot(plot_data[[2]], aes(x = l, y = k))
+#     geom_line() +
+#     geom_text(aes(x = l, y = k-0.02), label = "2")
+
+
+
+plot_data[[10]]
+
+ncol(data$CCRR_table)-3
+
+x <- data.frame(
+    k = c(data$CCRR_table[1, 3:ncol(data$CCRR_table)])
+)
+
+plot_data[[1]] <- data.frame(
+    k = t(x),
+    l = c(0:12)
+)
+
+length(t(x))
+
+t(x)[1,]
+
+plot_data[[1]]
+
+# データの読み込み
+
+
+# データを変換してプロット
+
+ggplot(xx, aes(x = l, y = k)) +
+    geom_point()
+
+data$CCRR_table
+n_field
