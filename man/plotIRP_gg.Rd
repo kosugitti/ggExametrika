@@ -2,15 +2,38 @@
 % Please edit documentation in R/IRPtoCMPRMP.R
 \name{plotIRP_gg}
 \alias{plotIRP_gg}
-\title{Plot Item Reference Profile (IRP) from Exametrika}
+\title{Plot Item Reference Profile (IRP) from exametrika}
 \usage{
 plotIRP_gg(data)
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object of class \code{c("exametrika", "LCA")},
+\code{c("exametrika", "LRA")}, or \code{c("exametrika", "LDLRA")}.}
+}
+\value{
+A list of ggplot objects, one for each item. Each plot shows the
+correct response rate across latent classes or ranks.
 }
 \description{
-This function takes Exametrika output as input
-and generates Item Reference Profile (IRP) using ggplot2.
-The applicable analytical methods are Latent Class Analysis (LCA), Latent Rank Analysis (LRA), and Local Dependent Latent Rank Analysis (LDLRA).
+This function takes exametrika output as input and generates
+Item Reference Profile (IRP) plots using ggplot2. IRP shows the
+probability of a correct response for each item at each latent
+class or rank level.
+}
+\details{
+The Item Reference Profile visualizes how item difficulty varies across
+latent classes (LCA) or ranks (LRA, LDLRA). Items with monotonically
+increasing profiles indicate good discrimination between classes/ranks.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- LRA(J15S500, nrank = 5)
+plots <- plotIRP_gg(result)
+plots[[1]]  # Show IRP for the first item
+}
+
+}
+\seealso{
+\code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}
 }

@@ -2,17 +2,44 @@
 % Please edit documentation in R/ICCtoTIC.R
 \name{plotIIC_gg}
 \alias{plotIIC_gg}
-\title{Plot Item Characteristic Curves (IIC) from Exametrika}
+\title{Plot Item Information Curves (IIC) from exametrika}
 \usage{
 plotIIC_gg(data, xvariable = c(-4, 4))
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object of class \code{c("exametrika", "IRT")} from
+\code{exametrika::IRT()}.}
 
-\item{xvariable}{Specify the vector to set the drawing range at both ends of the x-axis}
+\item{xvariable}{A numeric vector of length 2 specifying the range of the
+x-axis (ability). Default is \code{c(-4, 4)}.}
+}
+\value{
+A list of ggplot objects, one for each item. Each plot shows the
+Item Information Curve for that item.
 }
 \description{
-This function takes Exametrika output as input
-and generates Item Characteristic Curves (IIC) using ggplot2.
-The applicable analytical method is Item Response Theory (IRT).
+This function takes exametrika IRT output as input and generates
+Item Information Curves (IIC) using ggplot2. IIC shows how much
+information each item provides at different ability levels.
+}
+\details{
+The Item Information Function indicates how precisely an item measures
+ability at each point on the theta scale. Items with higher discrimination
+parameters provide more information. The peak of the information curve
+occurs near the item's difficulty parameter.
+
+The function supports 2PL, 3PL, and 4PL IRT models.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- IRT(J15S500, model = 3)
+plots <- plotIIC_gg(result)
+plots[[1]]  # Show IIC for the first item
+combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 items
+}
+
+}
+\seealso{
+\code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}
 }

@@ -7,18 +7,46 @@
 LogisticModel(x, a = 1, b, c = 0, d = 1)
 }
 \arguments{
-\item{x}{ability parameter}
+\item{x}{Numeric. The ability parameter (theta).}
 
-\item{a}{slope parameter}
+\item{a}{Numeric. The slope (discrimination) parameter. Default is 1.}
 
-\item{b}{locaiton parameter}
+\item{b}{Numeric. The location (difficulty) parameter.}
 
-\item{c}{lower asymptote parameter}
+\item{c}{Numeric. The lower asymptote (guessing) parameter. Default is 0.}
 
-\item{d}{upper asymptote parameter}
+\item{d}{Numeric. The upper asymptote (carelessness) parameter. Default is 1.}
+}
+\value{
+A numeric value representing the probability of a correct response.
 }
 \description{
-The four-parameter logistic model is a model where one additional
-parameter d, called the upper asymptote parameter, is added to the
-3PLM.
+Computes the probability of a correct response using the four-parameter
+logistic model (4PLM) in Item Response Theory.
+}
+\details{
+The four-parameter logistic model extends the 3PLM by adding an upper
+asymptote parameter \code{d}, which accounts for careless errors by
+high-ability examinees.
+
+The model formula is:
+\deqn{P(\theta) = c + \frac{d - c}{1 + \exp(-a(\theta - b))}}
+
+Special cases:
+\itemize{
+\item 1PLM: \code{a = 1}, \code{c = 0}, \code{d = 1}
+\item 2PLM: \code{c = 0}, \code{d = 1}
+\item 3PLM: \code{d = 1}
+}
+}
+\examples{
+# Compute probability for ability = 0, difficulty = 0
+LogisticModel(x = 0, a = 1, b = 0, c = 0, d = 1)  # Returns 0.5
+
+# 3PLM with guessing parameter
+LogisticModel(x = -3, a = 1.5, b = 0, c = 0.2, d = 1)
+
+}
+\seealso{
+\code{\link{ItemInformationFunc}}
 }

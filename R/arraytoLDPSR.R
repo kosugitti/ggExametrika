@@ -1,16 +1,41 @@
 #' @title Plot Array from exametrika
+#'
 #' @description
-#' This function takes exametrika output as input
-#' and generates Rank Membership Profile (RMP) using ggplot2.
-#' The applicable analytical methods are Latent Rank Analysis (LRA), Biclustering,
-#' Local Dependent Latent Rank Analysis (LDLRA), and Local Dependence Biclustering (LDB).
+#' This function takes exametrika output as input and generates
+#' array plots using ggplot2. Array plots visualize the response
+#' patterns of students (rows) across items (columns), showing both
+#' the original data and the clustered/reordered data.
 #'
+#' @param data An object of class \code{c("exametrika", "Biclustering")},
+#'   \code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
+#'   \code{c("exametrika", "BINET")}.
+#' @param Original Logical. If \code{TRUE} (default), plot the original
+#'   (unsorted) response data.
+#' @param Clusterd Logical. If \code{TRUE} (default), plot the clustered
+#'   (sorted by class and field) response data.
+#' @param Clusterd_lines Logical. If \code{TRUE} (default), draw red lines
+#'   on the clustered plot to indicate class and field boundaries.
+#' @param title Logical. If \code{TRUE} (default), display plot titles.
 #'
-#' @param data exametrika output results
-#' @param Original plot original data
-#' @param Clusterd plot Clusterd data
-#' @param Clusterd_lines plot the red lines representing ranks and fields
-#' @param title Presence or absence of a title.
+#' @return A ggplot object or a grid arrangement of two ggplot objects
+#'   (original and clustered plots side by side).
+#'
+#' @details
+#' The array plot provides a visual representation of the biclustering
+#' result. Black cells indicate correct responses (1), white cells
+#' indicate incorrect responses (0). In a well-fitted model, the
+#' clustered plot should show a clear block diagonal pattern where
+#' high-ability students (bottom rows) answer difficult items (right
+#' columns) correctly.
+#'
+#' @examples
+#' \dontrun{
+#' library(exametrika)
+#' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
+#' plotArray_gg(result)
+#' }
+#'
+#' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 geom_tile
@@ -139,15 +164,37 @@ plotArray_gg <- function(data,
 }
 
 
-#' @title Plot FieldPIRP from exametrika
+#' @title Plot Field PIRP (Parent Item Reference Profile) from exametrika
+#'
 #' @description
-#' This function takes exametrika output as input
-#' and generates FieldPIRP using ggplot2.
-#' The applicable analytical methods is Local Dependence Biclustering (LDB).
-#' The warning message regarding NA values is displayed, but the behavior is normal.
+#' This function takes exametrika LDB output as input and generates
+#' Field PIRP (Parent Item Reference Profile) plots using ggplot2.
+#' Field PIRP shows the correct response rate for each field as a
+#' function of the number-right score in parent fields.
 #'
+#' @param data An object of class \code{c("exametrika", "LDB")}.
 #'
-#' @param data exametrika output results
+#' @return A list of ggplot objects, one for each rank. Each plot shows
+#'   the correct response rate curves for all fields at that rank level.
+#'
+#' @details
+#' In Local Dependence Biclustering (LDB), items in a field may depend
+#' on performance in parent fields. The Field PIRP visualizes this
+#' dependency by showing how the correct response rate in each field
+#' changes based on the number of correct responses in parent fields.
+#'
+#' Note: Warning messages about NA values may appear during plotting
+#' but the behavior is normal.
+#'
+#' @examples
+#' \dontrun{
+#' library(exametrika)
+#' result <- LDB(J35S515, nfld = 5, ncls = 6)
+#' plots <- plotFieldPIRP_gg(result)
+#' plots[[1]] # Show Field PIRP for rank 1
+#' }
+#'
+#' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}}
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim

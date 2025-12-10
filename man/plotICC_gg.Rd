@@ -2,17 +2,47 @@
 % Please edit documentation in R/ICCtoTIC.R
 \name{plotICC_gg}
 \alias{plotICC_gg}
-\title{Plot Item Characteristic Curves (ICC) from Exametrika}
+\title{Plot Item Characteristic Curves (ICC) from exametrika}
 \usage{
 plotICC_gg(data, xvariable = c(-4, 4))
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object of class \code{c("exametrika", "IRT")} from
+\code{exametrika::IRT()}.}
 
-\item{xvariable}{Specify the vector to set the drawing range at both ends of the x-axis}
+\item{xvariable}{A numeric vector of length 2 specifying the range of the
+x-axis (ability). Default is \code{c(-4, 4)}.}
+}
+\value{
+A list of ggplot objects, one for each item. Each plot shows the
+Item Characteristic Curve for that item.
 }
 \description{
-This function takes Exametrika output as input
-and generates Item Characteristic Curves (ICC) using ggplot2.
-The applicable analytical method is Item Response Theory (IRT).
+This function takes exametrika IRT output as input and generates
+Item Characteristic Curves (ICC) using ggplot2. ICC shows the probability
+of a correct response as a function of ability (theta).
+}
+\details{
+The function supports 2PL, 3PL, and 4PL IRT models:
+\itemize{
+\item 2PL: slope (a) and location (b) parameters
+\item 3PL: adds lower asymptote (c) parameter
+\item 4PL: adds upper asymptote (d) parameter
+}
+
+The ICC is computed using the four-parameter logistic model:
+\deqn{P(\theta) = c + \frac{d - c}{1 + \exp(-a(\theta - b))}}
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- IRT(J15S500, model = 3)
+plots <- plotICC_gg(result)
+plots[[1]]  # Show ICC for the first item
+combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 items
+}
+
+}
+\seealso{
+\code{\link{plotIIC_gg}}, \code{\link{plotTIC_gg}}
 }

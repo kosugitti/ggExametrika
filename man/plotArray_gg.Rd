@@ -2,7 +2,7 @@
 % Please edit documentation in R/arraytoLDPSR.R
 \name{plotArray_gg}
 \alias{plotArray_gg}
-\title{Plot Array from Exametrika}
+\title{Plot Array from exametrika}
 \usage{
 plotArray_gg(
   data,
@@ -13,19 +13,47 @@ plotArray_gg(
 )
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object of class \code{c("exametrika", "Biclustering")},
+\code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
+\code{c("exametrika", "BINET")}.}
 
-\item{Original}{plot original data}
+\item{Original}{Logical. If \code{TRUE} (default), plot the original
+(unsorted) response data.}
 
-\item{Clusterd}{plot Clusterd data}
+\item{Clusterd}{Logical. If \code{TRUE} (default), plot the clustered
+(sorted by class and field) response data.}
 
-\item{Clusterd_lines}{plot the red lines representing ranks and fields}
+\item{Clusterd_lines}{Logical. If \code{TRUE} (default), draw red lines
+on the clustered plot to indicate class and field boundaries.}
 
-\item{title}{Presence or absence of a title.}
+\item{title}{Logical. If \code{TRUE} (default), display plot titles.}
+}
+\value{
+A ggplot object or a grid arrangement of two ggplot objects
+(original and clustered plots side by side).
 }
 \description{
-This function takes Exametrika output as input
-and generates Rank Membership Profile (RMP) using ggplot2.
-The applicable analytical methods are Latent Rank Analysis (LRA), Biclustering,
-Local Dependent Latent Rank Analysis (LDLRA), and Local Dependence Biclustering (LDB).
+This function takes exametrika output as input and generates
+array plots using ggplot2. Array plots visualize the response
+patterns of students (rows) across items (columns), showing both
+the original data and the clustered/reordered data.
+}
+\details{
+The array plot provides a visual representation of the biclustering
+result. Black cells indicate correct responses (1), white cells
+indicate incorrect responses (0). In a well-fitted model, the
+clustered plot should show a clear block diagonal pattern where
+high-ability students (bottom rows) answer difficult items (right
+columns) correctly.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- Biclustering(J35S515, nfld = 5, ncls = 6)
+plotArray_gg(result)
+}
+
+}
+\seealso{
+\code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}
 }

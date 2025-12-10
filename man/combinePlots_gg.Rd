@@ -2,15 +2,40 @@
 % Please edit documentation in R/option.R
 \name{combinePlots_gg}
 \alias{combinePlots_gg}
-\title{Display Multiple Plots Simultaneously from ggExametrika Output"}
+\title{Display Multiple Plots Simultaneously from ggExametrika Output}
 \usage{
 combinePlots_gg(plots, selectPlots = c(1:6))
 }
 \arguments{
-\item{plots}{ggExametrika output plots}
+\item{plots}{A list of ggplot objects, typically output from functions
+like \code{\link{plotICC_gg}}, \code{\link{plotIRP_gg}}, etc.}
 
-\item{selectPlots}{In the vector, specify the range or indices you want to display.}
+\item{selectPlots}{A numeric vector specifying which plots to display.
+Default is \code{1:6} (first 6 plots). Indices exceeding the list
+length are automatically excluded.}
+}
+\value{
+A gtable object containing the arranged plots, displayed as
+a side effect.
 }
 \description{
-This function consolidates multiple plots generated from the ggExametrika function into a single display.
+This function arranges multiple ggplot objects from ggExametrika functions
+into a single display using a grid layout. Useful for comparing plots
+across items or students.
+}
+\details{
+This function uses \code{gridExtra::grid.arrange} to combine multiple
+plots. The number of rows and columns is automatically determined.
+For more control over layout, consider using \code{gridExtra::grid.arrange}
+directly with the \code{nrow} and \code{ncol} arguments.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- IRT(J15S500, model = 3)
+plots <- plotICC_gg(result)
+combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 items
+combinePlots_gg(plots, selectPlots = c(1, 5, 10))  # Show specific items
+}
+
 }

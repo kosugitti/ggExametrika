@@ -1,11 +1,39 @@
 #' @title Plot Item Characteristic Curves (ICC) from exametrika
-#' @description
-#' This function takes exametrika output as input
-#' and generates Item Characteristic Curves (ICC) using ggplot2.
-#' The applicable analytical method is Item Response Theory (IRT).
 #'
-#' @param data exametrika output results
-#' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
+#' @description
+#' This function takes exametrika IRT output as input and generates
+#' Item Characteristic Curves (ICC) using ggplot2. ICC shows the probability
+#' of a correct response as a function of ability (theta).
+#'
+#' @param data An object of class \code{c("exametrika", "IRT")} from
+#'   \code{exametrika::IRT()}.
+#' @param xvariable A numeric vector of length 2 specifying the range of the
+#'   x-axis (ability). Default is \code{c(-4, 4)}.
+#'
+#' @return A list of ggplot objects, one for each item. Each plot shows the
+#'   Item Characteristic Curve for that item.
+#'
+#' @details
+#' The function supports 2PL, 3PL, and 4PL IRT models:
+#' \itemize{
+#'   \item 2PL: slope (a) and location (b) parameters
+#'   \item 3PL: adds lower asymptote (c) parameter
+#'   \item 4PL: adds upper asymptote (d) parameter
+#' }
+#'
+#' The ICC is computed using the four-parameter logistic model:
+#' \deqn{P(\theta) = c + \frac{d - c}{1 + \exp(-a(\theta - b))}}
+#'
+#' @examples
+#' \dontrun{
+#' library(exametrika)
+#' result <- IRT(J15S500, model = 3)
+#' plots <- plotICC_gg(result)
+#' plots[[1]] # Show ICC for the first item
+#' combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 items
+#' }
+#'
+#' @seealso \code{\link{plotIIC_gg}}, \code{\link{plotTIC_gg}}
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 xlim
@@ -57,15 +85,43 @@ plotICC_gg <- function(data, xvariable = c(-4, 4)) {
 
 
 #' @title Four-Parameter Logistic Model
+#'
 #' @description
-#' The four-parameter logistic model is a model where one additional
-#' parameter d, called the upper asymptote parameter, is added to the
-#' 3PLM.
-#' @param x ability parameter
-#' @param a slope parameter
-#' @param b locaiton parameter
-#' @param c lower asymptote parameter
-#' @param d upper asymptote parameter
+#' Computes the probability of a correct response using the four-parameter
+#' logistic model (4PLM) in Item Response Theory.
+#'
+#' @param x Numeric. The ability parameter (theta).
+#' @param a Numeric. The slope (discrimination) parameter. Default is 1.
+#' @param b Numeric. The location (difficulty) parameter.
+#' @param c Numeric. The lower asymptote (guessing) parameter. Default is 0.
+#' @param d Numeric. The upper asymptote (carelessness) parameter. Default is 1.
+#'
+#' @return A numeric value representing the probability of a correct response.
+#'
+#' @details
+#' The four-parameter logistic model extends the 3PLM by adding an upper
+#' asymptote parameter \code{d}, which accounts for careless errors by
+#' high-ability examinees.
+#'
+#' The model formula is:
+#' \deqn{P(\theta) = c + \frac{d - c}{1 + \exp(-a(\theta - b))}}
+#'
+#' Special cases:
+#' \itemize{
+#'   \item 1PLM: \code{a = 1}, \code{c = 0}, \code{d = 1}
+#'   \item 2PLM: \code{c = 0}, \code{d = 1}
+#'   \item 3PLM: \code{d = 1}
+#' }
+#'
+#' @examples
+#' # Compute probability for ability = 0, difficulty = 0
+#' LogisticModel(x = 0, a = 1, b = 0, c = 0, d = 1) # Returns 0.5
+#'
+#' # 3PLM with guessing parameter
+#' LogisticModel(x = -3, a = 1.5, b = 0, c = 0.2, d = 1)
+#'
+#' @seealso \code{\link{ItemInformationFunc}}
+#'
 #' @export
 
 LogisticModel <- function(x, a = 1, b, c = 0, d = 1) {
@@ -73,14 +129,37 @@ LogisticModel <- function(x, a = 1, b, c = 0, d = 1) {
   return(p)
 }
 
-#' @title IIF for 4PLM
+#' @title Item Information Function for 4PLM
+#'
 #' @description
-#' Item Information Function for 4PLM
-#' @param x ability parameter
-#' @param a slope parameter
-#' @param b locaiton parameter
-#' @param c lower asymptote parameter
-#' @param d upper asymptote parameter
+#' Computes the Item Information Function (IIF) for the four-parameter
+#' logistic model in Item Response Theory. The information function indicates
+#' how precisely an item measures ability at different theta levels.
+#'
+#' @param x Numeric. The ability parameter (theta).
+#' @param a Numeric. The slope (discrimination) parameter. Default is 1.
+#' @param b Numeric. The location (difficulty) parameter.
+#' @param c Numeric. The lower asymptote (guessing) parameter. Default is 0.
+#' @param d Numeric. The upper asymptote (carelessness) parameter. Default is 1.
+#'
+#' @return A numeric value representing the item information at the given
+#'   ability level.
+#'
+#' @details
+#' Higher discrimination (\code{a}) parameters result in higher information.
+#' Items provide maximum information near their difficulty (\code{b}) parameter.
+#' The guessing (\code{c}) and upper asymptote (\code{d}) parameters reduce
+#' the maximum information an item can provide.
+#'
+#' @examples
+#' # Information at ability = 0 for an item with b = 0
+#' ItemInformationFunc(x = 0, a = 1.5, b = 0, c = 0, d = 1)
+#'
+#' # Compare information at different ability levels
+#' sapply(seq(-3, 3, 0.5), function(x) ItemInformationFunc(x, a = 1, b = 0))
+#'
+#' @seealso \code{\link{LogisticModel}}
+#'
 #' @export
 
 ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
@@ -92,14 +171,39 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 }
 
 
-#' @title Plot Item Characteristic Curves (IIC) from exametrika
-#' @description
-#' This function takes exametrika output as input
-#' and generates Item Characteristic Curves (IIC) using ggplot2.
-#' The applicable analytical method is Item Response Theory (IRT).
+#' @title Plot Item Information Curves (IIC) from exametrika
 #'
-#' @param data exametrika output results
-#' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
+#' @description
+#' This function takes exametrika IRT output as input and generates
+#' Item Information Curves (IIC) using ggplot2. IIC shows how much
+#' information each item provides at different ability levels.
+#'
+#' @param data An object of class \code{c("exametrika", "IRT")} from
+#'   \code{exametrika::IRT()}.
+#' @param xvariable A numeric vector of length 2 specifying the range of the
+#'   x-axis (ability). Default is \code{c(-4, 4)}.
+#'
+#' @return A list of ggplot objects, one for each item. Each plot shows the
+#'   Item Information Curve for that item.
+#'
+#' @details
+#' The Item Information Function indicates how precisely an item measures
+#' ability at each point on the theta scale. Items with higher discrimination
+#' parameters provide more information. The peak of the information curve
+#' occurs near the item's difficulty parameter.
+#'
+#' The function supports 2PL, 3PL, and 4PL IRT models.
+#'
+#' @examples
+#' \dontrun{
+#' library(exametrika)
+#' result <- IRT(J15S500, model = 3)
+#' plots <- plotIIC_gg(result)
+#' plots[[1]] # Show IIC for the first item
+#' combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 items
+#' }
+#'
+#' @seealso \code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 xlim
@@ -152,14 +256,37 @@ plotIIC_gg <- function(data, xvariable = c(-4, 4)) {
   return(plots)
 }
 
-#' @title Plot Test Information Curves (TIC) from exametrika
-#' @description
-#' This function takes exametrika output as input
-#' and generates Test Information Curves (TIC) using ggplot2.
-#' The applicable analytical method is Item Response Theory (IRT).
+#' @title Plot Test Information Curve (TIC) from exametrika
 #'
-#' @param data exametrika output results
-#' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
+#' @description
+#' This function takes exametrika IRT output as input and generates a
+#' Test Information Curve (TIC) using ggplot2. TIC shows the total
+#' information provided by all items at each ability level.
+#'
+#' @param data An object of class \code{c("exametrika", "IRT")} from
+#'   \code{exametrika::IRT()}.
+#' @param xvariable A numeric vector of length 2 specifying the range of the
+#'   x-axis (ability). Default is \code{c(-4, 4)}.
+#'
+#' @return A single ggplot object showing the Test Information Curve.
+#'
+#' @details
+#' The Test Information Function is the sum of all Item Information Functions.
+#' It indicates how precisely the test as a whole measures ability at each
+#' point on the theta scale. The reciprocal of test information is
+#' approximately equal to the squared standard error of measurement.
+#'
+#' The function supports 2PL, 3PL, and 4PL IRT models.
+#'
+#' @examples
+#' \dontrun{
+#' library(exametrika)
+#' result <- IRT(J15S500, model = 3)
+#' plot <- plotTIC_gg(result)
+#' plot # Show Test Information Curve
+#' }
+#'
+#' @seealso \code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 xlim

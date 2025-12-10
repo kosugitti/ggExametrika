@@ -2,17 +2,42 @@
 % Please edit documentation in R/ICCtoTIC.R
 \name{plotTIC_gg}
 \alias{plotTIC_gg}
-\title{Plot Test Information Curves (TIC) from Exametrika}
+\title{Plot Test Information Curve (TIC) from exametrika}
 \usage{
 plotTIC_gg(data, xvariable = c(-4, 4))
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object of class \code{c("exametrika", "IRT")} from
+\code{exametrika::IRT()}.}
 
-\item{xvariable}{Specify the vector to set the drawing range at both ends of the x-axis}
+\item{xvariable}{A numeric vector of length 2 specifying the range of the
+x-axis (ability). Default is \code{c(-4, 4)}.}
+}
+\value{
+A single ggplot object showing the Test Information Curve.
 }
 \description{
-This function takes Exametrika output as input
-and generates Test Information Curves (TIC) using ggplot2.
-The applicable analytical method is Item Response Theory (IRT).
+This function takes exametrika IRT output as input and generates a
+Test Information Curve (TIC) using ggplot2. TIC shows the total
+information provided by all items at each ability level.
+}
+\details{
+The Test Information Function is the sum of all Item Information Functions.
+It indicates how precisely the test as a whole measures ability at each
+point on the theta scale. The reciprocal of test information is
+approximately equal to the squared standard error of measurement.
+
+The function supports 2PL, 3PL, and 4PL IRT models.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- IRT(J15S500, model = 3)
+plot <- plotTIC_gg(result)
+plot  # Show Test Information Curve
+}
+
+}
+\seealso{
+\code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}
 }

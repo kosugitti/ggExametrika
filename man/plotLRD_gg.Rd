@@ -2,20 +2,45 @@
 % Please edit documentation in R/IRPtoCMPRMP.R
 \name{plotLRD_gg}
 \alias{plotLRD_gg}
-\title{Plot Latnt Rank Distribution (LRD) from Exametrika}
+\title{Plot Latent Rank Distribution (LRD) from exametrika}
 \usage{
 plotLRD_gg(data, Num_Students = TRUE, title = TRUE)
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object of class \code{c("exametrika", "LRA")},
+\code{c("exametrika", "Biclustering")}, \code{c("exametrika", "LDLRA")},
+or \code{c("exametrika", "LDB")}. If LCA or BINET output is provided,
+LCD will be plotted instead with a warning.}
 
-\item{Num_Students}{Display the number of students on the bar graph}
+\item{Num_Students}{Logical. If \code{TRUE} (default), display the
+number of students on each bar.}
 
-\item{title}{Toggle the presence of the title using TRUE/FALSE}
+\item{title}{Logical. If \code{TRUE} (default), display the plot title.}
+}
+\value{
+A single ggplot object with dual y-axes showing both the
+student count and membership frequency.
 }
 \description{
-This function takes Exametrika output as input
-and generates Latnt Rank Distribution (LRD) using ggplot2.
-The applicable analytical methods are Latent Rank Analysis (LRA), Biclustering,
-Local Dependent Latent Rank Analysis (LDLRA), and Local Dependence Biclustering (LDB).
+This function takes exametrika output as input and generates a
+Latent Rank Distribution (LRD) plot using ggplot2. LRD shows the
+number of students in each latent rank and the rank membership
+distribution.
+}
+\details{
+The Latent Rank Distribution shows how students are distributed
+across latent ranks. Unlike latent classes, ranks have an ordinal
+interpretation where higher ranks indicate higher ability levels.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- LRA(J15S500, nrank = 5)
+plot <- plotLRD_gg(result)
+plot
+}
+
+}
+\seealso{
+\code{\link{plotLCD_gg}}, \code{\link{plotTRP_gg}}
 }

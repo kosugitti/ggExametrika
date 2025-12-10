@@ -2,20 +2,46 @@
 % Please edit documentation in R/IRPtoCMPRMP.R
 \name{plotTRP_gg}
 \alias{plotTRP_gg}
-\title{Plot Test Reference Profile (TRP) from Exametrika}
+\title{Plot Test Reference Profile (TRP) from exametrika}
 \usage{
 plotTRP_gg(data, Num_Students = TRUE, title = TRUE)
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object from exametrika: LCA, LRA, Biclustering, IRM,
+LDB, or BINET output.}
 
-\item{Num_Students}{Display the number of students on the bar graph}
+\item{Num_Students}{Logical. If \code{TRUE} (default), display the
+number of students on each bar.}
 
-\item{title}{Toggle the presence of the title using TRUE/FALSE}
+\item{title}{Logical. If \code{TRUE} (default), display the plot title.}
+}
+\value{
+A single ggplot object with dual y-axes showing both the
+student distribution and expected scores.
 }
 \description{
-This function takes Exametrika output as input
-and generates Test Reference Profile (TRP) using ggplot2.
-The applicable analytical methods are Latent Class Analysis (LCA), Latent Rank Analysis (LRA), Biclustering,
-Infinite Relational Model (IRM), Local Dependence Biclustering (LDB), and Bicluster Network Model (BINET).
+This function takes exametrika output as input and generates a
+Test Reference Profile (TRP) plot using ggplot2. TRP shows the
+number of students in each latent class/rank (bar graph) and the
+expected test score for each class/rank (line graph).
+}
+\details{
+The Test Reference Profile provides an overview of the latent structure.
+The bar graph shows how students are distributed across classes/ranks,
+while the line graph shows the expected test score for each class/rank.
+In well-fitted models, expected scores should increase monotonically
+with class/rank number.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- LRA(J15S500, nrank = 5)
+plot <- plotTRP_gg(result)
+plot
+}
+
+}
+\seealso{
+\code{\link{plotIRP_gg}}, \code{\link{plotLCD_gg}},
+\code{\link{plotLRD_gg}}
 }

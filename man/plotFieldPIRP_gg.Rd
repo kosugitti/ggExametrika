@@ -2,16 +2,41 @@
 % Please edit documentation in R/arraytoLDPSR.R
 \name{plotFieldPIRP_gg}
 \alias{plotFieldPIRP_gg}
-\title{Plot FieldPIRP from Exametrika}
+\title{Plot Field PIRP (Parent Item Reference Profile) from exametrika}
 \usage{
 plotFieldPIRP_gg(data)
 }
 \arguments{
-\item{data}{Exametrika output results}
+\item{data}{An object of class \code{c("exametrika", "LDB")}.}
+}
+\value{
+A list of ggplot objects, one for each rank. Each plot shows
+the correct response rate curves for all fields at that rank level.
 }
 \description{
-This function takes Exametrika output as input
-and generates FieldPIRP using ggplot2.
-The applicable analytical methods is Local Dependence Biclustering (LDB).
-The warning message regarding NA values is displayed, but the behavior is normal.
+This function takes exametrika LDB output as input and generates
+Field PIRP (Parent Item Reference Profile) plots using ggplot2.
+Field PIRP shows the correct response rate for each field as a
+function of the number-right score in parent fields.
+}
+\details{
+In Local Dependence Biclustering (LDB), items in a field may depend
+on performance in parent fields. The Field PIRP visualizes this
+dependency by showing how the correct response rate in each field
+changes based on the number of correct responses in parent fields.
+
+Note: Warning messages about NA values may appear during plotting
+but the behavior is normal.
+}
+\examples{
+\dontrun{
+library(exametrika)
+result <- LDB(J35S515, nfld = 5, ncls = 6)
+plots <- plotFieldPIRP_gg(result)
+plots[[1]]  # Show Field PIRP for rank 1
+}
+
+}
+\seealso{
+\code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}}
 }

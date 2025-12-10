@@ -2,21 +2,44 @@
 % Please edit documentation in R/ICCtoTIC.R
 \name{ItemInformationFunc}
 \alias{ItemInformationFunc}
-\title{IIF for 4PLM}
+\title{Item Information Function for 4PLM}
 \usage{
 ItemInformationFunc(x, a = 1, b, c = 0, d = 1)
 }
 \arguments{
-\item{x}{ability parameter}
+\item{x}{Numeric. The ability parameter (theta).}
 
-\item{a}{slope parameter}
+\item{a}{Numeric. The slope (discrimination) parameter. Default is 1.}
 
-\item{b}{locaiton parameter}
+\item{b}{Numeric. The location (difficulty) parameter.}
 
-\item{c}{lower asymptote parameter}
+\item{c}{Numeric. The lower asymptote (guessing) parameter. Default is 0.}
 
-\item{d}{upper asymptote parameter}
+\item{d}{Numeric. The upper asymptote (carelessness) parameter. Default is 1.}
+}
+\value{
+A numeric value representing the item information at the given
+ability level.
 }
 \description{
-Item Information Function for 4PLM
+Computes the Item Information Function (IIF) for the four-parameter
+logistic model in Item Response Theory. The information function indicates
+how precisely an item measures ability at different theta levels.
+}
+\details{
+Higher discrimination (\code{a}) parameters result in higher information.
+Items provide maximum information near their difficulty (\code{b}) parameter.
+The guessing (\code{c}) and upper asymptote (\code{d}) parameters reduce
+the maximum information an item can provide.
+}
+\examples{
+# Information at ability = 0 for an item with b = 0
+ItemInformationFunc(x = 0, a = 1.5, b = 0, c = 0, d = 1)
+
+# Compare information at different ability levels
+sapply(seq(-3, 3, 0.5), function(x) ItemInformationFunc(x, a = 1, b = 0))
+
+}
+\seealso{
+\code{\link{LogisticModel}}
 }
