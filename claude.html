@@ -73,6 +73,104 @@
 </ul></div>
 </div>
 <div class="section level2">
+<h2 id="バージョン10に向けて">バージョン1.0に向けて<a class="anchor" aria-label="anchor" href="#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B310%E3%81%AB%E5%90%91%E3%81%91%E3%81%A6"></a></h2>
+<p>exametrikaの全プロット機能をggplot2で実装完了したらv1.0とする。</p>
+<div class="section level3">
+<h3 id="exametrikaのプロットタイプ一覧と実装状況">exametrikaのプロットタイプ一覧と実装状況<a class="anchor" aria-label="anchor" href="#exametrika%E3%81%AE%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E3%82%BF%E3%82%A4%E3%83%97%E4%B8%80%E8%A6%A7%E3%81%A8%E5%AE%9F%E8%A3%85%E7%8A%B6%E6%B3%81"></a></h3>
+<table class="table"><colgroup><col width="30%"><col width="22%"><col width="34%"><col width="12%"></colgroup><thead><tr class="header"><th>プロットタイプ</th>
+<th>対応モデル</th>
+<th>ggExametrika関数</th>
+<th>状況</th>
+</tr></thead><tbody><tr class="odd"><td>IRF/ICC</td>
+<td>IRT, GRM</td>
+<td>plotICC_gg</td>
+<td>実装済(IRT)</td>
+</tr><tr class="even"><td>TRF</td>
+<td>IRT</td>
+<td>-</td>
+<td>未実装</td>
+</tr><tr class="odd"><td>IIF/IIC</td>
+<td>IRT, GRM</td>
+<td>plotIIC_gg</td>
+<td>実装済(IRT)</td>
+</tr><tr class="even"><td>TIF/TIC</td>
+<td>IRT, GRM</td>
+<td>plotTIC_gg</td>
+<td>実装済(IRT)</td>
+</tr><tr class="odd"><td>IRP</td>
+<td>LCA, LRA, LDLRA</td>
+<td>plotIRP_gg</td>
+<td>実装済</td>
+</tr><tr class="even"><td>FRP</td>
+<td>LCA, LRA, Biclustering, IRM, LDB, BINET</td>
+<td>plotFRP_gg</td>
+<td>実装済</td>
+</tr><tr class="odd"><td>TRP</td>
+<td>LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET</td>
+<td>plotTRP_gg</td>
+<td>実装済</td>
+</tr><tr class="even"><td>LCD</td>
+<td>LCA, Biclustering</td>
+<td>plotLCD_gg</td>
+<td>実装済</td>
+</tr><tr class="odd"><td>LRD</td>
+<td>LRA, Biclustering, LDLRA, LDB, BINET</td>
+<td>plotLRD_gg</td>
+<td>実装済</td>
+</tr><tr class="even"><td>CMP</td>
+<td>LCA, Biclustering, BINET</td>
+<td>plotCMP_gg</td>
+<td>実装済</td>
+</tr><tr class="odd"><td>RMP</td>
+<td>LRA, Biclustering, LDLRA, LDB, BINET, LRAordinal, LRArated</td>
+<td>plotRMP_gg</td>
+<td>実装済</td>
+</tr><tr class="even"><td>CRV/RRV</td>
+<td>Biclustering</td>
+<td>-</td>
+<td>未実装</td>
+</tr><tr class="odd"><td>Array</td>
+<td>Biclustering, IRM, LDB, BINET</td>
+<td>plotArray_gg</td>
+<td>実装済</td>
+</tr><tr class="even"><td>FieldPIRP</td>
+<td>LDB</td>
+<td>plotFieldPIRP_gg</td>
+<td>実装済</td>
+</tr><tr class="odd"><td>LDPSR</td>
+<td>BINET</td>
+<td>-</td>
+<td>未実装</td>
+</tr><tr class="even"><td>ScoreFreq</td>
+<td>LRAordinal, LRArated</td>
+<td>-</td>
+<td>未実装</td>
+</tr><tr class="odd"><td>ScoreRank</td>
+<td>LRAordinal, LRArated</td>
+<td>-</td>
+<td>未実装</td>
+</tr><tr class="even"><td>ICRP</td>
+<td>LRAordinal, LRArated</td>
+<td>-</td>
+<td>未実装</td>
+</tr><tr class="odd"><td>ICBR</td>
+<td>LRAordinal</td>
+<td>-</td>
+<td>未実装</td>
+</tr></tbody></table></div>
+<div class="section level3">
+<h3 id="未実装機能v10までに実装予定">未実装機能（v1.0までに実装予定）<a class="anchor" aria-label="anchor" href="#%E6%9C%AA%E5%AE%9F%E8%A3%85%E6%A9%9F%E8%83%BDv10%E3%81%BE%E3%81%A7%E3%81%AB%E5%AE%9F%E8%A3%85%E4%BA%88%E5%AE%9A"></a></h3>
+<ol style="list-style-type: decimal"><li>TRF (Test Response Function)</li>
+<li>CRV/RRV (Class/Rank Reference Vector)</li>
+<li>LDPSR (Latent Dependence Passing Student Rate)</li>
+<li>ScoreFreq (スコア頻度分布)</li>
+<li>ScoreRank (スコア-ランクヒートマップ)</li>
+<li>ICRP (Item Category Reference Profile)</li>
+<li>ICBR (Item Category Boundary Response)</li>
+<li>GRM対応 (IRF, IIF, TIF)</li>
+</ol></div>
+</div>
+<div class="section level2">
 <h2 id="作業ログ">作業ログ<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E6%A5%AD%E3%83%AD%E3%82%B0"></a></h2>
 <p>作業ログは <code>log.md</code> に記録する。</p>
 </div>
