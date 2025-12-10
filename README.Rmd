@@ -52,7 +52,7 @@ plotICC_gg is specifically designed for the output of IRT. Below is an example c
 To run this code, you need the Exametrika package.
 
 ```{r}
-library(Exametrika)
+library(exametrika)
 library(ggExametrika)
 result.IRT <- IRT(J15S500, model = 3)
 result.IRT
@@ -61,7 +61,7 @@ result.IRT
 If you want to plot ICC, input the stored results directly into the plotICC_gg function. You can also specify the range of the X-axis with a vector. If no specific range is provided, it will be plotted in the range from -4 to 4, and the function will return a list.
 
 ```{r}
-plots <- plotICC_gg(result.IRT) 
+plots <- plotICC_gg(result.IRT)
 # If you want to specify a range, provide a vector for the xvariable argument.
 # plotICC_gg(result.IRT,xvariable = c(-7, 7))
 ```
@@ -82,7 +82,7 @@ combinePlots_gg(plots)
 You can also plot the Item Information Curve (IIC) similar to the plotICC_gg function. Input the output from the Exametrika package into the plotIIC_gg function as before.
 
 ```{r}
-plots <- plotIIC_gg(result.IRT) 
+plots <- plotIIC_gg(result.IRT)
 # If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
 # plotIIC_gg(result.IRT,xvariable = c(-5, 7))
 # plotIIC_gg(result.IRT,xvariable = c(2, 9))
@@ -104,7 +104,7 @@ combinePlots_gg(plots, selectPlots = c(8:11))
 You can also plot the Test Information Curve using the same procedure. Subsequent functions may have differences in their arguments, but they are generally used in the same way. If you input data into a plotting function that does not fit the model, an error will occur, so please check the compatibility between the model and the plotting function.
 
 ```{r}
-plot <- plotTIC_gg(result.IRT) 
+plot <- plotTIC_gg(result.IRT)
 # If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
 ```
 

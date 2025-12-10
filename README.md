@@ -4,6 +4,7 @@
 # ggExametrika
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 [Exametrika](http://shojima.starfree.jp/exmk/index.htm) is a powerful
@@ -46,27 +47,21 @@ example code using the Exametrika package. To run this code, you need
 the Exametrika package.
 
 ``` r
-library(Exametrika)
-#>  要求されたパッケージ mvtnorm をロード中です
-#>  要求されたパッケージ igraph をロード中です
-#> 
-#>  次のパッケージを付け加えます: 'igraph'
-#>  以下のオブジェクトは 'package:stats' からマスクされています:
-#> 
-#>     decompose, spectrum
-#>  以下のオブジェクトは 'package:base' からマスクされています:
-#> 
-#>     union
+library(exametrika)
 library(ggExametrika)
-#>  要求されたパッケージ ggplot2 をロード中です
-#>  要求されたパッケージ gridExtra をロード中です
+#> Loading required package: ggplot2
+#> Loading required package: gridExtra
 #> 
-#>  次のパッケージを付け加えます: 'ggExametrika'
-#>  以下のオブジェクトは 'package:Exametrika' からマスクされています:
+#> Attaching package: 'ggExametrika'
+#> The following objects are masked from 'package:exametrika':
 #> 
 #>     ItemInformationFunc, LogisticModel
 result.IRT <- IRT(J15S500, model = 3)
-#> iter 1 LogLik -3960.28101333114 iter 2 LogLik -3938.35070947795 iter 3 LogLik -3931.82420362616 iter 4 LogLik -3928.67980785132 iter 5 LogLik -3926.99346164871 iter 6 LogLik -3926.04821906922 iter 7 LogLik -3925.50624285813 iter 8 LogLik -3925.19151966721 iter 9 LogLik -3925.0075824143 iter 10 LogLik -3924.89907336992 iter 11 LogLik -3924.83501386629 iter 12 LogLik -3924.79705753799 iter 13 LogLik -3924.77485156282 
+#> iter 1 LogLik -3960.28
+#> iter 2 LogLik -3938.35 iter 3 LogLik -3931.82 iter 4 LogLik -3928.68 iter 5
+#> LogLik -3926.99 iter 6 LogLik -3926.05 iter 7 LogLik -3925.51 iter 8 LogLik
+#> -3925.19 iter 9 LogLik -3925.01 iter 10 LogLik -3924.9 iter 11 LogLik -3924.83
+#> iter 12 LogLik -3924.8 iter 13 LogLik -3924.77
 result.IRT
 #> Item Parameters
 #>        slope location lowerAsym PSD(slope) PSD(location) PSD(lowerAsym)
@@ -94,11 +89,11 @@ result.IRT
 #> Item04       -204.884       -192.072      -265.962       25.623     147.780
 #> Item05       -232.135       -206.537      -247.403       51.196      81.732
 #> Item06       -173.669       -153.940      -198.817       39.459      89.755
-#> Item07       -250.905       -228.379      -298.345       45.052     139.933
+#> Item07       -250.905       -228.379      -298.345       45.053     139.933
 #> Item08       -314.781       -293.225      -338.789       43.111      91.127
 #> Item09       -321.920       -300.492      -327.842       42.856      54.700
 #> Item10       -309.318       -288.198      -319.850       42.240      63.303
-#> Item11       -248.409       -224.085      -299.265       48.648     150.360
+#> Item11       -248.409       -224.085      -299.265       48.647     150.360
 #> Item12       -238.877       -214.797      -293.598       48.160     157.603
 #> Item13       -293.472       -262.031      -328.396       62.882     132.730
 #> Item14       -223.473       -204.953      -273.212       37.040     136.519
@@ -110,11 +105,11 @@ result.IRT
 #> Item04       11      13 0.827 0.795 0.893 0.872 0.892 0.052  3.623 -42.759
 #> Item05       11      13 0.374 0.260 0.432 0.309 0.415 0.086 29.196 -17.186
 #> Item06       11      13 0.560 0.480 0.639 0.562 0.629 0.072 17.459 -28.924
-#> Item07       11      13 0.678 0.620 0.736 0.683 0.732 0.079 23.052 -23.330
+#> Item07       11      13 0.678 0.620 0.736 0.683 0.732 0.079 23.053 -23.330
 #> Item08       11      13 0.527 0.441 0.599 0.514 0.589 0.076 21.111 -25.272
 #> Item09       11      13 0.217 0.074 0.271 0.097 0.236 0.076 20.856 -25.527
 #> Item10       11      13 0.333 0.211 0.403 0.266 0.379 0.075 20.240 -26.143
-#> Item11       11      13 0.676 0.618 0.730 0.676 0.726 0.083 26.648 -19.735
+#> Item11       11      13 0.676 0.618 0.730 0.676 0.726 0.083 26.647 -19.736
 #> Item12       11      13 0.694 0.639 0.747 0.696 0.743 0.082 26.160 -20.222
 #> Item13       11      13 0.526 0.440 0.574 0.488 0.567 0.097 40.882  -5.501
 #> Item14       11      13 0.729 0.679 0.793 0.751 0.789 0.069 15.040 -31.343
@@ -130,7 +125,7 @@ result.IRT
 #> Item08 -25.250
 #> Item09 -25.505
 #> Item10 -26.121
-#> Item11 -19.713
+#> Item11 -19.714
 #> Item12 -20.200
 #> Item13  -5.479
 #> Item14 -31.321
@@ -153,7 +148,7 @@ result.IRT
 #> RMSEA              0.076
 #> AIC              311.528
 #> CAIC            -384.212
-#> BIC             -383.882
+#> BIC             -383.883
 ```
 
 If you want to plot ICC, input the stored results directly into the
@@ -162,7 +157,7 @@ vector. If no specific range is provided, it will be plotted in the
 range from -4 to 4, and the function will return a list.
 
 ``` r
-plots <- plotICC_gg(result.IRT) 
+plots <- plotICC_gg(result.IRT)
 # If you want to specify a range, provide a vector for the xvariable argument.
 # plotICC_gg(result.IRT,xvariable = c(-7, 7))
 ```
@@ -195,7 +190,7 @@ plotICC_gg function. Input the output from the Exametrika package into
 the plotIIC_gg function as before.
 
 ``` r
-plots <- plotIIC_gg(result.IRT) 
+plots <- plotIIC_gg(result.IRT)
 # If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
 # plotIIC_gg(result.IRT,xvariable = c(-5, 7))
 # plotIIC_gg(result.IRT,xvariable = c(2, 9))
@@ -231,7 +226,7 @@ function that does not fit the model, an error will occur, so please
 check the compatibility between the model and the plotting function.
 
 ``` r
-plot <- plotTIC_gg(result.IRT) 
+plot <- plotTIC_gg(result.IRT)
 # If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.
 ```
 

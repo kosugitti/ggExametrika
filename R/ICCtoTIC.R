@@ -15,44 +15,44 @@
 #' @export
 
 
-plotICC_gg <- function(data, xvariable = c(-4,4)) {
-    if (!all(class(data) %in% c("exametrika", "IRT"))) {
-        stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
+plotICC_gg <- function(data, xvariable = c(-4, 4)) {
+  if (!all(class(data) %in% c("exametrika", "IRT"))) {
+    stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
+  }
+
+  Item_Characteristic_function <- function(x, slope = 1, location, lowerAsym = 0, upperAsym = 1) {
+    lowerAsym + ((upperAsym - lowerAsym) / (1 + exp(-1 * slope * (x - location))))
+  }
+
+  n_params <- ncol(data$params)
+
+  if (n_params < 2 || n_params > 4) {
+    stop("Invalid number of parameters.")
+  }
+
+  plots <- list()
+
+  for (i in 1:nrow(data$params)) {
+    args <- c(slope = data$params$slope[i], location = data$params$location[i])
+    if (n_params == 3) {
+      args["lowerAsym"] <- data$params$lowerAsym[i]
+    }
+    if (n_params == 4) {
+      args["upperAsym"] <- data$params$upperAsym[i]
     }
 
-    Item_Characteristic_function <- function(x, slope = 1, location, lowerAsym = 0, upperAsym = 1) {
-        lowerAsym + ((upperAsym - lowerAsym) / (1 + exp(-1 * slope * (x - location))))
-    }
+    plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
+      xlim(xvariable[1], xvariable[2]) +
+      ylim(0, 1) +
+      stat_function(fun = Item_Characteristic_function, args = args) +
+      labs(
+        title = paste0("Item Characteristic Curve, ", rownames(data$params)[i]),
+        x = "ability",
+        y = "probability"
+      )
+  }
 
-    n_params <- ncol(data$params)
-
-    if (n_params < 2 || n_params > 4) {
-        stop("Invalid number of parameters.")
-    }
-
-    plots <- list()
-
-    for (i in 1:nrow(data$params)) {
-        args <- c(slope = data$params$slope[i], location = data$params$location[i])
-        if (n_params == 3) {
-            args["lowerAsym"] <- data$params$lowerAsym[i]
-        }
-        if (n_params == 4) {
-            args["upperAsym"] <- data$params$upperAsym[i]
-        }
-
-        plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
-            xlim(xvariable[1], xvariable[2]) +
-            ylim(0, 1) +
-            stat_function(fun = Item_Characteristic_function, args = args) +
-            labs(
-                title = paste0("Item Characteristic Curve, ", rownames(data$params)[i]),
-                x = "ability",
-                y = "probability"
-            )
-    }
-
-    return(plots)
+  return(plots)
 }
 
 
@@ -69,8 +69,8 @@ plotICC_gg <- function(data, xvariable = c(-4,4)) {
 #' @export
 
 LogisticModel <- function(x, a = 1, b, c = 0, d = 1) {
-    p <- c + ((d - c) / (1 + exp(-a * (x - b))))
-    return(p)
+  p <- c + ((d - c) / (1 + exp(-a * (x - b))))
+  return(p)
 }
 
 #' @title IIF for 4PLM
@@ -84,11 +84,11 @@ LogisticModel <- function(x, a = 1, b, c = 0, d = 1) {
 #' @export
 
 ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
-    numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
-        (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
-    denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
-    tmp <- numerator / denominator
-    return(tmp)
+  numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
+    (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
+  denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
+  tmp <- numerator / denominator
+  return(tmp)
 }
 
 
@@ -110,47 +110,46 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 
 
 plotIIC_gg <- function(data, xvariable = c(-4, 4)) {
-    if (!all(class(data) %in% c("exametrika", "IRT"))) {
-        stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
+  if (!all(class(data) %in% c("exametrika", "IRT"))) {
+    stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
+  }
+
+  ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
+    numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
+      (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
+    denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
+    tmp <- numerator / denominator
+    return(tmp)
+  }
+
+  n_params <- ncol(data$params)
+
+  if (n_params < 2 || n_params > 4) {
+    stop("Invalid number of parameters.")
+  }
+
+  plots <- list()
+
+  for (i in 1:nrow(data$params)) {
+    args <- c(a = data$params$slope[i], b = data$params$location[i])
+    if (n_params == 3) {
+      args["c"] <- data$params$lowerAsym[i]
+    }
+    if (n_params == 4) {
+      args["d"] <- data$params$upperAsym[i]
     }
 
-    ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
-        numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
-            (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
-        denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
-        tmp <- numerator / denominator
-        return(tmp)
-    }
+    plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
+      xlim(xvariable[1], xvariable[2]) +
+      stat_function(fun = ItemInformationFunc, args = args) +
+      labs(
+        title = paste0("Item Information Curve, ", rownames(data$params)[i]),
+        x = "ability",
+        y = "information"
+      )
+  }
 
-    n_params <- ncol(data$params)
-
-    if (n_params < 2 || n_params > 4) {
-        stop("Invalid number of parameters.")
-    }
-
-    plots <- list()
-
-    for (i in 1:nrow(data$params)) {
-        args <- c(a = data$params$slope[i], b = data$params$location[i])
-        if (n_params == 3) {
-            args["c"] <- data$params$lowerAsym[i]
-        }
-        if (n_params == 4) {
-            args["d"] <- data$params$upperAsym[i]
-        }
-
-        plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
-            xlim(xvariable[1], xvariable[2]) +
-            stat_function(fun = ItemInformationFunc, args = args) +
-            labs(
-                title = paste0("Item Information Curve, ", rownames(data$params)[i]),
-                x = "ability",
-                y = "information"
-            )
-    }
-
-    return(plots)
-
+  return(plots)
 }
 
 #' @title Plot Test Information Curves (TIC) from exametrika
@@ -171,45 +170,41 @@ plotIIC_gg <- function(data, xvariable = c(-4, 4)) {
 
 
 plotTIC_gg <- function(data, xvariable = c(-4, 4)) {
-    if (!all(class(data) %in% c("exametrika", "IRT"))) {
-        stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
+  if (!all(class(data) %in% c("exametrika", "IRT"))) {
+    stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
+  }
+
+
+  n_params <- ncol(data$params)
+
+  if (n_params < 2 || n_params > 4) {
+    stop("Invalid number of parameters.")
+  }
+
+  plot <- NULL
+
+  multi <- function(x) {
+    total <- 0
+    for (i in 1:nrow(data$params)) {
+      total <- total + ItemInformationFunc(
+        x,
+        data$params[i, 1], # slope
+        data$params[i, 2], # location
+        ifelse(is.null(data$params[i, 3]), 0, data$params[i, 3]), # rower
+        ifelse(is.null(data$params[i, 4]), 1, data$params[i, 4]) # upper
+      )
     }
+    return(total)
+  }
 
+  plot <- ggplot(data = data.frame(x = xvariable)) +
+    xlim(xvariable[1], xvariable[2]) +
+    stat_function(fun = multi) +
+    labs(
+      title = "Test Information Curve",
+      x = "ability",
+      y = "information"
+    )
 
-    n_params <- ncol(data$params)
-
-    if (n_params < 2 || n_params > 4) {
-        stop("Invalid number of parameters.")
-    }
-
-    plot <- NULL
-
-    multi <- function(x) {
-        total <- 0
-        for (i in 1:nrow(data$params)) {
-            total <- total + ItemInformationFunc(
-                x,
-                data$params[i, 1],  # slope
-                data$params[i, 2],  # location
-                ifelse(is.null(data$params[i, 3]), 0, data$params[i, 3]),  # rower
-                ifelse(is.null(data$params[i, 4]), 1, data$params[i, 4])  # upper
-            )
-        }
-        return(total)
-    }
-
-    plot <- ggplot(data = data.frame(x = xvariable)) +
-        xlim(xvariable[1], xvariable[2]) +
-        stat_function(fun = multi) +
-        labs(
-            title = "Test Information Curve",
-            x = "ability",
-            y = "information"
-        )
-
-    return(plot)
-
+  return(plot)
 }
-
-
-
