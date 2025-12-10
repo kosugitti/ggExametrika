@@ -62,3 +62,26 @@ ggExametrikaが使用している `Nclass`, `Nrank`
   (CRANパッケージ名は小文字)
 - GitHub Pages有効化完了
 - サイト公開: <https://kosugitti.github.io/ggExametrika/>
+
+### コードスタイル整備
+
+- `styler::style_pkg()` を適用
+- `README.Rmd` の
+  [`library(Exametrika)`](https://rdrr.io/r/base/library.html) →
+  [`library(exametrika)`](https://kosugitti.github.io/exametrika/)
+  に修正
+- `README.md` を再生成
+
+### ヘルプドキュメント拡充
+
+- 全関数に `@return`, `@details`, `@examples`, `@seealso` を追加
+- `@seealso` はパッケージ内の関数のみを参照（外部参照は削除）
+- 対象ファイル:
+  - `R/ICCtoTIC.R`: plotICC_gg, LogisticModel, ItemInformationFunc,
+    plotIIC_gg, plotTIC_gg
+  - `R/IRPtoCMPRMP.R`: plotIRP_gg, plotFRP_gg, plotTRP_gg, plotLCD_gg,
+    plotLRD_gg, plotCMP_gg, plotRMP_gg
+  - `R/arraytoLDPSR.R`: plotArray_gg, plotFieldPIRP_gg
+  - `R/option.R`: combinePlots_gg
+- `devtools::document()` で man/\*.Rd ファイル更新（15ファイル）
+- `styler::style_pkg()` で再フォーマット

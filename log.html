@@ -93,6 +93,35 @@
 <li>サイト公開: <a href="https://kosugitti.github.io/ggExametrika/" class="uri">https://kosugitti.github.io/ggExametrika/</a>
 </li>
 </ul></div>
+<div class="section level3">
+<h3 id="コードスタイル整備">コードスタイル整備<a class="anchor" aria-label="anchor" href="#%E3%82%B3%E3%83%BC%E3%83%89%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%AB%E6%95%B4%E5%82%99"></a></h3>
+<ul><li>
+<code>styler::style_pkg()</code> を適用</li>
+<li>
+<code>README.Rmd</code> の <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(Exametrika)</a></code> → <code><a href="https://kosugitti.github.io/exametrika/" class="external-link">library(exametrika)</a></code> に修正</li>
+<li>
+<code>README.md</code> を再生成</li>
+</ul></div>
+<div class="section level3">
+<h3 id="ヘルプドキュメント拡充">ヘルプドキュメント拡充<a class="anchor" aria-label="anchor" href="#%E3%83%98%E3%83%AB%E3%83%97%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E6%8B%A1%E5%85%85"></a></h3>
+<ul><li>全関数に <code>@return</code>, <code>@details</code>, <code>@examples</code>, <code>@seealso</code> を追加</li>
+<li>
+<code>@seealso</code> はパッケージ内の関数のみを参照（外部参照は削除）</li>
+<li>対象ファイル:
+<ul><li>
+<code>R/ICCtoTIC.R</code>: plotICC_gg, LogisticModel, ItemInformationFunc, plotIIC_gg, plotTIC_gg</li>
+<li>
+<code>R/IRPtoCMPRMP.R</code>: plotIRP_gg, plotFRP_gg, plotTRP_gg, plotLCD_gg, plotLRD_gg, plotCMP_gg, plotRMP_gg</li>
+<li>
+<code>R/arraytoLDPSR.R</code>: plotArray_gg, plotFieldPIRP_gg</li>
+<li>
+<code>R/option.R</code>: combinePlots_gg</li>
+</ul></li>
+<li>
+<code>devtools::document()</code> で man/*.Rd ファイル更新（15ファイル）</li>
+<li>
+<code>styler::style_pkg()</code> で再フォーマット</li>
+</ul></div>
 </div>
 </div>
 
