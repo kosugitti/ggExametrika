@@ -14,6 +14,6 @@ Depends: ggplot2, gridExtra
 RoxygenNote: 7.3.0
 Reference: Shojima, Kojiro (2022) Test Data Engineering: Latent Rank Analysis, Biclustering, andBayesian Network (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), Springer
 Suggests:
-    Exametrika,
+    exametrika,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
