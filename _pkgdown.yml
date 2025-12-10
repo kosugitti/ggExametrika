@@ -1,0 +1,45 @@
+url: https://kosugitti.github.io/ggExametrika/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left:  [intro, reference, articles]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/kosugitti/ggExametrika
+
+reference:
+- title: IRT Plots
+  desc: Item Response Theory visualization functions
+  contents:
+  - plotICC_gg
+  - plotIIC_gg
+  - plotTIC_gg
+  - LogisticModel
+  - ItemInformationFunc
+
+- title: Latent Class/Rank Plots
+  desc: LCA, LRA visualization functions
+  contents:
+  - plotIRP_gg
+  - plotFRP_gg
+  - plotTRP_gg
+  - plotLCD_gg
+  - plotLRD_gg
+  - plotCMP_gg
+  - plotRMP_gg
+
+- title: Biclustering Plots
+  desc: Biclustering and related model visualization
+  contents:
+  - plotArray_gg
+  - plotFieldPIRP_gg
+
+- title: Utilities
+  desc: Helper functions
+  contents:
+  - combinePlots_gg

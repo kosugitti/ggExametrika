@@ -58,5 +58,8 @@ ggExametrikaが使用している `Nclass`, `Nrank` などは後方互換性フ�
 - `R/IRPtoCMPRMP.R`
 - `R/arraytoLDPSR.R`
 
-### 次のタスク
-- GitHub Pages (pkgdown) の作成
+### GitHub Pages (pkgdown) 設定
+
+- `_pkgdown.yml` 作成（サイト設定、リファレンス構成）
+- `.github/workflows/pkgdown.yaml` 作成（GitHub Actions自動デプロイ）
+- `.Rbuildignore` に pkgdown関連を追加
