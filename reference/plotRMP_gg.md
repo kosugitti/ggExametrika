@@ -1,9 +1,8 @@
-# Plot Rank Membership Profile (RMP) from Exametrika
+# Plot Rank Membership Profile (RMP) from exametrika
 
-This function takes Exametrika output as input and generates Rank
-Membership Profile (RMP) using ggplot2. The applicable analytical
-methods are Latent Rank Analysis (LRA), Biclustering, Local Dependent
-Latent Rank Analysis (LDLRA), and Local Dependence Biclustering (LDB).
+This function takes exametrika output as input and generates Rank
+Membership Profile (RMP) plots using ggplot2. RMP shows each student's
+membership probability across all latent ranks.
 
 ## Usage
 
@@ -15,4 +14,35 @@ plotRMP_gg(data)
 
 - data:
 
-  Exametrika output results
+  An object of class `c("exametrika", "LRA")`,
+  `c("exametrika", "Biclustering")`, `c("exametrika", "LDLRA")`, or
+  `c("exametrika", "LDB")`. If LCA or BINET output is provided, CMP will
+  be plotted instead with a warning.
+
+## Value
+
+A list of ggplot objects, one for each student. Each plot shows the
+membership probability across all latent ranks.
+
+## Details
+
+The Rank Membership Profile visualizes how strongly each student belongs
+to each latent rank. Unlike class membership, rank membership has an
+ordinal interpretation. Students with unimodal profiles centered on a
+single rank are well-classified.
+
+## See also
+
+[`plotCMP_gg`](https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.md),
+[`plotLRD_gg`](https://kosugitti.github.io/ggExametrika/reference/plotLRD_gg.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+library(exametrika)
+result <- LRA(J15S500, nrank = 5)
+plots <- plotRMP_gg(result)
+plots[[1]]  # Show RMP for the first student
+} # }
+```
