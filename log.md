@@ -58,3 +58,7 @@ ggExametrikaが使用している `Nclass`, `Nrank`
 - `_pkgdown.yml` 作成（サイト設定、リファレンス構成）
 - `.github/workflows/pkgdown.yaml` 作成（GitHub Actions自動デプロイ）
 - `.Rbuildignore` に pkgdown関連を追加
+- DESCRIPTIONのSuggests: `Exametrika` → `exametrika`
+  (CRANパッケージ名は小文字)
+- GitHub Pages有効化完了
+- サイト公開: <https://kosugitti.github.io/ggExametrika/>
