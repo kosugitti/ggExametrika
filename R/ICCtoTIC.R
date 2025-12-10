@@ -1,10 +1,10 @@
-#' @title Plot Item Characteristic Curves (ICC) from Exametrika
+#' @title Plot Item Characteristic Curves (ICC) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Item Characteristic Curves (ICC) using ggplot2.
 #' The applicable analytical method is Item Response Theory (IRT).
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
 #'
 #' @importFrom ggplot2 ggplot
@@ -16,8 +16,8 @@
 
 
 plotICC_gg <- function(data, xvariable = c(-4,4)) {
-    if (!all(class(data) %in% c("Exametrika", "IRT"))) {
-        stop("Invalid input. The variable must be from Exametrika output or an output from IRT.")
+    if (!all(class(data) %in% c("exametrika", "IRT"))) {
+        stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
     }
 
     Item_Characteristic_function <- function(x, slope = 1, location, lowerAsym = 0, upperAsym = 1) {
@@ -92,13 +92,13 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 }
 
 
-#' @title Plot Item Characteristic Curves (IIC) from Exametrika
+#' @title Plot Item Characteristic Curves (IIC) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Item Characteristic Curves (IIC) using ggplot2.
 #' The applicable analytical method is Item Response Theory (IRT).
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
 #'
 #' @importFrom ggplot2 ggplot
@@ -110,8 +110,8 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 
 
 plotIIC_gg <- function(data, xvariable = c(-4, 4)) {
-    if (!all(class(data) %in% c("Exametrika", "IRT"))) {
-        stop("Invalid input. The variable must be from Exametrika output or an output from IRT.")
+    if (!all(class(data) %in% c("exametrika", "IRT"))) {
+        stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
     }
 
     ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
@@ -153,13 +153,13 @@ plotIIC_gg <- function(data, xvariable = c(-4, 4)) {
 
 }
 
-#' @title Plot Test Information Curves (TIC) from Exametrika
+#' @title Plot Test Information Curves (TIC) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Test Information Curves (TIC) using ggplot2.
 #' The applicable analytical method is Item Response Theory (IRT).
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #' @param xvariable Specify the vector to set the drawing range at both ends of the x-axis
 #'
 #' @importFrom ggplot2 ggplot
@@ -171,8 +171,8 @@ plotIIC_gg <- function(data, xvariable = c(-4, 4)) {
 
 
 plotTIC_gg <- function(data, xvariable = c(-4, 4)) {
-    if (!all(class(data) %in% c("Exametrika", "IRT"))) {
-        stop("Invalid input. The variable must be from Exametrika output or an output from IRT.")
+    if (!all(class(data) %in% c("exametrika", "IRT"))) {
+        stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
     }
 
 

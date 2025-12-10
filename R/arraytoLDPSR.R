@@ -1,12 +1,12 @@
-#' @title Plot Array from Exametrika
+#' @title Plot Array from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Rank Membership Profile (RMP) using ggplot2.
 #' The applicable analytical methods are Latent Rank Analysis (LRA), Biclustering,
 #' Local Dependent Latent Rank Analysis (LDLRA), and Local Dependence Biclustering (LDB).
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #' @param Original plot original data
 #' @param Clusterd plot Clusterd data
 #' @param Clusterd_lines plot the red lines representing ranks and fields
@@ -26,14 +26,14 @@ plotArray_gg <- function(data,
                          Clusterd = TRUE,
                          Clusterd_lines = TRUE,
                          title = TRUE) {
-    if (all(class(data) %in% c("Exametrika", "Biclustering")) ||
-        all(class(data) %in% c("Exametrika", "IRM")) ||
-        all(class(data) %in% c("Exametrika", "LDB")) ||
-        all(class(data) %in% c("Exametrika", "BINET"))) {
+    if (all(class(data) %in% c("exametrika", "Biclustering")) ||
+        all(class(data) %in% c("exametrika", "IRM")) ||
+        all(class(data) %in% c("exametrika", "LDB")) ||
+        all(class(data) %in% c("exametrika", "BINET"))) {
 
     } else {
         stop(
-            "Invalid input. The variable must be from Exametrika output or from either Biclustering, IRM, LDB or BINET."
+            "Invalid input. The variable must be from exametrika output or from either Biclustering, IRM, LDB or BINET."
         )
     }
 
@@ -143,15 +143,15 @@ plotArray_gg <- function(data,
 
 
 
-#' @title Plot FieldPIRP from Exametrika
+#' @title Plot FieldPIRP from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates FieldPIRP using ggplot2.
 #' The applicable analytical methods is Local Dependence Biclustering (LDB).
 #' The warning message regarding NA values is displayed, but the behavior is normal.
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim
@@ -162,10 +162,10 @@ plotArray_gg <- function(data,
 #' @export
 
 plotFieldPIRP_gg <- function(data) {
-    if (all(class(data) %in% c("Exametrika", "LDB"))) {
+    if (all(class(data) %in% c("exametrika", "LDB"))) {
 
     } else {
-        stop("Invalid input. The variable must be from Exametrika output or from LDB.")
+        stop("Invalid input. The variable must be from exametrika output or from LDB.")
     }
 
 

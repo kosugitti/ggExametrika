@@ -1,10 +1,10 @@
-#' @title Plot Item Reference Profile (IRP) from Exametrika
+#' @title Plot Item Reference Profile (IRP) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Item Reference Profile (IRP) using ggplot2.
 #' The applicable analytical methods are Latent Class Analysis (LCA), Latent Rank Analysis (LRA), and Local Dependent Latent Rank Analysis (LDLRA).
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim
@@ -15,12 +15,12 @@
 #' @export
 
 plotIRP_gg <- function(data) {
-    if (all(class(data) %in% c("Exametrika", "LCA"))) {
+    if (all(class(data) %in% c("exametrika", "LCA"))) {
         xlabel <- "Latent Class"
-    } else if (all(class(data) %in% c("Exametrika", "LRA"))||all(class(data) %in% c("Exametrika", "LDLRA"))){
+    } else if (all(class(data) %in% c("exametrika", "LRA"))||all(class(data) %in% c("exametrika", "LDLRA"))){
         xlabel <- "Latent Rank"
     } else {
-        stop("Invalid input. The variable must be from Exametrika output or from either LCA, LRA, or LDLRA.")
+        stop("Invalid input. The variable must be from exametrika output or from either LCA, LRA, or LDLRA.")
     }
 
 
@@ -54,15 +54,15 @@ plotIRP_gg <- function(data) {
 }
 
 
-#' @title Plot Field Reference Profile (FRP) from Exametrika
+#' @title Plot Field Reference Profile (FRP) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Field Reference Profile (FRP) using ggplot2.
 #' The applicable analytical methods are Biclustering, Infinite Relational Model (IRM),
 #' Local Dependence Biclustering (LDB), and Bicluster Network Model (BINET).
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim
@@ -73,8 +73,8 @@ plotIRP_gg <- function(data) {
 #' @export
 
 plotFRP_gg <- function(data) {
-    if (!(all(class(data) %in% c("Exametrika", "Biclustering")) || all(class(data) %in% c("Exametrika", "IRM")) || all(class(data) %in% c("Exametrika", "LDB")) || all(class(data) %in% c("Exametrika", "BINET")))) {
-        stop("Invalid input. The variable must be from Exametrika output or an output from Biclustering, IRM, LDB, or BINET.")
+    if (!(all(class(data) %in% c("exametrika", "Biclustering")) || all(class(data) %in% c("exametrika", "IRM")) || all(class(data) %in% c("exametrika", "LDB")) || all(class(data) %in% c("exametrika", "BINET")))) {
+        stop("Invalid input. The variable must be from exametrika output or an output from Biclustering, IRM, LDB, or BINET.")
     }
 
 
@@ -103,15 +103,15 @@ plotFRP_gg <- function(data) {
     return(plots)
 }
 
-#' @title Plot Test Reference Profile (TRP) from Exametrika
+#' @title Plot Test Reference Profile (TRP) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Test Reference Profile (TRP) using ggplot2.
 #' The applicable analytical methods are Latent Class Analysis (LCA), Latent Rank Analysis (LRA), Biclustering,
 #' Infinite Relational Model (IRM), Local Dependence Biclustering (LDB), and Bicluster Network Model (BINET).
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #' @param title Toggle the presence of the title using TRUE/FALSE
 #' @param Num_Students Display the number of students on the bar graph
 #'
@@ -129,21 +129,21 @@ plotFRP_gg <- function(data) {
 plotTRP_gg <- function(data,
                        Num_Students = TRUE,
                        title = TRUE) {
-    if (all(class(data) %in% c("Exametrika", "LCA")) ||
-        all(class(data) %in% c("Exametrika", "BINET"))) {
+    if (all(class(data) %in% c("exametrika", "LCA")) ||
+        all(class(data) %in% c("exametrika", "BINET"))) {
         xlabel <- "Latent Class"
         con_bran <- FALSE
-    } else if (all(class(data) %in% c("Exametrika", "LRA")) ||
-               all(class(data) %in% c("Exametrika", "Biclustering")) ||
-               all(class(data) %in% c("Exametrika", "IRM"))) {
+    } else if (all(class(data) %in% c("exametrika", "LRA")) ||
+               all(class(data) %in% c("exametrika", "Biclustering")) ||
+               all(class(data) %in% c("exametrika", "IRM"))) {
         xlabel <- "Latent Rank"
         con_bran <- FALSE
-    } else if (all(class(data) %in% c("Exametrika", "LDB"))) {
+    } else if (all(class(data) %in% c("exametrika", "LDB"))) {
         xlabel <- "Latent Rank"
         con_bran <- TRUE
     } else {
         stop(
-            "Invalid input. The variable must be from Exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET."
+            "Invalid input. The variable must be from exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET."
         )
     }
 
@@ -218,14 +218,14 @@ plotTRP_gg <- function(data,
 
 
 
-#' @title Plot Latnt Class Distribution (LCD) from Exametrika
+#' @title Plot Latnt Class Distribution (LCD) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Latnt Class Distribution (LCD) using ggplot2.
 #' The applicable analytical methods are Latent Class Analysis (LCA) and Bicluster Network Model (BINET).
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #' @param title Toggle the presence of the title using TRUE/FALSE
 #' @param Num_Students Display the number of students on the bar graph
 #'
@@ -243,21 +243,21 @@ plotTRP_gg <- function(data,
 plotLCD_gg <- function(data,
                        Num_Students = TRUE,
                        title = TRUE) {
-    if (all(class(data) %in% c("Exametrika", "LCA")) ||
-        all(class(data) %in% c("Exametrika", "BINET"))) {
+    if (all(class(data) %in% c("exametrika", "LCA")) ||
+        all(class(data) %in% c("exametrika", "BINET"))) {
         xlabel <- "Latent Class"
         mode <- TRUE
         LRD <- FALSE
-    } else if (all(class(data) %in% c("Exametrika", "LRA")) ||
-               all(class(data) %in% c("Exametrika", "Biclustering"))) {
+    } else if (all(class(data) %in% c("exametrika", "LRA")) ||
+               all(class(data) %in% c("exametrika", "Biclustering"))) {
         xlabel <- "Latent Rank"
         mode <- FALSE
         LRD <- FALSE
         warning(
             "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
         )
-    } else if (all(class(data) %in% c("Exametrika", "LDLRA")) ||
-               all(class(data) %in% c("Exametrika", "LDB"))) {
+    } else if (all(class(data) %in% c("exametrika", "LDLRA")) ||
+               all(class(data) %in% c("exametrika", "LDB"))) {
         xlabel <- "Latent Rank"
         mode <- FALSE
         LRD <- TRUE
@@ -266,7 +266,7 @@ plotLCD_gg <- function(data,
         )
     } else {
         stop(
-            "Invalid input. The variable must be from Exametrika output or from either LCA or BINET."
+            "Invalid input. The variable must be from exametrika output or from either LCA or BINET."
         )
     }
 
@@ -349,15 +349,15 @@ plotLCD_gg <- function(data,
     return(plot)
 }
 
-#' @title Plot Latnt Rank Distribution (LRD) from Exametrika
+#' @title Plot Latnt Rank Distribution (LRD) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Latnt Rank Distribution (LRD) using ggplot2.
 #' The applicable analytical methods are Latent Rank Analysis (LRA), Biclustering,
 #' Local Dependent Latent Rank Analysis (LDLRA), and Local Dependence Biclustering (LDB).
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #' @param title Toggle the presence of the title using TRUE/FALSE
 #' @param Num_Students Display the number of students on the bar graph
 #'
@@ -375,27 +375,27 @@ plotLCD_gg <- function(data,
 plotLRD_gg <- function(data,
                        Num_Students = TRUE,
                        title = TRUE) {
-    if (all(class(data) %in% c("Exametrika", "LCA")) ||
-        all(class(data) %in% c("Exametrika", "BINET"))) {
+    if (all(class(data) %in% c("exametrika", "LCA")) ||
+        all(class(data) %in% c("exametrika", "BINET"))) {
         xlabel <- "Latent Class"
         mode <- TRUE
         LRD <- FALSE
         warning(
             "The input data was supposed to be visualized with The Latent Class Distribution, so I will plot the LCD."
         )
-    } else if (all(class(data) %in% c("Exametrika", "LRA")) ||
-               all(class(data) %in% c("Exametrika", "Biclustering"))) {
+    } else if (all(class(data) %in% c("exametrika", "LRA")) ||
+               all(class(data) %in% c("exametrika", "Biclustering"))) {
         xlabel <- "Latent Rank"
         mode <- FALSE
         LRD <- FALSE
-    } else if (all(class(data) %in% c("Exametrika", "LDLRA")) ||
-               all(class(data) %in% c("Exametrika", "LDB"))) {
+    } else if (all(class(data) %in% c("exametrika", "LDLRA")) ||
+               all(class(data) %in% c("exametrika", "LDB"))) {
         xlabel <- "Latent Rank"
         mode <- FALSE
         LRD <- TRUE
     } else {
         stop(
-            "Invalid input. The variable must be from Exametrika output or from either LRA, Biclustering, LDLRA or LDB."
+            "Invalid input. The variable must be from exametrika output or from either LRA, Biclustering, LDLRA or LDB."
         )
     }
 
@@ -479,14 +479,14 @@ plotLRD_gg <- function(data,
 }
 
 
-#' @title Plot Class Membership Profile (CMP) from Exametrika
+#' @title Plot Class Membership Profile (CMP) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Class Membership Profile (CMP) using ggplot2.
 #' The applicable analytical methods are Latent Class Analysis (LCA) and Bicluster Network Model (BINET).
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim
@@ -498,7 +498,7 @@ plotLRD_gg <- function(data,
 
 
 plotCMP_gg <- function(data) {
-    if (all(class(data) %in% c("Exametrika", "LCA"))) {
+    if (all(class(data) %in% c("exametrika", "LCA"))) {
         xlabel <- "Class"
         change_rowname <- NULL
         dig <- nchar(nrow(data$Students))
@@ -509,20 +509,20 @@ plotCMP_gg <- function(data) {
                 )))
         }
         rownames(data$Students) <- change_rowname
-    } else if (all(class(data) %in% c("Exametrika", "BINET"))) {
+    } else if (all(class(data) %in% c("exametrika", "BINET"))) {
         xlabel <- "Class"
     }
-    else if (all(class(data) %in% c("Exametrika", "LRA")) ||
-             all(class(data) %in% c("Exametrika", "Biclustering")) ||
-             all(class(data) %in% c("Exametrika", "LDB")) ||
-             all(class(data) %in% c("Exametrika", "LDLRA"))) {
+    else if (all(class(data) %in% c("exametrika", "LRA")) ||
+             all(class(data) %in% c("exametrika", "Biclustering")) ||
+             all(class(data) %in% c("exametrika", "LDB")) ||
+             all(class(data) %in% c("exametrika", "LDLRA"))) {
         xlabel <- "Rank"
         warning(
             "The input data was supposed to be visualized with The Rank Membership Profile, so I will plot the RMP."
         )
     } else {
         stop(
-            "Invalid input. The variable must be from Exametrika output or from either LCA or BINET."
+            "Invalid input. The variable must be from exametrika output or from either LCA or BINET."
         )
     }
 
@@ -558,15 +558,15 @@ plotCMP_gg <- function(data) {
     return(plots)
 }
 
-#' @title Plot Rank Membership Profile (RMP) from Exametrika
+#' @title Plot Rank Membership Profile (RMP) from exametrika
 #' @description
-#' This function takes Exametrika output as input
+#' This function takes exametrika output as input
 #' and generates Rank Membership Profile (RMP) using ggplot2.
 #' The applicable analytical methods are Latent Rank Analysis (LRA), Biclustering,
 #' Local Dependent Latent Rank Analysis (LDLRA), and Local Dependence Biclustering (LDB).
 #'
 #'
-#' @param data Exametrika output results
+#' @param data exametrika output results
 #'
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 ylim
@@ -577,7 +577,7 @@ plotCMP_gg <- function(data) {
 #' @export
 
 plotRMP_gg <- function(data) {
-    if (all(class(data) %in% c("Exametrika", "LCA"))) {
+    if (all(class(data) %in% c("exametrika", "LCA"))) {
         xlabel <- "Class"
         change_rowname <- NULL
         dig <- nchar(nrow(data$Students))
@@ -591,20 +591,20 @@ plotRMP_gg <- function(data) {
                 )))
         }
         rownames(data$Students) <- change_rowname
-    } else if (all(class(data) %in% c("Exametrika", "BINET"))) {
+    } else if (all(class(data) %in% c("exametrika", "BINET"))) {
         xlabel <- "Class"
         warning(
             "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
         )
     }
-    else if (all(class(data) %in% c("Exametrika", "LRA")) ||
-             all(class(data) %in% c("Exametrika", "Biclustering")) ||
-             all(class(data) %in% c("Exametrika", "LDB")) ||
-             all(class(data) %in% c("Exametrika", "LDLRA"))) {
+    else if (all(class(data) %in% c("exametrika", "LRA")) ||
+             all(class(data) %in% c("exametrika", "Biclustering")) ||
+             all(class(data) %in% c("exametrika", "LDB")) ||
+             all(class(data) %in% c("exametrika", "LDLRA"))) {
         xlabel <- "Rank"
     } else {
         stop(
-            "Invalid input. The variable must be from Exametrika output or from either LRA, Biclustering, LDLRA or LDB."
+            "Invalid input. The variable must be from exametrika output or from either LRA, Biclustering, LDLRA or LDB."
         )
     }
 

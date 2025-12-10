@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^develop\*.R$
+^claude\.md$
+^log\.md$
+^README\.Rmd$
