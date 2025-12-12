@@ -24,6 +24,8 @@ CRAN公開を目指す。
 ### 依存パッケージ
 - ggplot2 (必須)
 - gridExtra (複数プロット配置)
+- ggraph, igraph (DAG可視化用)
+- visNetwork (インタラクティブDAG編集用、予定)
 - exametrikaはSuggestsに入れる（CRAN対応のため）
 
 ### CRANチェックリスト
@@ -62,6 +64,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0とす�
 | ICBR | LRAordinal | - | 未実装 |
 
 ### 未実装機能（v1.0までに実装予定）
+
+#### plot.exametrikaのプロットタイプ
 1. TRF (Test Response Function)
 2. CRV/RRV (Class/Rank Reference Vector)
 3. LDPSR (Latent Dependence Passing Student Rate)
@@ -70,6 +74,35 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0とす�
 6. ICRP (Item Category Reference Profile)
 7. ICBR (Item Category Boundary Response)
 8. GRM対応 (IRF, IIF, TIF)
+
+#### DAG可視化（print.exametrikaでigraph使用）
+9. BNM - DAGの可視化
+10. LDLRA - ランク/クラスごとのDAG
+11. LDB - ランクごとのDAG
+12. BINET - 統合グラフ（edge label付き）
+
+### DAG可視化の開発方針
+
+**2段階アプローチを採用:**
+
+1. **plotGraph_interactive()** - visNetworkでインタラクティブ編集版
+   - ノードをドラッグして位置調整可能
+   - 編集後の座標を取得可能
+   - レイアウトの試行錯誤用
+
+2. **plotGraph_gg()** - ggraphで静的ggplotオブジェクト版
+   - インタラクティブ版で決めた座標を引数で渡せる
+   - 論文・レポート用の清書版
+
+**ワークフロー:**
+```
+visNetwork(インタラクティブ編集) → 座標取得 → ggraph(静的プロット生成)
+```
+
+**現在の状態 (2025-12-12):**
+- `R/plotGraph_gg.R` 作成済み（未テスト）
+- DESCRIPTIONにggraph, igraph追加済み
+- 次回: visNetwork版の実装、テスト
 
 ## 作業ログ
 
