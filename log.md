@@ -96,3 +96,48 @@ ggExametrikaが使用している `Nclass`, `Nrank`
 6.  全関数のヘルプドキュメント拡充
 
 **次回の課題**: v1.0に向けた未実装プロット機能の実装
+
+## 2025-12-12
+
+### DAG可視化関数の開発開始
+
+#### 調査結果: plot.exametrikaの全プロットタイプ
+
+**実装済み（ggExametrika）:** - plotICC_gg, plotIIC_gg, plotTIC_gg
+(IRT) - plotIRP_gg, plotFRP_gg, plotTRP_gg - plotLCD_gg, plotLRD_gg,
+plotCMP_gg, plotRMP_gg - plotArray_gg, plotFieldPIRP_gg
+
+**未実装（plot.exametrikaにある）:** 1. TRF (Test Response Function) -
+IRT 2. CRV/RRV (Class/Rank Reference Vector) - Biclustering 3. LDPSR
+(Latent Dependence Passing Student Rate) - BINET 4. ScoreFreq -
+LRAordinal, LRArated 5. ScoreRank - LRAordinal, LRArated 6. ICRP (Item
+Category Reference Profile) - LRAordinal, LRArated 7. ICBR (Item
+Category Boundary Response) - LRAordinal
+
+**未実装（print.exametrikaでigraph使用）:** 1. BNM - DAGの可視化 2.
+LDLRA - ランク/クラスごとのDAG 3. LDB - ランクごとのDAG 4. BINET -
+統合グラフ（edge label付き）
+
+#### 実施した作業
+
+1.  DESCRIPTIONに `ggraph`, `igraph` をImportsに追加
+2.  `R/plotGraph_gg.R` を新規作成（BNM, LDLRA, LDB, BINET対応）
+3.  ggraphパッケージをインストール
+
+#### DAG可視化の開発方針（決定事項）
+
+**2段階アプローチ:** 1. `plotGraph_interactive()` -
+visNetworkでインタラクティブ編集版 - ノードをドラッグして位置調整可能 -
+編集後の座標を取得可能 2. `plotGraph_gg()` -
+ggraphで静的ggplotオブジェクト版 -
+インタラクティブ版で決めた座標を渡して清書
+
+**理由:** ユーザーがノードの配置を手動で調整したい場合があるため、
+visNetworkで大体の配置を決めてから、ggraphで最終的な静的プロットを生成する流れ。
+
+#### 次回の作業
+
+1.  visNetworkを使った `plotGraph_interactive()` の実装
+2.  座標取得→ggraphへの受け渡し機能
+3.  plotGraph_gg関数のテスト
+4.  ドキュメント整備

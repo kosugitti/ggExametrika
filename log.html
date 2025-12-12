@@ -133,6 +133,37 @@
 </ol><p><strong>次回の課題</strong>: v1.0に向けた未実装プロット機能の実装</p>
 </div>
 </div>
+<div class="section level2">
+<h2 id="id_2025-12-12">2025-12-12<a class="anchor" aria-label="anchor" href="#id_2025-12-12"></a></h2>
+<div class="section level3">
+<h3 id="dag可視化関数の開発開始">DAG可視化関数の開発開始<a class="anchor" aria-label="anchor" href="#dag%E5%8F%AF%E8%A6%96%E5%8C%96%E9%96%A2%E6%95%B0%E3%81%AE%E9%96%8B%E7%99%BA%E9%96%8B%E5%A7%8B"></a></h3>
+<div class="section level4">
+<h4 id="調査結果-plotexametrikaの全プロットタイプ">調査結果: plot.exametrikaの全プロットタイプ<a class="anchor" aria-label="anchor" href="#%E8%AA%BF%E6%9F%BB%E7%B5%90%E6%9E%9C-plotexametrika%E3%81%AE%E5%85%A8%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E3%82%BF%E3%82%A4%E3%83%97"></a></h4>
+<p><strong>実装済み（ggExametrika）:</strong> - plotICC_gg, plotIIC_gg, plotTIC_gg (IRT) - plotIRP_gg, plotFRP_gg, plotTRP_gg - plotLCD_gg, plotLRD_gg, plotCMP_gg, plotRMP_gg - plotArray_gg, plotFieldPIRP_gg</p>
+<p><strong>未実装（plot.exametrikaにある）:</strong> 1. TRF (Test Response Function) - IRT 2. CRV/RRV (Class/Rank Reference Vector) - Biclustering 3. LDPSR (Latent Dependence Passing Student Rate) - BINET 4. ScoreFreq - LRAordinal, LRArated 5. ScoreRank - LRAordinal, LRArated 6. ICRP (Item Category Reference Profile) - LRAordinal, LRArated 7. ICBR (Item Category Boundary Response) - LRAordinal</p>
+<p><strong>未実装（print.exametrikaでigraph使用）:</strong> 1. BNM - DAGの可視化 2. LDLRA - ランク/クラスごとのDAG 3. LDB - ランクごとのDAG 4. BINET - 統合グラフ（edge label付き）</p>
+</div>
+<div class="section level4">
+<h4 id="実施した作業">実施した作業<a class="anchor" aria-label="anchor" href="#%E5%AE%9F%E6%96%BD%E3%81%97%E3%81%9F%E4%BD%9C%E6%A5%AD"></a></h4>
+<ol style="list-style-type: decimal"><li>DESCRIPTIONに <code>ggraph</code>, <code>igraph</code> をImportsに追加</li>
+<li>
+<code>R/plotGraph_gg.R</code> を新規作成（BNM, LDLRA, LDB, BINET対応）</li>
+<li>ggraphパッケージをインストール</li>
+</ol></div>
+<div class="section level4">
+<h4 id="dag可視化の開発方針決定事項">DAG可視化の開発方針（決定事項）<a class="anchor" aria-label="anchor" href="#dag%E5%8F%AF%E8%A6%96%E5%8C%96%E3%81%AE%E9%96%8B%E7%99%BA%E6%96%B9%E9%87%9D%E6%B1%BA%E5%AE%9A%E4%BA%8B%E9%A0%85"></a></h4>
+<p><strong>2段階アプローチ:</strong> 1. <code>plotGraph_interactive()</code> - visNetworkでインタラクティブ編集版 - ノードをドラッグして位置調整可能 - 編集後の座標を取得可能 2. <code>plotGraph_gg()</code> - ggraphで静的ggplotオブジェクト版 - インタラクティブ版で決めた座標を渡して清書</p>
+<p><strong>理由:</strong> ユーザーがノードの配置を手動で調整したい場合があるため、 visNetworkで大体の配置を決めてから、ggraphで最終的な静的プロットを生成する流れ。</p>
+</div>
+<div class="section level4">
+<h4 id="次回の作業">次回の作業<a class="anchor" aria-label="anchor" href="#%E6%AC%A1%E5%9B%9E%E3%81%AE%E4%BD%9C%E6%A5%AD"></a></h4>
+<ol style="list-style-type: decimal"><li>visNetworkを使った <code>plotGraph_interactive()</code> の実装</li>
+<li>座標取得→ggraphへの受け渡し機能</li>
+<li>plotGraph_gg関数のテスト</li>
+<li>ドキュメント整備</li>
+</ol></div>
+</div>
+</div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
