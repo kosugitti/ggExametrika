@@ -1,7 +1,47 @@
-# ggExametrika 0.0.14
+# ggExametrika 0.0.19
 
 * Add `plotScoreRank_gg()` for Score-Rank heatmap visualization (LRAordinal, LRArated).
 * Support common plot options (title, colors, show_legend, legend_position) in `plotScoreRank_gg()`.
+
+# ggExametrika 0.0.18
+
+* Add `plotICBR_gg()` for Item Category Boundary Response (ICBR) visualization (LRAordinal).
+* Add `plotICRP_gg()` for Item Category Reference Profile (ICRP) visualization (LRAordinal, LRArated).
+* Both functions support common plot options (title, colors, linetype, show_legend, legend_position).
+* ICBR shows cumulative probability curves for each category boundary across latent ranks.
+* ICRP shows response probability curves for each category across latent ranks (probabilities sum to 1.0).
+* Add tidyr to Imports for data transformation in plotICBR_gg() and plotICRP_gg().
+
+# ggExametrika 0.0.17
+
+* Add `plotIIC_overlay_gg()` for overlaying all Item Information Curves (IIC) on a single plot (IRT/GRM).
+* `plotIIC_overlay_gg()` supports both IRT and GRM models.
+* `plotIIC_overlay_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* Similar to `plot(IRT_result, type = "IIF", overlay = TRUE)` in exametrika, but returns a ggplot2 object.
+
+# ggExametrika 0.0.16
+
+* Add `plotICC_overlay_gg()` for overlaying all Item Characteristic Curves (ICC) on a single plot (IRT).
+* `plotICC_overlay_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* Similar to `plot(IRT_result, type = "IRF", overlay = TRUE)` in exametrika, but returns a ggplot2 object.
+
+# ggExametrika 0.0.15
+
+* Add `plotScoreFreq_gg()` for Score Frequency Distribution (LRAordinal, LRArated).
+* Common plot options (title, colors, linetype, show_legend, legend_position) supported.
+
+# ggExametrika 0.0.14
+
+* Add multi-valued data support to `plotArray_gg()` for ordinal/nominal Biclustering.
+* Add common plot options (title, colors, show_legend, legend_position) to `plotArray_gg()`.
+* Add `Clusterd_lines_color` parameter to `plotArray_gg()` for customizing boundary line colors (default: red for binary data, white for multi-valued data).
+* `plotArray_gg()` now automatically detects the number of categories and uses appropriate color palettes.
+* For binary data (0/1), uses white/black colors. For multi-valued data (2+ categories), uses a colorblind-friendly palette.
+* Add special handling for missing values (-1): displayed as "NA" in legend with black color.
+* Fix plot margins and title spacing to prevent overlapping in side-by-side displays.
+* Fix boundary lines to stay within plot area using proper coordinate limits.
+* Fix boundary line positions in `plotArray_gg()` to align exactly with class/field boundaries.
+* **CRITICAL FIX**: Correct row sorting order in `plotArray_gg()` to match exametrika's original implementation. Now uses `order(ClassEstimated, decreasing = FALSE)` with reversed rown for proper visual alignment (higher class numbers at bottom).
 
 # ggExametrika 0.0.13
 

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git pull:*)",
+      "Bash(git checkout:*)",
+      "Bash(Rscript:*)",
+      "Bash(export PATH=\"/c/Program Files/R/R-4.4.1/bin/x64:$PATH\":*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

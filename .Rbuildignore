@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^develop\*.R$
+^develop$
 ^claude\.md$
 ^log\.md$
 ^README\.Rmd$
@@ -9,3 +10,4 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^\.claude$
