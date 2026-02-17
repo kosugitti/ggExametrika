@@ -21,6 +21,23 @@ CRAN公開を目指す。
 - plot関数: `plot_*()` または `gg*()` 形式を検討
 - 内部関数: `.` prefix
 
+### 共通オプション（全plot関数に適用）
+
+全てのplot関数は以下の共通引数を持つこと。新規実装時は必ず含める。既存関数は段階的に対応する。
+
+| 引数 | 型 | デフォルト | 説明 |
+|------|----|-----------|------|
+| `title` | logical or character | `TRUE` | TRUE=自動タイトル、FALSE=非表示、文字列=カスタムタイトル |
+| `colors` | character vector | `NULL` | NULL=デフォルトパレット、指定でカスタム色 |
+| `linetype` | character or numeric | 関数依存 | 線の種類（"solid", "dashed"等） |
+| `show_legend` | logical | 関数依存 | 凡例の表示/非表示 |
+| `legend_position` | character | `"right"` | "top", "bottom", "left", "right", "none" |
+
+**注意:**
+- `colors` が `NULL` の場合、カラーバリアフリーに配慮したデフォルトパレットを使用する
+- 凡例が不要なプロット（単一曲線のみ等）は `show_legend = FALSE` をデフォルトとする
+- 返り値はggplotオブジェクトなので、ユーザーが `+ theme()` 等で後から変更することも可能
+
 ### 依存パッケージ
 - ggplot2 (必須)
 - gridExtra (複数プロット配置)
@@ -118,6 +135,24 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 13. LDLRA - ランク/クラスごとのDAG
 14. LDB - ランクごとのDAG
 15. BINET - 統合グラフ（edge label付き）
+
+#### 既存関数の共通オプション対応（TODO）
+以下の関数に共通オプション（title, colors, linetype, show_legend, legend_position）を追加する。
+
+- [ ] plotICC_gg — title(ハードコード), colors/linetype/legend なし
+- [ ] plotIIC_gg — title(ハードコード), colors/linetype/legend なし
+- [ ] plotTIC_gg — title(ハードコード), colors/linetype/legend なし
+- [ ] plotTRF_gg — title(ハードコード), colors/linetype/legend なし
+- [ ] plotIRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
+- [ ] plotFRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
+- [ ] plotTRP_gg — title(logical対応済み), colors/linetype/legend 未対応
+- [ ] plotLCD_gg — title(logical対応済み), colors/linetype/legend 未対応
+- [ ] plotLRD_gg — title(logical対応済み), colors/linetype/legend 未対応
+- [ ] plotCMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
+- [ ] plotRMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
+- [ ] plotArray_gg — title(logical対応済み), colors/legend 未対応
+- [ ] plotFieldPIRP_gg — title(ハードコード), colors/linetype/legend なし
+- [ ] plotGraph_gg — 独自オプション多数、共通オプションとの整合性を検討
 
 ### DAG可視化の開発方針
 
