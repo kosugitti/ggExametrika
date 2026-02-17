@@ -6,6 +6,8 @@ Authors@R: c(
     person(given = "Koji", family = "Kosugi", role = c("aut", "cre"), email = "kosugitti@gmail.com", comment = c(ORCID = "0000-0001-5816-0099")),
     person(given = "Daichi", family = "Kamimura", role = c("aut")))
 Description: Exametrika is a powerful tool developed by Shojima(2022) for data analysis, available in Mathematica and an Excel Add-on. It has been developed as an R package at [https://kosugitti.github.io/Exametrika/](https://kosugitti.github.io/Exametrika/). This package, ggExametrika, is built to enhance the visualization capabilities of Exametrika pacakge using ggplot functions. It integrates seamlessly with the Exametrika package, providing beautiful and logically arranged plots for simplified data interpretation in R.
+URL: https://kosugitti.github.io/ggExametrika/, https://github.com/kosugitti/ggExametrika
+BugReports: https://github.com/kosugitti/ggExametrika/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
