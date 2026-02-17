@@ -72,7 +72,8 @@
 <p><strong>ggExametrika</strong> provides ggplot2-based visualization
 functions for outputs from the <a href="https://kosugitti.github.io/Exametrika/" class="external-link">exametrika</a> package.
 It covers a wide range of psychometric models including IRT, GRM, Latent
-Class/Rank Analysis, Biclustering, and Bayesian Network Models.</p>
+Class/Rank Analysis, Biclustering, Bayesian Network Models, and
+more.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -82,133 +83,514 @@ Class/Rank Analysis, Biclustering, and Bayesian Network Models.</p>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"kosugitti/ggExametrika"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/ggExametrika/">ggExametrika</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="irt-item-characteristic-curve-icc">IRT: Item Characteristic Curve (ICC)<a class="anchor" aria-label="anchor" href="#irt-item-characteristic-curve-icc"></a>
-</h3>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="irt-item-response-theory">1. IRT (Item Response Theory)<a class="anchor" aria-label="anchor" href="#irt-item-response-theory"></a>
+</h2>
+<p>IRT models (2PL, 3PL, 4PL) estimate item parameters for binary
+response data.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Run 2PL IRT model</span></span>
-<span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot ICC for all items</span></span>
-<span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
-<span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># Show first item</span></span>
-<span></span>
-<span><span class="co"># Combine multiple plots in a grid</span></span>
-<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="ploticc_gg-item-characteristic-curve">plotICC_gg: Item Characteristic Curve<a class="anchor" aria-label="anchor" href="#ploticc_gg-item-characteristic-curve"></a>
+</h3>
+<p>Shows the probability of a correct response as a function of ability
+(theta).</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Returns a list of plots (one per item)</span></span>
+<span><span class="va">icc_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<span><span class="va">icc_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># Show first item</span></span></code></pre></div>
+<p>Use <code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code> to display multiple items at
+once:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">icc_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<p>You can customize the ability range:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">icc_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, xvariable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="irt-itemtest-information-curve">IRT: Item/Test Information Curve<a class="anchor" aria-label="anchor" href="#irt-itemtest-information-curve"></a>
+<h3 id="plotiic_gg-item-information-curve">plotIIC_gg: Item Information Curve<a class="anchor" aria-label="anchor" href="#plotiic_gg-item-information-curve"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Item Information Curves</span></span>
-<span><span class="va">iic_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">iic_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Test Information Curve</span></span>
-<span><span class="va">tic_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
-<span><span class="va">tic_plot</span></span>
-<span></span>
-<span><span class="co"># Test Response Function</span></span>
-<span><span class="va">trf_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRF_gg.html">plotTRF_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<p>Displays how precisely each item measures ability at different theta
+levels.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iic_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<span><span class="va">iic_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">iic_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<p>Select specific items:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iic_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottic_gg-test-information-curve">plotTIC_gg: Test Information Curve<a class="anchor" aria-label="anchor" href="#plottic_gg-test-information-curve"></a>
+</h3>
+<p>Shows the total test information (sum of all item information
+functions).</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tic_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<span><span class="va">tic_plot</span></span></code></pre></div>
+<p>Customize appearance:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Custom Title"</span>,</span>
+<span>  color <span class="op">=</span> <span class="st">"darkred"</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="st">"dashed"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottrf_gg-test-response-function">plotTRF_gg: Test Response Function<a class="anchor" aria-label="anchor" href="#plottrf_gg-test-response-function"></a>
+</h3>
+<p>Shows the expected total score as a function of ability.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trf_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRF_gg.html">plotTRF_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
 <span><span class="va">trf_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="grm-item-category-response-function-icrf">GRM: Item Category Response Function (ICRF)<a class="anchor" aria-label="anchor" href="#grm-item-category-response-function-icrf"></a>
+<h3 id="logisticmodel-iteminformationfunc-helper-functions">LogisticModel / ItemInformationFunc: Helper Functions<a class="anchor" aria-label="anchor" href="#logisticmodel-iteminformationfunc-helper-functions"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Run Graded Response Model</span></span>
-<span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
+<p>Low-level computation functions for IRT models.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 4-parameter logistic model: P(theta)</span></span>
+<span><span class="fu"><a href="../reference/LogisticModel.html">LogisticModel</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, a <span class="op">=</span> <span class="fl">1.5</span>, b <span class="op">=</span> <span class="fl">0.5</span>, c <span class="op">=</span> <span class="fl">0.2</span>, d <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Plot ICRF for all items</span></span>
-<span><span class="va">icrf_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
-<span><span class="va">icrf_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co"># GRM also supports IIC and TIC</span></span>
-<span><span class="va">iic_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
-<span><span class="va">tic_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="latent-class-analysis-lca">Latent Class Analysis (LCA)<a class="anchor" aria-label="anchor" href="#latent-class-analysis-lca"></a>
-</h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Item Reference Profile</span></span>
-<span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">irp_plots</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Field Reference Profile</span></span>
-<span><span class="va">frp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
-<span><span class="va">frp_plot</span></span>
-<span></span>
-<span><span class="co"># Test Reference Profile</span></span>
-<span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
-<span><span class="va">trp_plot</span></span>
-<span></span>
-<span><span class="co"># Latent Class Distribution</span></span>
-<span><span class="va">lcd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLCD_gg.html">plotLCD_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
-<span><span class="va">lcd_plot</span></span>
-<span></span>
-<span><span class="co"># Class Membership Profile</span></span>
-<span><span class="va">cmp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCMP_gg.html">plotCMP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
-<span><span class="va">cmp_plot</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="latent-rank-analysis-lra">Latent Rank Analysis (LRA)<a class="anchor" aria-label="anchor" href="#latent-rank-analysis-lra"></a>
-</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Item/Field/Test Reference Profile</span></span>
-<span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
-<span><span class="va">frp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
-<span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Latent Rank Distribution</span></span>
-<span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
-<span><span class="va">lrd_plot</span></span>
-<span></span>
-<span><span class="co"># Rank Membership Profile</span></span>
-<span><span class="va">rmp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
-<span><span class="va">rmp_plot</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="biclustering">Biclustering<a class="anchor" aria-label="anchor" href="#biclustering"></a>
-</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J15S500</span>, nfld <span class="op">=</span> <span class="fl">3</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Class/Rank Reference Vectors</span></span>
-<span><span class="va">crv_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
-<span><span class="va">crv_plot</span></span>
-<span></span>
-<span><span class="va">rrv_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRRV_gg.html">plotRRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
-<span><span class="va">rrv_plot</span></span>
-<span></span>
-<span><span class="co"># Array plot (sorted data matrix)</span></span>
-<span><span class="va">array_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
-<span><span class="va">array_plot</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="bayesian-network-model-bnm---dag-visualization">Bayesian Network Model (BNM) - DAG Visualization<a class="anchor" aria-label="anchor" href="#bayesian-network-model-bnm---dag-visualization"></a>
-</h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># DAG visualization</span></span>
-<span><span class="va">dag_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span><span class="op">)</span></span>
-<span><span class="va">dag_plot</span></span></code></pre></div>
+<span><span class="co"># Item information at a given theta</span></span>
+<span><span class="fu"><a href="../reference/ItemInformationFunc.html">ItemInformationFunc</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, a <span class="op">=</span> <span class="fl">1.5</span>, b <span class="op">=</span> <span class="fl">0.5</span>, c <span class="op">=</span> <span class="fl">0.2</span>, d <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span></span></code></pre></div>
+<hr>
 </div>
 </div>
 <div class="section level2">
-<h2 id="common-plot-options">Common Plot Options<a class="anchor" aria-label="anchor" href="#common-plot-options"></a>
+<h2 id="grm-graded-response-model">2. GRM (Graded Response Model)<a class="anchor" aria-label="anchor" href="#grm-graded-response-model"></a>
 </h2>
-<p>Most plot functions support the following options:</p>
+<p>GRM handles ordered polytomous response data (e.g., Likert
+scales).</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="ploticrf_gg-item-category-response-function">plotICRF_gg: Item Category Response Function<a class="anchor" aria-label="anchor" href="#ploticrf_gg-item-category-response-function"></a>
+</h3>
+<p>Displays the probability of each response category as a function of
+ability.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">icrf_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
+<span><span class="va">icrf_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">icrf_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<p>Select specific items and customize:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span>,</span>
+<span>  items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"ICRF for Items 1-2"</span>,</span>
+<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E41A1C"</span>, <span class="st">"#377EB8"</span>, <span class="st">"#4DAF4A"</span>, <span class="st">"#984EA3"</span>, <span class="st">"#FF7F00"</span><span class="op">)</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="st">"solid"</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotiic_gg-grm-item-information-curve">plotIIC_gg (GRM): Item Information Curve<a class="anchor" aria-label="anchor" href="#plotiic_gg-grm-item-information-curve"></a>
+</h3>
+<p>Also works with GRM data:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">iic_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
+<span><span class="va">iic_grm</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">iic_grm</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottic_gg-grm-test-information-curve">plotTIC_gg (GRM): Test Information Curve<a class="anchor" aria-label="anchor" href="#plottic_gg-grm-test-information-curve"></a>
+</h3>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tic_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
+<span><span class="va">tic_grm</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="iteminformationfunc_grm-helper-function">ItemInformationFunc_GRM: Helper Function<a class="anchor" aria-label="anchor" href="#iteminformationfunc_grm-helper-function"></a>
+</h3>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Information at theta = 0 for a 5-category item</span></span>
+<span><span class="fu"><a href="../reference/ItemInformationFunc_GRM.html">ItemInformationFunc_GRM</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, a <span class="op">=</span> <span class="fl">1.5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="lca-latent-class-analysis">3. LCA (Latent Class Analysis)<a class="anchor" aria-label="anchor" href="#lca-latent-class-analysis"></a>
+</h2>
+<p>LCA identifies latent classes (discrete groups) from binary response
+data.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotirp_gg-item-reference-profile">plotIRP_gg: Item Reference Profile<a class="anchor" aria-label="anchor" href="#plotirp_gg-item-reference-profile"></a>
+</h3>
+<p>Shows the probability of a correct response for each item within each
+latent class.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
+<span><span class="va">irp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">irp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotfrp_gg-field-reference-profile">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile"></a>
+</h3>
+<p>Shows the correct response rate by field (item cluster) for each
+class.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">frp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
+<span><span class="va">frp_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottrp_gg-test-reference-profile">plotTRP_gg: Test Reference Profile<a class="anchor" aria-label="anchor" href="#plottrp_gg-test-reference-profile"></a>
+</h3>
+<p>Displays the number of students and expected test score per
+class.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
+<span><span class="va">trp_plot</span></span></code></pre></div>
+<p>Hide student count labels or title:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span>, Num_Students <span class="op">=</span> <span class="cn">FALSE</span>, title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotlcd_gg-latent-class-distribution">plotLCD_gg: Latent Class Distribution<a class="anchor" aria-label="anchor" href="#plotlcd_gg-latent-class-distribution"></a>
+</h3>
+<p>Displays the class membership distribution.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lcd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLCD_gg.html">plotLCD_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
+<span><span class="va">lcd_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotcmp_gg-class-membership-profile">plotCMP_gg: Class Membership Profile<a class="anchor" aria-label="anchor" href="#plotcmp_gg-class-membership-profile"></a>
+</h3>
+<p>Shows the membership probability profile for each student across all
+classes.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Returns a list of plots (one per student)</span></span>
+<span><span class="va">cmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCMP_gg.html">plotCMP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
+<span><span class="va">cmp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># First student</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">cmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="lra-latent-rank-analysis">4. LRA (Latent Rank Analysis)<a class="anchor" aria-label="anchor" href="#lra-latent-rank-analysis"></a>
+</h2>
+<p>LRA identifies ordered latent ranks from binary response data.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotirp_gg-item-reference-profile-1">plotIRP_gg: Item Reference Profile<a class="anchor" aria-label="anchor" href="#plotirp_gg-item-reference-profile-1"></a>
+</h3>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">irp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotfrp_gg-field-reference-profile-1">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile-1"></a>
+</h3>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">frp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
+<span><span class="va">frp_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottrp_gg-test-reference-profile-1">plotTRP_gg: Test Reference Profile<a class="anchor" aria-label="anchor" href="#plottrp_gg-test-reference-profile-1"></a>
+</h3>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
+<span><span class="va">trp_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotlrd_gg-latent-rank-distribution">plotLRD_gg: Latent Rank Distribution<a class="anchor" aria-label="anchor" href="#plotlrd_gg-latent-rank-distribution"></a>
+</h3>
+<p>Displays the rank membership distribution.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
+<span><span class="va">lrd_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotrmp_gg-rank-membership-profile">plotRMP_gg: Rank Membership Profile<a class="anchor" aria-label="anchor" href="#plotrmp_gg-rank-membership-profile"></a>
+</h3>
+<p>Shows the membership probability profile for each student across all
+ranks.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
+<span><span class="va">rmp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="biclustering">5. Biclustering<a class="anchor" aria-label="anchor" href="#biclustering"></a>
+</h2>
+<p>Biclustering simultaneously clusters items (into fields) and students
+(into ranks).</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotfrp_gg-field-reference-profile-2">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile-2"></a>
+</h3>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">frp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="va">frp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">frp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottrp_gg-test-reference-profile-2">plotTRP_gg: Test Reference Profile<a class="anchor" aria-label="anchor" href="#plottrp_gg-test-reference-profile-2"></a>
+</h3>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="va">trp_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotlrd_gg-latent-rank-distribution-1">plotLRD_gg: Latent Rank Distribution<a class="anchor" aria-label="anchor" href="#plotlrd_gg-latent-rank-distribution-1"></a>
+</h3>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="va">lrd_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotrmp_gg-rank-membership-profile-1">plotRMP_gg: Rank Membership Profile<a class="anchor" aria-label="anchor" href="#plotrmp_gg-rank-membership-profile-1"></a>
+</h3>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotcrv_gg-class-reference-vector">plotCRV_gg: Class Reference Vector<a class="anchor" aria-label="anchor" href="#plotcrv_gg-class-reference-vector"></a>
+</h3>
+<p>Displays all class profiles in a single plot with one line per
+class.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">crv_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="va">crv_plot</span></span></code></pre></div>
+<p>Customize:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Class Reference Vector"</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotrrv_gg-rank-reference-vector">plotRRV_gg: Rank Reference Vector<a class="anchor" aria-label="anchor" href="#plotrrv_gg-rank-reference-vector"></a>
+</h3>
+<p>Displays all rank profiles in a single plot with one line per
+rank.</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rrv_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRRV_gg.html">plotRRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="va">rrv_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotarray_gg-array-plot">plotArray_gg: Array Plot<a class="anchor" aria-label="anchor" href="#plotarray_gg-array-plot"></a>
+</h3>
+<p>Visualizes the binary data matrix as a heatmap, showing the
+block-diagonal structure after biclustering.</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Show both original and clustered arrays</span></span>
+<span><span class="va">array_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="va">array_plot</span></span></code></pre></div>
+<p>Show only the clustered array:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span>, Original <span class="op">=</span> <span class="cn">FALSE</span>, Clusterd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Hide cluster boundary lines:</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span>, Clusterd_lines <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="bnm-bayesian-network-model">6. BNM (Bayesian Network Model)<a class="anchor" aria-label="anchor" href="#bnm-bayesian-network-model"></a>
+</h2>
+<p>BNM discovers the dependency structure among items using a Bayesian
+network.</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotgraph_gg-dag-visualization">plotGraph_gg: DAG Visualization<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag-visualization"></a>
+</h3>
+<p>Visualizes the Directed Acyclic Graph (DAG) discovered by the
+model.</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span><span class="op">)</span></span>
+<span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<p>Customize layout and appearance:</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span>,</span>
+<span>  layout <span class="op">=</span> <span class="st">"sugiyama"</span>,</span>
+<span>  rankdir <span class="op">=</span> <span class="st">"LR"</span>,</span>
+<span>  node_size <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  node_color <span class="op">=</span> <span class="st">"coral"</span>,</span>
+<span>  label_size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  edge_color <span class="op">=</span> <span class="st">"gray60"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"BNM DAG"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Available layouts: <code>"sugiyama"</code> (hierarchical),
+<code>"fr"</code> (Fruchterman-Reingold), <code>"kk"</code>
+(Kamada-Kawai), <code>"tree"</code>, <code>"circle"</code>,
+<code>"grid"</code>, <code>"stress"</code>.</p>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="ldlra-locally-dependent-latent-rank-analysis">7. LDLRA (Locally Dependent Latent Rank Analysis)<a class="anchor" aria-label="anchor" href="#ldlra-locally-dependent-latent-rank-analysis"></a>
+</h2>
+<p>LDLRA adds local dependency structures within each rank.</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotirp_gg-item-reference-profile-2">plotIRP_gg: Item Reference Profile<a class="anchor" aria-label="anchor" href="#plotirp_gg-item-reference-profile-2"></a>
+</h3>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">irp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotlrd_gg-latent-rank-distribution-2">plotLRD_gg: Latent Rank Distribution<a class="anchor" aria-label="anchor" href="#plotlrd_gg-latent-rank-distribution-2"></a>
+</h3>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
+<span><span class="va">lrd_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotrmp_gg-rank-membership-profile-2">plotRMP_gg: Rank Membership Profile<a class="anchor" aria-label="anchor" href="#plotrmp_gg-rank-membership-profile-2"></a>
+</h3>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotgraph_gg-dag-per-rank">plotGraph_gg: DAG per Rank<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag-per-rank"></a>
+</h3>
+<p>Returns one DAG per rank, showing how dependencies change across
+ranks.</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
+<span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># Rank 1 DAG</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">dag_plots</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="ldb-locally-dependent-biclustering">8. LDB (Locally Dependent Biclustering)<a class="anchor" aria-label="anchor" href="#ldb-locally-dependent-biclustering"></a>
+</h2>
+<p>LDB adds local dependency structures to the biclustering
+framework.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotfrp_gg-field-reference-profile-3">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile-3"></a>
+</h3>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">frp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">frp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottrp_gg-test-reference-profile-3">plotTRP_gg: Test Reference Profile<a class="anchor" aria-label="anchor" href="#plottrp_gg-test-reference-profile-3"></a>
+</h3>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
+<span><span class="va">trp_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotlrd_gg-latent-rank-distribution-3">plotLRD_gg: Latent Rank Distribution<a class="anchor" aria-label="anchor" href="#plotlrd_gg-latent-rank-distribution-3"></a>
+</h3>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
+<span><span class="va">lrd_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotrmp_gg-rank-membership-profile-3">plotRMP_gg: Rank Membership Profile<a class="anchor" aria-label="anchor" href="#plotrmp_gg-rank-membership-profile-3"></a>
+</h3>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotarray_gg-array-plot-1">plotArray_gg: Array Plot<a class="anchor" aria-label="anchor" href="#plotarray_gg-array-plot-1"></a>
+</h3>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">array_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
+<span><span class="va">array_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotfieldpirp_gg-field-parent-item-reference-profile">plotFieldPIRP_gg: Field Parent Item Reference Profile<a class="anchor" aria-label="anchor" href="#plotfieldpirp_gg-field-parent-item-reference-profile"></a>
+</h3>
+<p>Shows how field performance varies based on parent field scores, for
+each rank.</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fpirp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
+<span><span class="va">fpirp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># Rank 1</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">fpirp_plots</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotgraph_gg-dag-per-rank-1">plotGraph_gg: DAG per Rank<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag-per-rank-1"></a>
+</h3>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
+<span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">dag_plots</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="binet-bayesian-network-and-test">9. BINET (Bayesian Network and Test)<a class="anchor" aria-label="anchor" href="#binet-bayesian-network-and-test"></a>
+</h2>
+<p>BINET combines Bayesian network structure with the biclustering
+framework.</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotfrp_gg-field-reference-profile-4">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile-4"></a>
+</h3>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">frp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">frp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plottrp_gg-test-reference-profile-4">plotTRP_gg: Test Reference Profile<a class="anchor" aria-label="anchor" href="#plottrp_gg-test-reference-profile-4"></a>
+</h3>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
+<span><span class="va">trp_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotlcd_gg-latent-class-distribution-1">plotLCD_gg: Latent Class Distribution<a class="anchor" aria-label="anchor" href="#plotlcd_gg-latent-class-distribution-1"></a>
+</h3>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lcd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLCD_gg.html">plotLCD_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
+<span><span class="va">lcd_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotcmp_gg-class-membership-profile-1">plotCMP_gg: Class Membership Profile<a class="anchor" aria-label="anchor" href="#plotcmp_gg-class-membership-profile-1"></a>
+</h3>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCMP_gg.html">plotCMP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">cmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotarray_gg-array-plot-2">plotArray_gg: Array Plot<a class="anchor" aria-label="anchor" href="#plotarray_gg-array-plot-2"></a>
+</h3>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">array_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
+<span><span class="va">array_plot</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotgraph_gg-dag-visualization-1">plotGraph_gg: DAG Visualization<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag-visualization-1"></a>
+</h3>
+<p>BINET supports edge labels showing dependency weights:</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>, show_edge_label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="common-plot-options">10. Common Plot Options<a class="anchor" aria-label="anchor" href="#common-plot-options"></a>
+</h2>
+<p>Many functions support the following options for customization:</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -235,12 +617,13 @@ string</td>
 </tr>
 <tr class="odd">
 <td><code>linetype</code></td>
-<td>Line type (<code>"solid"</code>, <code>"dashed"</code>, etc.)</td>
+<td>Line type (<code>"solid"</code>, <code>"dashed"</code>,
+<code>"dotted"</code>, etc.)</td>
 <td><code>"solid"</code></td>
 </tr>
 <tr class="even">
 <td><code>show_legend</code></td>
-<td>Show legend</td>
+<td>Show/hide legend</td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="odd">
@@ -253,180 +636,303 @@ string</td>
 </tr>
 </tbody>
 </table>
-<p>Example:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"Custom Title"</span>,</span>
-<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span>,</span>
+<div class="section level3">
+<h3 id="example-customizing-ploticrf_gg">Example: Customizing plotICRF_gg<a class="anchor" aria-label="anchor" href="#example-customizing-ploticrf_gg"></a>
+</h3>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span>,</span>
+<span>  items <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Custom ICRF Title"</span>,</span>
+<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E41A1C"</span>, <span class="st">"#377EB8"</span>, <span class="st">"#4DAF4A"</span>, <span class="st">"#984EA3"</span>, <span class="st">"#FF7F00"</span><span class="op">)</span>,</span>
 <span>  linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
-<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level3">
+<h3 id="example-customizing-plotcrv_gg">Example: Customizing plotCRV_gg<a class="anchor" aria-label="anchor" href="#example-customizing-plotcrv_gg"></a>
+</h3>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="st">"dotdash"</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"top"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+</div>
 <div class="section level2">
-<h2 id="function-reference">Function Reference<a class="anchor" aria-label="anchor" href="#function-reference"></a>
+<h2 id="combineplots_gg-arranging-multiple-plots">11. combinePlots_gg: Arranging Multiple Plots<a class="anchor" aria-label="anchor" href="#combineplots_gg-arranging-multiple-plots"></a>
 </h2>
-<div class="section level3">
-<h3 id="irt-2pl-3pl-4pl">IRT (2PL, 3PL, 4PL)<a class="anchor" aria-label="anchor" href="#irt-2pl-3pl-4pl"></a>
-</h3>
+<p><code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code> arranges multiple ggplot objects in a
+grid layout.</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Default: first 6 plots</span></span>
+<span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select specific plots</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># All 15 items</span></span>
+<span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="function-model-compatibility-matrix">Function-Model Compatibility Matrix<a class="anchor" aria-label="anchor" href="#function-model-compatibility-matrix"></a>
+</h2>
 <table class="table">
+<colgroup>
+<col width="13%">
+<col width="6%">
+<col width="6%">
+<col width="6%">
+<col width="6%">
+<col width="19%">
+<col width="6%">
+<col width="9%">
+<col width="6%">
+<col width="9%">
+<col width="6%">
+</colgroup>
 <thead><tr class="header">
 <th>Function</th>
-<th>Description</th>
+<th align="center">IRT</th>
+<th align="center">GRM</th>
+<th align="center">LCA</th>
+<th align="center">LRA</th>
+<th align="center">Biclustering</th>
+<th align="center">IRM</th>
+<th align="center">LDLRA</th>
+<th align="center">LDB</th>
+<th align="center">BINET</th>
+<th align="center">BNM</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code><a href="../reference/plotICC_gg.html">plotICC_gg()</a></code></td>
-<td>Item Characteristic Curve</td>
+<td>plotICC_gg</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code></td>
-<td>Item Information Curve</td>
+<td>plotIIC_gg</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code></td>
-<td>Test Information Curve</td>
+<td>plotTIC_gg</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/plotTRF_gg.html">plotTRF_gg()</a></code></td>
-<td>Test Response Function</td>
+<td>plotTRF_gg</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotICRF_gg</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotIRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotFRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotTRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotLCD_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotLRD_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotCMP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotRMP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotCRV_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotRRV_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotArray_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotFieldPIRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotGraph_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level3">
-<h3 id="grm-graded-response-model">GRM (Graded Response Model)<a class="anchor" aria-label="anchor" href="#grm-graded-response-model"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Function</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code><a href="../reference/plotICRF_gg.html">plotICRF_gg()</a></code></td>
-<td>Item Category Response Function</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code></td>
-<td>Item Information Curve (GRM)</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code></td>
-<td>Test Information Curve (GRM)</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="latent-classrank-models">Latent Class/Rank Models<a class="anchor" aria-label="anchor" href="#latent-classrank-models"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Function</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code><a href="../reference/plotIRP_gg.html">plotIRP_gg()</a></code></td>
-<td>Item Reference Profile</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code></td>
-<td>Field Reference Profile</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code></td>
-<td>Test Reference Profile</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code></td>
-<td>Latent Class Distribution</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code></td>
-<td>Latent Rank Distribution</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code></td>
-<td>Class Membership Profile</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code></td>
-<td>Rank Membership Profile</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="biclustering-1">Biclustering<a class="anchor" aria-label="anchor" href="#biclustering-1"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Function</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code></td>
-<td>Class Reference Vector</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/plotRRV_gg.html">plotRRV_gg()</a></code></td>
-<td>Rank Reference Vector</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code></td>
-<td>Array Plot</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg()</a></code></td>
-<td>Field PIRP Plot</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="dag-visualization">DAG Visualization<a class="anchor" aria-label="anchor" href="#dag-visualization"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Function</th>
-<th>Description</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td><code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code></td>
-<td>Directed Acyclic Graph</td>
-</tr></tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Function</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code></td>
-<td>Arrange multiple plots in a grid</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/LogisticModel.html">LogisticModel()</a></code></td>
-<td>Four-parameter logistic model</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/ItemInformationFunc.html">ItemInformationFunc()</a></code></td>
-<td>IRT item information function</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/ItemInformationFunc_GRM.html">ItemInformationFunc_GRM()</a></code></td>
-<td>GRM item information function</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -5,8 +5,8 @@
 **ggExametrika** provides ggplot2-based visualization functions for
 outputs from the [exametrika](https://kosugitti.github.io/Exametrika/)
 package. It covers a wide range of psychometric models including IRT,
-GRM, Latent Class/Rank Analysis, Biclustering, and Bayesian Network
-Models.
+GRM, Latent Class/Rank Analysis, Biclustering, Bayesian Network Models,
+and more.
 
 ## Installation
 
@@ -15,204 +15,649 @@ Models.
 devtools::install_github("kosugitti/ggExametrika")
 ```
 
-## Quick Start
+## Setup
 
 ``` r
 library(exametrika)
 library(ggExametrika)
 ```
 
-### IRT: Item Characteristic Curve (ICC)
+------------------------------------------------------------------------
+
+## 1. IRT (Item Response Theory)
+
+IRT models (2PL, 3PL, 4PL) estimate item parameters for binary response
+data.
 
 ``` r
-# Run 2PL IRT model
 result_irt <- IRT(J15S500, model = 2)
-
-# Plot ICC for all items
-plots <- plotICC_gg(result_irt)
-plots[[1]]  # Show first item
-
-# Combine multiple plots in a grid
-combinePlots_gg(plots, selectPlots = 1:6, ncol = 3)
 ```
 
-### IRT: Item/Test Information Curve
+### plotICC_gg: Item Characteristic Curve
+
+Shows the probability of a correct response as a function of ability
+(theta).
 
 ``` r
-# Item Information Curves
-iic_plots <- plotIIC_gg(result_irt)
-combinePlots_gg(iic_plots, selectPlots = 1:6, ncol = 3)
+# Returns a list of plots (one per item)
+icc_plots <- plotICC_gg(result_irt)
+icc_plots[[1]]  # Show first item
+```
 
-# Test Information Curve
+Use
+[`combinePlots_gg()`](https://kosugitti.github.io/ggExametrika/reference/combinePlots_gg.md)
+to display multiple items at once:
+
+``` r
+combinePlots_gg(icc_plots, selectPlots = 1:6)
+```
+
+You can customize the ability range:
+
+``` r
+icc_plots <- plotICC_gg(result_irt, xvariable = c(-3, 3))
+```
+
+### plotIIC_gg: Item Information Curve
+
+Displays how precisely each item measures ability at different theta
+levels.
+
+``` r
+iic_plots <- plotIIC_gg(result_irt)
+iic_plots[[1]]
+combinePlots_gg(iic_plots, selectPlots = 1:6)
+```
+
+Select specific items:
+
+``` r
+iic_plots <- plotIIC_gg(result_irt, items = c(1, 3, 5))
+```
+
+### plotTIC_gg: Test Information Curve
+
+Shows the total test information (sum of all item information
+functions).
+
+``` r
 tic_plot <- plotTIC_gg(result_irt)
 tic_plot
+```
 
-# Test Response Function
+Customize appearance:
+
+``` r
+plotTIC_gg(result_irt,
+  title = "Custom Title",
+  color = "darkred",
+  linetype = "dashed"
+)
+```
+
+### plotTRF_gg: Test Response Function
+
+Shows the expected total score as a function of ability.
+
+``` r
 trf_plot <- plotTRF_gg(result_irt)
 trf_plot
 ```
 
-### GRM: Item Category Response Function (ICRF)
+### LogisticModel / ItemInformationFunc: Helper Functions
+
+Low-level computation functions for IRT models.
 
 ``` r
-# Run Graded Response Model
-result_grm <- GRM(J5S1000)
+# 4-parameter logistic model: P(theta)
+LogisticModel(x = 0, a = 1.5, b = 0.5, c = 0.2, d = 1.0)
 
-# Plot ICRF for all items
-icrf_plots <- plotICRF_gg(result_grm)
-icrf_plots[[1]]
-
-# GRM also supports IIC and TIC
-iic_grm <- plotIIC_gg(result_grm)
-tic_grm <- plotTIC_gg(result_grm)
+# Item information at a given theta
+ItemInformationFunc(x = 0, a = 1.5, b = 0.5, c = 0.2, d = 1.0)
 ```
 
-### Latent Class Analysis (LCA)
+------------------------------------------------------------------------
+
+## 2. GRM (Graded Response Model)
+
+GRM handles ordered polytomous response data (e.g., Likert scales).
+
+``` r
+result_grm <- GRM(J5S1000)
+```
+
+### plotICRF_gg: Item Category Response Function
+
+Displays the probability of each response category as a function of
+ability.
+
+``` r
+icrf_plots <- plotICRF_gg(result_grm)
+icrf_plots[[1]]
+combinePlots_gg(icrf_plots, selectPlots = 1:5)
+```
+
+Select specific items and customize:
+
+``` r
+plotICRF_gg(result_grm,
+  items = c(1, 2),
+  title = "ICRF for Items 1-2",
+  colors = c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00"),
+  linetype = "solid",
+  show_legend = TRUE,
+  legend_position = "bottom"
+)
+```
+
+### plotIIC_gg (GRM): Item Information Curve
+
+Also works with GRM data:
+
+``` r
+iic_grm <- plotIIC_gg(result_grm)
+iic_grm[[1]]
+combinePlots_gg(iic_grm, selectPlots = 1:5)
+```
+
+### plotTIC_gg (GRM): Test Information Curve
+
+``` r
+tic_grm <- plotTIC_gg(result_grm)
+tic_grm
+```
+
+### ItemInformationFunc_GRM: Helper Function
+
+``` r
+# Information at theta = 0 for a 5-category item
+ItemInformationFunc_GRM(theta = 0, a = 1.5, b = c(-1.5, -0.5, 0.5, 1.5))
+```
+
+------------------------------------------------------------------------
+
+## 3. LCA (Latent Class Analysis)
+
+LCA identifies latent classes (discrete groups) from binary response
+data.
 
 ``` r
 result_lca <- LCA(J15S500, ncls = 3)
-
-# Item Reference Profile
-irp_plots <- plotIRP_gg(result_lca)
-combinePlots_gg(irp_plots)
-
-# Field Reference Profile
-frp_plot <- plotFRP_gg(result_lca)
-frp_plot
-
-# Test Reference Profile
-trp_plot <- plotTRP_gg(result_lca)
-trp_plot
-
-# Latent Class Distribution
-lcd_plot <- plotLCD_gg(result_lca)
-lcd_plot
-
-# Class Membership Profile
-cmp_plot <- plotCMP_gg(result_lca)
-cmp_plot
 ```
 
-### Latent Rank Analysis (LRA)
+### plotIRP_gg: Item Reference Profile
+
+Shows the probability of a correct response for each item within each
+latent class.
+
+``` r
+irp_plots <- plotIRP_gg(result_lca)
+irp_plots[[1]]
+combinePlots_gg(irp_plots, selectPlots = 1:6)
+```
+
+### plotFRP_gg: Field Reference Profile
+
+Shows the correct response rate by field (item cluster) for each class.
+
+``` r
+frp_plot <- plotFRP_gg(result_lca)
+frp_plot
+```
+
+### plotTRP_gg: Test Reference Profile
+
+Displays the number of students and expected test score per class.
+
+``` r
+trp_plot <- plotTRP_gg(result_lca)
+trp_plot
+```
+
+Hide student count labels or title:
+
+``` r
+plotTRP_gg(result_lca, Num_Students = FALSE, title = FALSE)
+```
+
+### plotLCD_gg: Latent Class Distribution
+
+Displays the class membership distribution.
+
+``` r
+lcd_plot <- plotLCD_gg(result_lca)
+lcd_plot
+```
+
+### plotCMP_gg: Class Membership Profile
+
+Shows the membership probability profile for each student across all
+classes.
+
+``` r
+# Returns a list of plots (one per student)
+cmp_plots <- plotCMP_gg(result_lca)
+cmp_plots[[1]]  # First student
+combinePlots_gg(cmp_plots, selectPlots = 1:6)
+```
+
+------------------------------------------------------------------------
+
+## 4. LRA (Latent Rank Analysis)
+
+LRA identifies ordered latent ranks from binary response data.
 
 ``` r
 result_lra <- LRA(J15S500, nrank = 4)
-
-# Item/Field/Test Reference Profile
-irp_plots <- plotIRP_gg(result_lra)
-frp_plot <- plotFRP_gg(result_lra)
-trp_plot <- plotTRP_gg(result_lra)
-
-# Latent Rank Distribution
-lrd_plot <- plotLRD_gg(result_lra)
-lrd_plot
-
-# Rank Membership Profile
-rmp_plot <- plotRMP_gg(result_lra)
-rmp_plot
 ```
 
-### Biclustering
+### plotIRP_gg: Item Reference Profile
 
 ``` r
-result_bic <- Biclustering(J15S500, nfld = 3, nrank = 4)
+irp_plots <- plotIRP_gg(result_lra)
+combinePlots_gg(irp_plots, selectPlots = 1:6)
+```
 
-# Class/Rank Reference Vectors
+### plotFRP_gg: Field Reference Profile
+
+``` r
+frp_plot <- plotFRP_gg(result_lra)
+frp_plot
+```
+
+### plotTRP_gg: Test Reference Profile
+
+``` r
+trp_plot <- plotTRP_gg(result_lra)
+trp_plot
+```
+
+### plotLRD_gg: Latent Rank Distribution
+
+Displays the rank membership distribution.
+
+``` r
+lrd_plot <- plotLRD_gg(result_lra)
+lrd_plot
+```
+
+### plotRMP_gg: Rank Membership Profile
+
+Shows the membership probability profile for each student across all
+ranks.
+
+``` r
+rmp_plots <- plotRMP_gg(result_lra)
+rmp_plots[[1]]
+combinePlots_gg(rmp_plots, selectPlots = 1:6)
+```
+
+------------------------------------------------------------------------
+
+## 5. Biclustering
+
+Biclustering simultaneously clusters items (into fields) and students
+(into ranks).
+
+``` r
+result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
+```
+
+### plotFRP_gg: Field Reference Profile
+
+``` r
+frp_plots <- plotFRP_gg(result_bic)
+frp_plots[[1]]
+combinePlots_gg(frp_plots, selectPlots = 1:5)
+```
+
+### plotTRP_gg: Test Reference Profile
+
+``` r
+trp_plot <- plotTRP_gg(result_bic)
+trp_plot
+```
+
+### plotLRD_gg: Latent Rank Distribution
+
+``` r
+lrd_plot <- plotLRD_gg(result_bic)
+lrd_plot
+```
+
+### plotRMP_gg: Rank Membership Profile
+
+``` r
+rmp_plots <- plotRMP_gg(result_bic)
+combinePlots_gg(rmp_plots, selectPlots = 1:6)
+```
+
+### plotCRV_gg: Class Reference Vector
+
+Displays all class profiles in a single plot with one line per class.
+
+``` r
 crv_plot <- plotCRV_gg(result_bic)
 crv_plot
+```
 
+Customize:
+
+``` r
+plotCRV_gg(result_bic,
+  title = "Class Reference Vector",
+  linetype = "dashed",
+  legend_position = "bottom"
+)
+```
+
+### plotRRV_gg: Rank Reference Vector
+
+Displays all rank profiles in a single plot with one line per rank.
+
+``` r
 rrv_plot <- plotRRV_gg(result_bic)
 rrv_plot
+```
 
-# Array plot (sorted data matrix)
+### plotArray_gg: Array Plot
+
+Visualizes the binary data matrix as a heatmap, showing the
+block-diagonal structure after biclustering.
+
+``` r
+# Show both original and clustered arrays
 array_plot <- plotArray_gg(result_bic)
 array_plot
 ```
 
-### Bayesian Network Model (BNM) - DAG Visualization
+Show only the clustered array:
+
+``` r
+plotArray_gg(result_bic, Original = FALSE, Clusterd = TRUE)
+```
+
+Hide cluster boundary lines:
+
+``` r
+plotArray_gg(result_bic, Clusterd_lines = FALSE)
+```
+
+------------------------------------------------------------------------
+
+## 6. BNM (Bayesian Network Model)
+
+BNM discovers the dependency structure among items using a Bayesian
+network.
 
 ``` r
 result_bnm <- BNM(J15S500)
-
-# DAG visualization
-dag_plot <- plotGraph_gg(result_bnm)
-dag_plot
 ```
 
-## Common Plot Options
+### plotGraph_gg: DAG Visualization
 
-Most plot functions support the following options:
-
-| Parameter         | Description                                        | Default                     |
-|-------------------|----------------------------------------------------|-----------------------------|
-| `title`           | `TRUE` (auto), `FALSE` (none), or character string | `TRUE`                      |
-| `colors`          | Color vector for lines/bars                        | Colorblind-friendly palette |
-| `linetype`        | Line type (`"solid"`, `"dashed"`, etc.)            | `"solid"`                   |
-| `show_legend`     | Show legend                                        | `TRUE`                      |
-| `legend_position` | `"right"`, `"top"`, `"bottom"`, `"left"`, `"none"` | `"right"`                   |
-
-Example:
+Visualizes the Directed Acyclic Graph (DAG) discovered by the model.
 
 ``` r
-plotICC_gg(result_irt,
-  title = "Custom Title",
-  colors = c("red", "blue"),
-  linetype = "dashed",
-  show_legend = FALSE
+dag_plots <- plotGraph_gg(result_bnm)
+dag_plots[[1]]
+```
+
+Customize layout and appearance:
+
+``` r
+plotGraph_gg(result_bnm,
+  layout = "sugiyama",
+  rankdir = "LR",
+  node_size = 10,
+  node_color = "coral",
+  label_size = 4,
+  edge_color = "gray60",
+  title = "BNM DAG"
 )
 ```
 
-## Function Reference
+Available layouts: `"sugiyama"` (hierarchical), `"fr"`
+(Fruchterman-Reingold), `"kk"` (Kamada-Kawai), `"tree"`, `"circle"`,
+`"grid"`, `"stress"`.
 
-### IRT (2PL, 3PL, 4PL)
+------------------------------------------------------------------------
 
-| Function                                                                           | Description               |
-|------------------------------------------------------------------------------------|---------------------------|
-| [`plotICC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICC_gg.md) | Item Characteristic Curve |
-| [`plotIIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_gg.md) | Item Information Curve    |
-| [`plotTIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTIC_gg.md) | Test Information Curve    |
-| [`plotTRF_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTRF_gg.md) | Test Response Function    |
+## 7. LDLRA (Locally Dependent Latent Rank Analysis)
 
-### GRM (Graded Response Model)
+LDLRA adds local dependency structures within each rank.
 
-| Function                                                                             | Description                     |
-|--------------------------------------------------------------------------------------|---------------------------------|
-| [`plotICRF_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICRF_gg.md) | Item Category Response Function |
-| [`plotIIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_gg.md)   | Item Information Curve (GRM)    |
-| [`plotTIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTIC_gg.md)   | Test Information Curve (GRM)    |
+``` r
+result_ldlra <- LDLRA(J15S500, ncls = 5)
+```
 
-### Latent Class/Rank Models
+### plotIRP_gg: Item Reference Profile
 
-| Function                                                                           | Description               |
-|------------------------------------------------------------------------------------|---------------------------|
-| [`plotIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIRP_gg.md) | Item Reference Profile    |
-| [`plotFRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md) | Field Reference Profile   |
-| [`plotTRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTRP_gg.md) | Test Reference Profile    |
-| [`plotLCD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLCD_gg.md) | Latent Class Distribution |
-| [`plotLRD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLRD_gg.md) | Latent Rank Distribution  |
-| [`plotCMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.md) | Class Membership Profile  |
-| [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md) | Rank Membership Profile   |
+``` r
+irp_plots <- plotIRP_gg(result_ldlra)
+combinePlots_gg(irp_plots, selectPlots = 1:6)
+```
 
-### Biclustering
+### plotLRD_gg: Latent Rank Distribution
 
-| Function                                                                                       | Description            |
-|------------------------------------------------------------------------------------------------|------------------------|
-| [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)             | Class Reference Vector |
-| [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md)             | Rank Reference Vector  |
-| [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)         | Array Plot             |
-| [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md) | Field PIRP Plot        |
+``` r
+lrd_plot <- plotLRD_gg(result_ldlra)
+lrd_plot
+```
 
-### DAG Visualization
+### plotRMP_gg: Rank Membership Profile
 
-| Function                                                                               | Description            |
-|----------------------------------------------------------------------------------------|------------------------|
-| [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md) | Directed Acyclic Graph |
+``` r
+rmp_plots <- plotRMP_gg(result_ldlra)
+combinePlots_gg(rmp_plots, selectPlots = 1:6)
+```
 
-### Utilities
+### plotGraph_gg: DAG per Rank
 
-| Function                                                                                                     | Description                      |
-|--------------------------------------------------------------------------------------------------------------|----------------------------------|
-| [`combinePlots_gg()`](https://kosugitti.github.io/ggExametrika/reference/combinePlots_gg.md)                 | Arrange multiple plots in a grid |
-| [`LogisticModel()`](https://kosugitti.github.io/ggExametrika/reference/LogisticModel.md)                     | Four-parameter logistic model    |
-| [`ItemInformationFunc()`](https://kosugitti.github.io/ggExametrika/reference/ItemInformationFunc.md)         | IRT item information function    |
-| [`ItemInformationFunc_GRM()`](https://kosugitti.github.io/ggExametrika/reference/ItemInformationFunc_GRM.md) | GRM item information function    |
+Returns one DAG per rank, showing how dependencies change across ranks.
+
+``` r
+dag_plots <- plotGraph_gg(result_ldlra)
+dag_plots[[1]]  # Rank 1 DAG
+combinePlots_gg(dag_plots)
+```
+
+------------------------------------------------------------------------
+
+## 8. LDB (Locally Dependent Biclustering)
+
+LDB adds local dependency structures to the biclustering framework.
+
+``` r
+result_ldb <- LDB(J35S515, ncls = 6, nfld = 5)
+```
+
+### plotFRP_gg: Field Reference Profile
+
+``` r
+frp_plots <- plotFRP_gg(result_ldb)
+combinePlots_gg(frp_plots, selectPlots = 1:5)
+```
+
+### plotTRP_gg: Test Reference Profile
+
+``` r
+trp_plot <- plotTRP_gg(result_ldb)
+trp_plot
+```
+
+### plotLRD_gg: Latent Rank Distribution
+
+``` r
+lrd_plot <- plotLRD_gg(result_ldb)
+lrd_plot
+```
+
+### plotRMP_gg: Rank Membership Profile
+
+``` r
+rmp_plots <- plotRMP_gg(result_ldb)
+combinePlots_gg(rmp_plots, selectPlots = 1:6)
+```
+
+### plotArray_gg: Array Plot
+
+``` r
+array_plot <- plotArray_gg(result_ldb)
+array_plot
+```
+
+### plotFieldPIRP_gg: Field Parent Item Reference Profile
+
+Shows how field performance varies based on parent field scores, for
+each rank.
+
+``` r
+fpirp_plots <- plotFieldPIRP_gg(result_ldb)
+fpirp_plots[[1]]  # Rank 1
+combinePlots_gg(fpirp_plots)
+```
+
+### plotGraph_gg: DAG per Rank
+
+``` r
+dag_plots <- plotGraph_gg(result_ldb)
+dag_plots[[1]]
+combinePlots_gg(dag_plots)
+```
+
+------------------------------------------------------------------------
+
+## 9. BINET (Bayesian Network and Test)
+
+BINET combines Bayesian network structure with the biclustering
+framework.
+
+``` r
+result_binet <- BINET(J35S515, ncls = 6, nfld = 5)
+```
+
+### plotFRP_gg: Field Reference Profile
+
+``` r
+frp_plots <- plotFRP_gg(result_binet)
+combinePlots_gg(frp_plots, selectPlots = 1:5)
+```
+
+### plotTRP_gg: Test Reference Profile
+
+``` r
+trp_plot <- plotTRP_gg(result_binet)
+trp_plot
+```
+
+### plotLCD_gg: Latent Class Distribution
+
+``` r
+lcd_plot <- plotLCD_gg(result_binet)
+lcd_plot
+```
+
+### plotCMP_gg: Class Membership Profile
+
+``` r
+cmp_plots <- plotCMP_gg(result_binet)
+combinePlots_gg(cmp_plots, selectPlots = 1:6)
+```
+
+### plotArray_gg: Array Plot
+
+``` r
+array_plot <- plotArray_gg(result_binet)
+array_plot
+```
+
+### plotGraph_gg: DAG Visualization
+
+BINET supports edge labels showing dependency weights:
+
+``` r
+dag_plots <- plotGraph_gg(result_binet, show_edge_label = TRUE)
+dag_plots[[1]]
+```
+
+------------------------------------------------------------------------
+
+## 10. Common Plot Options
+
+Many functions support the following options for customization:
+
+| Parameter         | Description                                         | Default                     |
+|-------------------|-----------------------------------------------------|-----------------------------|
+| `title`           | `TRUE` (auto), `FALSE` (none), or character string  | `TRUE`                      |
+| `colors`          | Color vector for lines/bars                         | Colorblind-friendly palette |
+| `linetype`        | Line type (`"solid"`, `"dashed"`, `"dotted"`, etc.) | `"solid"`                   |
+| `show_legend`     | Show/hide legend                                    | `TRUE`                      |
+| `legend_position` | `"right"`, `"top"`, `"bottom"`, `"left"`, `"none"`  | `"right"`                   |
+
+### Example: Customizing plotICRF_gg
+
+``` r
+plotICRF_gg(result_grm,
+  items = 1,
+  title = "Custom ICRF Title",
+  colors = c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00"),
+  linetype = "dashed",
+  show_legend = TRUE,
+  legend_position = "bottom"
+)
+```
+
+### Example: Customizing plotCRV_gg
+
+``` r
+plotCRV_gg(result_bic,
+  title = FALSE,
+  linetype = "dotdash",
+  show_legend = TRUE,
+  legend_position = "top"
+)
+```
+
+------------------------------------------------------------------------
+
+## 11. combinePlots_gg: Arranging Multiple Plots
+
+[`combinePlots_gg()`](https://kosugitti.github.io/ggExametrika/reference/combinePlots_gg.md)
+arranges multiple ggplot objects in a grid layout.
+
+``` r
+# Default: first 6 plots
+plots <- plotICC_gg(result_irt)
+combinePlots_gg(plots)
+
+# Select specific plots
+combinePlots_gg(plots, selectPlots = c(1, 3, 5, 7))
+
+# All 15 items
+combinePlots_gg(plots, selectPlots = 1:15)
+```
+
+------------------------------------------------------------------------
+
+## Function-Model Compatibility Matrix
+
+| Function         | IRT | GRM | LCA | LRA | Biclustering | IRM | LDLRA | LDB | BINET | BNM |
+|------------------|:---:|:---:|:---:|:---:|:------------:|:---:|:-----:|:---:|:-----:|:---:|
+| plotICC_gg       |  x  |     |     |     |              |     |       |     |       |     |
+| plotIIC_gg       |  x  |  x  |     |     |              |     |       |     |       |     |
+| plotTIC_gg       |  x  |  x  |     |     |              |     |       |     |       |     |
+| plotTRF_gg       |  x  |     |     |     |              |     |       |     |       |     |
+| plotICRF_gg      |     |  x  |     |     |              |     |       |     |       |     |
+| plotIRP_gg       |     |     |  x  |  x  |              |     |   x   |     |       |     |
+| plotFRP_gg       |     |     |     |     |      x       |  x  |       |  x  |   x   |     |
+| plotTRP_gg       |     |     |  x  |  x  |      x       |  x  |       |  x  |   x   |     |
+| plotLCD_gg       |     |     |  x  |     |              |     |       |     |   x   |     |
+| plotLRD_gg       |     |     |     |  x  |      x       |     |   x   |  x  |       |     |
+| plotCMP_gg       |     |     |  x  |     |              |     |       |     |   x   |     |
+| plotRMP_gg       |     |     |     |  x  |      x       |     |   x   |  x  |       |     |
+| plotCRV_gg       |     |     |     |     |      x       |     |       |     |       |     |
+| plotRRV_gg       |     |     |     |     |      x       |     |       |     |       |     |
+| plotArray_gg     |     |     |     |     |      x       |  x  |       |  x  |   x   |     |
+| plotFieldPIRP_gg |     |     |     |     |              |     |       |  x  |       |     |
+| plotGraph_gg     |     |     |     |     |              |     |   x   |  x  |   x   |  x  |
