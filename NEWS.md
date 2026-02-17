@@ -1,3 +1,42 @@
+# ggExametrika 0.0.10
+
+* Add `plotTRF_gg()` for Test Response Function (TRF) visualization in IRT models.
+
 # ggExametrika 0.0.9
 
-* open this repository.
+* Add `plotGraph_gg()` for DAG visualization using ggraph.
+* Expand help documentation for all functions.
+* Apply `styler::style_pkg()` for consistent code formatting.
+* Fix compatibility with current exametrika package.
+* Add pkgdown site and GitHub Actions workflow.
+
+# ggExametrika 0.0.8
+
+* Add `plotArray_gg()` for array plot (Biclustering, IRM, LDB, BINET).
+* Add `plotFieldPIRP_gg()` for Field PIRP plot (LDB).
+
+# ggExametrika 0.0.7
+
+* Add `plotTRP_gg()` for Test Reference Profile (LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET).
+* Add `plotLCD_gg()` for Latent Class Distribution (LCA, Biclustering).
+* Add `plotLRD_gg()` for Latent Rank Distribution (LRA, Biclustering, LDLRA, LDB, BINET).
+* Add `plotCMP_gg()` for Class Membership Profile (LCA, Biclustering, BINET).
+* Add `plotRMP_gg()` for Rank Membership Profile (LRA, Biclustering, LDLRA, LDB, BINET, LRAordinal, LRArated).
+
+# ggExametrika 0.0.6
+
+* Add `plotIRP_gg()` for Item Reference Profile (LCA, LRA, LDLRA).
+* Add `plotFRP_gg()` for Field Reference Profile (LCA, LRA, Biclustering, IRM, LDB, BINET).
+
+# ggExametrika 0.0.5
+
+* Add `plotICC_gg()` for Item Characteristic Curve (IRT: 2PL, 3PL, 4PL).
+* Add `plotIIC_gg()` for Item Information Curve (IRT: 2PL, 3PL, 4PL).
+* Add `plotTIC_gg()` for Test Information Curve (IRT: 2PL, 3PL, 4PL).
+* Add `LogisticModel()` for four-parameter logistic model computation.
+* Add `ItemInformationFunc()` for item information function computation.
+* Add `combinePlots_gg()` utility for arranging multiple plots in a grid.
+
+# ggExametrika 0.0.1
+
+* Initial package setup.

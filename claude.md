@@ -35,16 +35,18 @@ CRAN公開を目指す。
 - [ ] examplesの動作確認
 - [ ] ドキュメントの整備
 
-## バージョン1.0に向けて
+## バージョン1.0.0に向けて
 
-exametrikaの全プロット機能をggplot2で実装完了したらv1.0とする。
+exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とする。
+合宿期間中（2026年2月）に v1.0.0 リリースを目指す。
+3名体制で並行開発を進める。
 
 ### exametrikaのプロットタイプ一覧と実装状況
 
 | プロットタイプ | 対応モデル | ggExametrika関数 | 状況 |
 |---------------|-----------|-----------------|------|
 | IRF/ICC | IRT, GRM | plotICC_gg | 実装済(IRT) |
-| TRF | IRT | - | 未実装 |
+| TRF | IRT | plotTRF_gg | 実装済(IRT) |
 | IIF/IIC | IRT, GRM | plotIIC_gg | 実装済(IRT) |
 | TIF/TIC | IRT, GRM | plotTIC_gg | 実装済(IRT) |
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
@@ -66,14 +68,13 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0とす�
 ### 未実装機能（v1.0までに実装予定）
 
 #### plot.exametrikaのプロットタイプ
-1. TRF (Test Response Function)
-2. CRV/RRV (Class/Rank Reference Vector)
-3. LDPSR (Latent Dependence Passing Student Rate)
-4. ScoreFreq (スコア頻度分布)
-5. ScoreRank (スコア-ランクヒートマップ)
-6. ICRP (Item Category Reference Profile)
-7. ICBR (Item Category Boundary Response)
-8. GRM対応 (IRF, IIF, TIF)
+1. CRV/RRV (Class/Rank Reference Vector)
+2. LDPSR (Latent Dependence Passing Student Rate)
+3. ScoreFreq (スコア頻度分布)
+4. ScoreRank (スコア-ランクヒートマップ)
+5. ICRP (Item Category Reference Profile)
+6. ICBR (Item Category Boundary Response)
+7. GRM対応 (IRF, IIF, TIF)
 
 #### DAG可視化（print.exametrikaでigraph使用）
 9. BNM - DAGの可視化
@@ -104,6 +105,23 @@ visNetwork(インタラクティブ編集) → 座標取得 → ggraph(静的プ
 - DESCRIPTIONにggraph, igraph追加済み
 - 次回: visNetwork版の実装、テスト
 
-## 作業ログ
+## 共同開発ルール（3名体制）
 
-作業ログは `log.md` に記録する。
+### Git運用
+- 作業前に必ず `git pull` で最新を取得する
+- 機能単位でこまめにコミットする（1機能1コミット）
+- コミットメッセージは変更内容がわかるように書く（例: `Add plotTRF_gg for TRF visualization`）
+- 作業が一段落したら `git push` して他のメンバーと共有する
+- 同じファイルの同時編集はなるべく避ける。担当を分けること
+
+### 作業ログ（log.md）
+- 作業開始時に日付と担当者名を記録する
+- 何を実装/修正したか、判断の理由を簡潔に書く
+- 次回の課題・残作業を明記する
+- 他のメンバーが読んでも状況がわかるように書く
+
+### 作業の進め方
+- 実装前にCLAUDE.mdの未実装リストで担当を確認する
+- 実装後は `devtools::document()` でドキュメント更新する
+- 実装状況表（上記）を更新する
+- NEWS.md に変更を追記する

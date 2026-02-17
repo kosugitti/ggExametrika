@@ -93,6 +93,26 @@ ggExametrikaが使用している `Nclass`, `Nrank` などは後方互換性フ�
 
 **次回の課題**: v1.0に向けた未実装プロット機能の実装
 
+## 2026-02-17
+
+### TRF関数の実装
+- `plotTRF_gg()` を `R/ICCtoTIC.R` に追加
+- 各アイテムのICC（LogisticModel）を合算し、期待得点曲線を描画
+- plotTIC_ggと同じ構造で、情報関数の代わりに正答確率を合算
+- roxygen2ドキュメント・NAMESPACE更新済み
+- サンプル実行で動作確認済み（J15S500, 3PLモデル）
+
+### バージョン更新
+- DESCRIPTION: 0.0.9 → 0.0.10
+- NEWS.md: 全バージョンの変更履歴を整理・充実化
+- CLAUDE.md: v1.0.0方針（合宿中リリース目標）、3名体制の共同開発ルールを追記
+
+### 次回の課題
+- 未実装プロット機能の実装（CRV/RRV, LDPSR, ScoreFreq, ScoreRank, ICRP, ICBR, GRM対応）
+- DAG可視化のテストと visNetwork版の実装
+
+---
+
 ## 2025-12-12
 
 ### DAG可視化関数の開発開始

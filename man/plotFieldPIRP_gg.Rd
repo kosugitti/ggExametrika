@@ -33,7 +33,7 @@ but the behavior is normal.
 library(exametrika)
 result <- LDB(J35S515, nfld = 5, ncls = 6)
 plots <- plotFieldPIRP_gg(result)
-plots[[1]]  # Show Field PIRP for rank 1
+plots[[1]] # Show Field PIRP for rank 1
 }
 
 }

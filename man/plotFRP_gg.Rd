@@ -32,7 +32,7 @@ indicate good alignment with the latent structure.
 library(exametrika)
 result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 plots <- plotFRP_gg(result)
-plots[[1]]  # Show FRP for the first field
+plots[[1]] # Show FRP for the first field
 }
 
 }

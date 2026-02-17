@@ -34,7 +34,7 @@ The function supports 2PL, 3PL, and 4PL IRT models.
 library(exametrika)
 result <- IRT(J15S500, model = 3)
 plot <- plotTIC_gg(result)
-plot  # Show Test Information Curve
+plot # Show Test Information Curve
 }
 
 }

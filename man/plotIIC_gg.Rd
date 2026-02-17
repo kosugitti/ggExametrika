@@ -35,8 +35,8 @@ The function supports 2PL, 3PL, and 4PL IRT models.
 library(exametrika)
 result <- IRT(J15S500, model = 3)
 plots <- plotIIC_gg(result)
-plots[[1]]  # Show IIC for the first item
-combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 items
+plots[[1]] # Show IIC for the first item
+combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 items
 }
 
 }

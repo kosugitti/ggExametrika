@@ -335,3 +335,84 @@ plotTIC_gg <- function(data, xvariable = c(-4, 4)) {
 
   return(plot)
 }
+
+#' @title Plot Test Response Function (TRF) from exametrika
+#'
+#' @description
+#' This function takes exametrika IRT output as input and generates a
+#' Test Response Function (TRF) using ggplot2. TRF shows the expected
+#' total score as a function of ability (theta).
+#'
+#' @param data An object of class \code{c("exametrika", "IRT")} from
+#'   \code{exametrika::IRT()}.
+#' @param xvariable A numeric vector of length 2 specifying the range of the
+#'   x-axis (ability). Default is \code{c(-4, 4)}.
+#'
+#' @return A single ggplot object showing the Test Response Function.
+#'
+#' @details
+#' The Test Response Function is the sum of all Item Characteristic Curves
+#' (ICCs). At each ability level, TRF represents the expected number of
+#' correct responses across all items. For a test with \eqn{J} items:
+#' \deqn{TRF(\theta) = \sum_{j=1}^{J} P_j(\theta)}
+#'
+#' The y-axis ranges from 0 to the total number of items.
+#' The function supports 2PL, 3PL, and 4PL IRT models.
+#'
+#' @examples
+#' \dontrun{
+#' library(exametrika)
+#' result <- IRT(J15S500, model = 3)
+#' plot <- plotTRF_gg(result)
+#' plot # Show Test Response Function
+#' }
+#'
+#' @seealso \code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}
+#'
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 xlim
+#' @importFrom ggplot2 ylim
+#' @importFrom ggplot2 stat_function
+#' @importFrom ggplot2 labs
+#' @export
+
+
+plotTRF_gg <- function(data, xvariable = c(-4, 4)) {
+  if (!all(class(data) %in% c("exametrika", "IRT"))) {
+    stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
+  }
+
+  n_params <- ncol(data$params)
+
+  if (n_params < 2 || n_params > 4) {
+    stop("Invalid number of parameters.")
+  }
+
+  n_items <- nrow(data$params)
+
+  multi <- function(x) {
+    total <- 0
+    for (i in 1:n_items) {
+      total <- total + LogisticModel(
+        x,
+        a = data$params[i, 1], # slope
+        b = data$params[i, 2], # location
+        c = ifelse(is.null(data$params[i, 3]), 0, data$params[i, 3]), # lower
+        d = ifelse(is.null(data$params[i, 4]), 1, data$params[i, 4]) # upper
+      )
+    }
+    return(total)
+  }
+
+  plot <- ggplot(data = data.frame(x = xvariable)) +
+    xlim(xvariable[1], xvariable[2]) +
+    ylim(0, n_items) +
+    stat_function(fun = multi) +
+    labs(
+      title = "Test Response Function",
+      x = "ability",
+      y = "expected score"
+    )
+
+  return(plot)
+}
