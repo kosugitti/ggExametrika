@@ -81,7 +81,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済（多値対応済み、共通オプション対応済み） |
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
-| ScoreFreq | LRAordinal, LRArated | - | 未実装 |
+| ScoreFreq | LRAordinal, LRArated | plotScoreFreq_gg | 実装済 |
 | ScoreRank | LRAordinal, LRArated | - | 未実装 |
 | ICRP | LRAordinal, LRArated | plotICRP_gg | 実装済（共通オプション対応済み） |
 | ICBR | LRAordinal | plotICBR_gg | 実装済（共通オプション対応済み） |
@@ -113,15 +113,24 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LDB | ランクごとのDAG |
 | BINET | 統合グラフ（edge label付き） |
 
+### 追加機能（exametrikaにはないggExametrika独自の機能）
+
+#### オーバーレイプロット関数
+exametrikaでは`overlay = TRUE`パラメータで複数の曲線を1つのグラフに重ねて表示できるが、
+ggExametrikaでは別関数として実装し、より明示的に使い分けられるようにした。
+
+- [x] `plotICC_overlay_gg()` — IRT全アイテムのICCを1枚のグラフに重ねて表示（実装済み）
+- [x] `plotIIC_overlay_gg()` — IRT/GRM全アイテムのIICを1枚のグラフに重ねて表示（実装済み）
+
 ### 未実装機能（v1.0.0までに実装予定）
 
 #### plot.exametrikaのプロットタイプ（新規実装）
 1. ~~CRV/RRV (Class/Rank Reference Vector)~~ → plotCRV_gg, plotRRV_gg として実装済み
 2. LDPSR (Latent Dependence Passing Student Rate) — BINET
-3. ScoreFreq (スコア頻度分布) — LRAordinal, LRArated ※arimune01さん実装中（feature/score-freq）
+3. ~~ScoreFreq (スコア頻度分布)~~ → plotScoreFreq_gg として実装済み
 4. ScoreRank (スコア-ランクヒートマップ) — LRAordinal, LRArated
-5. ICRP (Item Category Reference Profile) — LRAordinal, LRArated
-6. ~~ICBR (Item Category Boundary Response)~~ → plotICBR_gg として実装済み（feature/icbr）
+5. ~~ICRP (Item Category Reference Profile)~~ → plotICRP_gg として実装済み
+6. ~~ICBR (Item Category Boundary Response)~~ → plotICBR_gg として実装済み
 
 #### GRM対応（既存関数の拡張）
 7. ~~IRF/ICC — GRMモデル対応~~ → plotICRF_gg として実装済み

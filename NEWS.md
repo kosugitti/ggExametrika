@@ -1,16 +1,29 @@
+# ggExametrika 0.0.18
+
+* Add `plotICBR_gg()` for Item Category Boundary Response (ICBR) visualization (LRAordinal).
+* Add `plotICRP_gg()` for Item Category Reference Profile (ICRP) visualization (LRAordinal, LRArated).
+* Both functions support common plot options (title, colors, linetype, show_legend, legend_position).
+* ICBR shows cumulative probability curves for each category boundary across latent ranks.
+* ICRP shows response probability curves for each category across latent ranks (probabilities sum to 1.0).
+* Add tidyr to Imports for data transformation in plotICBR_gg() and plotICRP_gg().
+
+# ggExametrika 0.0.17
+
+* Add `plotIIC_overlay_gg()` for overlaying all Item Information Curves (IIC) on a single plot (IRT/GRM).
+* `plotIIC_overlay_gg()` supports both IRT and GRM models.
+* `plotIIC_overlay_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* Similar to `plot(IRT_result, type = "IIF", overlay = TRUE)` in exametrika, but returns a ggplot2 object.
+
 # ggExametrika 0.0.16
 
-* Add `plotICRP_gg()` for Item Category Reference Profile (ICRP) visualization (LRAordinal, LRArated).
-* `plotICRP_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
-* ICRP shows response probability curves for each category across latent ranks (probabilities sum to 1.0).
-* Y-axis auto-scaling applied to both `plotICBR_gg()` and `plotICRP_gg()` for flexible data range display.
+* Add `plotICC_overlay_gg()` for overlaying all Item Characteristic Curves (ICC) on a single plot (IRT).
+* `plotICC_overlay_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* Similar to `plot(IRT_result, type = "IRF", overlay = TRUE)` in exametrika, but returns a ggplot2 object.
 
 # ggExametrika 0.0.15
 
-* Add `plotICBR_gg()` for Item Category Boundary Response (ICBR) visualization (LRAordinal).
-* `plotICBR_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
-* ICBR shows cumulative probability curves for each category boundary across latent ranks.
-* Add tidyr to Imports for data transformation in plotICBR_gg().
+* Add `plotScoreFreq_gg()` for Score Frequency Distribution (LRAordinal, LRArated).
+* Common plot options (title, colors, linetype, show_legend, legend_position) supported.
 
 # ggExametrika 0.0.14
 
