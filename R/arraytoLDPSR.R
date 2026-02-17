@@ -6,151 +6,259 @@
 #' patterns of students (rows) across items (columns), showing both
 #' the original data and the clustered/reordered data.
 #'
+#' Supports both binary (0/1) and multi-valued (ordinal/nominal) data.
+#'
 #' @param data An object of class \code{c("exametrika", "Biclustering")},
+#'   \code{c("exametrika", "nominalBiclustering")},
+#'   \code{c("exametrika", "ordinalBiclustering")},
 #'   \code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
 #'   \code{c("exametrika", "BINET")}.
 #' @param Original Logical. If \code{TRUE} (default), plot the original
 #'   (unsorted) response data.
 #' @param Clusterd Logical. If \code{TRUE} (default), plot the clustered
 #'   (sorted by class and field) response data.
-#' @param Clusterd_lines Logical. If \code{TRUE} (default), draw red lines
+#' @param Clusterd_lines Logical. If \code{TRUE} (default), draw lines
 #'   on the clustered plot to indicate class and field boundaries.
-#' @param title Logical. If \code{TRUE} (default), display plot titles.
+#' @param Clusterd_lines_color Character. Color of the boundary lines.
+#'   Default is \code{"white"}.
+#' @param title Logical or character. If \code{TRUE} (default), display
+#'   auto-generated titles. If \code{FALSE}, no titles. If a character
+#'   string, use it as a custom title prefix.
+#' @param colors Character vector of colors for each category.
+#'   If \code{NULL} (default), uses white/black for binary data or a
+#'   colorblind-friendly palette for multi-valued data.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE} for binary data, \code{TRUE} for multi-valued.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A ggplot object or a grid arrangement of two ggplot objects
 #'   (original and clustered plots side by side).
 #'
 #' @details
 #' The array plot provides a visual representation of the biclustering
-#' result. Black cells indicate correct responses (1), white cells
-#' indicate incorrect responses (0). In a well-fitted model, the
-#' clustered plot should show a clear block diagonal pattern where
-#' high-ability students (bottom rows) answer difficult items (right
-#' columns) correctly.
+#' result. For binary data, black cells indicate correct responses (1)
+#' and white cells indicate incorrect responses (0). For multi-valued
+#' data, different colors represent different response categories.
+#'
+#' In a well-fitted model, the clustered plot should show a clear block
+#' diagonal pattern where high-ability students (bottom rows) answer
+#' difficult items (right columns) correctly.
 #'
 #' @examples
 #' \dontrun{
 #' library(exametrika)
 #' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
+#'
+#' # Basic usage
 #' plotArray_gg(result)
+#'
+#' # Custom boundary line color
+#' plotArray_gg(result, Clusterd_lines_color = "blue")
+#'
+#' # Multi-valued data with custom colors
+#' synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
+#' result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
+#' plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
 #' }
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}
 #'
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 geom_tile
-#' @importFrom ggplot2 scale_fill_gradient2
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 theme
-#' @importFrom ggplot2 geom_hline
-#' @importFrom ggplot2 geom_vline
+#' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual
+#'   labs theme element_text element_blank geom_hline geom_vline margin
+#'   scale_x_continuous scale_y_continuous
+#' @importFrom gridExtra grid.arrange
 #' @export
 
 plotArray_gg <- function(data,
                          Original = TRUE,
                          Clusterd = TRUE,
                          Clusterd_lines = TRUE,
-                         title = TRUE) {
-  if (all(class(data) %in% c("exametrika", "Biclustering")) ||
-    all(class(data) %in% c("exametrika", "IRM")) ||
-    all(class(data) %in% c("exametrika", "LDB")) ||
-    all(class(data) %in% c("exametrika", "BINET"))) {} else {
+                         Clusterd_lines_color = "white",
+                         title = TRUE,
+                         colors = NULL,
+                         show_legend = NULL,
+                         legend_position = "right") {
+  # Check input class
+  valid_classes <- c(
+    "Biclustering", "nominalBiclustering", "ordinalBiclustering",
+    "IRM", "LDB", "BINET"
+  )
+  if (!any(sapply(valid_classes, function(cls) all(class(data) %in% c("exametrika", cls))))) {
     stop(
-      "Invalid input. The variable must be from exametrika output or from either Biclustering, IRM, LDB or BINET."
+      "Invalid input. The variable must be from exametrika output: ",
+      "Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, or BINET."
     )
+  }
+
+  # Detect data values and categories
+  raw_data <- if (!is.null(data$U)) data$U else data$Q
+  all_values <- sort(unique(as.vector(as.matrix(raw_data))))
+  n_categories <- length(all_values)
+
+  # Set default colors based on number of categories
+  if (is.null(colors)) {
+    if (n_categories == 2) {
+      # Binary data: white (0) and black (1)
+      use_colors <- c("#FFFFFF", "#000000")
+    } else {
+      # Multi-valued data: use colorblind-friendly palette
+      use_colors <- c(
+        "#E69F00", "#0173B2", "#DE8F05", "#029E73", "#CC78BC",
+        "#CA9161", "#FBAFE4", "#949494", "#ECE133", "#56B4E9"
+      )
+      if (length(use_colors) < n_categories) {
+        # Add more colors if needed
+        additional_colors <- c(
+          "#D55E00", "#F0E442", "#009E73", "#CC79A7", "#0072B2",
+          "#E8601C", "#7CAE00", "#C77CFF", "#00BFC4", "#F8766D"
+        )
+        use_colors <- c(use_colors, additional_colors)[1:n_categories]
+      }
+    }
+  } else {
+    use_colors <- colors[1:n_categories]
+  }
+
+  # Set default legend visibility based on data type
+  if (is.null(show_legend)) {
+    show_legend <- n_categories > 2
   }
 
   plots <- list()
 
   if (Original == TRUE) {
     itemn <- NULL
-
-    for (i in 1:ncol(data$U)) {
-      itemn <- c(itemn, rep(i, nrow(data$U)))
+    for (i in 1:ncol(raw_data)) {
+      itemn <- c(itemn, rep(i, nrow(raw_data)))
     }
 
-    rown <- rep(1:nrow(data$U), ncol(data$U))
+    rown <- rep(1:nrow(raw_data), ncol(raw_data))
+    response_val <- as.vector(as.matrix(raw_data))
 
-    bw <- c(!(data$U))
+    plot_data <- data.frame(
+      itemn = itemn,
+      rown = rown,
+      value = factor(response_val, levels = all_values)
+    )
 
-
-    plot_data <- cbind(itemn, rown, bw)
-
-    plot_data <- as.data.frame(plot_data)
-
-    if (title == TRUE) {
-      title1 <- "Original Plot"
-    } else {
-      title1 <- ""
+    # Set title
+    if (is.logical(title) && title) {
+      title1 <- "Original Data"
+    } else if (is.logical(title) && !title) {
+      title1 <- NULL
+    } else if (is.character(title)) {
+      title1 <- paste(title, "- Original Data")
     }
 
-
-    original_plot <- ggplot(plot_data, aes(x = itemn, y = rown, fill = bw)) +
+    original_plot <- ggplot(plot_data, aes(x = itemn, y = rown, fill = value)) +
       geom_tile() +
-      scale_fill_gradient2(
-        low = "black", high = "white", mid = "black",
-        midpoint = 0, limit = c(-1, 1),
-        name = "Rho", space = "Lab"
+      scale_fill_manual(
+        values = setNames(use_colors, all_values),
+        name = "Response",
+        drop = FALSE
       ) +
+      scale_x_continuous(expand = c(0, 0), limits = c(0.5, ncol(raw_data) + 0.5)) +
+      scale_y_continuous(expand = c(0, 0), limits = c(0.5, nrow(raw_data) + 0.5)) +
       labs(title = title1) +
       theme(
-        legend.position = "none",
-        plot.title = element_text(hjust = 0.5),
+        plot.title = element_text(
+          hjust = 0.5,
+          size = 11,
+          margin = margin(t = 5, b = 5)
+        ),
         axis.ticks = element_blank(),
         axis.text = element_blank(),
         axis.title = element_blank(),
         axis.line = element_blank(),
         panel.background = element_blank(),
+        plot.margin = margin(t = 5, r = 5, b = 5, l = 5)
       )
+
+    # Legend control
+    if (!show_legend) {
+      original_plot <- original_plot + theme(legend.position = "none")
+    } else {
+      original_plot <- original_plot + theme(legend.position = legend_position)
+    }
 
     plots[[1]] <- original_plot
   }
 
   if (Clusterd == TRUE) {
-    sorted <- data$U[, order(data$FieldEstimated, decreasing = FALSE)]
+    sorted <- raw_data[, order(data$FieldEstimated, decreasing = FALSE)]
     sorted <- sorted[order(data$ClassEstimated, decreasing = TRUE), ]
 
-    bw <- c(!(sorted))
-
-    plot_data <- cbind(itemn, rown, bw)
-
-    plot_data <- as.data.frame(plot_data)
-
-    if (title == TRUE) {
-      title2 <- "Clusterd Data"
-    } else {
-      title2 <- ""
+    itemn <- NULL
+    for (i in 1:ncol(sorted)) {
+      itemn <- c(itemn, rep(i, nrow(sorted)))
     }
 
+    rown <- rep(1:nrow(sorted), ncol(sorted))
+    response_val <- as.vector(as.matrix(sorted))
 
-    clusterd_plot <- ggplot(plot_data, aes(x = itemn, y = rown, fill = bw)) +
+    plot_data <- data.frame(
+      itemn = itemn,
+      rown = rown,
+      value = factor(response_val, levels = all_values)
+    )
+
+    # Set title
+    if (is.logical(title) && title) {
+      title2 <- "Clusterd Data"
+    } else if (is.logical(title) && !title) {
+      title2 <- NULL
+    } else if (is.character(title)) {
+      title2 <- paste(title, "- Clusterd Data")
+    }
+
+    clusterd_plot <- ggplot(plot_data, aes(x = itemn, y = rown, fill = value)) +
       geom_tile() +
-      scale_fill_gradient2(
-        low = "black", high = "white", mid = "black",
-        midpoint = 0, limit = c(-1, 1),
-        name = "Rho", space = "Lab"
+      scale_fill_manual(
+        values = setNames(use_colors, all_values),
+        name = "Response",
+        drop = FALSE
       ) +
+      scale_x_continuous(expand = c(0, 0), limits = c(0.5, ncol(sorted) + 0.5)) +
+      scale_y_continuous(expand = c(0, 0), limits = c(0.5, nrow(sorted) + 0.5)) +
       labs(title = title2) +
       theme(
-        legend.position = "none",
-        plot.title = element_text(hjust = 0.5),
+        plot.title = element_text(
+          hjust = 0.5,
+          size = 11,
+          margin = margin(t = 5, b = 5)
+        ),
         axis.ticks = element_blank(),
         axis.text = element_blank(),
         axis.title = element_blank(),
         axis.line = element_blank(),
         panel.background = element_blank(),
+        plot.margin = margin(t = 5, r = 5, b = 5, l = 5)
       )
 
+    # Add class/field boundary lines
     if (Clusterd_lines == TRUE) {
       vl <- cumsum(table(sort(data$FieldEstimated)))
       hl <- cumsum(table(sort(data$ClassEstimated)))
 
-      h <- hl[1:data$Nclass - 1]
-      v <- vl[1:data$Nfield - 1] + 0.5
+      # Use Nclass if available, otherwise use Nrank
+      n_class <- if (!is.null(data$Nclass)) data$Nclass else data$Nrank
+      n_field <- if (!is.null(data$Nfield)) data$Nfield else length(unique(data$FieldEstimated))
+
+      h <- hl[1:(n_class - 1)]
+      v <- vl[1:(n_field - 1)] + 0.5
 
       clusterd_plot <- clusterd_plot +
-        geom_hline(yintercept = c(nrow(data$U) - h), color = "red") +
-        geom_vline(xintercept = c(v), color = "red")
+        geom_hline(yintercept = c(nrow(raw_data) - h), color = Clusterd_lines_color, linewidth = 0.5) +
+        geom_vline(xintercept = c(v), color = Clusterd_lines_color, linewidth = 0.5)
+    }
+
+    # Legend control
+    if (!show_legend) {
+      clusterd_plot <- clusterd_plot + theme(legend.position = "none")
+    } else {
+      clusterd_plot <- clusterd_plot + theme(legend.position = legend_position)
     }
 
     plots[[2]] <- clusterd_plot

@@ -164,3 +164,79 @@ visNetworkで大体の配置を決めてから、ggraphで最終的な静的プ�
 2. 座標取得→ggraphへの受け渡し機能
 3. plotGraph_gg関数のテスト
 4. ドキュメント整備
+
+---
+
+## 2026-02-17 (Daichi Kamimura)
+
+### plotArray_ggの多値対応実装
+
+#### 作業概要
+Biclustering系のplotArray_gg関数を、2値データ（0/1）だけでなく、多値データ（ordinal/nominal Biclustering）にも対応させる実装を完了。
+
+#### 実装内容
+
+1. **親パッケージの調査**
+   - exametrikaの `00_exametrikaPlot.R` 内の `array_plot()` 関数を調査
+   - 既に多値対応の実装があることを確認
+   - カテゴリ数の自動検出と色パレットの切り替えロジックを参考
+
+2. **plotArray_gg関数の拡張**
+   - カテゴリの自動検出: `sort(unique(as.vector(as.matrix(raw_data))))`
+   - 2値データ: 白(#FFFFFF)と黒(#000000)を使用
+   - 多値データ: カラーブラインドフレンドリーなパレット（最大20色）を使用
+   - `scale_fill_gradient2` から `scale_fill_manual` に変更し、離散的な色を適用
+
+3. **共通オプションの追加**
+   - `title`: logical または character（TRUE=自動タイトル、FALSE=非表示、文字列=カスタムタイトル）
+   - `colors`: カスタム色パレット（NULL=自動選択）
+   - `show_legend`: 凡例の表示/非表示（NULL=自動、2値はFALSE、多値はTRUE）
+   - `legend_position`: 凡例の位置（"right", "top", "bottom", "left", "none"）
+
+4. **対応モデルの拡張**
+   - Biclustering（既存）
+   - **nominalBiclustering**（新規）
+   - **ordinalBiclustering**（新規）
+   - IRM, LDB, BINET（既存）
+
+5. **ドキュメントの更新**
+   - roxygen2コメントを更新し、多値対応を明記
+   - 例とパラメータの説明を充実化
+   - `@importFrom` 文を更新（`scale_fill_manual`, `element_text`, `element_blank`を追加）
+
+6. **バージョン管理**
+   - DESCRIPTION: 0.0.13 → 0.0.14
+   - NEWS.md: 新バージョンのエントリを追加
+   - log.md: 本エントリを追加
+
+#### 技術的な変更点
+
+**Before (2値専用):**
+```r
+bw <- c(!(data$U))  # 0/1を反転
+scale_fill_gradient2(low = "black", high = "white", ...)
+```
+
+**After (多値対応):**
+```r
+response_val <- as.vector(as.matrix(raw_data))
+all_values <- sort(unique(response_val))
+n_categories <- length(all_values)
+plot_data$value <- factor(response_val, levels = all_values)
+scale_fill_manual(values = setNames(use_colors, all_values), ...)
+```
+
+#### 次回の課題
+
+1. **動作確認**
+   - Rセッションで実際にordinalBiclustering/nominalBiclusteringのデータでテスト
+   - 視覚的な確認（色の配置、凡例の表示）
+   - エッジケースのテスト（カテゴリ数が10を超える場合など）
+
+2. **他の関数への共通オプション追加**
+   - plotICC_gg, plotIIC_gg, plotTIC_gg, plotTRF_ggなど既存関数への共通オプション適用
+   - CLAUDE.mdのTODOリストを参照
+
+3. **多値版モデルの動作確認**
+   - FRP, LCD, LRD, CMP, RMP, Arrayの各関数で多値データのテスト
+   - nominalBiclustering, ordinalBiclusteringの全プロットタイプの動作確認

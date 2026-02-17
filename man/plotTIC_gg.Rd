@@ -4,20 +4,37 @@
 \alias{plotTIC_gg}
 \title{Plot Test Information Curve (TIC) from exametrika}
 \usage{
-plotTIC_gg(data, xvariable = c(-4, 4))
+plotTIC_gg(
+  data,
+  xvariable = c(-4, 4),
+  title = TRUE,
+  color = NULL,
+  linetype = "solid"
+)
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "IRT")} from
-\code{exametrika::IRT()}.}
+\code{exametrika::IRT()} or \code{c("exametrika", "GRM")} from
+\code{exametrika::GRM()}.}
 
 \item{xvariable}{A numeric vector of length 2 specifying the range of the
 x-axis (ability). Default is \code{c(-4, 4)}.}
+
+\item{title}{Logical or character. If \code{TRUE} (default), display an
+auto-generated title. If \code{FALSE}, no title. If a character string,
+use it as a custom title.}
+
+\item{color}{Character. Color for the curve.
+If \code{NULL} (default), a colorblind-friendly palette is used.}
+
+\item{linetype}{Character or numeric specifying the line type.
+Default is \code{"solid"}.}
 }
 \value{
 A single ggplot object showing the Test Information Curve.
 }
 \description{
-This function takes exametrika IRT output as input and generates a
+This function takes exametrika IRT or GRM output as input and generates a
 Test Information Curve (TIC) using ggplot2. TIC shows the total
 information provided by all items at each ability level.
 }
@@ -27,17 +44,23 @@ It indicates how precisely the test as a whole measures ability at each
 point on the theta scale. The reciprocal of test information is
 approximately equal to the squared standard error of measurement.
 
-The function supports 2PL, 3PL, and 4PL IRT models.
+The function supports IRT models (2PL, 3PL, 4PL) and GRM.
 }
 \examples{
 \dontrun{
 library(exametrika)
-result <- IRT(J15S500, model = 3)
-plot <- plotTIC_gg(result)
-plot # Show Test Information Curve
+# IRT example
+result_irt <- IRT(J15S500, model = 3)
+plot_irt <- plotTIC_gg(result_irt)
+plot_irt # Show Test Information Curve
+
+# GRM example
+result_grm <- GRM(J5S1000)
+plot_grm <- plotTIC_gg(result_grm)
+plot_grm # Show Test Information Curve
 }
 
 }
 \seealso{
-\code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}
+\code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}, \code{\link{plotICRF_gg}}
 }

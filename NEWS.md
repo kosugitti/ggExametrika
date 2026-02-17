@@ -1,3 +1,13 @@
+# ggExametrika 0.0.14
+
+* Add multi-valued data support to `plotArray_gg()` for ordinal/nominal Biclustering.
+* Add common plot options (title, colors, show_legend, legend_position) to `plotArray_gg()`.
+* Add `Clusterd_lines_color` parameter to `plotArray_gg()` for customizing boundary line colors (default: white).
+* `plotArray_gg()` now automatically detects the number of categories and uses appropriate color palettes.
+* For binary data (0/1), uses white/black colors. For multi-valued data (2+ categories), uses a colorblind-friendly palette.
+* Fix plot margins and title spacing to prevent overlapping in side-by-side displays.
+* Fix boundary lines to stay within plot area using proper coordinate limits.
+
 # ggExametrika 0.0.13
 
 * Add GRM support to `plotIIC_gg()` for Item Information Curve (IRT and GRM).

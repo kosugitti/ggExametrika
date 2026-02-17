@@ -76,9 +76,9 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
 | CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済 ※多値版の動作未確認 |
 | RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 ※多値版の動作未確認 |
-| CRV | Biclustering | plotCRV_gg | 実装済 |
-| RRV | Biclustering | plotRRV_gg | 実装済 |
-| Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済 ※多値版の動作未確認 |
+| CRV | Biclustering | plotCRV_gg | 実装済（共通オプション対応済み） |
+| RRV | Biclustering | plotRRV_gg | 実装済（共通オプション対応済み） |
+| Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済（多値対応済み、共通オプション対応済み） |
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
 | ScoreFreq | LRAordinal, LRArated | - | 未実装 |
@@ -129,8 +129,9 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 9. ~~TIF/TIC — GRMモデル対応~~ → plotTIC_gg に GRM 対応追加済み
 
 #### 多値版モデル対応（動作確認・必要に応じて修正）
-10. nominalBiclustering — FRP, LCD, LRD, CMP, Array
-11. ordinalBiclustering — FRP, LCD, LRD, CMP, RMP, Array
+10. ~~Array — nominalBiclustering, ordinalBiclustering 対応完了~~
+11. nominalBiclustering — FRP, LCD, LRD, CMP（動作未確認）
+12. ordinalBiclustering — FRP, LCD, LRD, CMP, RMP（動作未確認）
 
 #### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
 12. BNM - DAGの可視化
@@ -152,7 +153,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 - [ ] plotLRD_gg — title(logical対応済み), colors/linetype/legend 未対応
 - [ ] plotCMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
 - [ ] plotRMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
-- [ ] plotArray_gg — title(logical対応済み), colors/legend 未対応
+- [x] plotArray_gg — 共通オプション対応済み（多値データ対応含む）
 - [ ] plotFieldPIRP_gg — title(ハードコード), colors/linetype/legend なし
 - [ ] plotGraph_gg — 独自オプション多数、共通オプションとの整合性を検討
 
