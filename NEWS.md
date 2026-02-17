@@ -1,3 +1,8 @@
+# ggExametrika 0.0.15
+
+* Add `plotScoreFreq_gg()` for Score Frequency Distribution (LRAordinal, LRArated).
+* Common plot options (title, colors, linetype, show_legend, legend_position) supported.
+
 # ggExametrika 0.0.14
 
 * Add multi-valued data support to `plotArray_gg()` for ordinal/nominal Biclustering.
