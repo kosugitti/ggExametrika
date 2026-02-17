@@ -1,13 +1,3 @@
-# 元のexametrikaのプロット
-par(mfrow = c(1, 2))
-plot(result_ord, type = "ICBR", items = 1, nc = 1, nr = 1)
-
-# ggExametrikaのプロット
-p1 <- plotICBR_gg(result_ord, items = 1)
-print(p1)
-
-
-
 # =============================================================
 # plotICBR_gg テストスクリプト
 # =============================================================

@@ -1,3 +1,10 @@
+# ggExametrika 0.0.16
+
+* Add `plotICRP_gg()` for Item Category Reference Profile (ICRP) visualization (LRAordinal, LRArated).
+* `plotICRP_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* ICRP shows response probability curves for each category across latent ranks (probabilities sum to 1.0).
+* Y-axis auto-scaling applied to both `plotICBR_gg()` and `plotICRP_gg()` for flexible data range display.
+
 # ggExametrika 0.0.15
 
 * Add `plotICBR_gg()` for Item Category Boundary Response (ICBR) visualization (LRAordinal).

@@ -484,3 +484,88 @@ Error: Insufficient values in manual scale. 16 needed but only 4 provided.
    - nominalBiclustering, ordinalBiclustering
 
 ---
+
+## 2026-02-17
+
+### ICRP (Item Category Reference Profile) 実装 - plotICRP_gg
+
+担当: Claude
+
+#### 実装概要
+
+exametrika の `LRAordinal` および `LRArated` モデルの ICRP データを可視化する関数を実装しました。ICRPは各カテゴリの応答確率を表示し、各ランクで確率の合計が1.0になります。これは累積確率を表示するICBRとは対照的です。
+
+#### 実装内容
+
+1. **新規関数: plotICRP_gg**
+   - ファイル: `R/LRAordinal.R`（plotICBR_ggと同じファイル）
+   - 対応モデル: LRAordinal, LRArated
+   - 返り値: ggplotオブジェクト（facet_wrapによる複数項目表示）
+
+2. **関数の特徴**
+   - ICBRとの違い: 応答確率（P(response = k | rank)）を表示
+   - 各ランクで全カテゴリの確率合計が1.0
+   - LRAordinalとLRArated両方に対応
+   - 完全な共通オプション対応（title, colors, linetype, show_legend, legend_position）
+
+3. **データ構造**
+   - `data$ICRP`: ItemLabel, CategoryLabel, rank1, rank2, ...
+   - ICBRと同じ形式だが、意味が異なる（累積 vs 応答）
+   - カテゴリラベルの正規化（"V1-Cat1" → "Cat1"）でパレット問題を解決
+
+4. **開発ファイル**
+   - `develop/explore_ICRP.R`: ICRPデータ構造の調査、ICBRとの比較
+   - `develop/test_ICRP.R`: 包括的テストスクリプト（10セクション）
+
+#### Y軸自動スケーリング対応
+
+ユーザーフィードバックに基づき、plotICBR_ggとplotICRP_gg両方のY軸を修正：
+
+- **変更前**: `scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25))`
+- **変更後**: `scale_y_continuous(breaks = seq(0, 1, 0.25))`
+- **理由**: データ範囲に応じた自動調整で、柔軟な可視化を実現
+
+#### バージョン管理
+
+- DESCRIPTION: 0.0.15 → 0.0.16
+- NEWS.md: v0.0.16エントリ追加（ICRP実装 + Y軸自動スケーリング）
+- claude.md: 実装状況表を更新（ICRP: 未実装 → 実装済み）
+
+#### Git管理
+
+- ブランチ: `feature/icrp`（feature/icbrから派生）
+- 理由: ICBRの実装を含む必要があったため
+
+#### 動作確認（予定）
+
+テストスクリプト `develop/test_ICRP.R` で以下を確認予定：
+1. 基本動作（LRAordinal, LRArated両対応）
+2. 共通オプション（title, colors, linetype, show_legend, legend_position）
+3. Y軸自動スケーリング
+4. ICRPとICBRの比較（同じ項目で累積vs応答の違い）
+5. エラーハンドリング（IRT, Biclustering等）
+
+#### ICBRとICRPの関係
+
+数学的関係:
+```
+ICBR(Cat_i) = Σ ICRP(Cat_j) for j >= i
+```
+
+視覚的違い:
+- **ICBR**: 累積確率、単調減少、カテゴリ0は常に1.0
+- **ICRP**: 応答確率、ピークを持つ山型、合計1.0
+
+#### 次回の課題
+
+1. **未実装プロットタイプ（残り3つ）**
+   - ScoreRank（スコア-ランクヒートマップ）- LRAordinal, LRArated
+   - LDPSR（Latent Dependence Passing Student Rate）- BINET
+
+2. **既存関数への共通オプション追加**
+   - CLAUDE.mdのTODOリスト参照（16関数）
+
+3. **多値版モデルの動作確認**
+   - nominalBiclustering, ordinalBiclustering
+
+---

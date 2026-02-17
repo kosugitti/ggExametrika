@@ -83,7 +83,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LDPSR | BINET | - | 未実装 |
 | ScoreFreq | LRAordinal, LRArated | - | 未実装 |
 | ScoreRank | LRAordinal, LRArated | - | 未実装 |
-| ICRP | LRAordinal, LRArated | - | 未実装 |
+| ICRP | LRAordinal, LRArated | plotICRP_gg | 実装済（共通オプション対応済み） |
 | ICBR | LRAordinal | plotICBR_gg | 実装済（共通オプション対応済み） |
 
 ### exametrikaのモデル一覧とプロット対応（plot.exametrika valid_types準拠）
