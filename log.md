@@ -1,5 +1,41 @@
 # ggExametrika 開発ログ
 
+## 2026-02-17
+
+### plotICC_overlay_gg() 実装 (Daichi)
+
+**目的:** 全てのItem Characteristic Curves (ICC)を1枚のグラフに重ねて表示する関数を実装
+
+**実装内容:**
+- `plotICC_overlay_gg()` を R/ICCtoTIC.R に追加
+- 本家exametrika の `plot(IRT_result, type = "IRF", overlay = TRUE)` の動作を参考に実装
+- exametrikaのplot.exametrika関数（R/00_exametrikaPlot.R:655-683行目）のplotIRTCurve関数を参照
+- ggplot2のgeom_lineを使って複数のアイテム曲線を色分けして表示
+
+**機能:**
+- 全アイテムまたは指定したアイテムのICCを1つのグラフにオーバーレイ
+- 各アイテムに異なる色を自動割り当て（カラーバリアフリー対応）
+- 共通オプションをサポート（title, colors, linetype, show_legend, legend_position）
+- 2PL, 3PL, 4PLモデルに対応
+
+**テスト:**
+- develop/test_ICC_overlay.R を作成
+- 2PLと3PLモデルでテスト実施
+- 全アイテム表示、一部アイテム表示、カスタムカラー、凡例のオン/オフをテスト
+- すべてのテストが正常に動作することを確認
+
+**ドキュメント:**
+- roxygen2ドキュメント作成（@title, @description, @param, @return, @details, @examples, @seealso）
+- NAMESPACEに自動エクスポート追加
+
+**バージョン:**
+- DESCRIPTION: 0.0.14 → 0.0.15
+- NEWS.md に変更履歴を追加
+
+**次の課題:**
+- GRMモデル用のオーバーレイ関数も必要か検討
+- plotIIC_overlay_gg()（Item Information Curvesのオーバーレイ）の実装も検討
+
 ## 2025-12-10
 
 ### 初期セットアップ
