@@ -1,9 +1,20 @@
-# ggExametrika 0.0.16
+# ggExametrika 0.0.17
 
 * Add `plotIIC_overlay_gg()` for overlaying all Item Information Curves (IIC) on a single plot (IRT/GRM).
 * `plotIIC_overlay_gg()` supports both IRT and GRM models.
 * `plotIIC_overlay_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
 * Similar to `plot(IRT_result, type = "IIF", overlay = TRUE)` in exametrika, but returns a ggplot2 object.
+
+# ggExametrika 0.0.16
+
+* Add `plotICC_overlay_gg()` for overlaying all Item Characteristic Curves (ICC) on a single plot (IRT).
+* `plotICC_overlay_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* Similar to `plot(IRT_result, type = "IRF", overlay = TRUE)` in exametrika, but returns a ggplot2 object.
+
+# ggExametrika 0.0.15
+
+* Add `plotScoreFreq_gg()` for Score Frequency Distribution (LRAordinal, LRArated).
+* Common plot options (title, colors, linetype, show_legend, legend_position) supported.
 
 # ggExametrika 0.0.14
 

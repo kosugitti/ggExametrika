@@ -1,31 +1,25 @@
 # ggExametrika 開発ログ
 
-## 2026-02-17 (続き)
+## 2026-02-17
 
-### plotIIC_overlay_gg() 実装 (Daichi)
+### plotICC_overlay_gg() 実装 (Daichi)
 
-**目的:** 全てのItem Information Curves (IIC)を1枚のグラフに重ねて表示する関数を実装
+**目的:** 全てのItem Characteristic Curves (ICC)を1枚のグラフに重ねて表示する関数を実装
 
 **実装内容:**
-- `plotIIC_overlay_gg()` を R/ICCtoTIC.R に追加
-- plotICC_overlay_gg() と同様の構造で実装
-- IRT/GRM両モデルに対応
+- `plotICC_overlay_gg()` を R/ICCtoTIC.R に追加
+- 本家exametrika の `plot(IRT_result, type = "IRF", overlay = TRUE)` の動作を参考に実装
+- exametrikaのplot.exametrika関数（R/00_exametrikaPlot.R:655-683行目）のplotIRTCurve関数を参照
 - ggplot2のgeom_lineを使って複数のアイテム曲線を色分けして表示
 
 **機能:**
-- 全アイテムまたは指定したアイテムのIICを1つのグラフにオーバーレイ
+- 全アイテムまたは指定したアイテムのICCを1つのグラフにオーバーレイ
 - 各アイテムに異なる色を自動割り当て（カラーバリアフリー対応）
 - 共通オプションをサポート（title, colors, linetype, show_legend, legend_position）
-- 2PL, 3PL, 4PLモデル + GRMに対応
-- Y軸: information（情報量）を表示
-
-**IICとは:**
-- ICC（正答確率）とは異なり、各アイテムがどの能力範囲で最も精密に測定できるかを示す
-- 情報量が高いほど、その能力範囲で精度よく測定可能
-- 曲線のピーク = 最も情報を提供する能力範囲
+- 2PL, 3PL, 4PLモデルに対応
 
 **テスト:**
-- develop/test_IIC_overlay.R を作成・更新
+- develop/test_ICC_overlay.R を作成
 - 2PLと3PLモデルでテスト実施
 - 全アイテム表示、一部アイテム表示、カスタムカラー、凡例のオン/オフをテスト
 - すべてのテストが正常に動作することを確認
@@ -35,14 +29,12 @@
 - NAMESPACEに自動エクスポート追加
 
 **バージョン:**
-- DESCRIPTION: 0.0.14 → 0.0.16
+- DESCRIPTION: 0.0.14 → 0.0.15
 - NEWS.md に変更履歴を追加
 
-**ブランチ:**
-- feature/next-improvement
-
 **次の課題:**
-- プルリクエスト作成（ユーザーの指示待ち）
+- GRMモデル用のオーバーレイ関数も必要か検討
+- plotIIC_overlay_gg()（Item Information Curvesのオーバーレイ）の実装も検討
 
 ## 2025-12-10
 
