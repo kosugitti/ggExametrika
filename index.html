@@ -58,185 +58,503 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><a href="http://shojima.starfree.jp/exmk/index.htm" class="external-link">Exametrika</a> is a powerful tool developed by Shojima(2022) for data analysis, available in <a href="http://shojima.starfree.jp/tde/index.htm" class="external-link">Mathematica and an Excel Add-on</a>. It has been developed as an R package at <a href="https://kosugitti.github.io/Exametrika/" class="external-link uri">https://kosugitti.github.io/Exametrika/</a>. This package, ggExametrika, is built to enhance the visualization capabilities of Exametrika pacakge using ggplot functions. It integrates seamlessly with the Exametrika package, providing beautiful and logically arranged plots for simplified data interpretation in R.</p>
+<p><strong>ggExametrika</strong> provides ggplot2-based visualization for the <a href="https://kosugitti.github.io/Exametrika/" class="external-link">exametrika</a> package. It supports a wide range of psychometric models:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Model</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>IRT</strong></td>
+<td>Item Response Theory (2PL, 3PL, 4PL)</td>
+</tr>
+<tr class="even">
+<td><strong>GRM</strong></td>
+<td>Graded Response Model</td>
+</tr>
+<tr class="odd">
+<td><strong>LCA</strong></td>
+<td>Latent Class Analysis</td>
+</tr>
+<tr class="even">
+<td><strong>LRA</strong></td>
+<td>Latent Rank Analysis</td>
+</tr>
+<tr class="odd">
+<td><strong>Biclustering</strong></td>
+<td>Simultaneous item/student clustering</td>
+</tr>
+<tr class="even">
+<td><strong>IRM</strong></td>
+<td>Infinite Relational Model</td>
+</tr>
+<tr class="odd">
+<td><strong>LDLRA</strong></td>
+<td>Locally Dependent Latent Rank Analysis</td>
+</tr>
+<tr class="even">
+<td><strong>LDB</strong></td>
+<td>Locally Dependent Biclustering</td>
+</tr>
+<tr class="odd">
+<td><strong>BINET</strong></td>
+<td>Bayesian Network and Test</td>
+</tr>
+<tr class="even">
+<td><strong>BNM</strong></td>
+<td>Bayesian Network Model</td>
+</tr>
+</tbody>
+</table>
+<div class="section level2">
+<h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
+</h2>
+<p>Shojima, Kojiro (2022) <em>Test Data Engineering: Latent Rank Analysis, Biclustering, and Bayesian Network</em> (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), Springer, <a href="https://amzn.to/42eNArd" class="external-link">https://amzn.to/42eNArd</a></p>
 </div>
-<div class="section level1">
-<h1 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
-</h1>
-<p>Shojima, Kojiro (2022) Test Data Engineering: Latent Rank Analysis, Biclustering, andBayesian Network (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), Springer, <a href="https://amzn.to/42eNArd" class="external-link uri">https://amzn.to/42eNArd</a></p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of ggExametrika from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"kosugitti/ggExametrika"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<p>In this package, you can create plots using ggplot2 directly by inputting the output results from Exametrika. The functions responsible for generating plots are named in the format plotxxx_gg. Additionally, there are options available to display multiple plots.</p>
-</div>
-<div class="section level2">
-<h2 id="ploticc_gg-example">plotICC_gg Example<a class="anchor" aria-label="anchor" href="#ploticc_gg-example"></a>
-</h2>
-<p>plotICC_gg is specifically designed for the output of IRT. Below is an example code using the Exametrika package. To run this code, you need the Exametrika package.</p>
+<p>All plot functions take exametrika output directly and return ggplot objects. Functions are named <code>plotXXX_gg()</code>.</p>
+<div class="section level3">
+<h3 id="irt-item-characteristic-curve-ploticc_gg">IRT: Item Characteristic Curve (plotICC_gg)<a class="anchor" aria-label="anchor" href="#irt-item-characteristic-curve-ploticc_gg"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/ggExametrika/">ggExametrika</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
-<span><span class="co">#&gt; Loading required package: gridExtra</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'ggExametrika'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:exametrika':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     ItemInformationFunc, LogisticModel</span></span>
-<span><span class="va">result.IRT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; iter 1 LogLik -3960.28</span></span>
-<span><span class="co">#&gt; iter 2 LogLik -3938.35 iter 3 LogLik -3931.82 iter 4 LogLik -3928.68 iter 5</span></span>
-<span><span class="co">#&gt; LogLik -3926.99 iter 6 LogLik -3926.05 iter 7 LogLik -3925.51 iter 8 LogLik</span></span>
-<span><span class="co">#&gt; -3925.19 iter 9 LogLik -3925.01 iter 10 LogLik -3924.9 iter 11 LogLik -3924.83</span></span>
-<span><span class="co">#&gt; iter 12 LogLik -3924.8 iter 13 LogLik -3924.77</span></span>
-<span><span class="va">result.IRT</span></span>
-<span><span class="co">#&gt; Item Parameters</span></span>
-<span><span class="co">#&gt;        slope location lowerAsym PSD(slope) PSD(location) PSD(lowerAsym)</span></span>
-<span><span class="co">#&gt; Item01 0.818   -0.834    0.2804      0.182         0.628         0.1702</span></span>
-<span><span class="co">#&gt; Item02 0.860   -1.119    0.1852      0.157         0.471         0.1488</span></span>
-<span><span class="co">#&gt; Item03 0.657   -0.699    0.3048      0.162         0.798         0.1728</span></span>
-<span><span class="co">#&gt; Item04 1.550   -0.949    0.1442      0.227         0.216         0.1044</span></span>
-<span><span class="co">#&gt; Item05 0.721   -1.558    0.2584      0.148         0.700         0.1860</span></span>
-<span><span class="co">#&gt; Item06 1.022   -1.876    0.1827      0.171         0.423         0.1577</span></span>
-<span><span class="co">#&gt; Item07 1.255   -0.655    0.1793      0.214         0.289         0.1165</span></span>
-<span><span class="co">#&gt; Item08 0.748   -0.155    0.1308      0.148         0.394         0.1077</span></span>
-<span><span class="co">#&gt; Item09 1.178    2.287    0.2930      0.493         0.423         0.0440</span></span>
-<span><span class="co">#&gt; Item10 0.546   -0.505    0.2221      0.131         0.779         0.1562</span></span>
-<span><span class="co">#&gt; Item11 1.477    1.090    0.0628      0.263         0.120         0.0321</span></span>
-<span><span class="co">#&gt; Item12 1.479    1.085    0.0462      0.245         0.115         0.0276</span></span>
-<span><span class="co">#&gt; Item13 0.898   -0.502    0.0960      0.142         0.272         0.0858</span></span>
-<span><span class="co">#&gt; Item14 1.418   -0.788    0.2260      0.248         0.291         0.1252</span></span>
-<span><span class="co">#&gt; Item15 0.908   -0.812    0.1531      0.159         0.383         0.1254</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Item Fit Indices</span></span>
-<span><span class="co">#&gt;        model_log_like bench_log_like null_log_like model_Chi_sq null_Chi_sq</span></span>
-<span><span class="co">#&gt; Item01       -262.979       -240.190      -283.343       45.578      86.307</span></span>
-<span><span class="co">#&gt; Item02       -253.405       -235.436      -278.949       35.937      87.025</span></span>
-<span><span class="co">#&gt; Item03       -280.640       -260.906      -293.598       39.468      65.383</span></span>
-<span><span class="co">#&gt; Item04       -204.884       -192.072      -265.962       25.623     147.780</span></span>
-<span><span class="co">#&gt; Item05       -232.135       -206.537      -247.403       51.196      81.732</span></span>
-<span><span class="co">#&gt; Item06       -173.669       -153.940      -198.817       39.459      89.755</span></span>
-<span><span class="co">#&gt; Item07       -250.905       -228.379      -298.345       45.053     139.933</span></span>
-<span><span class="co">#&gt; Item08       -314.781       -293.225      -338.789       43.111      91.127</span></span>
-<span><span class="co">#&gt; Item09       -321.920       -300.492      -327.842       42.856      54.700</span></span>
-<span><span class="co">#&gt; Item10       -309.318       -288.198      -319.850       42.240      63.303</span></span>
-<span><span class="co">#&gt; Item11       -248.409       -224.085      -299.265       48.647     150.360</span></span>
-<span><span class="co">#&gt; Item12       -238.877       -214.797      -293.598       48.160     157.603</span></span>
-<span><span class="co">#&gt; Item13       -293.472       -262.031      -328.396       62.882     132.730</span></span>
-<span><span class="co">#&gt; Item14       -223.473       -204.953      -273.212       37.040     136.519</span></span>
-<span><span class="co">#&gt; Item15       -271.903       -254.764      -302.847       34.279      96.166</span></span>
-<span><span class="co">#&gt;        model_df null_df   NFI   RFI   IFI   TLI   CFI RMSEA    AIC    CAIC</span></span>
-<span><span class="co">#&gt; Item01       11      13 0.472 0.376 0.541 0.443 0.528 0.079 23.578 -22.805</span></span>
-<span><span class="co">#&gt; Item02       11      13 0.587 0.512 0.672 0.602 0.663 0.067 13.937 -32.446</span></span>
-<span><span class="co">#&gt; Item03       11      13 0.396 0.287 0.477 0.358 0.457 0.072 17.468 -28.915</span></span>
-<span><span class="co">#&gt; Item04       11      13 0.827 0.795 0.893 0.872 0.892 0.052  3.623 -42.759</span></span>
-<span><span class="co">#&gt; Item05       11      13 0.374 0.260 0.432 0.309 0.415 0.086 29.196 -17.186</span></span>
-<span><span class="co">#&gt; Item06       11      13 0.560 0.480 0.639 0.562 0.629 0.072 17.459 -28.924</span></span>
-<span><span class="co">#&gt; Item07       11      13 0.678 0.620 0.736 0.683 0.732 0.079 23.053 -23.330</span></span>
-<span><span class="co">#&gt; Item08       11      13 0.527 0.441 0.599 0.514 0.589 0.076 21.111 -25.272</span></span>
-<span><span class="co">#&gt; Item09       11      13 0.217 0.074 0.271 0.097 0.236 0.076 20.856 -25.527</span></span>
-<span><span class="co">#&gt; Item10       11      13 0.333 0.211 0.403 0.266 0.379 0.075 20.240 -26.143</span></span>
-<span><span class="co">#&gt; Item11       11      13 0.676 0.618 0.730 0.676 0.726 0.083 26.647 -19.736</span></span>
-<span><span class="co">#&gt; Item12       11      13 0.694 0.639 0.747 0.696 0.743 0.082 26.160 -20.222</span></span>
-<span><span class="co">#&gt; Item13       11      13 0.526 0.440 0.574 0.488 0.567 0.097 40.882  -5.501</span></span>
-<span><span class="co">#&gt; Item14       11      13 0.729 0.679 0.793 0.751 0.789 0.069 15.040 -31.343</span></span>
-<span><span class="co">#&gt; Item15       11      13 0.644 0.579 0.727 0.669 0.720 0.065 12.279 -34.104</span></span>
-<span><span class="co">#&gt;            BIC</span></span>
-<span><span class="co">#&gt; Item01 -22.783</span></span>
-<span><span class="co">#&gt; Item02 -32.424</span></span>
-<span><span class="co">#&gt; Item03 -28.893</span></span>
-<span><span class="co">#&gt; Item04 -42.737</span></span>
-<span><span class="co">#&gt; Item05 -17.164</span></span>
-<span><span class="co">#&gt; Item06 -28.902</span></span>
-<span><span class="co">#&gt; Item07 -23.308</span></span>
-<span><span class="co">#&gt; Item08 -25.250</span></span>
-<span><span class="co">#&gt; Item09 -25.505</span></span>
-<span><span class="co">#&gt; Item10 -26.121</span></span>
-<span><span class="co">#&gt; Item11 -19.714</span></span>
-<span><span class="co">#&gt; Item12 -20.200</span></span>
-<span><span class="co">#&gt; Item13  -5.479</span></span>
-<span><span class="co">#&gt; Item14 -31.321</span></span>
-<span><span class="co">#&gt; Item15 -34.082</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model Fit Indices</span></span>
-<span><span class="co">#&gt;                    value</span></span>
-<span><span class="co">#&gt; model_log_like -3880.769</span></span>
-<span><span class="co">#&gt; bench_log_like -3560.005</span></span>
-<span><span class="co">#&gt; null_log_like  -4350.217</span></span>
-<span><span class="co">#&gt; model_Chi_sq     641.528</span></span>
-<span><span class="co">#&gt; null_Chi_sq     1580.424</span></span>
-<span><span class="co">#&gt; model_df         165.000</span></span>
-<span><span class="co">#&gt; null_df          195.000</span></span>
-<span><span class="co">#&gt; NFI                0.594</span></span>
-<span><span class="co">#&gt; RFI                0.520</span></span>
-<span><span class="co">#&gt; IFI                0.663</span></span>
-<span><span class="co">#&gt; TLI                0.594</span></span>
-<span><span class="co">#&gt; CFI                0.656</span></span>
-<span><span class="co">#&gt; RMSEA              0.076</span></span>
-<span><span class="co">#&gt; AIC              311.528</span></span>
-<span><span class="co">#&gt; CAIC            -384.212</span></span>
-<span><span class="co">#&gt; BIC             -383.883</span></span></code></pre></div>
-<p>If you want to plot ICC, input the stored results directly into the plotICC_gg function. You can also specify the range of the X-axis with a vector. If no specific range is provided, it will be plotted in the range from -4 to 4, and the function will return a list.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result.IRT</span><span class="op">)</span></span>
-<span><span class="co"># If you want to specify a range, provide a vector for the xvariable argument.</span></span>
-<span><span class="co"># plotICC_gg(result.IRT,xvariable = c(-7, 7))</span></span></code></pre></div>
-<p>This way, the ICC for each item is stored in a list called plots. If you want to see the figures, you can specify it as follows. Also, if you want to draw multiple figures simultaneously, you can use the combinePlots_gg() function.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Draw the ICC for Item5.</span></span>
-<span><span class="va">plots</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [[1]]</span></span></code></pre></div>
+<span></span>
+<span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<span><span class="va">plots</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Output multiple plots simultaneously (default is 6). Refer to the combinePlots_gg() documentation for specifying the figures.</span></span>
-<span><span class="fu"><a href="reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-2.png" width="100%"></p>
 </div>
-<div class="section level2">
-<h2 id="plotiic_gg-example">plotIIC_gg Example<a class="anchor" aria-label="anchor" href="#plotiic_gg-example"></a>
-</h2>
-<p>You can also plot the Item Information Curve (IIC) similar to the plotICC_gg function. Input the output from the Exametrika package into the plotIIC_gg function as before.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result.IRT</span><span class="op">)</span></span>
-<span><span class="co"># If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.</span></span>
-<span><span class="co"># plotIIC_gg(result.IRT,xvariable = c(-5, 7))</span></span>
-<span><span class="co"># plotIIC_gg(result.IRT,xvariable = c(2, 9))</span></span></code></pre></div>
-<p>In this method, the IIC for each item is stored in a list called plots. If you want to view the figures, you can specify it as follows. Also, if you wish to draw multiple figures simultaneously, you can use the combinePlots_gg() function.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Draw the IIC for Item8.</span></span>
-<span><span class="va">plots</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [[1]]</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># We will output multiple plots simultaneously (default is 6). This time, we will display 4 plots from the 8th to the 11th.</span></span>
-<span><span class="fu"><a href="reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="irt-item-information-curve-plotiic_gg">IRT: Item Information Curve (plotIIC_gg)<a class="anchor" aria-label="anchor" href="#irt-item-information-curve-plotiic_gg"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-2.png" width="100%"></p>
 </div>
-<div class="section level2">
-<h2 id="plottic_gg-example">plotTIC_gg Example<a class="anchor" aria-label="anchor" href="#plottic_gg-example"></a>
-</h2>
-<p>You can also plot the Test Information Curve using the same procedure. Subsequent functions may have differences in their arguments, but they are generally used in the same way. If you input data into a plotting function that does not fit the model, an error will occur, so please check the compatibility between the model and the plotting function.</p>
+<div class="section level3">
+<h3 id="irt-test-information-curve--test-response-function-plottic_gg-plottrf_gg">IRT: Test Information Curve / Test Response Function (plotTIC_gg, plotTRF_gg)<a class="anchor" aria-label="anchor" href="#irt-test-information-curve--test-response-function-plottic_gg-plottrf_gg"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plotTRF_gg.html">plotTRF_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="grm-item-category-response-function-ploticrf_gg">GRM: Item Category Response Function (plotICRF_gg)<a class="anchor" aria-label="anchor" href="#grm-item-category-response-function-ploticrf_gg"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
+<span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
+<span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># GRM also supports IIC and TIC</span></span>
+<span><span class="fu"><a href="reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="lca-latent-class-analysis">LCA: Latent Class Analysis<a class="anchor" aria-label="anchor" href="#lca-latent-class-analysis"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span>         <span class="co"># Item Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span>         <span class="co"># Test Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotLCD_gg.html">plotLCD_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span>         <span class="co"># Latent Class Distribution</span></span>
+<span><span class="fu"><a href="reference/plotCMP_gg.html">plotCMP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span>         <span class="co"># Class Membership Profile</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="lra-latent-rank-analysis">LRA: Latent Rank Analysis<a class="anchor" aria-label="anchor" href="#lra-latent-rank-analysis"></a>
+</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span>         <span class="co"># Item Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span>         <span class="co"># Test Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span>         <span class="co"># Latent Rank Distribution</span></span>
+<span><span class="fu"><a href="reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span>         <span class="co"># Rank Membership Profile</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="biclustering">Biclustering<a class="anchor" aria-label="anchor" href="#biclustering"></a>
+</h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result.IRT</span><span class="op">)</span></span>
-<span><span class="co"># If you wish to specify a range, please provide a vector for the xvariable argument. The x-axis does not necessarily have to be symmetric around 0 for plotting.</span></span></code></pre></div>
-<p>Since we are dealing with the information curve for a single test this time, only one plot will be generated.</p>
+<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Test Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Latent Rank Distribution</span></span>
+<span><span class="fu"><a href="reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Rank Membership Profile</span></span>
+<span><span class="fu"><a href="reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Class Reference Vector</span></span>
+<span><span class="fu"><a href="reference/plotRRV_gg.html">plotRRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Rank Reference Vector</span></span>
+<span><span class="fu"><a href="reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>       <span class="co"># Array Plot (heatmap)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="ldb-locally-dependent-biclustering">LDB: Locally Dependent Biclustering<a class="anchor" aria-label="anchor" href="#ldb-locally-dependent-biclustering"></a>
+</h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Draw the IIC for Item8.</span></span>
-<span><span class="va">plot</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
+<code class="sourceCode R"><span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>         <span class="co"># Test Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>         <span class="co"># Latent Rank Distribution</span></span>
+<span><span class="fu"><a href="reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>         <span class="co"># Rank Membership Profile</span></span>
+<span><span class="fu"><a href="reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>       <span class="co"># Array Plot</span></span>
+<span><span class="fu"><a href="reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>   <span class="co"># Field Parent Item Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>       <span class="co"># DAG per rank</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="binet-bayesian-network-and-test">BINET: Bayesian Network and Test<a class="anchor" aria-label="anchor" href="#binet-bayesian-network-and-test"></a>
+</h3>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span>       <span class="co"># Field Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span>       <span class="co"># Test Reference Profile</span></span>
+<span><span class="fu"><a href="reference/plotLCD_gg.html">plotLCD_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span>       <span class="co"># Latent Class Distribution</span></span>
+<span><span class="fu"><a href="reference/plotCMP_gg.html">plotCMP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span>       <span class="co"># Class Membership Profile</span></span>
+<span><span class="fu"><a href="reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span>     <span class="co"># Array Plot</span></span>
+<span><span class="fu"><a href="reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>, show_edge_label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># DAG with edge labels</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="bnm--ldlra-dag-visualization-plotgraph_gg">BNM / LDLRA: DAG Visualization (plotGraph_gg)<a class="anchor" aria-label="anchor" href="#bnm--ldlra-dag-visualization-plotgraph_gg"></a>
+</h3>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span>     <span class="co"># One DAG per rank</span></span></code></pre></div>
 </div>
 </div>
-
+<div class="section level2">
+<h2 id="function-model-compatibility">Function-Model Compatibility<a class="anchor" aria-label="anchor" href="#function-model-compatibility"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="15%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="9%">
+<col width="7%">
+<col width="10%">
+<col width="7%">
+<col width="10%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th>Function</th>
+<th align="center">IRT</th>
+<th align="center">GRM</th>
+<th align="center">LCA</th>
+<th align="center">LRA</th>
+<th align="center">Bic.</th>
+<th align="center">IRM</th>
+<th align="center">LDLRA</th>
+<th align="center">LDB</th>
+<th align="center">BINET</th>
+<th align="center">BNM</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>plotICC_gg</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotIIC_gg</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotTIC_gg</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotTRF_gg</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotICRF_gg</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotIRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotFRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotTRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotLCD_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotLRD_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotCMP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotRMP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotCRV_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotRRV_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotArray_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotFieldPIRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotGraph_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="common-plot-options">Common Plot Options<a class="anchor" aria-label="anchor" href="#common-plot-options"></a>
+</h2>
+<p>Many functions support these customization options:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="39%">
+<col width="27%">
+</colgroup>
+<thead><tr class="header">
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>title</code></td>
+<td>
+<code>TRUE</code> (auto), <code>FALSE</code> (none), or character string</td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td><code>colors</code></td>
+<td>Color vector (colorblind-friendly default)</td>
+<td>auto</td>
+</tr>
+<tr class="odd">
+<td><code>linetype</code></td>
+<td>
+<code>"solid"</code>, <code>"dashed"</code>, <code>"dotted"</code>, etc.</td>
+<td><code>"solid"</code></td>
+</tr>
+<tr class="even">
+<td><code>show_legend</code></td>
+<td>Show/hide legend</td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td><code>legend_position</code></td>
+<td>
+<code>"right"</code>, <code>"top"</code>, <code>"bottom"</code>, <code>"left"</code>
+</td>
+<td><code>"right"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<ul>
+<li><a href="https://kosugitti.github.io/ggExametrika/articles/getting-started.html">Getting Started (English)</a></li>
+<li><a href="https://kosugitti.github.io/ggExametrika/articles/getting-started-ja.html">入門ガイド (日本語)</a></li>
+<li><a href="https://kosugitti.github.io/ggExametrika/reference/index.html">Function Reference</a></li>
+</ul>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
