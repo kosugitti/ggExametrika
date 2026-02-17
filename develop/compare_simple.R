@@ -40,3 +40,4 @@ cat("\n\n=== Verification ===\n")
 cat("□ Test 1: Patterns match between original and ggExametrika\n")
 cat("□ Test 2: Missing values (-1) shown as 'NA' in ggExametrika legend\n")
 cat("□ Test 2: Missing values displayed in BLACK\n")
+
