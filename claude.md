@@ -211,7 +211,44 @@ DESCRIPTIONにggraph, igraph追加済み - 次回: visNetwork版の実装、テ�
 
 ## 共同開発ルール（3名体制）
 
-### Git運用
+### Git運用（推奨ワークフロー）
+
+#### 基本フロー
+
+``` bash
+# 1. 作業前に最新を取得
+git checkout main
+git pull origin main
+
+# 2. featureブランチを作成（機能ごと）
+git checkout -b feature/機能名
+# 例: feature/score-freq, feature/dag-viz, fix/legend-bug
+
+# 3. 開発・コミット（1機能1コミット）
+git add .
+git commit -m "Add plotScoreFreq_gg for score frequency"
+
+# 4. リモートにpush
+git push origin feature/機能名
+
+# 5. 作業完了後、mainにマージ
+git checkout main
+git merge feature/機能名
+git push origin main
+
+# 6. 不要なブランチを削除
+git branch -d feature/機能名
+```
+
+#### ブランチ命名規則
+
+- **feature/機能名**: 新機能開発（例: `feature/score-freq`,
+  `feature/icrp`）
+- **fix/修正内容**: バグ修正（例: `fix/legend-position`,
+  `fix/sort-order`）
+- **refactor/対象**: リファクタリング（例: `refactor/common-options`）
+
+#### 重要なポイント
 
 - 作業前に必ず `git pull` で最新を取得する
 - 機能単位でこまめにコミットする（1機能1コミット）
@@ -219,6 +256,7 @@ DESCRIPTIONにggraph, igraph追加済み - 次回: visNetwork版の実装、テ�
   `Add plotTRF_gg for TRF visualization`）
 - 作業が一段落したら `git push` して他のメンバーと共有する
 - 同じファイルの同時編集はなるべく避ける。担当を分けること
+- mainブランチへの直接commitは避け、featureブランチ経由でマージする
 
 ### 作業ログ（log.md）
 

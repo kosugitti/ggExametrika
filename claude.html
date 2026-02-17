@@ -323,13 +323,51 @@
 <div class="section level2">
 <h2 id="共同開発ルール3名体制">共同開発ルール（3名体制）<a class="anchor" aria-label="anchor" href="#%E5%85%B1%E5%90%8C%E9%96%8B%E7%99%BA%E3%83%AB%E3%83%BC%E3%83%AB3%E5%90%8D%E4%BD%93%E5%88%B6"></a></h2>
 <div class="section level3">
-<h3 id="git運用">Git運用<a class="anchor" aria-label="anchor" href="#git%E9%81%8B%E7%94%A8"></a></h3>
+<h3 id="git運用推奨ワークフロー">Git運用（推奨ワークフロー）<a class="anchor" aria-label="anchor" href="#git%E9%81%8B%E7%94%A8%E6%8E%A8%E5%A5%A8%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC"></a></h3>
+<div class="section level4">
+<h4 id="基本フロー">基本フロー<a class="anchor" aria-label="anchor" href="#%E5%9F%BA%E6%9C%AC%E3%83%95%E3%83%AD%E3%83%BC"></a></h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># 1. 作業前に最新を取得</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">git</span> pull origin main</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># 2. featureブランチを作成（機能ごと）</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/機能名</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># 例: feature/score-freq, feature/dag-viz, fix/legend-bug</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># 3. 開発・コミット（1機能1コミット）</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add plotScoreFreq_gg for score frequency"</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># 4. リモートにpush</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">git</span> push origin feature/機能名</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># 5. 作業完了後、mainにマージ</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="fu">git</span> merge feature/機能名</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="fu">git</span> push origin main</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># 6. 不要なブランチを削除</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-d</span> feature/機能名</span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="ブランチ命名規則">ブランチ命名規則<a class="anchor" aria-label="anchor" href="#%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E5%91%BD%E5%90%8D%E8%A6%8F%E5%89%87"></a></h4>
+<ul><li>
+<strong>feature/機能名</strong>: 新機能開発（例: <code>feature/score-freq</code>, <code>feature/icrp</code>）</li>
+<li>
+<strong>fix/修正内容</strong>: バグ修正（例: <code>fix/legend-position</code>, <code>fix/sort-order</code>）</li>
+<li>
+<strong>refactor/対象</strong>: リファクタリング（例: <code>refactor/common-options</code>）</li>
+</ul></div>
+<div class="section level4">
+<h4 id="重要なポイント">重要なポイント<a class="anchor" aria-label="anchor" href="#%E9%87%8D%E8%A6%81%E3%81%AA%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88"></a></h4>
 <ul><li>作業前に必ず <code>git pull</code> で最新を取得する</li>
 <li>機能単位でこまめにコミットする（1機能1コミット）</li>
 <li>コミットメッセージは変更内容がわかるように書く（例: <code>Add plotTRF_gg for TRF visualization</code>）</li>
 <li>作業が一段落したら <code>git push</code> して他のメンバーと共有する</li>
 <li>同じファイルの同時編集はなるべく避ける。担当を分けること</li>
+<li>mainブランチへの直接commitは避け、featureブランチ経由でマージする</li>
 </ul></div>
+</div>
 <div class="section level3">
 <h3 id="作業ログlogmd">作業ログ（log.md）<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E6%A5%AD%E3%83%AD%E3%82%B0logmd"></a></h3>
 <ul><li>作業開始時に日付と担当者名を記録する</li>
