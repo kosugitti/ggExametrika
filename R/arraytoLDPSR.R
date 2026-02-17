@@ -20,7 +20,8 @@
 #' @param Clusterd_lines Logical. If \code{TRUE} (default), draw lines
 #'   on the clustered plot to indicate class and field boundaries.
 #' @param Clusterd_lines_color Character. Color of the boundary lines.
-#'   Default is \code{"white"}.
+#'   If \code{NULL} (default), uses \code{"red"} for binary data or
+#'   \code{"white"} for multi-valued data.
 #' @param title Logical or character. If \code{TRUE} (default), display
 #'   auto-generated titles. If \code{FALSE}, no titles. If a character
 #'   string, use it as a custom title prefix.
@@ -75,7 +76,7 @@ plotArray_gg <- function(data,
                          Original = TRUE,
                          Clusterd = TRUE,
                          Clusterd_lines = TRUE,
-                         Clusterd_lines_color = "white",
+                         Clusterd_lines_color = NULL,
                          title = TRUE,
                          colors = NULL,
                          show_legend = NULL,
@@ -96,6 +97,17 @@ plotArray_gg <- function(data,
   raw_data <- if (!is.null(data$U)) data$U else data$Q
   all_values <- sort(unique(as.vector(as.matrix(raw_data))))
   n_categories <- length(all_values)
+
+  # Set default boundary line color based on number of categories
+  if (is.null(Clusterd_lines_color)) {
+    if (n_categories == 2) {
+      # Binary data: red lines for better visibility on black/white
+      Clusterd_lines_color <- "red"
+    } else {
+      # Multi-valued data: white lines
+      Clusterd_lines_color <- "white"
+    }
+  }
 
   # Set default colors based on number of categories
   if (is.null(colors)) {

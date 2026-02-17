@@ -9,6 +9,7 @@ plotArray_gg(
   Original = TRUE,
   Clusterd = TRUE,
   Clusterd_lines = TRUE,
+  Clusterd_lines_color = NULL,
   title = TRUE,
   colors = NULL,
   show_legend = NULL,
@@ -28,8 +29,12 @@ plotArray_gg(
 \item{Clusterd}{Logical. If \code{TRUE} (default), plot the clustered
 (sorted by class and field) response data.}
 
-\item{Clusterd_lines}{Logical. If \code{TRUE} (default), draw red lines
+\item{Clusterd_lines}{Logical. If \code{TRUE} (default), draw lines
 on the clustered plot to indicate class and field boundaries.}
+
+\item{Clusterd_lines_color}{Character. Color of the boundary lines.
+If \code{NULL} (default), uses \code{"red"} for binary data or
+\code{"white"} for multi-valued data.}
 
 \item{title}{Logical or character. If \code{TRUE} (default), display
 auto-generated titles. If \code{FALSE}, no titles. If a character
@@ -72,7 +77,17 @@ difficult items (right columns) correctly.
 \dontrun{
 library(exametrika)
 result <- Biclustering(J35S515, nfld = 5, ncls = 6)
+
+# Basic usage
 plotArray_gg(result)
+
+# Custom boundary line color
+plotArray_gg(result, Clusterd_lines_color = "blue")
+
+# Multi-valued data with custom colors
+synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
+result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
+plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
 }
 
 }
