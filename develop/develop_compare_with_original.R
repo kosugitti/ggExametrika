@@ -127,3 +127,4 @@ cat("2. Compare the Clusterd Data plots (right panels)\n")
 cat("   - Check if the pattern is the same\n")
 cat("   - Check if boundary lines are in the same positions\n")
 cat("   - Note: Visual orientation might differ due to coordinate systems\n")
+

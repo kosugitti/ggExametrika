@@ -76,3 +76,4 @@ print(plot_multi)
 
 cat("\n=== Test completed ===\n")
 cat("If the visual patterns match, the sorting fix is correct.\n")
+

@@ -96,11 +96,18 @@ plotArray_gg <- function(data,
   # Detect data values and categories
   raw_data <- if (!is.null(data$U)) data$U else data$Q
   all_values <- sort(unique(as.vector(as.matrix(raw_data))))
+
+  # Separate missing values (-1) from valid values
+  has_missing <- -1 %in% all_values
+  valid_values <- all_values[all_values != -1]
+  n_valid_categories <- length(valid_values)
+
+  # Determine total categories (for boundary line color decision)
   n_categories <- length(all_values)
 
-  # Set default boundary line color based on number of categories
+  # Set default boundary line color based on number of valid categories
   if (is.null(Clusterd_lines_color)) {
-    if (n_categories == 2) {
+    if (n_valid_categories <= 2 && !has_missing) {
       # Binary data: red lines for better visibility on black/white
       Clusterd_lines_color <- "red"
     } else {
@@ -109,29 +116,46 @@ plotArray_gg <- function(data,
     }
   }
 
-  # Set default colors based on number of categories
+  # Set default colors based on number of valid categories
   if (is.null(colors)) {
-    if (n_categories == 2) {
+    if (n_valid_categories == 2 && !has_missing) {
       # Binary data: white (0) and black (1)
-      use_colors <- c("#FFFFFF", "#000000")
+      valid_colors <- c("#FFFFFF", "#000000")
     } else {
       # Multi-valued data: use colorblind-friendly palette
-      use_colors <- c(
+      valid_colors <- c(
         "#E69F00", "#0173B2", "#DE8F05", "#029E73", "#CC78BC",
         "#CA9161", "#FBAFE4", "#949494", "#ECE133", "#56B4E9"
       )
-      if (length(use_colors) < n_categories) {
+      if (length(valid_colors) < n_valid_categories) {
         # Add more colors if needed
         additional_colors <- c(
           "#D55E00", "#F0E442", "#009E73", "#CC79A7", "#0072B2",
           "#E8601C", "#7CAE00", "#C77CFF", "#00BFC4", "#F8766D"
         )
-        use_colors <- c(use_colors, additional_colors)[1:n_categories]
+        valid_colors <- c(valid_colors, additional_colors)[1:n_valid_categories]
+      } else {
+        valid_colors <- valid_colors[1:n_valid_categories]
+      }
+    }
+
+    # Assign colors to all values (including -1 if present)
+    use_colors <- character(n_categories)
+    for (i in seq_along(all_values)) {
+      if (all_values[i] == -1) {
+        use_colors[i] <- "#000000"  # Black for missing
+      } else {
+        # Find position in valid_values
+        valid_idx <- which(valid_values == all_values[i])
+        use_colors[i] <- valid_colors[valid_idx]
       }
     }
   } else {
     use_colors <- colors[1:n_categories]
   }
+
+  # Create labels for legend (NA for -1, numbers for others)
+  value_labels <- ifelse(all_values == -1, "NA", as.character(all_values))
 
   # Set default legend visibility based on data type
   if (is.null(show_legend)) {
@@ -168,6 +192,7 @@ plotArray_gg <- function(data,
       geom_tile() +
       scale_fill_manual(
         values = setNames(use_colors, all_values),
+        labels = value_labels,
         name = "Response",
         drop = FALSE
       ) +
@@ -236,6 +261,7 @@ plotArray_gg <- function(data,
       geom_tile() +
       scale_fill_manual(
         values = setNames(use_colors, all_values),
+        labels = value_labels,
         name = "Response",
         drop = FALSE
       ) +

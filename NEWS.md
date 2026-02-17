@@ -5,6 +5,7 @@
 * Add `Clusterd_lines_color` parameter to `plotArray_gg()` for customizing boundary line colors (default: red for binary data, white for multi-valued data).
 * `plotArray_gg()` now automatically detects the number of categories and uses appropriate color palettes.
 * For binary data (0/1), uses white/black colors. For multi-valued data (2+ categories), uses a colorblind-friendly palette.
+* Add special handling for missing values (-1): displayed as "NA" in legend with black color.
 * Fix plot margins and title spacing to prevent overlapping in side-by-side displays.
 * Fix boundary lines to stay within plot area using proper coordinate limits.
 * Fix boundary line positions in `plotArray_gg()` to align exactly with class/field boundaries.
