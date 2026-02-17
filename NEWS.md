@@ -1,3 +1,8 @@
+# ggExametrika 0.0.14
+
+* Add `plotScoreRank_gg()` for Score-Rank heatmap visualization (LRAordinal, LRArated).
+* Support common plot options (title, colors, show_legend, legend_position) in `plotScoreRank_gg()`.
+
 # ggExametrika 0.0.13
 
 * Add GRM support to `plotIIC_gg()` for Item Information Curve (IRT and GRM).
