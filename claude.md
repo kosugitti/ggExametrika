@@ -60,7 +60,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 
 ### exametrikaのプロットタイプ一覧と実装状況
 
-※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく
+※ exametrika v1.9.0 のplot.exametrika内valid_typesに基づく（2026-02-18更新）
 
 | プロットタイプ | 対応モデル | ggExametrika関数 | 状況 |
 |---------------|-----------|-----------------|------|
@@ -70,23 +70,28 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | IIF/IIC | IRT, GRM | plotIIC_gg | 実装済 |
 | TIF/TIC | IRT, GRM | plotTIC_gg | 実装済 |
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
-| FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | 実装済 ※多値版の動作未確認 |
+| FRP | LCA, LRA, Biclustering, IRM, LDB, BINET | plotFRP_gg | 実装済 |
+| FRP（多値版） | nominalBiclustering, ordinalBiclustering | - | 未実装（statパラメータ: mean/median/mode） |
 | TRP | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET | plotTRP_gg | 実装済 |
-| LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済 ※多値版の動作未確認 |
-| LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
-| CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済 ※多値版の動作未確認 |
-| RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 ※多値版の動作未確認 |
+| LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済 |
+| LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 |
+| CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotCMP_gg | 実装済 |
+| RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 |
 | CRV | Biclustering | plotCRV_gg | 実装済（共通オプション対応済み） |
 | RRV | Biclustering | plotRRV_gg | 実装済（共通オプション対応済み） |
+| RRV（多値版） | nominalBiclustering, ordinalBiclustering | - | 未実装（stat パラメータ: mean/median/mode） |
+| **FCRP** | **nominalBiclustering, ordinalBiclustering** | - | **未実装（新規：カテゴリ確率プロット、styleパラメータ: line/bar）** |
+| **FCBR** | **ordinalBiclustering** | - | **未実装（新規：境界確率プロット）** |
+| **ScoreField** | **nominalBiclustering, ordinalBiclustering** | - | **未実装（新規：期待得点ヒートマップ）** |
 | Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済（多値対応済み、共通オプション対応済み） |
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
 | ScoreFreq | LRAordinal, LRArated | plotScoreFreq_gg | 実装済 |
-| ScoreRank | LRAordinal, LRArated | - | 未実装 |
+| ScoreRank | LRAordinal, LRArated | - | 未実装（他メンバー担当中） |
 | ICRP | LRAordinal, LRArated | plotICRP_gg | 実装済（共通オプション対応済み） |
 | ICBR | LRAordinal | plotICBR_gg | 実装済（共通オプション対応済み） |
 
-### exametrikaのモデル一覧とプロット対応（plot.exametrika valid_types準拠）
+### exametrikaのモデル一覧とプロット対応（exametrika v1.9.0 準拠）
 
 | モデル | 対応プロットタイプ |
 |--------|-------------------|
@@ -97,8 +102,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LRAordinal | ScoreFreq, ScoreRank, ICRP, ICBR, RMP |
 | LRArated | ScoreFreq, ScoreRank, ICRP, RMP |
 | Biclustering | FRP, TRP, LCD, LRD, CMP, RMP, CRV, RRV, Array |
-| nominalBiclustering | FRP, LCD, LRD, CMP, Array |
-| ordinalBiclustering | FRP, LCD, LRD, CMP, RMP, Array |
+| nominalBiclustering | FRP, **FCRP**, LCD, LRD, CMP, Array, **ScoreField**, **RRV** |
+| ordinalBiclustering | FRP, **FCRP**, **FCBR**, LCD, LRD, CMP, RMP, Array, **ScoreField**, **RRV** |
 | IRM (Biclustering_IRM) | FRP, TRP, Array |
 | LDLRA | IRP, TRP, LRD, RMP |
 | LDB | FRP, TRP, LRD, RMP, Array, FieldPIRP |
@@ -124,23 +129,31 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 
 ### 未実装機能（v1.0.0までに実装予定）
 
-#### plot.exametrikaのプロットタイプ（新規実装）
-1. ~~CRV/RRV (Class/Rank Reference Vector)~~ → plotCRV_gg, plotRRV_gg として実装済み
-2. LDPSR (Latent Dependence Passing Student Rate) — BINET
-3. ~~ScoreFreq (スコア頻度分布)~~ → plotScoreFreq_gg として実装済み
-4. ScoreRank (スコア-ランクヒートマップ) — LRAordinal, LRArated
-5. ~~ICRP (Item Category Reference Profile)~~ → plotICRP_gg として実装済み
-6. ~~ICBR (Item Category Boundary Response)~~ → plotICBR_gg として実装済み
+#### exametrika v1.9.0 新規プロットタイプ（多値バイクラスタリング専用）
+1. **FCRP** (Field Category Response Profile) — nominalBiclustering, ordinalBiclustering
+   - カテゴリ確率プロット（line/bar styleパラメータ付き）
+2. **FCBR** (Field Cumulative Boundary Response) — ordinalBiclustering専用
+   - 境界確率プロット（ICBR のフィールド版）
+3. **ScoreField** — nominalBiclustering, ordinalBiclustering
+   - 期待得点ヒートマップ（フィールド × クラス/ランク）
+4. **FRP（多値版）** — nominalBiclustering, ordinalBiclustering
+   - 期待得点折れ線（statパラメータ: mean/median/mode）
+5. **RRV（多値版）** — nominalBiclustering, ordinalBiclustering
+   - ランク参照ベクトル多値版（statパラメータ: mean/median/mode）
 
-#### GRM対応（既存関数の拡張）
-7. ~~IRF/ICC — GRMモデル対応~~ → plotICRF_gg として実装済み
-8. ~~IIF/IIC — GRMモデル対応~~ → plotIIC_gg に GRM 対応追加済み
-9. ~~TIF/TIC — GRMモデル対応~~ → plotTIC_gg に GRM 対応追加済み
+#### plot.exametrikaの既存プロットタイプ（未実装）
+6. ScoreRank (スコア-ランクヒートマップ) — LRAordinal, LRArated（**他メンバー担当中**）
+7. LDPSR (Latent Dependence Passing Student Rate) — BINET
 
-#### 多値版モデル対応（動作確認・必要に応じて修正）
-10. ~~Array — nominalBiclustering, ordinalBiclustering 対応完了~~
-11. nominalBiclustering — FRP, LCD, LRD, CMP（動作未確認）
-12. ordinalBiclustering — FRP, LCD, LRD, CMP, RMP（動作未確認）
+#### 完了済み
+- ~~CRV/RRV (Class/Rank Reference Vector)~~ → plotCRV_gg, plotRRV_gg として実装済み
+- ~~ScoreFreq (スコア頻度分布)~~ → plotScoreFreq_gg として実装済み
+- ~~ICRP (Item Category Reference Profile)~~ → plotICRP_gg として実装済み
+- ~~ICBR (Item Category Boundary Response)~~ → plotICBR_gg として実装済み
+- ~~IRF/ICC — GRMモデル対応~~ → plotICRF_gg として実装済み
+- ~~IIF/IIC — GRMモデル対応~~ → plotIIC_gg に GRM 対応追加済み
+- ~~TIF/TIC — GRMモデル対応~~ → plotTIC_gg に GRM 対応追加済み
+- ~~Array — nominalBiclustering, ordinalBiclustering 対応完了~~
 
 #### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
 12. BNM - DAGの可視化
