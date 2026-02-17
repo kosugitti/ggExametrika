@@ -76,7 +76,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
 | CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済 ※多値版の動作未確認 |
 | RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 ※多値版の動作未確認 |
-| CRV/RRV | Biclustering | - | 未実装 |
+| CRV | Biclustering | plotCRV_gg | 実装済 |
+| RRV | Biclustering | plotRRV_gg | 実装済 |
 | Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済 ※多値版の動作未確認 |
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
@@ -115,7 +116,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 ### 未実装機能（v1.0.0までに実装予定）
 
 #### plot.exametrikaのプロットタイプ（新規実装）
-1. CRV/RRV (Class/Rank Reference Vector) — Biclustering
+1. ~~CRV/RRV (Class/Rank Reference Vector)~~ → plotCRV_gg, plotRRV_gg として実装済み
 2. LDPSR (Latent Dependence Passing Student Rate) — BINET
 3. ScoreFreq (スコア頻度分布) — LRAordinal, LRArated
 4. ScoreRank (スコア-ランクヒートマップ) — LRAordinal, LRArated
