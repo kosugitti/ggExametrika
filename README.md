@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 **ggExametrika** provides ggplot2-based visualization for the
-[exametrika](https://kosugitti.github.io/Exametrika/) package.
+[exametrika](https://kosugitti.github.io/exametrika/) package.
 It supports a wide range of psychometric models:
 
 | Model | Description |

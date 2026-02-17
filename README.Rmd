@@ -3,5 +3,5 @@ output: github_document
 ---
 
 <!-- README.md is maintained manually. Do not knit this file. -->
-<!-- This file is kept for historical reference only. -->
+<!-- This file is kept for reference only. -->
 <!-- Edit README.md directly. -->
