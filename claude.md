@@ -43,21 +43,23 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 
 ### exametrikaのプロットタイプ一覧と実装状況
 
+※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく
+
 | プロットタイプ | 対応モデル | ggExametrika関数 | 状況 |
 |---------------|-----------|-----------------|------|
-| IRF/ICC | IRT, GRM | plotICC_gg | 実装済(IRT) |
+| IRF/ICC | IRT, GRM | plotICC_gg | 実装済(IRT), GRM未対応 |
 | TRF | IRT | plotTRF_gg | 実装済(IRT) |
-| IIF/IIC | IRT, GRM | plotIIC_gg | 実装済(IRT) |
-| TIF/TIC | IRT, GRM | plotTIC_gg | 実装済(IRT) |
+| IIF/IIC | IRT, GRM | plotIIC_gg | 実装済(IRT), GRM未対応 |
+| TIF/TIC | IRT, GRM | plotTIC_gg | 実装済(IRT), GRM未対応 |
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
-| FRP | LCA, LRA, Biclustering, IRM, LDB, BINET | plotFRP_gg | 実装済 |
+| FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | 実装済 ※多値版の動作未確認 |
 | TRP | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET | plotTRP_gg | 実装済 |
-| LCD | LCA, Biclustering | plotLCD_gg | 実装済 |
-| LRD | LRA, Biclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 |
-| CMP | LCA, Biclustering, BINET | plotCMP_gg | 実装済 |
-| RMP | LRA, Biclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 |
+| LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済 ※多値版の動作未確認 |
+| LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
+| CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済 ※多値版の動作未確認 |
+| RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 ※多値版の動作未確認 |
 | CRV/RRV | Biclustering | - | 未実装 |
-| Array | Biclustering, IRM, LDB, BINET | plotArray_gg | 実装済 |
+| Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済 ※多値版の動作未確認 |
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
 | ScoreFreq | LRAordinal, LRArated | - | 未実装 |
@@ -65,22 +67,57 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | ICRP | LRAordinal, LRArated | - | 未実装 |
 | ICBR | LRAordinal | - | 未実装 |
 
-### 未実装機能（v1.0までに実装予定）
+### exametrikaのモデル一覧とプロット対応（plot.exametrika valid_types準拠）
 
-#### plot.exametrikaのプロットタイプ
-1. CRV/RRV (Class/Rank Reference Vector)
-2. LDPSR (Latent Dependence Passing Student Rate)
-3. ScoreFreq (スコア頻度分布)
-4. ScoreRank (スコア-ランクヒートマップ)
-5. ICRP (Item Category Reference Profile)
-6. ICBR (Item Category Boundary Response)
-7. GRM対応 (IRF, IIF, TIF)
+| モデル | 対応プロットタイプ |
+|--------|-------------------|
+| IRT | IRF/ICC, TRF, IIF/IIC, TIF/TIC |
+| GRM | IRF/ICC, IIF/IIC, TIF/TIC |
+| LCA | IRP, FRP, TRP, LCD, CMP |
+| LRA | IRP, FRP, TRP, LRD, RMP |
+| LRAordinal | ScoreFreq, ScoreRank, ICRP, ICBR, RMP |
+| LRArated | ScoreFreq, ScoreRank, ICRP, RMP |
+| Biclustering | FRP, TRP, LCD, LRD, CMP, RMP, CRV, RRV, Array |
+| nominalBiclustering | FRP, LCD, LRD, CMP, Array |
+| ordinalBiclustering | FRP, LCD, LRD, CMP, RMP, Array |
+| IRM (Biclustering_IRM) | FRP, TRP, Array |
+| LDLRA | IRP, TRP, LRD, RMP |
+| LDB | FRP, TRP, LRD, RMP, Array, FieldPIRP |
+| BINET | FRP, TRP, LRD, RMP, Array, LDPSR |
 
-#### DAG可視化（print.exametrikaでigraph使用）
-9. BNM - DAGの可視化
-10. LDLRA - ランク/クラスごとのDAG
-11. LDB - ランクごとのDAG
-12. BINET - 統合グラフ（edge label付き）
+### DAG可視化（print.exametrikaでigraph使用）
+
+| モデル | 内容 |
+|--------|------|
+| BNM | DAGの可視化 |
+| LDLRA | ランク/クラスごとのDAG |
+| LDB | ランクごとのDAG |
+| BINET | 統合グラフ（edge label付き） |
+
+### 未実装機能（v1.0.0までに実装予定）
+
+#### plot.exametrikaのプロットタイプ（新規実装）
+1. CRV/RRV (Class/Rank Reference Vector) — Biclustering
+2. LDPSR (Latent Dependence Passing Student Rate) — BINET
+3. ScoreFreq (スコア頻度分布) — LRAordinal, LRArated
+4. ScoreRank (スコア-ランクヒートマップ) — LRAordinal, LRArated
+5. ICRP (Item Category Reference Profile) — LRAordinal, LRArated
+6. ICBR (Item Category Boundary Response) — LRAordinal
+
+#### GRM対応（既存関数の拡張）
+7. IRF/ICC — GRMモデル対応（カテゴリ別応答確率曲線）
+8. IIF/IIC — GRMモデル対応
+9. TIF/TIC — GRMモデル対応
+
+#### 多値版モデル対応（動作確認・必要に応じて修正）
+10. nominalBiclustering — FRP, LCD, LRD, CMP, Array
+11. ordinalBiclustering — FRP, LCD, LRD, CMP, RMP, Array
+
+#### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
+12. BNM - DAGの可視化
+13. LDLRA - ランク/クラスごとのDAG
+14. LDB - ランクごとのDAG
+15. BINET - 統合グラフ（edge label付き）
 
 ### DAG可視化の開発方針
 
