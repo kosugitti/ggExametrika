@@ -5,3 +5,5 @@
 *.Rproj
 *.Rproj.user
 .Rproj.user
+inst/doc
+Rplots.pdf
