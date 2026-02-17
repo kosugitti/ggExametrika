@@ -247,11 +247,12 @@ plotArray_gg <- function(data,
       n_field <- if (!is.null(data$Nfield)) data$Nfield else length(unique(data$FieldEstimated))
 
       h <- hl[1:(n_class - 1)]
-      v <- vl[1:(n_field - 1)] + 0.5
+      v <- vl[1:(n_field - 1)]
 
+      # Lines should be placed at boundaries between cells (x.5 positions)
       clusterd_plot <- clusterd_plot +
-        geom_hline(yintercept = c(nrow(raw_data) - h), color = Clusterd_lines_color, linewidth = 0.5) +
-        geom_vline(xintercept = c(v), color = Clusterd_lines_color, linewidth = 0.5)
+        geom_hline(yintercept = h + 0.5, color = Clusterd_lines_color, linewidth = 0.5) +
+        geom_vline(xintercept = v + 0.5, color = Clusterd_lines_color, linewidth = 0.5)
     }
 
     # Legend control
