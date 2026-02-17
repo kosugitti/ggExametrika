@@ -4,21 +4,51 @@
 \alias{plotIIC_gg}
 \title{Plot Item Information Curves (IIC) from exametrika}
 \usage{
-plotIIC_gg(data, xvariable = c(-4, 4))
+plotIIC_gg(
+  data,
+  items = NULL,
+  xvariable = c(-4, 4),
+  title = TRUE,
+  colors = NULL,
+  linetype = "solid",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "IRT")} from
-\code{exametrika::IRT()}.}
+\code{exametrika::IRT()} or \code{c("exametrika", "GRM")} from
+\code{exametrika::GRM()}.}
+
+\item{items}{Numeric vector specifying which items to plot.
+If \code{NULL} (default), all items are plotted.}
 
 \item{xvariable}{A numeric vector of length 2 specifying the range of the
 x-axis (ability). Default is \code{c(-4, 4)}.}
+
+\item{title}{Logical or character. If \code{TRUE} (default), display an
+auto-generated title. If \code{FALSE}, no title. If a character string,
+use it as a custom title (only for single-item plots).}
+
+\item{colors}{Character vector of colors. For IRT, single color for the curve.
+If \code{NULL} (default), a colorblind-friendly palette is used.}
+
+\item{linetype}{Character or numeric specifying the line type.
+Default is \code{"solid"}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend (mainly for GRM).
+Default is \code{FALSE}.}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A list of ggplot objects, one for each item. Each plot shows the
 Item Information Curve for that item.
 }
 \description{
-This function takes exametrika IRT output as input and generates
+This function takes exametrika IRT or GRM output as input and generates
 Item Information Curves (IIC) using ggplot2. IIC shows how much
 information each item provides at different ability levels.
 }
@@ -28,18 +58,25 @@ ability at each point on the theta scale. Items with higher discrimination
 parameters provide more information. The peak of the information curve
 occurs near the item's difficulty parameter.
 
-The function supports 2PL, 3PL, and 4PL IRT models.
+For IRT models (2PL, 3PL, 4PL), the function uses the standard IRT
+information function. For GRM, the information is computed as:
+\deqn{I(\theta) = a^2 \sum_{k=1}^{K-1} P_k^*(\theta) [1 - P_k^*(\theta)]}
 }
 \examples{
 \dontrun{
 library(exametrika)
-result <- IRT(J15S500, model = 3)
-plots <- plotIIC_gg(result)
-plots[[1]] # Show IIC for the first item
-combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 items
+# IRT example
+result_irt <- IRT(J15S500, model = 3)
+plots_irt <- plotIIC_gg(result_irt)
+plots_irt[[1]] # Show IIC for the first item
+
+# GRM example
+result_grm <- GRM(J5S1000)
+plots_grm <- plotIIC_gg(result_grm)
+plots_grm[[1]] # Show IIC for the first item
 }
 
 }
 \seealso{
-\code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}
+\code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}, \code{\link{plotICRF_gg}}
 }

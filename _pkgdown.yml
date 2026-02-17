@@ -5,7 +5,7 @@ template:
 
 navbar:
   structure:
-    left:  [intro, reference, articles]
+    left:  [intro, reference, articles, news]
     right: [search, github]
   components:
     github:
@@ -14,16 +14,23 @@ navbar:
 
 reference:
 - title: IRT Plots
-  desc: Item Response Theory visualization functions
+  desc: Item Response Theory (2PL, 3PL, 4PL) visualization functions
   contents:
   - plotICC_gg
   - plotIIC_gg
   - plotTIC_gg
+  - plotTRF_gg
   - LogisticModel
   - ItemInformationFunc
 
+- title: GRM Plots
+  desc: Graded Response Model visualization functions
+  contents:
+  - plotICRF_gg
+  - ItemInformationFunc_GRM
+
 - title: Latent Class/Rank Plots
-  desc: LCA, LRA visualization functions
+  desc: LCA, LRA, LDLRA visualization functions
   contents:
   - plotIRP_gg
   - plotFRP_gg
@@ -34,10 +41,17 @@ reference:
   - plotRMP_gg
 
 - title: Biclustering Plots
-  desc: Biclustering and related model visualization
+  desc: Biclustering, IRM, and related model visualization
   contents:
+  - plotCRV_gg
+  - plotRRV_gg
   - plotArray_gg
   - plotFieldPIRP_gg
+
+- title: DAG Visualization
+  desc: Directed Acyclic Graph visualization (BNM, LDLRA, LDB, BINET)
+  contents:
+  - plotGraph_gg
 
 - title: Utilities
   desc: Helper functions
