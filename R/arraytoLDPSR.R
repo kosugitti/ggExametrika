@@ -199,15 +199,22 @@ plotArray_gg <- function(data,
   }
 
   if (Clusterd == TRUE) {
-    sorted <- raw_data[, order(data$FieldEstimated, decreasing = FALSE)]
-    sorted <- sorted[order(data$ClassEstimated, decreasing = TRUE), ]
+    # Sort data to match exametrika's original implementation
+    # order(decreasing = FALSE) puts smaller class numbers first in the data
+    # But we reverse rown so smaller classes appear at top visually
+    case_order <- order(data$ClassEstimated, decreasing = FALSE)
+    field_order <- order(data$FieldEstimated, decreasing = FALSE)
+    sorted <- raw_data[case_order, field_order]
 
     itemn <- NULL
     for (i in 1:ncol(sorted)) {
       itemn <- c(itemn, rep(i, nrow(sorted)))
     }
 
-    rown <- rep(1:nrow(sorted), ncol(sorted))
+    # Reverse row numbers so that:
+    # - sorted[1, ] (smallest ClassEstimated) -> rown = nrow (top visually)
+    # - sorted[nrow, ] (largest ClassEstimated) -> rown = 1 (bottom visually)
+    rown <- rep(nrow(sorted):1, ncol(sorted))
     response_val <- as.vector(as.matrix(sorted))
 
     plot_data <- data.frame(
@@ -251,19 +258,28 @@ plotArray_gg <- function(data,
 
     # Add class/field boundary lines
     if (Clusterd_lines == TRUE) {
-      vl <- cumsum(table(sort(data$FieldEstimated)))
-      hl <- cumsum(table(sort(data$ClassEstimated)))
+      # Calculate boundary positions based on sorted data
+      sorted_class <- data$ClassEstimated[case_order]
+      sorted_field <- data$FieldEstimated[field_order]
+
+      class_breaks <- cumsum(table(sorted_class))
+      field_breaks <- cumsum(table(sorted_field))
 
       # Use Nclass if available, otherwise use Nrank
       n_class <- if (!is.null(data$Nclass)) data$Nclass else data$Nrank
       n_field <- if (!is.null(data$Nfield)) data$Nfield else length(unique(data$FieldEstimated))
 
-      h <- hl[1:(n_class - 1)]
-      v <- vl[1:(n_field - 1)]
+      h <- class_breaks[1:(n_class - 1)]
+      v <- field_breaks[1:(n_field - 1)]
+
+      # Since rown is reversed (nrow:1), we need to adjust h positions
+      # h gives positions in sorted data (1-indexed from top)
+      # We need positions in ggplot2 coordinates where rown goes from nrow (top) to 1 (bottom)
+      h_adjusted <- nrow(sorted) - h
 
       # Lines should be placed at boundaries between cells (x.5 positions)
       clusterd_plot <- clusterd_plot +
-        geom_hline(yintercept = h + 0.5, color = Clusterd_lines_color, linewidth = 0.5) +
+        geom_hline(yintercept = h_adjusted + 0.5, color = Clusterd_lines_color, linewidth = 0.5) +
         geom_vline(xintercept = v + 0.5, color = Clusterd_lines_color, linewidth = 0.5)
     }
 

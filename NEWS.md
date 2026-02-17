@@ -8,6 +8,7 @@
 * Fix plot margins and title spacing to prevent overlapping in side-by-side displays.
 * Fix boundary lines to stay within plot area using proper coordinate limits.
 * Fix boundary line positions in `plotArray_gg()` to align exactly with class/field boundaries.
+* **CRITICAL FIX**: Correct row sorting order in `plotArray_gg()` to match exametrika's original implementation. Now uses `order(ClassEstimated, decreasing = FALSE)` with reversed rown for proper visual alignment (higher class numbers at bottom).
 
 # ggExametrika 0.0.13
 
