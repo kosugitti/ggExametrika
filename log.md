@@ -2,7 +2,38 @@
 
 ## 2026-02-17
 
-### plotICC_overlay_gg() 実装 (Daichi)
+### plotScoreFreq_gg() 実装 (arimune01)
+
+**目的:** LRAordinal/LRArated モデル用のスコア頻度分布を可視化する関数を実装
+
+**実装内容:**
+- `plotScoreFreq_gg()` を新規作成（R/LRAordinal.R）
+- スコアの密度分布曲線と潜在ランク間の閾値線（破線）を1枚のプロットで表示
+- exametrika の ScoreFreq プロットタイプに対応
+
+**機能:**
+- スコアの密度分布（geom_density）と閾値の垂直線（geom_vline）を同時表示
+- 閾値計算: ランク i の最大スコアとランク i+1 の最小スコアの中点
+- 共通オプション完全対応（title, colors, linetype, show_legend, legend_position）
+- LRAordinal, LRArated 専用（IRT, Biclustering等ではエラー）
+
+**テスト:**
+- develop/test_ScoreFreq.R を作成
+- LRAordinal / LRArated 両方でテスト実施
+- 全アイテム表示、共通オプション、エラーハンドリングをテスト
+
+**ドキュメント:**
+- roxygen2ドキュメント作成（@title, @description, @param, @return, @details, @examples, @seealso）
+- NAMESPACEに自動エクスポート追加
+
+**バージョン:**
+- DESCRIPTION: 0.0.13 → 0.0.14 → 0.0.15（マージ調整）
+- NEWS.md に変更履歴を追加
+- claude.md の実装状況表を更新
+
+---
+
+### plotICC_overlay_gg() 実装 (castella3)
 
 **目的:** 全てのItem Characteristic Curves (ICC)を1枚のグラフに重ねて表示する関数を実装
 
@@ -16,7 +47,11 @@
 - 全アイテムまたは指定したアイテムのICCを1つのグラフにオーバーレイ
 - 各アイテムに異なる色を自動割り当て（カラーバリアフリー対応）
 - 共通オプションをサポート（title, colors, linetype, show_legend, legend_position）
-- 2PL, 3PL, 4PLモデルに対応
+- 2PL, 3PL, 4PLモデルに対応（IRT専用）
+
+**ICC vs IIC の違い:**
+- **ICC**: 正答確率を示す曲線（y軸: 0〜1の確率）
+- **IIC**: 情報量を示す曲線（y軸: 情報量）
 
 **テスト:**
 - develop/test_ICC_overlay.R を作成
@@ -29,12 +64,61 @@
 - NAMESPACEに自動エクスポート追加
 
 **バージョン:**
-- DESCRIPTION: 0.0.14 → 0.0.15
+- DESCRIPTION: 0.0.14 → 0.0.15 → 0.0.16（マージ調整）
 - NEWS.md に変更履歴を追加
+- claude.md の実装状況表を更新
 
-**次の課題:**
-- GRMモデル用のオーバーレイ関数も必要か検討
-- plotIIC_overlay_gg()（Item Information Curvesのオーバーレイ）の実装も検討
+---
+
+### plotIIC_overlay_gg() 実装 (castella3)
+
+**目的:** 全てのItem Information Curves (IIC)を1枚のグラフに重ねて表示する関数を実装
+
+**実装内容:**
+- `plotIIC_overlay_gg()` を R/ICCtoTIC.R に追加
+- plotICC_overlay_gg() と同様の構造で実装
+- IRT（2PL, 3PL, 4PL）と GRM の両モデルに対応
+- 本家exametrika の `plot(IRT_result, type = "IIF", overlay = TRUE)` 相当
+
+**機能:**
+- 全アイテムまたは指定したアイテムのIICを1つのグラフにオーバーレイ
+- 各アイテムに異なる色を自動割り当て（カラーバリアフリー対応）
+- 共通オプションをサポート（title, colors, linetype, show_legend, legend_position）
+- IRT + GRM 両対応（既存のplotIIC_ggと同じ設計）
+- Y軸: information（情報量）を表示
+
+**IICの意味:**
+- ICC（正答確率）とは異なり、各アイテムがどの能力範囲で最も精密に測定できるかを示す
+- 情報量が高いほど、その能力範囲で精度よく測定可能
+- 曲線のピーク = 最も情報を提供する能力範囲
+
+**IRT vs GRM の情報関数:**
+- **IRT**: `I(θ) = [a²(P-c)(d-P)(Pd-c)] / [(d-c)²P(1-P)]`
+- **GRM**: `I(θ) = a² Σ P*ₖ(1-P*ₖ)` （ItemInformationFunc_GRM使用）
+
+**テスト:**
+- develop/test_IIC_overlay.R を作成
+- 2PLと3PLモデル（IRT）でテスト実施
+- GRMモデルでもテスト可能
+- 全アイテム表示、一部アイテム表示、カスタムカラー、凡例のオン/オフをテスト
+- すべてのテストが正常に動作することを確認
+
+**ドキュメント:**
+- roxygen2ドキュメント作成（@title, @description, @param, @return, @details, @examples, @seealso）
+- IICの説明（情報量曲線 vs 確率曲線）を明記
+- NAMESPACEに自動エクスポート追加
+
+**バージョン:**
+- DESCRIPTION: 0.0.14 → 0.0.16 → 0.0.17（マージ調整）
+- NEWS.md に変更履歴を追加
+- claude.md の実装状況表を更新
+
+**設計の妥当性:**
+- plotICC_overlay_gg: IRT専用（正しい - ICCは二値データ用）
+- plotIIC_overlay_gg: IRT + GRM両対応（正しい - 情報量は統一概念）
+- plotICRF_overlay_gg: 未実装（GRM専用のICRF overlay版は将来的に検討可能）
+
+---
 
 ## 2025-12-10
 
