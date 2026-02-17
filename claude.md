@@ -71,29 +71,29 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 
 ※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく
 
-| プロットタイプ | 対応モデル                                                                        | ggExametrika関数 | 状況                       |
-|----------------|-----------------------------------------------------------------------------------|------------------|----------------------------|
-| IRF/ICC (IRT)  | IRT                                                                               | plotICC_gg       | 実装済                     |
-| ICRF (GRM)     | GRM                                                                               | plotICRF_gg      | 実装済                     |
-| TRF            | IRT                                                                               | plotTRF_gg       | 実装済(IRT)                |
-| IIF/IIC        | IRT, GRM                                                                          | plotIIC_gg       | 実装済                     |
-| TIF/TIC        | IRT, GRM                                                                          | plotTIC_gg       | 実装済                     |
-| IRP            | LCA, LRA, LDLRA                                                                   | plotIRP_gg       | 実装済                     |
-| FRP            | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg       | 実装済 ※多値版の動作未確認 |
-| TRP            | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET                                    | plotTRP_gg       | 実装済                     |
-| LCD            | LCA, Biclustering, nominalBiclustering, ordinalBiclustering                       | plotLCD_gg       | 実装済 ※多値版の動作未確認 |
-| LRD            | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET    | plotLRD_gg       | 実装済 ※多値版の動作未確認 |
-| CMP            | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET                | plotCMP_gg       | 実装済 ※多値版の動作未確認 |
-| RMP            | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated   | plotRMP_gg       | 実装済 ※多値版の動作未確認 |
-| CRV            | Biclustering                                                                      | plotCRV_gg       | 実装済                     |
-| RRV            | Biclustering                                                                      | plotRRV_gg       | 実装済                     |
-| Array          | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET           | plotArray_gg     | 実装済 ※多値版の動作未確認 |
-| FieldPIRP      | LDB                                                                               | plotFieldPIRP_gg | 実装済                     |
-| LDPSR          | BINET                                                                             | \-               | 未実装                     |
-| ScoreFreq      | LRAordinal, LRArated                                                              | \-               | 未実装                     |
-| ScoreRank      | LRAordinal, LRArated                                                              | \-               | 未実装                     |
-| ICRP           | LRAordinal, LRArated                                                              | \-               | 未実装                     |
-| ICBR           | LRAordinal                                                                        | \-               | 未実装                     |
+| プロットタイプ | 対応モデル                                                                        | ggExametrika関数 | 状況                                           |
+|----------------|-----------------------------------------------------------------------------------|------------------|------------------------------------------------|
+| IRF/ICC (IRT)  | IRT                                                                               | plotICC_gg       | 実装済                                         |
+| ICRF (GRM)     | GRM                                                                               | plotICRF_gg      | 実装済                                         |
+| TRF            | IRT                                                                               | plotTRF_gg       | 実装済(IRT)                                    |
+| IIF/IIC        | IRT, GRM                                                                          | plotIIC_gg       | 実装済                                         |
+| TIF/TIC        | IRT, GRM                                                                          | plotTIC_gg       | 実装済                                         |
+| IRP            | LCA, LRA, LDLRA                                                                   | plotIRP_gg       | 実装済                                         |
+| FRP            | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg       | 実装済 ※多値版の動作未確認                     |
+| TRP            | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET                                    | plotTRP_gg       | 実装済                                         |
+| LCD            | LCA, Biclustering, nominalBiclustering, ordinalBiclustering                       | plotLCD_gg       | 実装済 ※多値版の動作未確認                     |
+| LRD            | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET    | plotLRD_gg       | 実装済 ※多値版の動作未確認                     |
+| CMP            | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET                | plotCMP_gg       | 実装済 ※多値版の動作未確認                     |
+| RMP            | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated   | plotRMP_gg       | 実装済 ※多値版の動作未確認                     |
+| CRV            | Biclustering                                                                      | plotCRV_gg       | 実装済（共通オプション対応済み）               |
+| RRV            | Biclustering                                                                      | plotRRV_gg       | 実装済（共通オプション対応済み）               |
+| Array          | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET           | plotArray_gg     | 実装済（多値対応済み、共通オプション対応済み） |
+| FieldPIRP      | LDB                                                                               | plotFieldPIRP_gg | 実装済                                         |
+| LDPSR          | BINET                                                                             | \-               | 未実装                                         |
+| ScoreFreq      | LRAordinal, LRArated                                                              | \-               | 未実装                                         |
+| ScoreRank      | LRAordinal, LRArated                                                              | \-               | 未実装                                         |
+| ICRP           | LRAordinal, LRArated                                                              | \-               | 未実装                                         |
+| ICBR           | LRAordinal                                                                        | \-               | 未実装                                         |
 
 ### exametrikaのモデル一覧とプロット対応（plot.exametrika valid_types準拠）
 
@@ -142,8 +142,9 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 
 #### 多値版モデル対応（動作確認・必要に応じて修正）
 
-10. nominalBiclustering — FRP, LCD, LRD, CMP, Array
-11. ordinalBiclustering — FRP, LCD, LRD, CMP, RMP, Array
+10. ~~Array — nominalBiclustering, ordinalBiclustering 対応完了~~
+11. nominalBiclustering — FRP, LCD, LRD, CMP（動作未確認）
+12. ordinalBiclustering — FRP, LCD, LRD, CMP, RMP（動作未確認）
 
 #### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
 
@@ -183,7 +184,7 @@ plotCMP_gg — title(ハードコード), linetype(dashed固定), colors/legend
 plotRMP_gg — title(ハードコード), linetype(dashed固定), colors/legend
 なし
 
-plotArray_gg — title(logical対応済み), colors/legend 未対応
+plotArray_gg — 共通オプション対応済み（多値データ対応含む）
 
 plotFieldPIRP_gg — title(ハードコード), colors/linetype/legend なし
 

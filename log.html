@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -190,6 +190,246 @@
 <li>座標取得→ggraphへの受け渡し機能</li>
 <li>plotGraph_gg関数のテスト</li>
 <li>ドキュメント整備</li>
+</ol><hr></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="id_2026-02-17-daichi-kamimura">2026-02-17 (Daichi Kamimura)<a class="anchor" aria-label="anchor" href="#id_2026-02-17-daichi-kamimura"></a></h2>
+<div class="section level3">
+<h3 id="plotarray_ggの多値対応実装">plotArray_ggの多値対応実装<a class="anchor" aria-label="anchor" href="#plotarray_gg%E3%81%AE%E5%A4%9A%E5%80%A4%E5%AF%BE%E5%BF%9C%E5%AE%9F%E8%A3%85"></a></h3>
+<div class="section level4">
+<h4 id="作業概要">作業概要<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E6%A5%AD%E6%A6%82%E8%A6%81"></a></h4>
+<p>Biclustering系のplotArray_gg関数を、2値データ（0/1）だけでなく、多値データ（ordinal/nominal Biclustering）にも対応させる実装を完了。</p>
+</div>
+<div class="section level4">
+<h4 id="実装内容">実装内容<a class="anchor" aria-label="anchor" href="#%E5%AE%9F%E8%A3%85%E5%86%85%E5%AE%B9"></a></h4>
+<ol style="list-style-type: decimal"><li>
+<strong>親パッケージの調査</strong>
+<ul><li>exametrikaの <code>00_exametrikaPlot.R</code> 内の <code>array_plot()</code> 関数を調査</li>
+<li>既に多値対応の実装があることを確認</li>
+<li>カテゴリ数の自動検出と色パレットの切り替えロジックを参考</li>
+</ul></li>
+<li>
+<strong>plotArray_gg関数の拡張</strong>
+<ul><li>カテゴリの自動検出: <code>sort(unique(as.vector(as.matrix(raw_data))))</code>
+</li>
+<li>2値データ: 白(#FFFFFF)と黒(#000000)を使用</li>
+<li>多値データ: カラーブラインドフレンドリーなパレット（最大20色）を使用</li>
+<li>
+<code>scale_fill_gradient2</code> から <code>scale_fill_manual</code> に変更し、離散的な色を適用</li>
+</ul></li>
+<li>
+<strong>共通オプションの追加</strong>
+<ul><li>
+<code>title</code>: logical または character（TRUE=自動タイトル、FALSE=非表示、文字列=カスタムタイトル）</li>
+<li>
+<code>colors</code>: カスタム色パレット（NULL=自動選択）</li>
+<li>
+<code>show_legend</code>: 凡例の表示/非表示（NULL=自動、2値はFALSE、多値はTRUE）</li>
+<li>
+<code>legend_position</code>: 凡例の位置（“right”, “top”, “bottom”, “left”, “none”）</li>
+</ul></li>
+<li>
+<strong>対応モデルの拡張</strong>
+<ul><li>Biclustering（既存）</li>
+<li>
+<strong>nominalBiclustering</strong>（新規）</li>
+<li>
+<strong>ordinalBiclustering</strong>（新規）</li>
+<li>IRM, LDB, BINET（既存）</li>
+</ul></li>
+<li>
+<strong>ドキュメントの更新</strong>
+<ul><li>roxygen2コメントを更新し、多値対応を明記</li>
+<li>例とパラメータの説明を充実化</li>
+<li>
+<code>@importFrom</code> 文を更新（<code>scale_fill_manual</code>, <code>element_text</code>, <code>element_blank</code>を追加）</li>
+</ul></li>
+<li>
+<strong>バージョン管理</strong>
+<ul><li>DESCRIPTION: 0.0.13 → 0.0.14</li>
+<li>NEWS.md: 新バージョンのエントリを追加</li>
+<li>log.md: 本エントリを追加</li>
+</ul></li>
+</ol></div>
+<div class="section level4">
+<h4 id="技術的な変更点">技術的な変更点<a class="anchor" aria-label="anchor" href="#%E6%8A%80%E8%A1%93%E7%9A%84%E3%81%AA%E5%A4%89%E6%9B%B4%E7%82%B9"></a></h4>
+<p><strong>Before (2値専用):</strong></p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">U</span><span class="op">)</span><span class="op">)</span>  <span class="co"># 0/1を反転</span></span>
+<span><span class="fu">scale_fill_gradient2</span><span class="op">(</span>low <span class="op">=</span> <span class="st">"black"</span>, high <span class="op">=</span> <span class="st">"white"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<p><strong>After (多値対応):</strong></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">response_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">raw_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">all_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">response_val</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">n_categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">all_values</span><span class="op">)</span></span>
+<span><span class="va">plot_data</span><span class="op">$</span><span class="va">value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">response_val</span>, levels <span class="op">=</span> <span class="va">all_values</span><span class="op">)</span></span>
+<span><span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">use_colors</span>, <span class="va">all_values</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="次回の課題-1">次回の課題<a class="anchor" aria-label="anchor" href="#%E6%AC%A1%E5%9B%9E%E3%81%AE%E8%AA%B2%E9%A1%8C-1"></a></h4>
+<ol style="list-style-type: decimal"><li>
+<strong>動作確認</strong>
+<ul><li>Rセッションで実際にordinalBiclustering/nominalBiclusteringのデータでテスト</li>
+<li>視覚的な確認（色の配置、凡例の表示）</li>
+<li>エッジケースのテスト（カテゴリ数が10を超える場合など）</li>
+</ul></li>
+<li>
+<strong>他の関数への共通オプション追加</strong>
+<ul><li>plotICC_gg, plotIIC_gg, plotTIC_gg, plotTRF_ggなど既存関数への共通オプション適用</li>
+<li>CLAUDE.mdのTODOリストを参照</li>
+</ul></li>
+<li>
+<strong>多値版モデルの動作確認</strong>
+<ul><li>FRP, LCD, LRD, CMP, RMP, Arrayの各関数で多値データのテスト</li>
+<li>nominalBiclustering, ordinalBiclusteringの全プロットタイプの動作確認</li>
+</ul></li>
+</ol><hr></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="id_2026-02-17-daichi-kamimura---続き">2026-02-17 (Daichi Kamimura) - 続き<a class="anchor" aria-label="anchor" href="#id_2026-02-17-daichi-kamimura---%E7%B6%9A%E3%81%8D"></a></h2>
+<div class="section level3">
+<h3 id="plotarray_ggの追加修正と検証">plotArray_ggの追加修正と検証<a class="anchor" aria-label="anchor" href="#plotarray_gg%E3%81%AE%E8%BF%BD%E5%8A%A0%E4%BF%AE%E6%AD%A3%E3%81%A8%E6%A4%9C%E8%A8%BC"></a></h3>
+<div class="section level4">
+<h4 id="視覚的な問題の修正">視覚的な問題の修正<a class="anchor" aria-label="anchor" href="#%E8%A6%96%E8%A6%9A%E7%9A%84%E3%81%AA%E5%95%8F%E9%A1%8C%E3%81%AE%E4%BF%AE%E6%AD%A3"></a></h4>
+<ol style="list-style-type: decimal"><li>
+<strong>タイトルの重なり問題</strong>
+<ul><li>フォントサイズを11pxに縮小</li>
+<li>マージンを <code>margin(t = 5, b = 5)</code> に調整</li>
+<li>問題解決</li>
+</ul></li>
+<li>
+<strong>境界線のオーバーフロー</strong>
+<ul><li>
+<code>scale_x_continuous(expand = c(0, 0), limits = ...)</code> を追加</li>
+<li>
+<code>scale_y_continuous(expand = c(0, 0), limits = ...)</code> を追加</li>
+<li>プロット領域を厳密に制御し、線がはみ出さないように修正</li>
+</ul></li>
+<li>
+<strong>境界線の色のカスタマイズ</strong>
+<ul><li>
+<code>Clusterd_lines_color</code> パラメータを追加（デフォルト: 白）</li>
+<li>ユーザーが任意の色を指定可能に</li>
+</ul></li>
+<li>
+<strong>境界線の位置ずれ</strong>
+<ul><li>座標計算を <code>h + 0.5</code>, <code>v + 0.5</code> に修正</li>
+<li>セルとセルの境界に正確に配置されるように調整</li>
+</ul></li>
+<li>
+<strong>境界線のデフォルト色を2値/多値で自動切り替え</strong>
+<ul><li>2値データ（0/1）: 赤色（視認性向上）</li>
+<li>多値データ（3+カテゴリ）: 白色</li>
+<li>
+<code>Clusterd_lines_color = NULL</code> の場合に自動判定</li>
+</ul></li>
+</ol></div>
+<div class="section level4">
+<h4 id="ソート順序の重大な修正critical-fix">ソート順序の重大な修正（CRITICAL FIX）<a class="anchor" aria-label="anchor" href="#%E3%82%BD%E3%83%BC%E3%83%88%E9%A0%86%E5%BA%8F%E3%81%AE%E9%87%8D%E5%A4%A7%E3%81%AA%E4%BF%AE%E6%AD%A3critical-fix"></a></h4>
+<p>exametrikaの元実装と比較した結果、行のソート順序が逆になっていることが判明。</p>
+<p><strong>問題:</strong> - ggExametrika: <code>order(ClassEstimated, decreasing = TRUE)</code> - exametrika: <code>order(ClassEstimated, decreasing = FALSE)</code></p>
+<p><strong>修正内容:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Before</span></span>
+<span><span class="va">sorted</span> <span class="op">&lt;-</span> <span class="va">sorted</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">ClassEstimated</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">rown</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sorted</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sorted</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># After</span></span>
+<span><span class="va">case_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">ClassEstimated</span>, decreasing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">field_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">FieldEstimated</span>, decreasing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">sorted</span> <span class="op">&lt;-</span> <span class="va">raw_data</span><span class="op">[</span><span class="va">case_order</span>, <span class="va">field_order</span><span class="op">]</span></span>
+<span><span class="va">rown</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sorted</span><span class="op">)</span><span class="op">:</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sorted</span><span class="op">)</span><span class="op">)</span>  <span class="co"># 逆順で視覚的に正しい配置</span></span></code></pre></div>
+<p><strong>結果:</strong> - 高いクラス番号（高い能力）が下に表示される - 低いクラス番号（低い能力）が上に表示される - exametrikaの元実装と完全に一致</p>
+<p><strong>境界線の計算も調整:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h_adjusted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sorted</span><span class="op">)</span> <span class="op">-</span> <span class="va">h</span></span>
+<span><span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">h_adjusted</span> <span class="op">+</span> <span class="fl">0.5</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="欠測値-1の特別処理">欠測値（-1）の特別処理<a class="anchor" aria-label="anchor" href="#%E6%AC%A0%E6%B8%AC%E5%80%A4-1%E3%81%AE%E7%89%B9%E5%88%A5%E5%87%A6%E7%90%86"></a></h4>
+<p>exametrikaでは-1が欠測値として使用されることが判明。</p>
+<p><strong>実装内容:</strong> 1. -1を有効値と分離して検出 2. -1に黒色（#000000）を割り当て 3. 凡例では「NA」と表示 4. 他の値は通常のカラーパレットを適用</p>
+<p><strong>コード:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">has_missing</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">1</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">all_values</span></span>
+<span><span class="va">valid_values</span> <span class="op">&lt;-</span> <span class="va">all_values</span><span class="op">[</span><span class="va">all_values</span> <span class="op">!=</span> <span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># -1に黒色を割り当て</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">all_values</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">use_colors</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"#000000"</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># 凡例のラベル</span></span>
+<span><span class="va">value_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">all_values</span> <span class="op">==</span> <span class="op">-</span><span class="fl">1</span>, <span class="st">"NA"</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">all_values</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># scale_fill_manualで適用</span></span>
+<span><span class="fu">scale_fill_manual</span><span class="op">(</span></span>
+<span>  values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">use_colors</span>, <span class="va">all_values</span><span class="op">)</span>,</span>
+<span>  labels <span class="op">=</span> <span class="va">value_labels</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="テストスクリプトの整理">テストスクリプトの整理<a class="anchor" aria-label="anchor" href="#%E3%83%86%E3%82%B9%E3%83%88%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E6%95%B4%E7%90%86"></a></h4>
+<p>developディレクトリのスクリプトが増えすぎたため、整理を実施。</p>
+<p><strong>削除したファイル（この会話で作成した一時ファイル）:</strong> - develop_compare_with_original.R - develop_side_by_side_comparison.R - develop_test_poly_biclustering.R - develop_verify_sorting.R - test_missing_values.R</p>
+<p><strong>統合されたテストスクリプト（compare_simple.R）:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Test 1: J15S3810（多値データ）</span></span>
+<span><span class="co"># Test 2: 欠測値（-1）を含むデータ</span></span>
+<span><span class="co"># 本家exametrikaとggExametrikaを比較</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="バージョン管理">バージョン管理<a class="anchor" aria-label="anchor" href="#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E7%AE%A1%E7%90%86"></a></h4>
+<ul><li>NEWS.md: 全ての修正内容を記録
+<ul><li>多値データ対応</li>
+<li>共通オプション追加</li>
+<li>境界線色のカスタマイズ</li>
+<li>欠測値の特別処理</li>
+<li>
+<strong>CRITICAL FIX</strong>: ソート順序の修正</li>
+</ul></li>
+<li>DESCRIPTION: 0.0.14（変更なし）</li>
+</ul></div>
+<div class="section level4">
+<h4 id="検証結果">検証結果<a class="anchor" aria-label="anchor" href="#%E6%A4%9C%E8%A8%BC%E7%B5%90%E6%9E%9C"></a></h4>
+<ol style="list-style-type: decimal"><li>
+<strong>J15S3810データでの検証</strong>
+<ul><li>本家とggExametrikaのプロットパターンが一致</li>
+<li>境界線の位置が正確</li>
+<li>多値の色パレットが正しく適用</li>
+</ul></li>
+<li>
+<strong>欠測値を含むデータでの検証</strong>
+<ul><li>-1が「NA」として凡例に表示</li>
+<li>黒色で視覚的に識別可能</li>
+<li>他の値のカラーパレットに影響なし</li>
+</ul></li>
+<li>
+<strong>ソート順序の検証</strong>
+<ul><li>高いクラス番号が下、低いクラス番号が上に正しく配置</li>
+<li>exametrikaの元実装と完全に一致</li>
+</ul></li>
+</ol></div>
+<div class="section level4">
+<h4 id="次回の課題-2">次回の課題<a class="anchor" aria-label="anchor" href="#%E6%AC%A1%E5%9B%9E%E3%81%AE%E8%AA%B2%E9%A1%8C-2"></a></h4>
+<ol style="list-style-type: decimal"><li>
+<strong>ユニットテストの充実</strong>
+<ul><li>testthatで欠測値処理のテストを追加</li>
+<li>ソート順序の自動テスト</li>
+</ul></li>
+<li>
+<strong>他のプロット関数への共通オプション追加</strong>
+<ul><li>CLAUDE.mdのTODOリストを参照</li>
+</ul></li>
+<li>
+<strong>v1.0.0に向けた未実装機能</strong>
+<ul><li>CRV/RRV, LDPSR, ScoreFreq, ScoreRank, ICRP, ICBR</li>
+<li>GRM対応（IIC, TIC）</li>
+<li>DAG可視化</li>
+</ul></li>
 </ol></div>
 </div>
 </div>

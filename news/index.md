@@ -1,5 +1,37 @@
 # Changelog
 
+## ggExametrika 0.0.14
+
+- Add multi-valued data support to
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  for ordinal/nominal Biclustering.
+- Add common plot options (title, colors, show_legend, legend_position)
+  to
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md).
+- Add `Clusterd_lines_color` parameter to
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  for customizing boundary line colors (default: red for binary data,
+  white for multi-valued data).
+- [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  now automatically detects the number of categories and uses
+  appropriate color palettes.
+- For binary data (0/1), uses white/black colors. For multi-valued data
+  (2+ categories), uses a colorblind-friendly palette.
+- Add special handling for missing values (-1): displayed as “NA” in
+  legend with black color.
+- Fix plot margins and title spacing to prevent overlapping in
+  side-by-side displays.
+- Fix boundary lines to stay within plot area using proper coordinate
+  limits.
+- Fix boundary line positions in
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  to align exactly with class/field boundaries.
+- **CRITICAL FIX**: Correct row sorting order in
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  to match exametrika’s original implementation. Now uses
+  `order(ClassEstimated, decreasing = FALSE)` with reversed rown for
+  proper visual alignment (higher class numbers at bottom).
+
 ## ggExametrika 0.0.13
 
 - Add GRM support to

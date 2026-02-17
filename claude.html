@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -170,15 +170,15 @@
 </tr><tr class="odd"><td>CRV</td>
 <td>Biclustering</td>
 <td>plotCRV_gg</td>
-<td>実装済</td>
+<td>実装済（共通オプション対応済み）</td>
 </tr><tr class="even"><td>RRV</td>
 <td>Biclustering</td>
 <td>plotRRV_gg</td>
-<td>実装済</td>
+<td>実装済（共通オプション対応済み）</td>
 </tr><tr class="odd"><td>Array</td>
 <td>Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET</td>
 <td>plotArray_gg</td>
-<td>実装済 ※多値版の動作未確認</td>
+<td>実装済（多値対応済み、共通オプション対応済み）</td>
 </tr><tr class="even"><td>FieldPIRP</td>
 <td>LDB</td>
 <td>plotFieldPIRP_gg</td>
@@ -271,8 +271,9 @@
 </ol></div>
 <div class="section level4">
 <h4 id="多値版モデル対応動作確認必要に応じて修正">多値版モデル対応（動作確認・必要に応じて修正）<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E5%80%A4%E7%89%88%E3%83%A2%E3%83%87%E3%83%AB%E5%AF%BE%E5%BF%9C%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D%E5%BF%85%E8%A6%81%E3%81%AB%E5%BF%9C%E3%81%98%E3%81%A6%E4%BF%AE%E6%AD%A3"></a></h4>
-<ol start="10" style="list-style-type: decimal"><li>nominalBiclustering — FRP, LCD, LRD, CMP, Array</li>
-<li>ordinalBiclustering — FRP, LCD, LRD, CMP, RMP, Array</li>
+<ol start="10" style="list-style-type: decimal"><li><del>Array — nominalBiclustering, ordinalBiclustering 対応完了</del></li>
+<li>nominalBiclustering — FRP, LCD, LRD, CMP（動作未確認）</li>
+<li>ordinalBiclustering — FRP, LCD, LRD, CMP, RMP（動作未確認）</li>
 </ol></div>
 <div class="section level4">
 <h4 id="dag可視化printexametrikaでigraph使用--ggraph化">DAG可視化（print.exametrikaでigraph使用 → ggraph化）<a class="anchor" aria-label="anchor" href="#dag%E5%8F%AF%E8%A6%96%E5%8C%96printexametrika%E3%81%A7igraph%E4%BD%BF%E7%94%A8--ggraph%E5%8C%96"></a></h4>
@@ -295,7 +296,7 @@
 <li><label><input type="checkbox">plotLRD_gg — title(logical対応済み), colors/linetype/legend 未対応</label></li>
 <li><label><input type="checkbox">plotCMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし</label></li>
 <li><label><input type="checkbox">plotRMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし</label></li>
-<li><label><input type="checkbox">plotArray_gg — title(logical対応済み), colors/legend 未対応</label></li>
+<li><label><input type="checkbox" checked>plotArray_gg — 共通オプション対応済み（多値データ対応含む）</label></li>
 <li><label><input type="checkbox">plotFieldPIRP_gg — title(ハードコード), colors/linetype/legend なし</label></li>
 <li><label><input type="checkbox">plotGraph_gg — 独自オプション多数、共通オプションとの整合性を検討</label></li>
 </ul></div>

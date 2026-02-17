@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.14</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,21 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.14" id="ggexametrika-0014">ggExametrika 0.0.14<a class="anchor" aria-label="anchor" href="#ggexametrika-0014"></a></h2>
+<ul><li>Add multi-valued data support to <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> for ordinal/nominal Biclustering.</li>
+<li>Add common plot options (title, colors, show_legend, legend_position) to <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code>.</li>
+<li>Add <code>Clusterd_lines_color</code> parameter to <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> for customizing boundary line colors (default: red for binary data, white for multi-valued data).</li>
+<li>
+<code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> now automatically detects the number of categories and uses appropriate color palettes.</li>
+<li>For binary data (0/1), uses white/black colors. For multi-valued data (2+ categories), uses a colorblind-friendly palette.</li>
+<li>Add special handling for missing values (-1): displayed as “NA” in legend with black color.</li>
+<li>Fix plot margins and title spacing to prevent overlapping in side-by-side displays.</li>
+<li>Fix boundary lines to stay within plot area using proper coordinate limits.</li>
+<li>Fix boundary line positions in <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> to align exactly with class/field boundaries.</li>
+<li>
+<strong>CRITICAL FIX</strong>: Correct row sorting order in <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> to match exametrika’s original implementation. Now uses <code>order(ClassEstimated, decreasing = FALSE)</code> with reversed rown for proper visual alignment (higher class numbers at bottom).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.13" id="ggexametrika-0013">ggExametrika 0.0.13<a class="anchor" aria-label="anchor" href="#ggexametrika-0013"></a></h2>
 <ul><li>Add GRM support to <code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code> for Item Information Curve (IRT and GRM).</li>
