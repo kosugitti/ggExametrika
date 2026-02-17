@@ -90,7 +90,7 @@ plotScoreRank_gg <- function(data,
   p <- ggplot(plot_data, aes(x = rank, y = score, fill = count)) +
     geom_tile() +
     scale_fill_gradient(low = color_low, high = color_high) +
-    scale_x_continuous(breaks = 1:n_rank) +
+    scale_x_reverse(breaks = 1:n_rank) +
     labs(
       title = plot_title,
       x = "Latent Rank",
