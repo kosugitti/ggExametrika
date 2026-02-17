@@ -512,3 +512,180 @@ developディレクトリのスクリプトが増えすぎたため、整理を�
    - CRV/RRV, LDPSR, ScoreFreq, ScoreRank, ICRP, ICBR
    - GRM対応（IIC, TIC）
    - DAG可視化
+
+---
+
+## 2026-02-17 (Feature: ICBR)
+
+### plotICBR_ggの実装完了
+
+#### 作業概要
+LRAordinal専用のICBR（Item Category Boundary Response）プロット関数を実装。
+カテゴリ境界を超える累積確率曲線をランクごとに可視化する機能を追加。
+
+#### 実装内容
+
+1. **新規ファイル作成**
+   - `R/LRAordinal.R` - plotICBR_gg() 関数（183行）
+   - `develop/explore_ICBR.R` - データ構造調査スクリプト
+   - `develop/test_ICBR.R` - 包括的なテストスクリプト
+
+2. **データ構造の調査と理解**
+   - exametrikaのICBRデータ: ItemLabel, CategoryLabel, rank1, rank2, ...
+   - Wide形式からLong形式への変換（tidyr::pivot_longer使用）
+   - CategoryLabelから項目名プレフィックスを除去して色パレット問題を解決
+
+3. **ランク順序の調整（重要な修正）**
+   - **問題**: exametrikaのデータではrank1が低能力、rank4が高能力
+   - **期待**: X軸1→4で能力上昇、確率も上昇（右肩上がり）
+   - **解決**: ランクを逆順に変換（`n_ranks - Rank + 1`）
+   - **結果**: 右肩上がりのプロット実現
+
+4. **スタイルの統一**
+   - Y軸: `scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25))`
+   - テーマ: ggplot2デフォルトテーマ（他の関数と一貫性）
+   - `theme_minimal()` を削除、`facet_wrap(scales = "free_y")` から固定Y軸に変更
+
+5. **共通オプション対応**
+   - `title`: TRUE/FALSE/カスタム文字列
+   - `colors`: NULL=デフォルトパレット、指定でカスタム
+   - `linetype`: NULL=自動、指定でカスタム
+   - `show_legend`: TRUE/FALSE
+   - `legend_position`: "right", "top", "bottom", "left", "none"
+
+6. **依存関係の追加**
+   - DESCRIPTIONのImportsに `tidyr` を追加（pivot_longer用）
+
+#### 技術的な課題と解決
+
+**課題1: 色パレット不足エラー**
+```
+Error: Insufficient values in manual scale. 16 needed but only 4 provided.
+```
+- **原因**: CategoryLabelが項目ごとに異なる（V1-Cat1, V2-Cat1, ...）
+- **解決**: CategoryLabelから項目名を除去（"V1-Cat1" → "Cat1"）
+- **結果**: 全項目で同じカテゴリラベルを共有、4色で対応可能
+
+**課題2: プロットの向き（右肩下がり vs 右肩上がり）**
+- **原因**: exametrikaのランク番号と能力の関係
+- **解決**: ランクを逆順に変換
+- **検証**: ユーザー確認により、ランクは大きいほど高能力と判明
+
+#### バージョン管理
+
+- DESCRIPTION: 0.0.14 → 0.0.15
+- NEWS.md: v0.0.15エントリ追加
+- claude.md: 実装状況表を更新（ICBR: 未実装 → 実装済み）
+
+#### Git管理
+
+- ブランチ: `feature/icbr`
+- コミット: 50e5d03 "Add plotICBR_gg for Item Category Boundary Response visualization"
+- リモート: https://github.com/kosugitti/ggExametrika/pull/new/feature/icbr
+
+#### 動作確認
+
+- 基本動作: ✓ 複数項目の表示、右肩上がりの曲線
+- 共通オプション: ✓ title, colors, linetype, show_legend, legend_position
+- スタイル統一: ✓ Y軸0〜1、0.25刻み、デフォルトテーマ
+- エラーハンドリング: ✓ LRArated, IRT, Biclusteringで適切にエラー
+
+#### 次回の課題
+
+1. **未実装プロットタイプ**
+   - ScoreRank（スコア-ランクヒートマップ）- LRAordinal, LRArated
+   - ICRP（Item Category Reference Profile）- LRAordinal, LRArated
+   - LDPSR（Latent Dependence Passing Student Rate）- BINET
+
+2. **既存関数への共通オプション追加**
+   - CLAUDE.mdのTODOリスト参照（16関数）
+
+3. **多値版モデルの動作確認**
+   - nominalBiclustering, ordinalBiclustering
+
+---
+
+## 2026-02-17
+
+### ICRP (Item Category Reference Profile) 実装 - plotICRP_gg
+
+担当: Claude
+
+#### 実装概要
+
+exametrika の `LRAordinal` および `LRArated` モデルの ICRP データを可視化する関数を実装しました。ICRPは各カテゴリの応答確率を表示し、各ランクで確率の合計が1.0になります。これは累積確率を表示するICBRとは対照的です。
+
+#### 実装内容
+
+1. **新規関数: plotICRP_gg**
+   - ファイル: `R/LRAordinal.R`（plotICBR_ggと同じファイル）
+   - 対応モデル: LRAordinal, LRArated
+   - 返り値: ggplotオブジェクト（facet_wrapによる複数項目表示）
+
+2. **関数の特徴**
+   - ICBRとの違い: 応答確率（P(response = k | rank)）を表示
+   - 各ランクで全カテゴリの確率合計が1.0
+   - LRAordinalとLRArated両方に対応
+   - 完全な共通オプション対応（title, colors, linetype, show_legend, legend_position）
+
+3. **データ構造**
+   - `data$ICRP`: ItemLabel, CategoryLabel, rank1, rank2, ...
+   - ICBRと同じ形式だが、意味が異なる（累積 vs 応答）
+   - カテゴリラベルの正規化（"V1-Cat1" → "Cat1"）でパレット問題を解決
+
+4. **開発ファイル**
+   - `develop/explore_ICRP.R`: ICRPデータ構造の調査、ICBRとの比較
+   - `develop/test_ICRP.R`: 包括的テストスクリプト（10セクション）
+
+#### Y軸自動スケーリング対応
+
+ユーザーフィードバックに基づき、plotICBR_ggとplotICRP_gg両方のY軸を修正：
+
+- **変更前**: `scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25))`
+- **変更後**: `scale_y_continuous(breaks = seq(0, 1, 0.25))`
+- **理由**: データ範囲に応じた自動調整で、柔軟な可視化を実現
+
+#### バージョン管理
+
+- DESCRIPTION: 0.0.15 → 0.0.16
+- NEWS.md: v0.0.16エントリ追加（ICRP実装 + Y軸自動スケーリング）
+- claude.md: 実装状況表を更新（ICRP: 未実装 → 実装済み）
+
+#### Git管理
+
+- ブランチ: `feature/icrp`（feature/icbrから派生）
+- 理由: ICBRの実装を含む必要があったため
+
+#### 動作確認（予定）
+
+テストスクリプト `develop/test_ICRP.R` で以下を確認予定：
+1. 基本動作（LRAordinal, LRArated両対応）
+2. 共通オプション（title, colors, linetype, show_legend, legend_position）
+3. Y軸自動スケーリング
+4. ICRPとICBRの比較（同じ項目で累積vs応答の違い）
+5. エラーハンドリング（IRT, Biclustering等）
+
+#### ICBRとICRPの関係
+
+数学的関係:
+```
+ICBR(Cat_i) = Σ ICRP(Cat_j) for j >= i
+```
+
+視覚的違い:
+- **ICBR**: 累積確率、単調減少、カテゴリ0は常に1.0
+- **ICRP**: 応答確率、ピークを持つ山型、合計1.0
+
+#### 次回の課題
+
+1. **未実装プロットタイプ（残り3つ）**
+   - ScoreRank（スコア-ランクヒートマップ）- LRAordinal, LRArated
+   - LDPSR（Latent Dependence Passing Student Rate）- BINET
+
+2. **既存関数への共通オプション追加**
+   - CLAUDE.mdのTODOリスト参照（16関数）
+
+3. **多値版モデルの動作確認**
+   - nominalBiclustering, ordinalBiclustering
+
+---
