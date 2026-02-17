@@ -1,3 +1,10 @@
+# ggExametrika 0.0.11
+
+* Add `plotICRF_gg()` for Item Category Response Function (GRM) visualization.
+* Add `.gg_exametrika_palette()` as package-wide default color palette (ColorBrewer Dark2).
+* Add common plot options (title, colors, linetype, show_legend, legend_position) to `plotICRF_gg()`.
+* Fix y-axis on all probability plots to always display 0.00 and 1.00 with breaks at 0.25 intervals.
+
 # ggExametrika 0.0.10
 
 * Add `plotTRF_gg()` for Test Response Function (TRF) visualization in IRT models.

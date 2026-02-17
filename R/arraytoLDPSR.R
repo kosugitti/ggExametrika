@@ -241,7 +241,7 @@ plotFieldPIRP_gg <- function(data) {
         y = k,
         group = field
       )) +
-      ylim(0, 1) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       scale_x_continuous(breaks = seq(0, max(plot_data$l), 1)) +
       geom_line() +
       geom_text(aes(x = l, y = k - 0.02), label = substr(plot_data$field, 7, 8)) +

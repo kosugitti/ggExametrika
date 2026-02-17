@@ -60,7 +60,7 @@ plotIRP_gg <- function(data) {
     )
 
     plots[[i]] <- ggplot(x, aes(x = rank, y = CRR)) +
-      ylim(0, 1) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       geom_point() +
       geom_line(linetype = "dashed") +
       scale_x_continuous(breaks = seq(1, n_cls, 1)) +
@@ -131,7 +131,7 @@ plotFRP_gg <- function(data) {
     )
 
     plots[[i]] <- ggplot(x, aes(x = rank, y = CRR)) +
-      ylim(0, 1) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       geom_point() +
       geom_line(linetype = "dashed") +
       scale_x_continuous(breaks = seq(1, n_cls, 1)) +
@@ -706,7 +706,7 @@ plotCMP_gg <- function(data) {
     )
 
     plots[[i]] <- ggplot(x, aes(x = rank, y = Membership)) +
-      ylim(0, 1) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       geom_point() +
       geom_line(linetype = "dashed") +
       scale_x_continuous(breaks = seq(1, n_cls, 1)) +
@@ -811,7 +811,7 @@ plotRMP_gg <- function(data) {
     )
 
     plots[[i]] <- ggplot(x, aes(x = rank, y = Membership)) +
-      ylim(0, 1) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       geom_point() +
       geom_line(linetype = "dashed") +
       scale_x_continuous(breaks = seq(1, n_cls, 1)) +

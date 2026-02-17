@@ -71,7 +71,7 @@ plotICC_gg <- function(data, xvariable = c(-4, 4)) {
 
     plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
       xlim(xvariable[1], xvariable[2]) +
-      ylim(0, 1) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       stat_function(fun = Item_Characteristic_function, args = args) +
       labs(
         title = paste0("Item Characteristic Curve, ", rownames(data$params)[i]),

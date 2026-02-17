@@ -64,7 +64,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 
 | プロットタイプ | 対応モデル | ggExametrika関数 | 状況 |
 |---------------|-----------|-----------------|------|
-| IRF/ICC | IRT, GRM | plotICC_gg | 実装済(IRT), GRM未対応 |
+| IRF/ICC (IRT) | IRT | plotICC_gg | 実装済 |
+| ICRF (GRM) | GRM | plotICRF_gg | 実装済 |
 | TRF | IRT | plotTRF_gg | 実装済(IRT) |
 | IIF/IIC | IRT, GRM | plotIIC_gg | 実装済(IRT), GRM未対応 |
 | TIF/TIC | IRT, GRM | plotTIC_gg | 実装済(IRT), GRM未対応 |
@@ -122,7 +123,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 6. ICBR (Item Category Boundary Response) — LRAordinal
 
 #### GRM対応（既存関数の拡張）
-7. IRF/ICC — GRMモデル対応（カテゴリ別応答確率曲線）
+7. ~~IRF/ICC — GRMモデル対応~~ → plotICRF_gg として実装済み
 8. IIF/IIC — GRMモデル対応
 9. TIF/TIC — GRMモデル対応
 
