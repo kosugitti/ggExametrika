@@ -1,3 +1,9 @@
+# ggExametrika 0.0.12
+
+* Add `plotCRV_gg()` for Class Reference Vector (CRV) visualization (Biclustering).
+* Add `plotRRV_gg()` for Rank Reference Vector (RRV) visualization (Biclustering).
+* Both functions support common plot options (title, colors, linetype, show_legend, legend_position).
+
 # ggExametrika 0.0.11
 
 * Add `plotICRF_gg()` for Item Category Response Function (GRM) visualization.
