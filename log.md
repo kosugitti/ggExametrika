@@ -689,3 +689,106 @@ ICBR(Cat_i) = Σ ICRP(Cat_j) for j >= i
    - nominalBiclustering, ordinalBiclustering
 
 ---
+
+## 2026-02-18
+
+### 多値バイクラスタリングの新サンプルデータ対応検証
+
+担当: Claude
+
+#### 作業概要
+
+親パッケージexametrikaに追加された新しい多値バイクラスタリングサンプルデータ（J35S500, J20S600）に対するggExametrikaの互換性を検証。plotArray_gg関数が新データで正しく動作することを確認。
+
+#### 背景
+
+exametrika v1.9.0で多値データ用のサンプルデータセットが追加された：
+- **J35S500**: ordinal Biclustering（ランククラスタリング）、35項目、500受験者、5カテゴリ
+- **J20S600**: nominal Biclustering、20項目、600受験者、4カテゴリ
+
+#### 実施した作業
+
+1. **exametrikaパッケージの更新**
+   - GitHub経由で最新版（v1.9.0）をインストール
+   - 新データセットJ35S500, J20S600の存在を確認
+
+2. **テストスクリプトの作成**
+   - `develop/test_multivalue_biclustering.R` を新規作成
+   - ordinalとnominal両方のBiclusteringをテスト
+   - 親パッケージの `tests/testthat/test-polytomous-biclustering.R` を参考
+
+3. **動作検証**
+   - Test 1: J35S500（ordinal Biclustering）
+     - データ構造: 500×35行列、カテゴリ0-5（-1は欠測値）
+     - FRP dimensions: 5×5×5（5フィールド×5クラス×5カテゴリ）
+     - 収束: TRUE ✓
+     - plotArray_gg: 正常動作 ✓
+
+   - Test 2: J20S600（nominal Biclustering）
+     - データ構造: 600×20行列、カテゴリ0-4（-1は欠測値）
+     - FRP dimensions: 4×5×4（4フィールド×5クラス×4カテゴリ）
+     - 収束: TRUE ✓
+     - plotArray_gg: 正常動作 ✓
+
+4. **既存機能の確認**
+   - plotICC_overlay_gg: 正常動作 ✓
+   - plotIIC_overlay_gg: 正常動作 ✓
+
+#### 検証結果
+
+✅ **plotArray_ggは既に多値データに完全対応している**
+
+現在の実装（2026-02-17の修正版）は以下の機能を持つ：
+
+1. **自動カテゴリ検出**
+   - `sort(unique(as.vector(as.matrix(raw_data))))`
+   - -1（欠測値）と有効値を分離
+
+2. **自動色パレット選択**
+   - 2値データ: 白/黒
+   - 3+値データ: カラーブラインドフレンドリーパレット（最大20色）
+   - 欠測値（-1）: 黒色、凡例に「NA」表示
+
+3. **境界線色の自動切り替え**
+   - 2値データ: 赤色（視認性向上）
+   - 多値データ: 白色
+
+4. **凡例の自動表示制御**
+   - 2値データ: 凡例なし（デフォルト）
+   - 多値データ: 凡例あり（デフォルト）
+
+5. **共通オプション完全対応**
+   - title, colors, show_legend, legend_position, Clusterd_lines_color
+
+#### コード変更
+
+**なし** - 既存の実装で新データに対応できることを確認
+
+#### テストファイル
+
+- `develop/test_multivalue_biclustering.R` - 83行
+  - J35S500（ordinal、5カテゴリ）とJ20S600（nominal、4カテゴリ）の両方をテスト
+  - 元のexametrikaプロットとggExametrikaプロットを比較
+  - カスタムカラー、凡例オプションのテスト含む
+
+#### ブランチ管理
+
+- ブランチ: `feature/multivalue-data-update`
+- 状態: テスト完了、コミット/プッシュなし（ユーザー指示により）
+
+#### 次回の課題
+
+1. **動作確認完了した項目**
+   - plotArray_gg（ordinalBiclustering, nominalBiclustering） ✓
+
+2. **未確認の多値版関数（CLAUDE.md参照）**
+   - plotFRP_gg（nominalBiclustering, ordinalBiclustering）
+   - plotLCD_gg（nominalBiclustering, nominalBiclustering）
+   - plotLRD_gg（nominalBiclustering, ordinalBiclustering）
+   - plotCMP_gg（nominalBiclustering, ordinalBiclustering）
+   - plotRMP_gg（ordinalBiclustering）
+
+3. **既存関数への共通オプション追加**
+   - 16関数が未対応（CLAUDE.mdのTODOリスト参照）
+
+---
