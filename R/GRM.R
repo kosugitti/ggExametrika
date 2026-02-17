@@ -160,3 +160,50 @@ plotICRF_gg <- function(data,
 
   return(plots)
 }
+
+
+#' @title GRM Item Information Function
+#'
+#' @description
+#' Computes the Item Information Function (IIF) for the Graded Response Model.
+#' The information function indicates how precisely an item measures ability
+#' at different theta levels.
+#'
+#' @param theta Numeric. The ability parameter (theta).
+#' @param a Numeric. The slope (discrimination) parameter.
+#' @param b Numeric vector. The threshold (boundary) parameters.
+#'
+#' @return A numeric value representing the item information at the given
+#'   ability level.
+#'
+#' @details
+#' For GRM, the Item Information Function is computed as:
+#' \deqn{I(\theta) = a^2 \sum_{k=1}^{K-1} P_k^*(\theta) [1 - P_k^*(\theta)]}
+#'
+#' where \eqn{P_k^*(\theta)} is the cumulative probability of scoring in
+#' category \eqn{k} or above.
+#'
+#' @examples
+#' # Information at ability = 0 for a 5-category item
+#' ItemInformationFunc_GRM(theta = 0, a = 1.5, b = c(-1, -0.5, 0.5, 1))
+#'
+#' @seealso \code{\link{plotICRF_gg}}
+#'
+#' @export
+
+ItemInformationFunc_GRM <- function(theta, a, b) {
+  grm_cumprob <- function(theta, a, b) {
+    1 / (1 + exp(-a * (theta - b)))
+  }
+
+  K <- length(b) + 1  # number of categories
+  info <- 0
+
+  for (k in seq_along(b)) {
+    Pk_star <- grm_cumprob(theta, a, b[k])
+    info <- info + Pk_star * (1 - Pk_star)
+  }
+
+  info <- a^2 * info
+  return(info)
+}

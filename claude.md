@@ -67,8 +67,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | IRF/ICC (IRT) | IRT | plotICC_gg | 実装済 |
 | ICRF (GRM) | GRM | plotICRF_gg | 実装済 |
 | TRF | IRT | plotTRF_gg | 実装済(IRT) |
-| IIF/IIC | IRT, GRM | plotIIC_gg | 実装済(IRT), GRM未対応 |
-| TIF/TIC | IRT, GRM | plotTIC_gg | 実装済(IRT), GRM未対応 |
+| IIF/IIC | IRT, GRM | plotIIC_gg | 実装済 |
+| TIF/TIC | IRT, GRM | plotTIC_gg | 実装済 |
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
 | FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | 実装済 ※多値版の動作未確認 |
 | TRP | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET | plotTRP_gg | 実装済 |
@@ -125,8 +125,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 
 #### GRM対応（既存関数の拡張）
 7. ~~IRF/ICC — GRMモデル対応~~ → plotICRF_gg として実装済み
-8. IIF/IIC — GRMモデル対応
-9. TIF/TIC — GRMモデル対応
+8. ~~IIF/IIC — GRMモデル対応~~ → plotIIC_gg に GRM 対応追加済み
+9. ~~TIF/TIC — GRMモデル対応~~ → plotTIC_gg に GRM 対応追加済み
 
 #### 多値版モデル対応（動作確認・必要に応じて修正）
 10. nominalBiclustering — FRP, LCD, LRD, CMP, Array
@@ -142,8 +142,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 以下の関数に共通オプション（title, colors, linetype, show_legend, legend_position）を追加する。
 
 - [ ] plotICC_gg — title(ハードコード), colors/linetype/legend なし
-- [ ] plotIIC_gg — title(ハードコード), colors/linetype/legend なし
-- [ ] plotTIC_gg — title(ハードコード), colors/linetype/legend なし
+- [x] plotIIC_gg — 共通オプション対応済み (IRT/GRM両対応)
+- [x] plotTIC_gg — 共通オプション対応済み (IRT/GRM両対応)
 - [ ] plotTRF_gg — title(ハードコード), colors/linetype/legend なし
 - [ ] plotIRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
 - [ ] plotFRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし

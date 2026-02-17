@@ -1,3 +1,10 @@
+# ggExametrika 0.0.13
+
+* Add GRM support to `plotIIC_gg()` for Item Information Curve (IRT and GRM).
+* Add GRM support to `plotTIC_gg()` for Test Information Curve (IRT and GRM).
+* Add `ItemInformationFunc_GRM()` for computing GRM item information.
+* Add common plot options (title, colors, linetype, show_legend, legend_position) to `plotIIC_gg()` and `plotTIC_gg()`.
+
 # ggExametrika 0.0.12
 
 * Add `plotCRV_gg()` for Class Reference Vector (CRV) visualization (Biclustering).
