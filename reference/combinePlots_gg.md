@@ -46,7 +46,7 @@ if (FALSE) { # \dontrun{
 library(exametrika)
 result <- IRT(J15S500, model = 3)
 plots <- plotICC_gg(result)
-combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 items
-combinePlots_gg(plots, selectPlots = c(1, 5, 10))  # Show specific items
+combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 items
+combinePlots_gg(plots, selectPlots = c(1, 5, 10)) # Show specific items
 } # }
 ```

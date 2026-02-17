@@ -1,8 +1,10 @@
 pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
-articles: {}
-last_built: 2025-12-12T08:06Z
+articles:
+  getting-started-ja: getting-started-ja.html
+  getting-started: getting-started.html
+last_built: 2026-02-17T10:37Z
 urls:
   reference: https://kosugitti.github.io/ggExametrika/reference
   article: https://kosugitti.github.io/ggExametrika/articles

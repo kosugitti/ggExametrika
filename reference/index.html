@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.13</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +16,12 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started-ja.html">入門ガイド (日本語)</a></li>
+  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/kosugitti/ggExametrika"><span class="fa fa-github"></span></a></li>
@@ -33,7 +39,7 @@
     <div class="section level2">
       <h2 id="irt-plots">IRT Plots<a class="anchor" aria-label="anchor" href="#irt-plots"></a></h2>
 
-      <div class="section-desc"><p>Item Response Theory visualization functions</p></div>
+      <div class="section-desc"><p>Item Response Theory (2PL, 3PL, 4PL) visualization functions</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -63,6 +69,13 @@
 
         <dt>
 
+          <code><a href="plotTRF_gg.html">plotTRF_gg()</a></code>
+
+        </dt>
+        <dd>Plot Test Response Function (TRF) from exametrika</dd>
+
+        <dt>
+
           <code><a href="LogisticModel.html">LogisticModel()</a></code>
 
         </dt>
@@ -75,9 +88,32 @@
         </dt>
         <dd>Item Information Function for 4PLM</dd>
       </dl></div><div class="section level2">
+      <h2 id="grm-plots">GRM Plots<a class="anchor" aria-label="anchor" href="#grm-plots"></a></h2>
+
+      <div class="section-desc"><p>Graded Response Model visualization functions</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="plotICRF_gg.html">plotICRF_gg()</a></code>
+
+        </dt>
+        <dd>Plot Item Category Response Function (ICRF) for GRM from exametrika</dd>
+
+        <dt>
+
+          <code><a href="ItemInformationFunc_GRM.html">ItemInformationFunc_GRM()</a></code>
+
+        </dt>
+        <dd>GRM Item Information Function</dd>
+      </dl></div><div class="section level2">
       <h2 id="latent-class-rank-plots">Latent Class/Rank Plots<a class="anchor" aria-label="anchor" href="#latent-class-rank-plots"></a></h2>
 
-      <div class="section-desc"><p>LCA, LRA visualization functions</p></div>
+      <div class="section-desc"><p>LCA, LRA, LDLRA visualization functions</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -135,7 +171,7 @@
       </dl></div><div class="section level2">
       <h2 id="biclustering-plots">Biclustering Plots<a class="anchor" aria-label="anchor" href="#biclustering-plots"></a></h2>
 
-      <div class="section-desc"><p>Biclustering and related model visualization</p></div>
+      <div class="section-desc"><p>Biclustering, IRM, and related model visualization</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -143,6 +179,20 @@
 
 
       <dl><dt>
+
+          <code><a href="plotCRV_gg.html">plotCRV_gg()</a></code>
+
+        </dt>
+        <dd>Plot Class Reference Vector (CRV) from exametrika</dd>
+
+        <dt>
+
+          <code><a href="plotRRV_gg.html">plotRRV_gg()</a></code>
+
+        </dt>
+        <dd>Plot Rank Reference Vector (RRV) from exametrika</dd>
+
+        <dt>
 
           <code><a href="plotArray_gg.html">plotArray_gg()</a></code>
 
@@ -155,6 +205,22 @@
 
         </dt>
         <dd>Plot Field PIRP (Parent Item Reference Profile) from exametrika</dd>
+      </dl></div><div class="section level2">
+      <h2 id="dag-visualization">DAG Visualization<a class="anchor" aria-label="anchor" href="#dag-visualization"></a></h2>
+
+      <div class="section-desc"><p>Directed Acyclic Graph visualization (BNM, LDLRA, LDB, BINET)</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="plotGraph_gg.html">plotGraph_gg()</a></code>
+
+        </dt>
+        <dd>Plot DAG (Directed Acyclic Graph) from exametrika</dd>
       </dl></div><div class="section level2">
       <h2 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a></h2>
 

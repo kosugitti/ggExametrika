@@ -60,7 +60,7 @@ Special cases:
 
 ``` r
 # Compute probability for ability = 0, difficulty = 0
-LogisticModel(x = 0, a = 1, b = 0, c = 0, d = 1)  # Returns 0.5
+LogisticModel(x = 0, a = 1, b = 0, c = 0, d = 1) # Returns 0.5
 #> [1] 0.5
 
 # 3PLM with guessing parameter

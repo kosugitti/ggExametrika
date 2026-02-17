@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.13</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +16,12 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started-ja.html">入門ガイド (日本語)</a></li>
+  </ul></li>
+<li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/kosugitti/ggExametrika"><span class="fa fa-github"></span></a></li>
@@ -32,10 +38,70 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.9" id="ggexametrika-009">ggExametrika 0.0.9<a class="anchor" aria-label="anchor" href="#ggexametrika-009"></a></h2>
-<ul><li>open this repository.</li>
+<h2 class="pkg-version" data-toc-text="0.0.13" id="ggexametrika-0013">ggExametrika 0.0.13<a class="anchor" aria-label="anchor" href="#ggexametrika-0013"></a></h2>
+<ul><li>Add GRM support to <code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code> for Item Information Curve (IRT and GRM).</li>
+<li>Add GRM support to <code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code> for Test Information Curve (IRT and GRM).</li>
+<li>Add <code><a href="../reference/ItemInformationFunc_GRM.html">ItemInformationFunc_GRM()</a></code> for computing GRM item information.</li>
+<li>Add common plot options (title, colors, linetype, show_legend, legend_position) to <code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code> and <code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code>.</li>
 </ul></div>
-  </main></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.12" id="ggexametrika-0012">ggExametrika 0.0.12<a class="anchor" aria-label="anchor" href="#ggexametrika-0012"></a></h2>
+<ul><li>Add <code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code> for Class Reference Vector (CRV) visualization (Biclustering).</li>
+<li>Add <code><a href="../reference/plotRRV_gg.html">plotRRV_gg()</a></code> for Rank Reference Vector (RRV) visualization (Biclustering).</li>
+<li>Both functions support common plot options (title, colors, linetype, show_legend, legend_position).</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.11" id="ggexametrika-0011">ggExametrika 0.0.11<a class="anchor" aria-label="anchor" href="#ggexametrika-0011"></a></h2>
+<ul><li>Add <code><a href="../reference/plotICRF_gg.html">plotICRF_gg()</a></code> for Item Category Response Function (GRM) visualization.</li>
+<li>Add <code><a href="../reference/dot-gg_exametrika_palette.html">.gg_exametrika_palette()</a></code> as package-wide default color palette (ColorBrewer Dark2).</li>
+<li>Add common plot options (title, colors, linetype, show_legend, legend_position) to <code><a href="../reference/plotICRF_gg.html">plotICRF_gg()</a></code>.</li>
+<li>Fix y-axis on all probability plots to always display 0.00 and 1.00 with breaks at 0.25 intervals.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.10" id="ggexametrika-0010">ggExametrika 0.0.10<a class="anchor" aria-label="anchor" href="#ggexametrika-0010"></a></h2>
+<ul><li>Add <code><a href="../reference/plotTRF_gg.html">plotTRF_gg()</a></code> for Test Response Function (TRF) visualization in IRT models.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.9" id="ggexametrika-009">ggExametrika 0.0.9<a class="anchor" aria-label="anchor" href="#ggexametrika-009"></a></h2>
+<ul><li>Add <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> for DAG visualization using ggraph.</li>
+<li>Expand help documentation for all functions.</li>
+<li>Apply <code>styler::style_pkg()</code> for consistent code formatting.</li>
+<li>Fix compatibility with current exametrika package.</li>
+<li>Add pkgdown site and GitHub Actions workflow.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.8" id="ggexametrika-008">ggExametrika 0.0.8<a class="anchor" aria-label="anchor" href="#ggexametrika-008"></a></h2>
+<ul><li>Add <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> for array plot (Biclustering, IRM, LDB, BINET).</li>
+<li>Add <code><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg()</a></code> for Field PIRP plot (LDB).</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.7" id="ggexametrika-007">ggExametrika 0.0.7<a class="anchor" aria-label="anchor" href="#ggexametrika-007"></a></h2>
+<ul><li>Add <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> for Test Reference Profile (LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET).</li>
+<li>Add <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code> for Latent Class Distribution (LCA, Biclustering).</li>
+<li>Add <code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code> for Latent Rank Distribution (LRA, Biclustering, LDLRA, LDB, BINET).</li>
+<li>Add <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> for Class Membership Profile (LCA, Biclustering, BINET).</li>
+<li>Add <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> for Rank Membership Profile (LRA, Biclustering, LDLRA, LDB, BINET, LRAordinal, LRArated).</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.6" id="ggexametrika-006">ggExametrika 0.0.6<a class="anchor" aria-label="anchor" href="#ggexametrika-006"></a></h2>
+<ul><li>Add <code><a href="../reference/plotIRP_gg.html">plotIRP_gg()</a></code> for Item Reference Profile (LCA, LRA, LDLRA).</li>
+<li>Add <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code> for Field Reference Profile (LCA, LRA, Biclustering, IRM, LDB, BINET).</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.5" id="ggexametrika-005">ggExametrika 0.0.5<a class="anchor" aria-label="anchor" href="#ggexametrika-005"></a></h2>
+<ul><li>Add <code><a href="../reference/plotICC_gg.html">plotICC_gg()</a></code> for Item Characteristic Curve (IRT: 2PL, 3PL, 4PL).</li>
+<li>Add <code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code> for Item Information Curve (IRT: 2PL, 3PL, 4PL).</li>
+<li>Add <code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code> for Test Information Curve (IRT: 2PL, 3PL, 4PL).</li>
+<li>Add <code><a href="../reference/LogisticModel.html">LogisticModel()</a></code> for four-parameter logistic model computation.</li>
+<li>Add <code><a href="../reference/ItemInformationFunc.html">ItemInformationFunc()</a></code> for item information function computation.</li>
+<li>Add <code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code> utility for arranging multiple plots in a grid.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.1" id="ggexametrika-001">ggExametrika 0.0.1<a class="anchor" aria-label="anchor" href="#ggexametrika-001"></a></h2>
+<ul><li>Initial package setup.</li>
+</ul></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

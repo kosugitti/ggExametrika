@@ -9,12 +9,12 @@
 
 ## Citation
 
-Kosugi K, Kamimura D (2025). *ggExametrika: Visualization of Exametrika
-Output using ggplot*. R package version 0.0.9.
+Kosugi K, Kamimura D (2026). *ggExametrika: Visualization of Exametrika
+Output using ggplot*. R package version 0.0.13.
 
     @Manual{,
       title = {ggExametrika: Visualization of Exametrika Output using ggplot},
       author = {Koji Kosugi and Daichi Kamimura},
-      year = {2025},
-      note = {R package version 0.0.9},
+      year = {2026},
+      note = {R package version 0.0.13},
     }

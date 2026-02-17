@@ -42,6 +42,6 @@ if (FALSE) { # \dontrun{
 library(exametrika)
 result <- LCA(J15S500, ncls = 5)
 plots <- plotCMP_gg(result)
-plots[[1]]  # Show CMP for the first student
+plots[[1]] # Show CMP for the first student
 } # }
 ```
