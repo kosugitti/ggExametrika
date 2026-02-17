@@ -121,7 +121,6 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 
 - [x] `plotICC_overlay_gg()` — IRT全アイテムのICCを1枚のグラフに重ねて表示（実装済み）
 - [x] `plotIIC_overlay_gg()` — IRT/GRM全アイテムのIICを1枚のグラフに重ねて表示（実装済み）
-- [ ] `plotICRF_overlay_gg()` — GRM全アイテムのICRFを1枚のグラフに重ねて表示（未実装、将来的に検討）
 
 ### 未実装機能（v1.0.0までに実装予定）
 
