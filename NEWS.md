@@ -1,3 +1,8 @@
+# ggExametrika 0.0.14
+
+* Add `plotScoreFreq_gg()` for Score Frequency Distribution (LRAordinal, LRArated).
+* Common plot options (title, colors, linetype, show_legend, legend_position) supported.
+
 # ggExametrika 0.0.13
 
 * Add GRM support to `plotIIC_gg()` for Item Information Curve (IRT and GRM).
