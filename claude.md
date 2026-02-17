@@ -113,6 +113,16 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LDB | ランクごとのDAG |
 | BINET | 統合グラフ（edge label付き） |
 
+### 追加機能（exametrikaにはないggExametrika独自の機能）
+
+#### オーバーレイプロット関数
+exametrikaでは`overlay = TRUE`パラメータで複数の曲線を1つのグラフに重ねて表示できるが、
+ggExametrikaでは別関数として実装し、より明示的に使い分けられるようにした。
+
+- [x] `plotICC_overlay_gg()` — IRT全アイテムのICCを1枚のグラフに重ねて表示（実装済み v0.0.15）
+- [x] `plotIIC_overlay_gg()` — IRT/GRM全アイテムのIICを1枚のグラフに重ねて表示（実装済み v0.0.16）
+- [ ] GRM用のICRFオーバーレイ関数も検討中
+
 ### 未実装機能（v1.0.0までに実装予定）
 
 #### plot.exametrikaのプロットタイプ（新規実装）
