@@ -164,3 +164,231 @@ visNetworkで大体の配置を決めてから、ggraphで最終的な静的プ�
 2. 座標取得→ggraphへの受け渡し機能
 3. plotGraph_gg関数のテスト
 4. ドキュメント整備
+
+---
+
+## 2026-02-17 (Daichi Kamimura)
+
+### plotArray_ggの多値対応実装
+
+#### 作業概要
+Biclustering系のplotArray_gg関数を、2値データ（0/1）だけでなく、多値データ（ordinal/nominal Biclustering）にも対応させる実装を完了。
+
+#### 実装内容
+
+1. **親パッケージの調査**
+   - exametrikaの `00_exametrikaPlot.R` 内の `array_plot()` 関数を調査
+   - 既に多値対応の実装があることを確認
+   - カテゴリ数の自動検出と色パレットの切り替えロジックを参考
+
+2. **plotArray_gg関数の拡張**
+   - カテゴリの自動検出: `sort(unique(as.vector(as.matrix(raw_data))))`
+   - 2値データ: 白(#FFFFFF)と黒(#000000)を使用
+   - 多値データ: カラーブラインドフレンドリーなパレット（最大20色）を使用
+   - `scale_fill_gradient2` から `scale_fill_manual` に変更し、離散的な色を適用
+
+3. **共通オプションの追加**
+   - `title`: logical または character（TRUE=自動タイトル、FALSE=非表示、文字列=カスタムタイトル）
+   - `colors`: カスタム色パレット（NULL=自動選択）
+   - `show_legend`: 凡例の表示/非表示（NULL=自動、2値はFALSE、多値はTRUE）
+   - `legend_position`: 凡例の位置（"right", "top", "bottom", "left", "none"）
+
+4. **対応モデルの拡張**
+   - Biclustering（既存）
+   - **nominalBiclustering**（新規）
+   - **ordinalBiclustering**（新規）
+   - IRM, LDB, BINET（既存）
+
+5. **ドキュメントの更新**
+   - roxygen2コメントを更新し、多値対応を明記
+   - 例とパラメータの説明を充実化
+   - `@importFrom` 文を更新（`scale_fill_manual`, `element_text`, `element_blank`を追加）
+
+6. **バージョン管理**
+   - DESCRIPTION: 0.0.13 → 0.0.14
+   - NEWS.md: 新バージョンのエントリを追加
+   - log.md: 本エントリを追加
+
+#### 技術的な変更点
+
+**Before (2値専用):**
+```r
+bw <- c(!(data$U))  # 0/1を反転
+scale_fill_gradient2(low = "black", high = "white", ...)
+```
+
+**After (多値対応):**
+```r
+response_val <- as.vector(as.matrix(raw_data))
+all_values <- sort(unique(response_val))
+n_categories <- length(all_values)
+plot_data$value <- factor(response_val, levels = all_values)
+scale_fill_manual(values = setNames(use_colors, all_values), ...)
+```
+
+#### 次回の課題
+
+1. **動作確認**
+   - Rセッションで実際にordinalBiclustering/nominalBiclusteringのデータでテスト
+   - 視覚的な確認（色の配置、凡例の表示）
+   - エッジケースのテスト（カテゴリ数が10を超える場合など）
+
+2. **他の関数への共通オプション追加**
+   - plotICC_gg, plotIIC_gg, plotTIC_gg, plotTRF_ggなど既存関数への共通オプション適用
+   - CLAUDE.mdのTODOリストを参照
+
+3. **多値版モデルの動作確認**
+   - FRP, LCD, LRD, CMP, RMP, Arrayの各関数で多値データのテスト
+   - nominalBiclustering, ordinalBiclusteringの全プロットタイプの動作確認
+
+---
+
+## 2026-02-17 (Daichi Kamimura) - 続き
+
+### plotArray_ggの追加修正と検証
+
+#### 視覚的な問題の修正
+
+1. **タイトルの重なり問題**
+   - フォントサイズを11pxに縮小
+   - マージンを `margin(t = 5, b = 5)` に調整
+   - 問題解決
+
+2. **境界線のオーバーフロー**
+   - `scale_x_continuous(expand = c(0, 0), limits = ...)` を追加
+   - `scale_y_continuous(expand = c(0, 0), limits = ...)` を追加
+   - プロット領域を厳密に制御し、線がはみ出さないように修正
+
+3. **境界線の色のカスタマイズ**
+   - `Clusterd_lines_color` パラメータを追加（デフォルト: 白）
+   - ユーザーが任意の色を指定可能に
+
+4. **境界線の位置ずれ**
+   - 座標計算を `h + 0.5`, `v + 0.5` に修正
+   - セルとセルの境界に正確に配置されるように調整
+
+5. **境界線のデフォルト色を2値/多値で自動切り替え**
+   - 2値データ（0/1）: 赤色（視認性向上）
+   - 多値データ（3+カテゴリ）: 白色
+   - `Clusterd_lines_color = NULL` の場合に自動判定
+
+#### ソート順序の重大な修正（CRITICAL FIX）
+
+exametrikaの元実装と比較した結果、行のソート順序が逆になっていることが判明。
+
+**問題:**
+- ggExametrika: `order(ClassEstimated, decreasing = TRUE)`
+- exametrika: `order(ClassEstimated, decreasing = FALSE)`
+
+**修正内容:**
+```r
+# Before
+sorted <- sorted[order(data$ClassEstimated, decreasing = TRUE), ]
+rown <- rep(1:nrow(sorted), ncol(sorted))
+
+# After
+case_order <- order(data$ClassEstimated, decreasing = FALSE)
+field_order <- order(data$FieldEstimated, decreasing = FALSE)
+sorted <- raw_data[case_order, field_order]
+rown <- rep(nrow(sorted):1, ncol(sorted))  # 逆順で視覚的に正しい配置
+```
+
+**結果:**
+- 高いクラス番号（高い能力）が下に表示される
+- 低いクラス番号（低い能力）が上に表示される
+- exametrikaの元実装と完全に一致
+
+**境界線の計算も調整:**
+```r
+h_adjusted <- nrow(sorted) - h
+geom_hline(yintercept = h_adjusted + 0.5, ...)
+```
+
+#### 欠測値（-1）の特別処理
+
+exametrikaでは-1が欠測値として使用されることが判明。
+
+**実装内容:**
+1. -1を有効値と分離して検出
+2. -1に黒色（#000000）を割り当て
+3. 凡例では「NA」と表示
+4. 他の値は通常のカラーパレットを適用
+
+**コード:**
+```r
+has_missing <- -1 %in% all_values
+valid_values <- all_values[all_values != -1]
+
+# -1に黒色を割り当て
+if (all_values[i] == -1) {
+  use_colors[i] <- "#000000"
+}
+
+# 凡例のラベル
+value_labels <- ifelse(all_values == -1, "NA", as.character(all_values))
+
+# scale_fill_manualで適用
+scale_fill_manual(
+  values = setNames(use_colors, all_values),
+  labels = value_labels,
+  ...
+)
+```
+
+#### テストスクリプトの整理
+
+developディレクトリのスクリプトが増えすぎたため、整理を実施。
+
+**削除したファイル（この会話で作成した一時ファイル）:**
+- develop_compare_with_original.R
+- develop_side_by_side_comparison.R
+- develop_test_poly_biclustering.R
+- develop_verify_sorting.R
+- test_missing_values.R
+
+**統合されたテストスクリプト（compare_simple.R）:**
+```r
+# Test 1: J15S3810（多値データ）
+# Test 2: 欠測値（-1）を含むデータ
+# 本家exametrikaとggExametrikaを比較
+```
+
+#### バージョン管理
+
+- NEWS.md: 全ての修正内容を記録
+  - 多値データ対応
+  - 共通オプション追加
+  - 境界線色のカスタマイズ
+  - 欠測値の特別処理
+  - **CRITICAL FIX**: ソート順序の修正
+- DESCRIPTION: 0.0.14（変更なし）
+
+#### 検証結果
+
+1. **J15S3810データでの検証**
+   - 本家とggExametrikaのプロットパターンが一致
+   - 境界線の位置が正確
+   - 多値の色パレットが正しく適用
+
+2. **欠測値を含むデータでの検証**
+   - -1が「NA」として凡例に表示
+   - 黒色で視覚的に識別可能
+   - 他の値のカラーパレットに影響なし
+
+3. **ソート順序の検証**
+   - 高いクラス番号が下、低いクラス番号が上に正しく配置
+   - exametrikaの元実装と完全に一致
+
+#### 次回の課題
+
+1. **ユニットテストの充実**
+   - testthatで欠測値処理のテストを追加
+   - ソート順序の自動テスト
+
+2. **他のプロット関数への共通オプション追加**
+   - CLAUDE.mdのTODOリストを参照
+
+3. **v1.0.0に向けた未実装機能**
+   - CRV/RRV, LDPSR, ScoreFreq, ScoreRank, ICRP, ICBR
+   - GRM対応（IIC, TIC）
+   - DAG可視化

@@ -9,11 +9,17 @@ plotArray_gg(
   Original = TRUE,
   Clusterd = TRUE,
   Clusterd_lines = TRUE,
-  title = TRUE
+  Clusterd_lines_color = NULL,
+  title = TRUE,
+  colors = NULL,
+  show_legend = NULL,
+  legend_position = "right"
 )
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "Biclustering")},
+\code{c("exametrika", "nominalBiclustering")},
+\code{c("exametrika", "ordinalBiclustering")},
 \code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
 \code{c("exametrika", "BINET")}.}
 
@@ -23,10 +29,27 @@ plotArray_gg(
 \item{Clusterd}{Logical. If \code{TRUE} (default), plot the clustered
 (sorted by class and field) response data.}
 
-\item{Clusterd_lines}{Logical. If \code{TRUE} (default), draw red lines
+\item{Clusterd_lines}{Logical. If \code{TRUE} (default), draw lines
 on the clustered plot to indicate class and field boundaries.}
 
-\item{title}{Logical. If \code{TRUE} (default), display plot titles.}
+\item{Clusterd_lines_color}{Character. Color of the boundary lines.
+If \code{NULL} (default), uses \code{"red"} for binary data or
+\code{"white"} for multi-valued data.}
+
+\item{title}{Logical or character. If \code{TRUE} (default), display
+auto-generated titles. If \code{FALSE}, no titles. If a character
+string, use it as a custom title prefix.}
+
+\item{colors}{Character vector of colors for each category.
+If \code{NULL} (default), uses white/black for binary data or a
+colorblind-friendly palette for multi-valued data.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend.
+Default is \code{FALSE} for binary data, \code{TRUE} for multi-valued.}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A ggplot object or a grid arrangement of two ggplot objects
@@ -37,20 +60,34 @@ This function takes exametrika output as input and generates
 array plots using ggplot2. Array plots visualize the response
 patterns of students (rows) across items (columns), showing both
 the original data and the clustered/reordered data.
+
+Supports both binary (0/1) and multi-valued (ordinal/nominal) data.
 }
 \details{
 The array plot provides a visual representation of the biclustering
-result. Black cells indicate correct responses (1), white cells
-indicate incorrect responses (0). In a well-fitted model, the
-clustered plot should show a clear block diagonal pattern where
-high-ability students (bottom rows) answer difficult items (right
-columns) correctly.
+result. For binary data, black cells indicate correct responses (1)
+and white cells indicate incorrect responses (0). For multi-valued
+data, different colors represent different response categories.
+
+In a well-fitted model, the clustered plot should show a clear block
+diagonal pattern where high-ability students (bottom rows) answer
+difficult items (right columns) correctly.
 }
 \examples{
 \dontrun{
 library(exametrika)
 result <- Biclustering(J35S515, nfld = 5, ncls = 6)
+
+# Basic usage
 plotArray_gg(result)
+
+# Custom boundary line color
+plotArray_gg(result, Clusterd_lines_color = "blue")
+
+# Multi-valued data with custom colors
+synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
+result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
+plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
 }
 
 }
