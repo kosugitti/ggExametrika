@@ -1,3 +1,10 @@
+# ggExametrika 0.0.15
+
+* Add `plotICBR_gg()` for Item Category Boundary Response (ICBR) visualization (LRAordinal).
+* `plotICBR_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* ICBR shows cumulative probability curves for each category boundary across latent ranks.
+* Add tidyr to Imports for data transformation in plotICBR_gg().
+
 # ggExametrika 0.0.14
 
 * Add multi-valued data support to `plotArray_gg()` for ordinal/nominal Biclustering.
