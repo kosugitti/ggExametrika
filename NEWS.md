@@ -1,4 +1,4 @@
-# ggExametrika 0.0.14
+# ggExametrika 0.0.15
 
 * Add `plotScoreFreq_gg()` for Score Frequency Distribution (LRAordinal, LRArated).
 * Common plot options (title, colors, linetype, show_legend, legend_position) supported.
