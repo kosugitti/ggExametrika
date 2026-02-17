@@ -82,7 +82,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
 | ScoreFreq | LRAordinal, LRArated | plotScoreFreq_gg | 実装済 |
-| ScoreRank | LRAordinal, LRArated | - | 未実装 |
+| ScoreRank | LRAordinal, LRArated | plotScoreRank_gg | 実装済（共通オプション対応済み） |
 | ICRP | LRAordinal, LRArated | plotICRP_gg | 実装済（共通オプション対応済み） |
 | ICBR | LRAordinal | plotICBR_gg | 実装済（共通オプション対応済み） |
 
@@ -128,7 +128,7 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 1. ~~CRV/RRV (Class/Rank Reference Vector)~~ → plotCRV_gg, plotRRV_gg として実装済み
 2. LDPSR (Latent Dependence Passing Student Rate) — BINET
 3. ~~ScoreFreq (スコア頻度分布)~~ → plotScoreFreq_gg として実装済み
-4. ScoreRank (スコア-ランクヒートマップ) — LRAordinal, LRArated
+4. ~~ScoreRank (スコア-ランクヒートマップ)~~ → plotScoreRank_gg として実装済み
 5. ~~ICRP (Item Category Reference Profile)~~ → plotICRP_gg として実装済み
 6. ~~ICBR (Item Category Boundary Response)~~ → plotICBR_gg として実装済み
 

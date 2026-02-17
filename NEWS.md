@@ -1,3 +1,8 @@
+# ggExametrika 0.0.19
+
+* Add `plotScoreRank_gg()` for Score-Rank heatmap visualization (LRAordinal, LRArated).
+* Support common plot options (title, colors, show_legend, legend_position) in `plotScoreRank_gg()`.
+
 # ggExametrika 0.0.18
 
 * Add `plotICBR_gg()` for Item Category Boundary Response (ICBR) visualization (LRAordinal).
