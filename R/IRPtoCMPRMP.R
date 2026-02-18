@@ -78,71 +78,239 @@ plotIRP_gg <- function(data) {
 #' @title Plot Field Reference Profile (FRP) from exametrika
 #'
 #' @description
-#' This function takes exametrika output as input and generates
-#' Field Reference Profile (FRP) plots using ggplot2. FRP shows the
-#' correct response rate for each field (item cluster) at each latent
-#' class or rank level.
+#' This function takes exametrika output as input and generates a
+#' Field Reference Profile (FRP) plot using ggplot2. For binary data,
+#' it displays correct response rates. For polytomous data, it shows
+#' expected scores calculated using the specified statistic.
 #'
-#' @param data An object of class \code{c("exametrika", "Biclustering")},
-#'   \code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
-#'   \code{c("exametrika", "BINET")}.
+#' @param data An object from exametrika: Biclustering, nominalBiclustering,
+#'   ordinalBiclustering, IRM, LDB, or BINET output.
+#' @param stat Character. Statistic to use for polytomous data:
+#'   \code{"mean"} (default), \code{"median"}, or \code{"mode"}.
+#'   Ignored for binary data.
+#' @param fields Integer vector specifying which fields to plot. Default is all fields.
+#' @param title Logical or character. If \code{TRUE} (default), display automatic
+#'   title. If \code{FALSE}, no title. If a character string, use it as the title.
+#' @param colors Character vector. Colors for each field line.
+#'   If \code{NULL} (default), uses the package default palette.
+#' @param linetype Character or numeric. Line type for all lines.
+#'   Default is \code{"solid"}.
+#' @param show_legend Logical. If \code{TRUE} (default), display the legend.
+#' @param legend_position Character. Position of the legend:
+#'   \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
-#' @return A list of ggplot objects, one for each field. Each plot shows the
-#'   correct response rate across latent classes or ranks.
+#' @return A single ggplot object with all selected fields.
 #'
 #' @details
-#' In biclustering models, items are grouped into fields. The Field Reference
-#' Profile shows how each field's correct response rate varies across
-#' latent classes or ranks. Fields with monotonically increasing profiles
-#' indicate good alignment with the latent structure.
+#' The Field Reference Profile shows how response patterns vary across
+#' latent classes/ranks for each field (cluster of items).
+#'
+#' For **binary data** (Biclustering, IRM, LDB, BINET):
+#' \itemize{
+#'   \item Y-axis: Correct Response Rate (0-1)
+#'   \item Each line represents one field
+#' }
+#'
+#' For **polytomous data** (nominalBiclustering, ordinalBiclustering):
+#' \itemize{
+#'   \item Y-axis: Expected Score (calculated using \code{stat} parameter)
+#'   \item \code{stat = "mean"}: Weighted average across categories (default)
+#'   \item \code{stat = "median"}: Median category value
+#'   \item \code{stat = "mode"}: Most probable category
+#' }
 #'
 #' @examples
 #' \dontrun{
 #' library(exametrika)
-#' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
-#' plots <- plotFRP_gg(result)
-#' plots[[1]] # Show FRP for the first field
+#'
+#' # Binary biclustering
+#' result_bin <- Biclustering(J35S515, ncls = 4, nfld = 3)
+#' plot <- plotFRP_gg(result_bin)
+#'
+#' # Ordinal biclustering with mean (default)
+#' result_ord <- Biclustering(OrdinalData, ncls = 4, nfld = 3, dataType = "ordinal")
+#' plot_mean <- plotFRP_gg(result_ord, stat = "mean")
+#'
+#' # Using mode for polytomous data
+#' plot_mode <- plotFRP_gg(result_ord, stat = "mode",
+#'                         title = "Field Reference Profile (Mode)",
+#'                         colors = c("red", "blue", "green"))
 #' }
 #'
-#' @seealso \code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}}
+#' @seealso \code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}},
+#'   \code{\link{plotCRV_gg}}, \code{\link{plotRRV_gg}}
 #'
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 ylim
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 geom_line
-#' @importFrom ggplot2 scale_x_continuous
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 ggplot aes geom_point geom_line scale_x_continuous
+#'   scale_y_continuous labs theme scale_color_manual scale_linetype_manual
 #' @export
 
-plotFRP_gg <- function(data) {
-  if (!(all(class(data) %in% c("exametrika", "Biclustering")) || all(class(data) %in% c("exametrika", "IRM")) || all(class(data) %in% c("exametrika", "LDB")) || all(class(data) %in% c("exametrika", "BINET")))) {
-    stop("Invalid input. The variable must be from exametrika output or an output from Biclustering, IRM, LDB, or BINET.")
+plotFRP_gg <- function(data,
+                       stat = "mean",
+                       fields = NULL,
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "solid",
+                       show_legend = TRUE,
+                       legend_position = "right") {
+
+  # クラスチェック
+  valid_classes <- c("Biclustering", "nominalBiclustering", "ordinalBiclustering",
+                     "IRM", "LDB", "BINET")
+  data_class <- class(data)[class(data) != "exametrika"]
+
+  if (!"exametrika" %in% class(data) || !any(data_class %in% valid_classes)) {
+    stop("Invalid input. The data must be from exametrika output: ",
+         "Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, or BINET.")
   }
 
+  # statパラメータチェック
+  if (!stat %in% c("mean", "median", "mode")) {
+    stop("'stat' must be one of: 'mean', 'median', 'mode'")
+  }
 
-  n_cls <- ncol(data$FRP)
+  # FRPデータの存在確認
+  if (!"FRP" %in% names(data)) {
+    stop("FRP data not found in the input object.")
+  }
 
-  plots <- list()
+  # データ型判定: 2次元（2値）か3次元（多値）か
+  is_polytomous <- length(dim(data$FRP)) == 3
 
-  for (i in 1:nrow(data$FRP)) {
-    x <- data.frame(
-      CRR = c(data$FRP[i, ]),
-      rank = c(1:n_cls)
-    )
+  if (is_polytomous) {
+    # === 多値データ（nominalBiclustering, ordinalBiclustering） ===
+    BCRM <- data$FRP  # [field, class, category]
+    nfld <- dim(BCRM)[1]
+    ncls <- dim(BCRM)[2]
+    maxQ <- dim(BCRM)[3]
 
-    plots[[i]] <- ggplot(x, aes(x = rank, y = CRR)) +
-      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      geom_point() +
-      geom_line(linetype = "dashed") +
-      scale_x_continuous(breaks = seq(1, n_cls, 1)) +
-      labs(
-        title = paste0("Field Reference Profile, ", rownames(data$FRP)[i]),
-        x = "Latent Rank",
-        y = "Correct Response Rate"
+    # フィールド選択
+    if (is.null(fields)) {
+      selected_fields <- 1:nfld
+    } else {
+      if (!is.numeric(fields) || any(fields < 1 | fields > nfld)) {
+        stop("'fields' must be a numeric vector with values between 1 and ", nfld)
+      }
+      selected_fields <- fields
+    }
+
+    # 期待得点の計算
+    expected_scores <- matrix(0, nrow = length(selected_fields), ncol = ncls)
+    rownames(expected_scores) <- paste0("Field ", selected_fields)
+
+    for (idx in seq_along(selected_fields)) {
+      f <- selected_fields[idx]
+      for (cc in 1:ncls) {
+        probs <- BCRM[f, cc, ]  # カテゴリ確率ベクトル
+        categories <- 1:maxQ
+
+        if (stat == "mean") {
+          # 重み付き平均
+          expected_scores[idx, cc] <- sum(categories * probs)
+        } else if (stat == "median") {
+          # 累積確率から中央値を計算
+          cum_probs <- cumsum(probs)
+          median_cat <- min(which(cum_probs >= 0.5))
+          expected_scores[idx, cc] <- median_cat
+        } else if (stat == "mode") {
+          # 最頻値（最も確率が高いカテゴリ）
+          mode_cat <- which.max(probs)
+          expected_scores[idx, cc] <- mode_cat
+        }
+      }
+    }
+
+    y_label <- switch(stat,
+                      "mean" = "Expected Score (Mean)",
+                      "median" = "Expected Score (Median)",
+                      "mode" = "Expected Score (Mode)")
+
+  } else {
+    # === 2値データ（Biclustering, IRM, LDB, BINET） ===
+    FRP_matrix <- data$FRP  # [field, class]
+    nfld <- nrow(FRP_matrix)
+    ncls <- ncol(FRP_matrix)
+
+    # フィールド選択
+    if (is.null(fields)) {
+      selected_fields <- 1:nfld
+    } else {
+      if (!is.numeric(fields) || any(fields < 1 | fields > nfld)) {
+        stop("'fields' must be a numeric vector with values between 1 and ", nfld)
+      }
+      selected_fields <- fields
+    }
+
+    expected_scores <- FRP_matrix[selected_fields, , drop = FALSE]
+    rownames(expected_scores) <- paste0("Field ", selected_fields)
+    y_label <- "Correct Response Rate"
+  }
+
+  # データフレーム作成
+  plot_data_list <- list()
+  for (idx in seq_along(selected_fields)) {
+    for (cc in 1:ncls) {
+      plot_data_list[[length(plot_data_list) + 1]] <- data.frame(
+        Field = rownames(expected_scores)[idx],
+        ClassRank = cc,
+        Value = expected_scores[idx, cc]
       )
+    }
+  }
+  long_data <- do.call(rbind, plot_data_list)
+
+  # Fieldを因子化（順序保持）
+  long_data$Field <- factor(long_data$Field, levels = unique(long_data$Field))
+
+  # 色の設定
+  n_fields <- length(selected_fields)
+  if (is.null(colors)) {
+    colors <- .gg_exametrika_palette(n_fields)
   }
 
-  return(plots)
+  # msg取得（Class or Rank）
+  msg <- if ("msg" %in% names(data)) data$msg else "Class"
+
+  # プロット作成
+  p <- ggplot(long_data, aes(x = ClassRank, y = Value, color = Field, group = Field)) +
+    geom_line(linewidth = 0.8, linetype = linetype) +
+    geom_point(size = 2) +
+    scale_x_continuous(breaks = 1:ncls) +
+    scale_y_continuous(breaks = seq(0, ceiling(max(long_data$Value)), by = 0.25)) +
+    labs(
+      x = paste("Latent", msg),
+      y = y_label,
+      color = "Field"
+    ) +
+    theme(legend.position = legend_position)
+
+  # 色のスケール設定
+  if (!is.null(colors)) {
+    p <- p + scale_color_manual(values = colors)
+  }
+
+  # タイトル設定
+  if (is.logical(title)) {
+    if (title) {
+      if (is_polytomous) {
+        title_text <- paste0("Field Reference Profile (",
+                             toupper(substring(stat, 1, 1)),
+                             substring(stat, 2), ")")
+      } else {
+        title_text <- "Field Reference Profile"
+      }
+      p <- p + labs(title = title_text)
+    }
+  } else if (is.character(title)) {
+    p <- p + labs(title = title)
+  }
+
+  # 凡例制御
+  if (!show_legend) {
+    p <- p + theme(legend.position = "none")
+  }
+
+  return(p)
 }
 
 #' @title Plot Test Reference Profile (TRP) from exametrika
@@ -340,21 +508,24 @@ plotTRP_gg <- function(data,
 plotLCD_gg <- function(data,
                        Num_Students = TRUE,
                        title = TRUE) {
-  if (all(class(data) %in% c("exametrika", "LCA")) ||
-    all(class(data) %in% c("exametrika", "BINET"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA", "BINET"))) {
     xlabel <- "Latent Class"
     mode <- TRUE
     LRD <- FALSE
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- FALSE
     warning(
       "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
     )
-  } else if (all(class(data) %in% c("exametrika", "LDLRA")) ||
-    all(class(data) %in% c("exametrika", "LDB"))) {
+  } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- TRUE
@@ -506,21 +677,24 @@ plotLCD_gg <- function(data,
 plotLRD_gg <- function(data,
                        Num_Students = TRUE,
                        title = TRUE) {
-  if (all(class(data) %in% c("exametrika", "LCA")) ||
-    all(class(data) %in% c("exametrika", "BINET"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA", "BINET"))) {
     xlabel <- "Latent Class"
     mode <- TRUE
     LRD <- FALSE
     warning(
       "The input data was supposed to be visualized with The Latent Class Distribution, so I will plot the LCD."
     )
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- FALSE
-  } else if (all(class(data) %in% c("exametrika", "LDLRA")) ||
-    all(class(data) %in% c("exametrika", "LDB"))) {
+  } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- TRUE
@@ -662,7 +836,13 @@ plotLRD_gg <- function(data,
 
 
 plotCMP_gg <- function(data) {
-  if (all(class(data) %in% c("exametrika", "LCA"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA"))) {
     xlabel <- "Class"
     change_rowname <- NULL
     dig <- nchar(nrow(data$Students))
@@ -674,12 +854,9 @@ plotCMP_gg <- function(data) {
         )))
     }
     rownames(data$Students) <- change_rowname
-  } else if (all(class(data) %in% c("exametrika", "BINET"))) {
+  } else if (any(class(data) %in% c("BINET"))) {
     xlabel <- "Class"
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering")) ||
-    all(class(data) %in% c("exametrika", "LDB")) ||
-    all(class(data) %in% c("exametrika", "LDLRA"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
     xlabel <- "Rank"
     warning(
       "The input data was supposed to be visualized with The Rank Membership Profile, so I will plot the RMP."
@@ -764,7 +941,13 @@ plotCMP_gg <- function(data) {
 #' @export
 
 plotRMP_gg <- function(data) {
-  if (all(class(data) %in% c("exametrika", "LCA"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA"))) {
     xlabel <- "Class"
     change_rowname <- NULL
     dig <- nchar(nrow(data$Students))
@@ -779,15 +962,12 @@ plotRMP_gg <- function(data) {
         )))
     }
     rownames(data$Students) <- change_rowname
-  } else if (all(class(data) %in% c("exametrika", "BINET"))) {
+  } else if (any(class(data) %in% c("BINET"))) {
     xlabel <- "Class"
     warning(
       "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
     )
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering")) ||
-    all(class(data) %in% c("exametrika", "LDB")) ||
-    all(class(data) %in% c("exametrika", "LDLRA"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
     xlabel <- "Rank"
   } else {
     stop(

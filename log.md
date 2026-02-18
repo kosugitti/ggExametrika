@@ -2,19 +2,72 @@
 
 ## 2026-02-18
 
+### plotFRP_gg() 多値対応実装 (Claude Sonnet 4.5)
+
+**目的:** plotFRP_gg()に多値データ（ordinalBiclustering, nominalBiclustering）対応を追加
+
+**実装内容:**
+- 既存の2値データ対応を維持しつつ、多値データに完全対応
+- `stat` パラメータ追加: "mean" (重み付き平均), "median" (中央値), "mode" (最頻値)
+- 共通オプション完全対応: title, colors, linetype, show_legend, legend_position
+- 返り値を変更: リスト → 単一のggplotオブジェクト（全フィールドを1つのグラフに）
+- データ型の自動判定: dim(data$FRP)が2次元なら2値、3次元なら多値
+
+**技術的詳細:**
+- 2値データ: FRP[field, class] から正解率を直接プロット
+- 多値データ: BCRM[field, class, category] から期待得点を計算
+  - mean: sum(categories × probs) - カテゴリの重み付き平均
+  - median: min(which(cumsum(probs) >= 0.5)) - 累積確率50%のカテゴリ
+  - mode: which.max(probs) - 最も確率の高いカテゴリ
+
+**対応モデル:**
+- 2値: Biclustering, IRM, LDB, BINET
+- 多値: ordinalBiclustering, nominalBiclustering
+
+**テスト:**
+- develop/test_FRP_multivalue.R を作成（232行の包括的テスト）
+- Test 1: Binary Biclustering（4パターン）
+- Test 2: Ordinal Biclustering（mean/median/mode + 比較）
+- Test 3: Nominal Biclustering
+- Test 5: エラーハンドリング（無効なパラメータ検証）
+- Test 6: 共通オプション全組み合わせ
+- 全テストパス確認済み
+
+**ドキュメント:**
+- roxygen2ドキュメント全面改訂
+- 2値・多値両対応の詳細な説明追加
+- statパラメータの使い分けを明記
+- 実例コード追加（binary/ordinal両方）
+
+**ブランチ:**
+- feature/frp-multivalue (4コミット)
+- e8b5bf9: 本体実装
+- a747899: テスト追加
+- f95152f: devtools::load_all追加
+- 7c1f986: dataFormat修正
+
+**次回の課題:**
+- FCRP (Field Category Response Profile) 実装
+- ScoreField (期待得点ヒートマップ) 実装
+- RRVの多値対応（stat パラメータ追加）
+
+---
+
 ### plotFCBR_gg() 実装 (kamimura)
 
 **目的:** ordinalBiclustering モデル用のField Cumulative Boundary Reference (FCBR) を可視化する関数を実装
 
 **実装内容:**
 - `plotFCBR_gg()` を新規作成（R/plotFCBR_gg.R）
-- フィールドごとの境界確率曲線（P(Q>=2), P(Q>=3), ...）を表示
+- フィールドごとの境界確率曲線（P(Q>=1), P(Q>=2), P(Q>=3), ...）を**全て**表示
 - exametrika v1.9.0 の FCBR プロットタイプに対応
-- exametrika-dev の `plot_poly_fcbr()` 関数（R/00_plot_poly_biclustering.R:106-145）を参考に実装
+- exametrika-dev の `plot_poly_fcbr()` 関数を参考にしたが、P(Q>=1)も表示するよう改良
+- **重要な変更**: 元のexametrika-devではP(Q>=1)を省略していたが、ggExametrikaでは全境界を表示
 
 **機能:**
 - 各フィールドの境界確率曲線を facet_wrap でサブプロット表示
-- 境界確率の計算: P(Q >= q_threshold) = sum(BCRM[f, cc, q_threshold:maxQ])
+- 境界確率の計算: P(Q >= q) = sum(BCRM[f, cc, q:maxQ])
+- **P(Q>=1)は常に1.0** なので水平線（y=1.0）として表示される
 - 共通オプション完全対応（title, colors, linetype, show_legend, legend_position）
 - ordinalBiclustering 専用（境界確率は順序尺度でのみ意味を持つため）
 - データソース: `data$FRP`（3次元配列: フィールド × クラス/ランク × カテゴリ）

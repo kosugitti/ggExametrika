@@ -1,7 +1,7 @@
 Package: ggExametrika
 Type: Package
 Title: Visualization of Exametrika Output using ggplot
-Version: 0.0.20
+Version: 0.0.25
 Authors@R: c(
     person(given = "Koji", family = "Kosugi", role = c("aut", "cre"), email = "kosugitti@gmail.com", comment = c(ORCID = "0000-0001-5816-0099")),
     person(given = "Daichi", family = "Kamimura", role = c("aut")))
@@ -13,7 +13,7 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Depends: ggplot2, gridExtra
-Imports: ggraph, igraph, tidyr
+Imports: ggraph, ggrepel, igraph, tidyr
 RoxygenNote: 7.3.3
 Reference: Shojima, Kojiro (2022) Test Data Engineering: Latent Rank Analysis, Biclustering, andBayesian Network (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), Springer
 Suggests:

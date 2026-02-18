@@ -55,15 +55,17 @@ of each response category threshold across different ability levels.
 
 For a field with \eqn{K} categories (1, 2, ..., K), the FCBR shows:
 \itemize{
-\item Line 1: P(response >= 2 | class/rank)
-\item Line 2: P(response >= 3 | class/rank)
+\item Line 1: P(response >= 1 | class/rank) = 1.0 (always)
+\item Line 2: P(response >= 2 | class/rank)
+\item Line 3: P(response >= 3 | class/rank)
 \item ...
-\item Line K-1: P(response >= K | class/rank)
+\item Line K: P(response >= K | class/rank)
 }
 
 The boundary probabilities are calculated by summing the probabilities of all
-categories at or above the boundary threshold. Higher classes/ranks (higher ability)
-typically show higher probabilities for higher boundaries.
+categories at or above the boundary threshold. P(Q>=1) is always 1.0 and appears
+as a horizontal line at the top. Higher classes/ranks (higher ability) typically
+show higher probabilities for higher boundaries.
 }
 \examples{
 \dontrun{
