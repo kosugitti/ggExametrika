@@ -68,8 +68,8 @@ synthetic_ordinal <- matrix(
 )
 colnames(synthetic_ordinal) <- paste0("Q", 1:n_items)
 
-# Convert to exametrika format
-U_ordinal <- exDataFormat(synthetic_ordinal, na = -99)
+# Convert to exametrika format with ordinal response type
+U_ordinal <- dataFormat(synthetic_ordinal, na = -99, response.type = "ordinal")
 cat("Synthetic ordinal data created\n")
 cat("Categories:", paste(sort(unique(as.vector(U_ordinal$Q))), collapse = ", "), "\n")
 cat("Dimensions:", nrow(U_ordinal$Q), "students x", ncol(U_ordinal$Q), "items\n\n")
@@ -133,7 +133,7 @@ synthetic_nominal <- matrix(
 )
 colnames(synthetic_nominal) <- paste0("Q", 1:n_items)
 
-U_nominal <- exDataFormat(synthetic_nominal, na = -99)
+U_nominal <- dataFormat(synthetic_nominal, na = -99, response.type = "nominal")
 cat("Synthetic nominal data created\n")
 cat("Categories:", paste(sort(unique(as.vector(U_nominal$Q))), collapse = ", "), "\n\n")
 
