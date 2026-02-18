@@ -9,15 +9,17 @@ Reference (FCBR) を可視化する関数を実装
 
 **実装内容:** -
 [`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md)
-を新規作成（R/plotFCBR_gg.R） - フィールドごとの境界確率曲線（P(Q\>=2),
-P(Q\>=3), …）を表示 - exametrika v1.9.0 の FCBR プロットタイプに対応 -
-exametrika-dev の `plot_poly_fcbr()`
-関数（R/00_plot_poly_biclustering.R:106-145）を参考に実装
+を新規作成（R/plotFCBR_gg.R） - フィールドごとの境界確率曲線（P(Q\>=1),
+P(Q\>=2), P(Q\>=3), …）を**全て**表示 - exametrika v1.9.0 の FCBR
+プロットタイプに対応 - exametrika-dev の `plot_poly_fcbr()`
+関数を参考にしたが、P(Q\>=1)も表示するよう改良 - **重要な変更**:
+元のexametrika-devではP(Q\>=1)を省略していたが、ggExametrikaでは全境界を表示
 
 **機能:** - 各フィールドの境界確率曲線を facet_wrap でサブプロット表示 -
-境界確率の計算: P(Q \>= q_threshold) = sum(BCRM\[f, cc,
-q_threshold:maxQ\]) - 共通オプション完全対応（title, colors, linetype,
-show_legend, legend_position） - ordinalBiclustering
+境界確率の計算: P(Q \>= q) = sum(BCRM\[f, cc, q:maxQ\]) -
+**P(Q\>=1)は常に1.0** なので水平線（y=1.0）として表示される -
+共通オプション完全対応（title, colors, linetype, show_legend,
+legend_position） - ordinalBiclustering
 専用（境界確率は順序尺度でのみ意味を持つため） - データソース:
 `data$FRP`（3次元配列: フィールド × クラス/ランク × カテゴリ）
 

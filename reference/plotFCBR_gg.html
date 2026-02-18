@@ -117,13 +117,15 @@ One of <code>"right"</code> (default), <code>"top"</code>, <code>"bottom"</code>
 of reaching each category boundary changes across latent classes or ranks in
 ordinal biclustering. This is particularly useful for understanding the difficulty
 of each response category threshold across different ability levels.</p>
-<p>For a field with \(K\) categories (1, 2, ..., K), the FCBR shows:</p><ul><li><p>Line 1: P(response &gt;= 2 | class/rank)</p></li>
-<li><p>Line 2: P(response &gt;= 3 | class/rank)</p></li>
+<p>For a field with \(K\) categories (1, 2, ..., K), the FCBR shows:</p><ul><li><p>Line 1: P(response &gt;= 1 | class/rank) = 1.0 (always)</p></li>
+<li><p>Line 2: P(response &gt;= 2 | class/rank)</p></li>
+<li><p>Line 3: P(response &gt;= 3 | class/rank)</p></li>
 <li><p>...</p></li>
-<li><p>Line K-1: P(response &gt;= K | class/rank)</p></li>
+<li><p>Line K: P(response &gt;= K | class/rank)</p></li>
 </ul><p>The boundary probabilities are calculated by summing the probabilities of all
-categories at or above the boundary threshold. Higher classes/ranks (higher ability)
-typically show higher probabilities for higher boundaries.</p>
+categories at or above the boundary threshold. P(Q&gt;=1) is always 1.0 and appears
+as a horizontal line at the top. Higher classes/ranks (higher ability) typically
+show higher probabilities for higher boundaries.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

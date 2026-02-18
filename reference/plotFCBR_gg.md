@@ -72,18 +72,21 @@ across different ability levels.
 
 For a field with \\K\\ categories (1, 2, ..., K), the FCBR shows:
 
-- Line 1: P(response \>= 2 \| class/rank)
+- Line 1: P(response \>= 1 \| class/rank) = 1.0 (always)
 
-- Line 2: P(response \>= 3 \| class/rank)
+- Line 2: P(response \>= 2 \| class/rank)
+
+- Line 3: P(response \>= 3 \| class/rank)
 
 - ...
 
-- Line K-1: P(response \>= K \| class/rank)
+- Line K: P(response \>= K \| class/rank)
 
 The boundary probabilities are calculated by summing the probabilities
-of all categories at or above the boundary threshold. Higher
-classes/ranks (higher ability) typically show higher probabilities for
-higher boundaries.
+of all categories at or above the boundary threshold. P(Q\>=1) is always
+1.0 and appears as a horizontal line at the top. Higher classes/ranks
+(higher ability) typically show higher probabilities for higher
+boundaries.
 
 ## See also
 

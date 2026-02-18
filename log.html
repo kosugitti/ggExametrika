@@ -44,8 +44,8 @@
 <div class="section level3">
 <h3 id="plotfcbr_gg-実装-kamimura">plotFCBR_gg() 実装 (kamimura)<a class="anchor" aria-label="anchor" href="#plotfcbr_gg-%E5%AE%9F%E8%A3%85-kamimura"></a></h3>
 <p><strong>目的:</strong> ordinalBiclustering モデル用のField Cumulative Boundary Reference (FCBR) を可視化する関数を実装</p>
-<p><strong>実装内容:</strong> - <code><a href="reference/plotFCBR_gg.html">plotFCBR_gg()</a></code> を新規作成（R/plotFCBR_gg.R） - フィールドごとの境界確率曲線（P(Q&gt;=2), P(Q&gt;=3), …）を表示 - exametrika v1.9.0 の FCBR プロットタイプに対応 - exametrika-dev の <code>plot_poly_fcbr()</code> 関数（R/00_plot_poly_biclustering.R:106-145）を参考に実装</p>
-<p><strong>機能:</strong> - 各フィールドの境界確率曲線を facet_wrap でサブプロット表示 - 境界確率の計算: P(Q &gt;= q_threshold) = sum(BCRM[f, cc, q_threshold:maxQ]) - 共通オプション完全対応（title, colors, linetype, show_legend, legend_position） - ordinalBiclustering 専用（境界確率は順序尺度でのみ意味を持つため） - データソース: <code>data$FRP</code>（3次元配列: フィールド × クラス/ランク × カテゴリ）</p>
+<p><strong>実装内容:</strong> - <code><a href="reference/plotFCBR_gg.html">plotFCBR_gg()</a></code> を新規作成（R/plotFCBR_gg.R） - フィールドごとの境界確率曲線（P(Q&gt;=1), P(Q&gt;=2), P(Q&gt;=3), …）を<strong>全て</strong>表示 - exametrika v1.9.0 の FCBR プロットタイプに対応 - exametrika-dev の <code>plot_poly_fcbr()</code> 関数を参考にしたが、P(Q&gt;=1)も表示するよう改良 - <strong>重要な変更</strong>: 元のexametrika-devではP(Q&gt;=1)を省略していたが、ggExametrikaでは全境界を表示</p>
+<p><strong>機能:</strong> - 各フィールドの境界確率曲線を facet_wrap でサブプロット表示 - 境界確率の計算: P(Q &gt;= q) = sum(BCRM[f, cc, q:maxQ]) - <strong>P(Q&gt;=1)は常に1.0</strong> なので水平線（y=1.0）として表示される - 共通オプション完全対応（title, colors, linetype, show_legend, legend_position） - ordinalBiclustering 専用（境界確率は順序尺度でのみ意味を持つため） - データソース: <code>data$FRP</code>（3次元配列: フィールド × クラス/ランク × カテゴリ）</p>
 <p><strong>テスト:</strong> - test_fcbr.R を作成して動作確認 - J15S3810データを使用してordinalBiclusteringを実行（ncls=4, nfld=3） - FRPデータの次元確認: [3フィールド, 4クラス, 3カテゴリ] - プロット正常作成を確認</p>
 <p><strong>ドキュメント:</strong> - roxygen2ドキュメント作成（@title, @description, @param, @return, @details, @examples, @seealso） - NAMESPACEに自動エクスポート追加 - man/plotFCBR_gg.Rd 生成</p>
 <p><strong>バージョン:</strong> - DESCRIPTION: 0.0.19 → 0.0.20 - NEWS.md に変更履歴を追加 - CLAUDE.md の実装状況表を更新（FCBR: 未実装 → 実装済）</p>
