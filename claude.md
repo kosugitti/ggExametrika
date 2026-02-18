@@ -70,7 +70,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | IIF/IIC | IRT, GRM | plotIIC_gg | 実装済 |
 | TIF/TIC | IRT, GRM | plotTIC_gg | 実装済 |
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
-| FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | 実装済（2値） ※多値版（stat対応）は未実装 |
+| FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | **実装済（2値・多値対応、stat対応、共通オプション対応済み）** |
 | TRP | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET | plotTRP_gg | 実装済 |
 | LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済 ※多値版の動作未確認 |
 | LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
@@ -141,9 +141,10 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
    - 実装予定: `plotScoreField_gg()`
 
 #### 多値版対応（既存関数の拡張）
-4. **FRP** — 多値版で stat パラメータ（mean/median/mode）対応
-   - 現状: plotFRP_gg は2値のみ対応
-   - 必要: 多値データ用の期待得点計算ロジック追加
+4. **FRP** — 多値版で stat パラメータ（mean/median/mode）対応 ✅
+   - ~~現状: plotFRP_gg は2値のみ対応~~
+   - **実装完了**: 2値・多値両対応、stat パラメータ（mean/median/mode）実装済み
+   - 共通オプション完全対応（title, colors, linetype, show_legend, legend_position）
 5. **RRV** — 多値版で stat パラメータ（mean/median/mode）対応
    - 現状: plotRRV_gg は2値のみ対応
    - 必要: 多値データ用の転置プロット対応
@@ -167,7 +168,7 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 - [x] plotTIC_gg — 共通オプション対応済み (IRT/GRM両対応)
 - [ ] plotTRF_gg — title(ハードコード), colors/linetype/legend なし
 - [ ] plotIRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
-- [ ] plotFRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし（多値版実装時に対応）
+- [x] plotFRP_gg — 共通オプション対応済み（2値・多値両対応、stat パラメータ含む）
 - [ ] plotTRP_gg — title(logical対応済み), colors/linetype/legend 未対応
 - [ ] plotLCD_gg — title(logical対応済み), colors/linetype/legend 未対応
 - [ ] plotLRD_gg — title(logical対応済み), colors/linetype/legend 未対応
