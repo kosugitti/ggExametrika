@@ -1,4 +1,4 @@
-# ggExametrika 0.0.20
+# ggExametrika 0.0.21
 
 * Add `plotScoreField_gg()` for Score-Field heatmap visualization (exametrika v1.9.0 feature).
 * `plotScoreField_gg()` displays expected scores for each field across latent classes/ranks in polytomous biclustering models (nominalBiclustering, ordinalBiclustering).
@@ -7,6 +7,14 @@
 * Add `show_values` parameter to toggle display of score values on heatmap cells.
 * Add `text_size` parameter to control size of value labels.
 * Uses colorblind-friendly yellow-orange-red gradient by default.
+
+# ggExametrika 0.0.20
+
+* Add `plotFCBR_gg()` for Field Cumulative Boundary Reference (FCBR) visualization (ordinalBiclustering).
+* FCBR shows cumulative probability curves for each category boundary across latent classes/ranks.
+* Support common plot options (title, colors, linetype, show_legend, legend_position) in `plotFCBR_gg()`.
+* FCBR displays ALL boundary probabilities including P(Q>=1) (always 1.0), P(Q>=2), P(Q>=3), etc.
+* P(Q>=1) appears as a horizontal line at the top (y=1.0) for reference.
 
 # ggExametrika 0.0.19
 
