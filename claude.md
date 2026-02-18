@@ -80,7 +80,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | RRV | Biclustering, nominalBiclustering, ordinalBiclustering | plotRRV_gg | 実装済（2値、共通オプション対応済み） ※多値版（stat対応）は未実装 |
 | Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済（多値対応済み、共通オプション対応済み） |
 | **FCRP** | nominalBiclustering, ordinalBiclustering | - | **未実装（v1.9.0新規）** |
-| **FCBR** | ordinalBiclustering | - | **未実装（v1.9.0新規、ordinal専用）** |
+| **FCBR** | ordinalBiclustering | plotFCBR_gg | **実装済（v1.9.0新規、ordinal専用、共通オプション対応済み）** |
 | **ScoreField** | nominalBiclustering, ordinalBiclustering | - | **未実装（v1.9.0新規）** |
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
@@ -135,7 +135,7 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
    - 実装予定: `plotFCRP_gg()`
 2. **FCBR** (Field Cumulative Boundary Reference) — 境界確率プロット（ordinal専用）
    - 対応モデル: ordinalBiclustering
-   - 実装予定: `plotFCBR_gg()`
+   - 実装済: `plotFCBR_gg()` ✅
 3. **ScoreField** — 期待得点ヒートマップ（フィールド×クラス/ランク）
    - 対応モデル: nominalBiclustering, ordinalBiclustering
    - 実装予定: `plotScoreField_gg()`

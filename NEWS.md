@@ -1,3 +1,10 @@
+# ggExametrika 0.0.20
+
+* Add `plotFCBR_gg()` for Field Cumulative Boundary Reference (FCBR) visualization (ordinalBiclustering).
+* FCBR shows cumulative probability curves for each category boundary across latent classes/ranks.
+* Support common plot options (title, colors, linetype, show_legend, legend_position) in `plotFCBR_gg()`.
+* FCBR is ordinal-specific and displays boundary probabilities P(Q>=2), P(Q>=3), etc., for each field.
+
 # ggExametrika 0.0.19
 
 * Add `plotScoreRank_gg()` for Score-Rank heatmap visualization (LRAordinal, LRArated).

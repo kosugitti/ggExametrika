@@ -1,5 +1,47 @@
 # ggExametrika 開発ログ
 
+## 2026-02-18
+
+### plotFCBR_gg() 実装 (kamimura)
+
+**目的:** ordinalBiclustering モデル用のField Cumulative Boundary Reference (FCBR) を可視化する関数を実装
+
+**実装内容:**
+- `plotFCBR_gg()` を新規作成（R/plotFCBR_gg.R）
+- フィールドごとの境界確率曲線（P(Q>=2), P(Q>=3), ...）を表示
+- exametrika v1.9.0 の FCBR プロットタイプに対応
+- exametrika-dev の `plot_poly_fcbr()` 関数（R/00_plot_poly_biclustering.R:106-145）を参考に実装
+
+**機能:**
+- 各フィールドの境界確率曲線を facet_wrap でサブプロット表示
+- 境界確率の計算: P(Q >= q_threshold) = sum(BCRM[f, cc, q_threshold:maxQ])
+- 共通オプション完全対応（title, colors, linetype, show_legend, legend_position）
+- ordinalBiclustering 専用（境界確率は順序尺度でのみ意味を持つため）
+- データソース: `data$FRP`（3次元配列: フィールド × クラス/ランク × カテゴリ）
+
+**テスト:**
+- test_fcbr.R を作成して動作確認
+- J15S3810データを使用してordinalBiclusteringを実行（ncls=4, nfld=3）
+- FRPデータの次元確認: [3フィールド, 4クラス, 3カテゴリ]
+- プロット正常作成を確認
+
+**ドキュメント:**
+- roxygen2ドキュメント作成（@title, @description, @param, @return, @details, @examples, @seealso）
+- NAMESPACEに自動エクスポート追加
+- man/plotFCBR_gg.Rd 生成
+
+**バージョン:**
+- DESCRIPTION: 0.0.19 → 0.0.20
+- NEWS.md に変更履歴を追加
+- CLAUDE.md の実装状況表を更新（FCBR: 未実装 → 実装済）
+
+**次回の課題:**
+- 残りの多値バイクラスタリングプロット実装（FCRP, ScoreField）
+- 多値版FRP/RRV対応（stat パラメータ: mean/median/mode）
+- 既存関数の共通オプション対応継続
+
+---
+
 ## 2026-02-17
 
 ### plotScoreFreq_gg() 実装 (arimune01)
