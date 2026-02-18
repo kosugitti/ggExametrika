@@ -114,6 +114,35 @@ trf_plot <- plotTRF_gg(result_irt)
 trf_plot
 ```
 
+### plotICC_overlay_gg: ICC オーバーレイ
+
+全項目の項目特性曲線を1つのグラフに重ねて表示し、項目間の比較を容易にします。
+
+```{r}
+plotICC_overlay_gg(result_irt)
+```
+
+特定の項目を選択してカスタマイズ:
+
+```{r}
+plotICC_overlay_gg(result_irt,
+  items = c(1, 3, 5, 7),
+  title = "選択した項目のICC",
+  linetype = "solid",
+  legend_position = "bottom"
+)
+```
+
+### plotIIC_overlay_gg: IIC オーバーレイ
+
+全項目の項目情報曲線を1つのグラフに重ねて表示します。
+
+```{r}
+plotIIC_overlay_gg(result_irt)
+```
+
+GRMデータにも対応しています（セクション2参照）。
+
 ### LogisticModel / ItemInformationFunc: 補助関数
 
 IRTモデルの低レベル計算関数です。
@@ -299,6 +328,93 @@ combinePlots_gg(rmp_plots, selectPlots = 1:6)
 
 ---
 
+## 4b. LRAordinal / LRArated（多値潜在ランク分析）
+
+LRAordinalとLRAratedは、順序尺度や評定尺度の多値応答データを扱い、
+得点分布やカテゴリレベルの分析に特化した可視化を提供します。
+
+```{r}
+result_lra_ord <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+```
+
+### plotScoreFreq_gg: 得点頻度分布
+
+得点の密度分布と、隣接するランク間の閾値を垂直線で表示します。
+
+```{r}
+plotScoreFreq_gg(result_lra_ord)
+```
+
+色と線の種類をカスタマイズ:
+
+```{r}
+plotScoreFreq_gg(result_lra_ord,
+  title = "ランク境界付き得点分布",
+  colors = c("steelblue", "red"),
+  linetype = c("solid", "dashed")
+)
+```
+
+### plotScoreRank_gg: 得点-ランクヒートマップ
+
+観測得点と推定ランクの同時分布をヒートマップで表示します。
+色が濃いほど頻度が高いことを示します。
+
+```{r}
+plotScoreRank_gg(result_lra_ord)
+```
+
+グラデーション色のカスタマイズ:
+
+```{r}
+plotScoreRank_gg(result_lra_ord,
+  title = "得点-ランク分布",
+  colors = c("white", "darkblue"),
+  legend_position = "bottom"
+)
+```
+
+### plotICRP_gg: 項目カテゴリ参照プロファイル（ICRP）
+
+各潜在ランクにおける各応答カテゴリの選択確率を表示します。
+各ランクでの確率の合計は1.0になります。
+
+```{r}
+icrp_plots <- plotICRP_gg(result_lra_ord, items = 1:4)
+icrp_plots
+```
+
+### plotICBR_gg: 項目カテゴリ境界応答（ICBR）
+
+各カテゴリ境界の累積確率曲線を表示します。
+K個のカテゴリを持つ項目に対して、P(応答 >= k)（k = 1, ..., K-1）を表示します。
+
+```{r}
+icbr_plots <- plotICBR_gg(result_lra_ord, items = 1:4)
+icbr_plots
+```
+
+カスタマイズ:
+
+```{r}
+plotICBR_gg(result_lra_ord,
+  items = 1:6,
+  title = "項目カテゴリ境界応答",
+  legend_position = "bottom"
+)
+```
+
+### plotRMP_gg: ランクメンバーシッププロファイル
+
+LRAordinal/LRAratedでも使用可能:
+
+```{r}
+rmp_plots <- plotRMP_gg(result_lra_ord)
+rmp_plots[[1]]
+```
+
+---
+
 ## 5. バイクラスタリング
 
 バイクラスタリングは、項目（フィールドへ）と学生（ランクへ）を同時にクラスタリングします。
@@ -384,6 +500,30 @@ plotArray_gg(result_bic, Original = FALSE, Clusterd = TRUE)
 
 ```{r}
 plotArray_gg(result_bic, Clusterd_lines = FALSE)
+```
+
+### 順序尺度バイクラスタリング: plotFCBR_gg
+
+順序尺度（多値）のバイクラスタリングでは、`plotFCBR_gg()` でフィールド累積境界参照を
+可視化できます。各フィールドの境界確率 P(Q >= k) を潜在クラス/ランクごとに表示します。
+
+```{r}
+result_ord_bic <- Biclustering(OrdinalData, ncls = 4, dataType = "ordinal")
+```
+
+```{r}
+fcbr_plot <- plotFCBR_gg(result_ord_bic)
+fcbr_plot
+```
+
+特定のフィールドを選択してカスタマイズ:
+
+```{r}
+plotFCBR_gg(result_ord_bic,
+  fields = 1:4,
+  title = "フィールド累積境界参照",
+  legend_position = "bottom"
+)
 ```
 
 ---
@@ -640,22 +780,29 @@ combinePlots_gg(plots, selectPlots = 1:15)
 
 ## 関数-モデル対応表
 
-| 関数 | IRT | GRM | LCA | LRA | Biclustering | IRM | LDLRA | LDB | BINET | BNM |
-|------|:---:|:---:|:---:|:---:|:------------:|:---:|:-----:|:---:|:-----:|:---:|
-| plotICC_gg | x | | | | | | | | | |
-| plotIIC_gg | x | x | | | | | | | | |
-| plotTIC_gg | x | x | | | | | | | | |
-| plotTRF_gg | x | | | | | | | | | |
-| plotICRF_gg | | x | | | | | | | | |
-| plotIRP_gg | | | x | x | | | x | | | |
-| plotFRP_gg | | | | | x | x | | x | x | |
-| plotTRP_gg | | | x | x | x | x | | x | x | |
-| plotLCD_gg | | | x | | | | | | x | |
-| plotLRD_gg | | | | x | x | | x | x | | |
-| plotCMP_gg | | | x | | | | | | x | |
-| plotRMP_gg | | | | x | x | | x | x | | |
-| plotCRV_gg | | | | | x | | | | | |
-| plotRRV_gg | | | | | x | | | | | |
-| plotArray_gg | | | | | x | x | | x | x | |
-| plotFieldPIRP_gg | | | | | | | | x | | |
-| plotGraph_gg | | | | | | | x | x | x | x |
+| 関数 | IRT | GRM | LCA | LRA | LRAord | LRArat | Biclust | ordBiclust | IRM | LDLRA | LDB | BINET | BNM |
+|------|:---:|:---:|:---:|:---:|:------:|:------:|:-------:|:----------:|:---:|:-----:|:---:|:-----:|:---:|
+| plotICC_gg | x | | | | | | | | | | | | |
+| plotICC_overlay_gg | x | | | | | | | | | | | | |
+| plotIIC_gg | x | x | | | | | | | | | | | |
+| plotIIC_overlay_gg | x | x | | | | | | | | | | | |
+| plotTIC_gg | x | x | | | | | | | | | | | |
+| plotTRF_gg | x | | | | | | | | | | | | |
+| plotICRF_gg | | x | | | | | | | | | | | |
+| plotIRP_gg | | | x | x | | | | | | x | | | |
+| plotFRP_gg | | | | | | | x | | x | | x | x | |
+| plotTRP_gg | | | x | x | | | x | | x | | x | x | |
+| plotLCD_gg | | | x | | | | | | | | | x | |
+| plotLRD_gg | | | | x | | | x | | | x | x | | |
+| plotCMP_gg | | | x | | | | | | | | | x | |
+| plotRMP_gg | | | | x | x | x | x | x | | x | x | | |
+| plotCRV_gg | | | | | | | x | | | | | | |
+| plotRRV_gg | | | | | | | x | | | | | | |
+| plotArray_gg | | | | | | | x | x | x | | x | x | |
+| plotFieldPIRP_gg | | | | | | | | | | | x | | |
+| plotGraph_gg | | | | | | | | | | x | x | x | x |
+| plotScoreFreq_gg | | | | | x | x | | | | | | | |
+| plotScoreRank_gg | | | | | x | x | | | | | | | |
+| plotICRP_gg | | | | | x | x | | | | | | | |
+| plotICBR_gg | | | | | x | | | | | | | | |
+| plotFCBR_gg | | | | | | | | x | | | | | |
