@@ -1,5 +1,158 @@
 # ggExametrika 開発ログ
 
+## 2026-02-18
+
+### plotFCBR_gg() 実装 (kamimura)
+
+**目的:** ordinalBiclustering モデル用のField Cumulative Boundary
+Reference (FCBR) を可視化する関数を実装
+
+**実装内容:** -
+[`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md)
+を新規作成（R/plotFCBR_gg.R） - フィールドごとの境界確率曲線（P(Q\>=2),
+P(Q\>=3), …）を表示 - exametrika v1.9.0 の FCBR プロットタイプに対応 -
+exametrika-dev の `plot_poly_fcbr()`
+関数（R/00_plot_poly_biclustering.R:106-145）を参考に実装
+
+**機能:** - 各フィールドの境界確率曲線を facet_wrap でサブプロット表示 -
+境界確率の計算: P(Q \>= q_threshold) = sum(BCRM\[f, cc,
+q_threshold:maxQ\]) - 共通オプション完全対応（title, colors, linetype,
+show_legend, legend_position） - ordinalBiclustering
+専用（境界確率は順序尺度でのみ意味を持つため） - データソース:
+`data$FRP`（3次元配列: フィールド × クラス/ランク × カテゴリ）
+
+**テスト:** - test_fcbr.R を作成して動作確認 -
+J15S3810データを使用してordinalBiclusteringを実行（ncls=4, nfld=3） -
+FRPデータの次元確認: \[3フィールド, 4クラス, 3カテゴリ\] -
+プロット正常作成を確認
+
+**ドキュメント:** - roxygen2ドキュメント作成（@title, @description,
+@param, @return, @details, @examples, @seealso） -
+NAMESPACEに自動エクスポート追加 - man/plotFCBR_gg.Rd 生成
+
+**バージョン:** - DESCRIPTION: 0.0.19 → 0.0.20 - NEWS.md
+に変更履歴を追加 - CLAUDE.md の実装状況表を更新（FCBR: 未実装 → 実装済）
+
+**次回の課題:** - 残りの多値バイクラスタリングプロット実装（FCRP,
+ScoreField） - 多値版FRP/RRV対応（stat パラメータ: mean/median/mode） -
+既存関数の共通オプション対応継続
+
+------------------------------------------------------------------------
+
+## 2026-02-17
+
+### plotScoreFreq_gg() 実装 (arimune01)
+
+**目的:** LRAordinal/LRArated
+モデル用のスコア頻度分布を可視化する関数を実装
+
+**実装内容:** -
+[`plotScoreFreq_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreFreq_gg.md)
+を新規作成（R/LRAordinal.R） -
+スコアの密度分布曲線と潜在ランク間の閾値線（破線）を1枚のプロットで表示 -
+exametrika の ScoreFreq プロットタイプに対応
+
+**機能:** -
+スコアの密度分布（geom_density）と閾値の垂直線（geom_vline）を同時表示 -
+閾値計算: ランク i の最大スコアとランク i+1 の最小スコアの中点 -
+共通オプション完全対応（title, colors, linetype, show_legend,
+legend_position） - LRAordinal, LRArated 専用（IRT,
+Biclustering等ではエラー）
+
+**テスト:** - develop/test_ScoreFreq.R を作成 - LRAordinal / LRArated
+両方でテスト実施 -
+全アイテム表示、共通オプション、エラーハンドリングをテスト
+
+**ドキュメント:** - roxygen2ドキュメント作成（@title, @description,
+@param, @return, @details, @examples, @seealso） -
+NAMESPACEに自動エクスポート追加
+
+**バージョン:** - DESCRIPTION: 0.0.13 → 0.0.14 → 0.0.15（マージ調整） -
+NEWS.md に変更履歴を追加 - claude.md の実装状況表を更新
+
+------------------------------------------------------------------------
+
+### plotICC_overlay_gg() 実装 (castella3)
+
+**目的:** 全てのItem Characteristic Curves
+(ICC)を1枚のグラフに重ねて表示する関数を実装
+
+**実装内容:** -
+[`plotICC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICC_overlay_gg.md)
+を R/ICCtoTIC.R に追加 - 本家exametrika の
+`plot(IRT_result, type = "IRF", overlay = TRUE)` の動作を参考に実装 -
+exametrikaのplot.exametrika関数（R/00_exametrikaPlot.R:655-683行目）のplotIRTCurve関数を参照 -
+ggplot2のgeom_lineを使って複数のアイテム曲線を色分けして表示
+
+**機能:** -
+全アイテムまたは指定したアイテムのICCを1つのグラフにオーバーレイ -
+各アイテムに異なる色を自動割り当て（カラーバリアフリー対応） -
+共通オプションをサポート（title, colors, linetype, show_legend,
+legend_position） - 2PL, 3PL, 4PLモデルに対応（IRT専用）
+
+**ICC vs IIC の違い:** - **ICC**: 正答確率を示す曲線（y軸:
+0〜1の確率） - **IIC**: 情報量を示す曲線（y軸: 情報量）
+
+**テスト:** - develop/test_ICC_overlay.R を作成 -
+2PLと3PLモデルでテスト実施 -
+全アイテム表示、一部アイテム表示、カスタムカラー、凡例のオン/オフをテスト -
+すべてのテストが正常に動作することを確認
+
+**ドキュメント:** - roxygen2ドキュメント作成（@title, @description,
+@param, @return, @details, @examples, @seealso） -
+NAMESPACEに自動エクスポート追加
+
+**バージョン:** - DESCRIPTION: 0.0.14 → 0.0.15 → 0.0.16（マージ調整） -
+NEWS.md に変更履歴を追加 - claude.md の実装状況表を更新
+
+------------------------------------------------------------------------
+
+### plotIIC_overlay_gg() 実装 (castella3)
+
+**目的:** 全てのItem Information Curves
+(IIC)を1枚のグラフに重ねて表示する関数を実装
+
+**実装内容:** -
+[`plotIIC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_overlay_gg.md)
+を R/ICCtoTIC.R に追加 - plotICC_overlay_gg() と同様の構造で実装 -
+IRT（2PL, 3PL, 4PL）と GRM の両モデルに対応 - 本家exametrika の
+`plot(IRT_result, type = "IIF", overlay = TRUE)` 相当
+
+**機能:** -
+全アイテムまたは指定したアイテムのIICを1つのグラフにオーバーレイ -
+各アイテムに異なる色を自動割り当て（カラーバリアフリー対応） -
+共通オプションをサポート（title, colors, linetype, show_legend,
+legend_position） - IRT + GRM 両対応（既存のplotIIC_ggと同じ設計） -
+Y軸: information（情報量）を表示
+
+**IICの意味:** -
+ICC（正答確率）とは異なり、各アイテムがどの能力範囲で最も精密に測定できるかを示す -
+情報量が高いほど、その能力範囲で精度よく測定可能 - 曲線のピーク =
+最も情報を提供する能力範囲
+
+**IRT vs GRM の情報関数:** - **IRT**:
+`I(θ) = [a²(P-c)(d-P)(Pd-c)] / [(d-c)²P(1-P)]` - **GRM**:
+`I(θ) = a² Σ P*ₖ(1-P*ₖ)` （ItemInformationFunc_GRM使用）
+
+**テスト:** - develop/test_IIC_overlay.R を作成 -
+2PLと3PLモデル（IRT）でテスト実施 - GRMモデルでもテスト可能 -
+全アイテム表示、一部アイテム表示、カスタムカラー、凡例のオン/オフをテスト -
+すべてのテストが正常に動作することを確認
+
+**ドキュメント:** - roxygen2ドキュメント作成（@title, @description,
+@param, @return, @details, @examples, @seealso） - IICの説明（情報量曲線
+vs 確率曲線）を明記 - NAMESPACEに自動エクスポート追加
+
+**バージョン:** - DESCRIPTION: 0.0.14 → 0.0.16 → 0.0.17（マージ調整） -
+NEWS.md に変更履歴を追加 - claude.md の実装状況表を更新
+
+**設計の妥当性:** - plotICC_overlay_gg: IRT専用（正しい -
+ICCは二値データ用） - plotIIC_overlay_gg: IRT + GRM両対応（正しい -
+情報量は統一概念） - plotICRF_overlay_gg: 未実装（GRM専用のICRF
+overlay版は将来的に検討可能）
+
+------------------------------------------------------------------------
+
 ## 2025-12-10
 
 ### 初期セットアップ
@@ -391,3 +544,270 @@ test_missing_values.R
     - CRV/RRV, LDPSR, ScoreFreq, ScoreRank, ICRP, ICBR
     - GRM対応（IIC, TIC）
     - DAG可視化
+
+------------------------------------------------------------------------
+
+## 2026-02-17 (Feature: ICBR)
+
+### plotICBR_ggの実装完了
+
+#### 作業概要
+
+LRAordinal専用のICBR（Item Category Boundary
+Response）プロット関数を実装。
+カテゴリ境界を超える累積確率曲線をランクごとに可視化する機能を追加。
+
+#### 実装内容
+
+1.  **新規ファイル作成**
+    - `R/LRAordinal.R` - plotICBR_gg() 関数（183行）
+    - `develop/explore_ICBR.R` - データ構造調査スクリプト
+    - `develop/test_ICBR.R` - 包括的なテストスクリプト
+2.  **データ構造の調査と理解**
+    - exametrikaのICBRデータ: ItemLabel, CategoryLabel, rank1, rank2, …
+    - Wide形式からLong形式への変換（tidyr::pivot_longer使用）
+    - CategoryLabelから項目名プレフィックスを除去して色パレット問題を解決
+3.  **ランク順序の調整（重要な修正）**
+    - **問題**: exametrikaのデータではrank1が低能力、rank4が高能力
+    - **期待**: X軸1→4で能力上昇、確率も上昇（右肩上がり）
+    - **解決**: ランクを逆順に変換（`n_ranks - Rank + 1`）
+    - **結果**: 右肩上がりのプロット実現
+4.  **スタイルの統一**
+    - Y軸:
+      `scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25))`
+    - テーマ: ggplot2デフォルトテーマ（他の関数と一貫性）
+    - `theme_minimal()` を削除、`facet_wrap(scales = "free_y")`
+      から固定Y軸に変更
+5.  **共通オプション対応**
+    - `title`: TRUE/FALSE/カスタム文字列
+    - `colors`: NULL=デフォルトパレット、指定でカスタム
+    - `linetype`: NULL=自動、指定でカスタム
+    - `show_legend`: TRUE/FALSE
+    - `legend_position`: “right”, “top”, “bottom”, “left”, “none”
+6.  **依存関係の追加**
+    - DESCRIPTIONのImportsに `tidyr` を追加（pivot_longer用）
+
+#### 技術的な課題と解決
+
+**課題1: 色パレット不足エラー**
+
+    Error: Insufficient values in manual scale. 16 needed but only 4 provided.
+
+- **原因**: CategoryLabelが項目ごとに異なる（V1-Cat1, V2-Cat1, …）
+- **解決**: CategoryLabelから項目名を除去（“V1-Cat1” → “Cat1”）
+- **結果**: 全項目で同じカテゴリラベルを共有、4色で対応可能
+
+**課題2: プロットの向き（右肩下がり vs 右肩上がり）** - **原因**:
+exametrikaのランク番号と能力の関係 - **解決**: ランクを逆順に変換 -
+**検証**: ユーザー確認により、ランクは大きいほど高能力と判明
+
+#### バージョン管理
+
+- DESCRIPTION: 0.0.14 → 0.0.15
+- NEWS.md: v0.0.15エントリ追加
+- claude.md: 実装状況表を更新（ICBR: 未実装 → 実装済み）
+
+#### Git管理
+
+- ブランチ: `feature/icbr`
+- コミット: 50e5d03 “Add plotICBR_gg for Item Category Boundary Response
+  visualization”
+- リモート:
+  <https://github.com/kosugitti/ggExametrika/pull/new/feature/icbr>
+
+#### 動作確認
+
+- 基本動作: ✓ 複数項目の表示、右肩上がりの曲線
+- 共通オプション: ✓ title, colors, linetype, show_legend,
+  legend_position
+- スタイル統一: ✓ Y軸0〜1、0.25刻み、デフォルトテーマ
+- エラーハンドリング: ✓ LRArated, IRT, Biclusteringで適切にエラー
+
+#### 次回の課題
+
+1.  **未実装プロットタイプ**
+    - ScoreRank（スコア-ランクヒートマップ）- LRAordinal, LRArated
+    - ICRP（Item Category Reference Profile）- LRAordinal, LRArated
+    - LDPSR（Latent Dependence Passing Student Rate）- BINET
+2.  **既存関数への共通オプション追加**
+    - CLAUDE.mdのTODOリスト参照（16関数）
+3.  **多値版モデルの動作確認**
+    - nominalBiclustering, ordinalBiclustering
+
+------------------------------------------------------------------------
+
+## 2026-02-17
+
+### ICRP (Item Category Reference Profile) 実装 - plotICRP_gg
+
+担当: Claude
+
+#### 実装概要
+
+exametrika の `LRAordinal` および `LRArated` モデルの ICRP
+データを可視化する関数を実装しました。ICRPは各カテゴリの応答確率を表示し、各ランクで確率の合計が1.0になります。これは累積確率を表示するICBRとは対照的です。
+
+#### 実装内容
+
+1.  **新規関数: plotICRP_gg**
+    - ファイル: `R/LRAordinal.R`（plotICBR_ggと同じファイル）
+    - 対応モデル: LRAordinal, LRArated
+    - 返り値: ggplotオブジェクト（facet_wrapによる複数項目表示）
+2.  **関数の特徴**
+    - ICBRとの違い: 応答確率（P(response = k \| rank)）を表示
+    - 各ランクで全カテゴリの確率合計が1.0
+    - LRAordinalとLRArated両方に対応
+    - 完全な共通オプション対応（title, colors, linetype, show_legend,
+      legend_position）
+3.  **データ構造**
+    - `data$ICRP`: ItemLabel, CategoryLabel, rank1, rank2, …
+    - ICBRと同じ形式だが、意味が異なる（累積 vs 応答）
+    - カテゴリラベルの正規化（“V1-Cat1” → “Cat1”）でパレット問題を解決
+4.  **開発ファイル**
+    - `develop/explore_ICRP.R`: ICRPデータ構造の調査、ICBRとの比較
+    - `develop/test_ICRP.R`: 包括的テストスクリプト（10セクション）
+
+#### Y軸自動スケーリング対応
+
+ユーザーフィードバックに基づき、plotICBR_ggとplotICRP_gg両方のY軸を修正：
+
+- **変更前**:
+  `scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25))`
+- **変更後**: `scale_y_continuous(breaks = seq(0, 1, 0.25))`
+- **理由**: データ範囲に応じた自動調整で、柔軟な可視化を実現
+
+#### バージョン管理
+
+- DESCRIPTION: 0.0.15 → 0.0.16
+- NEWS.md: v0.0.16エントリ追加（ICRP実装 + Y軸自動スケーリング）
+- claude.md: 実装状況表を更新（ICRP: 未実装 → 実装済み）
+
+#### Git管理
+
+- ブランチ: `feature/icrp`（feature/icbrから派生）
+- 理由: ICBRの実装を含む必要があったため
+
+#### 動作確認（予定）
+
+テストスクリプト `develop/test_ICRP.R` で以下を確認予定： 1.
+基本動作（LRAordinal, LRArated両対応） 2. 共通オプション（title, colors,
+linetype, show_legend, legend_position） 3. Y軸自動スケーリング 4.
+ICRPとICBRの比較（同じ項目で累積vs応答の違い） 5.
+エラーハンドリング（IRT, Biclustering等）
+
+#### ICBRとICRPの関係
+
+数学的関係:
+
+    ICBR(Cat_i) = Σ ICRP(Cat_j) for j >= i
+
+視覚的違い: - **ICBR**: 累積確率、単調減少、カテゴリ0は常に1.0 -
+**ICRP**: 応答確率、ピークを持つ山型、合計1.0
+
+#### 次回の課題
+
+1.  **未実装プロットタイプ（残り3つ）**
+    - ScoreRank（スコア-ランクヒートマップ）- LRAordinal, LRArated
+    - LDPSR（Latent Dependence Passing Student Rate）- BINET
+2.  **既存関数への共通オプション追加**
+    - CLAUDE.mdのTODOリスト参照（16関数）
+3.  **多値版モデルの動作確認**
+    - nominalBiclustering, ordinalBiclustering
+
+------------------------------------------------------------------------
+
+## 2026-02-18
+
+### 多値バイクラスタリングの新サンプルデータ対応検証
+
+担当: Claude
+
+#### 作業概要
+
+親パッケージexametrikaに追加された新しい多値バイクラスタリングサンプルデータ（J35S500,
+J20S600）に対するggExametrikaの互換性を検証。plotArray_gg関数が新データで正しく動作することを確認。
+
+#### 背景
+
+exametrika v1.9.0で多値データ用のサンプルデータセットが追加された： -
+**J35S500**: ordinal
+Biclustering（ランククラスタリング）、35項目、500受験者、5カテゴリ -
+**J20S600**: nominal Biclustering、20項目、600受験者、4カテゴリ
+
+#### 実施した作業
+
+1.  **exametrikaパッケージの更新**
+    - GitHub経由で最新版（v1.9.0）をインストール
+    - 新データセットJ35S500, J20S600の存在を確認
+2.  **テストスクリプトの作成**
+    - `develop/test_multivalue_biclustering.R` を新規作成
+    - ordinalとnominal両方のBiclusteringをテスト
+    - 親パッケージの `tests/testthat/test-polytomous-biclustering.R`
+      を参考
+3.  **動作検証**
+    - Test 1: J35S500（ordinal Biclustering）
+      - データ構造: 500×35行列、カテゴリ0-5（-1は欠測値）
+      - FRP dimensions: 5×5×5（5フィールド×5クラス×5カテゴリ）
+      - 収束: TRUE ✓
+      - plotArray_gg: 正常動作 ✓
+    - Test 2: J20S600（nominal Biclustering）
+      - データ構造: 600×20行列、カテゴリ0-4（-1は欠測値）
+      - FRP dimensions: 4×5×4（4フィールド×5クラス×4カテゴリ）
+      - 収束: TRUE ✓
+      - plotArray_gg: 正常動作 ✓
+4.  **既存機能の確認**
+    - plotICC_overlay_gg: 正常動作 ✓
+    - plotIIC_overlay_gg: 正常動作 ✓
+
+#### 検証結果
+
+✅ **plotArray_ggは既に多値データに完全対応している**
+
+現在の実装（2026-02-17の修正版）は以下の機能を持つ：
+
+1.  **自動カテゴリ検出**
+    - `sort(unique(as.vector(as.matrix(raw_data))))`
+    - -1（欠測値）と有効値を分離
+2.  **自動色パレット選択**
+    - 2値データ: 白/黒
+    - 3+値データ: カラーブラインドフレンドリーパレット（最大20色）
+    - 欠測値（-1）: 黒色、凡例に「NA」表示
+3.  **境界線色の自動切り替え**
+    - 2値データ: 赤色（視認性向上）
+    - 多値データ: 白色
+4.  **凡例の自動表示制御**
+    - 2値データ: 凡例なし（デフォルト）
+    - 多値データ: 凡例あり（デフォルト）
+5.  **共通オプション完全対応**
+    - title, colors, show_legend, legend_position, Clusterd_lines_color
+
+#### コード変更
+
+**なし** - 既存の実装で新データに対応できることを確認
+
+#### テストファイル
+
+- `develop/test_multivalue_biclustering.R` - 83行
+  - J35S500（ordinal、5カテゴリ）とJ20S600（nominal、4カテゴリ）の両方をテスト
+  - 元のexametrikaプロットとggExametrikaプロットを比較
+  - カスタムカラー、凡例オプションのテスト含む
+
+#### ブランチ管理
+
+- ブランチ: `feature/multivalue-data-update`
+- 状態: テスト完了、コミット/プッシュなし（ユーザー指示により）
+
+#### 次回の課題
+
+1.  **動作確認完了した項目**
+    - plotArray_gg（ordinalBiclustering, nominalBiclustering） ✓
+2.  **未確認の多値版関数（CLAUDE.md参照）**
+    - plotFRP_gg（nominalBiclustering, ordinalBiclustering）
+    - plotLCD_gg（nominalBiclustering, nominalBiclustering）
+    - plotLRD_gg（nominalBiclustering, ordinalBiclustering）
+    - plotCMP_gg（nominalBiclustering, ordinalBiclustering）
+    - plotRMP_gg（ordinalBiclustering）
+3.  **既存関数への共通オプション追加**
+    - 16関数が未対応（CLAUDE.mdのTODOリスト参照）
+
+------------------------------------------------------------------------

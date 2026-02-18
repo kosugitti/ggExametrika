@@ -13,13 +13,13 @@ Source:
 [`DESCRIPTION`](https://github.com/kosugitti/ggExametrika/blob/main/DESCRIPTION)
 
 Kosugi K, Kamimura D (2026). *ggExametrika: Visualization of Exametrika
-Output using ggplot*. R package version 0.0.14,
+Output using ggplot*. R package version 0.0.20,
 <https://kosugitti.github.io/ggExametrika/>.
 
     @Manual{,
       title = {ggExametrika: Visualization of Exametrika Output using ggplot},
       author = {Koji Kosugi and Daichi Kamimura},
       year = {2026},
-      note = {R package version 0.0.14},
+      note = {R package version 0.0.20},
       url = {https://kosugitti.github.io/ggExametrika/},
     }

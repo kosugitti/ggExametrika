@@ -1,5 +1,80 @@
 # Changelog
 
+## ggExametrika 0.0.20
+
+- Add
+  [`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md)
+  for Field Cumulative Boundary Reference (FCBR) visualization
+  (ordinalBiclustering).
+- FCBR shows cumulative probability curves for each category boundary
+  across latent classes/ranks.
+- Support common plot options (title, colors, linetype, show_legend,
+  legend_position) in
+  [`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md).
+- FCBR is ordinal-specific and displays boundary probabilities P(Q\>=2),
+  P(Q\>=3), etc., for each field.
+
+## ggExametrika 0.0.19
+
+- Add
+  [`plotScoreRank_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreRank_gg.md)
+  for Score-Rank heatmap visualization (LRAordinal, LRArated).
+- Support common plot options (title, colors, show_legend,
+  legend_position) in
+  [`plotScoreRank_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreRank_gg.md).
+
+## ggExametrika 0.0.18
+
+- Add
+  [`plotICBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICBR_gg.md)
+  for Item Category Boundary Response (ICBR) visualization (LRAordinal).
+- Add
+  [`plotICRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICRP_gg.md)
+  for Item Category Reference Profile (ICRP) visualization (LRAordinal,
+  LRArated).
+- Both functions support common plot options (title, colors, linetype,
+  show_legend, legend_position).
+- ICBR shows cumulative probability curves for each category boundary
+  across latent ranks.
+- ICRP shows response probability curves for each category across latent
+  ranks (probabilities sum to 1.0).
+- Add tidyr to Imports for data transformation in plotICBR_gg() and
+  plotICRP_gg().
+
+## ggExametrika 0.0.17
+
+- Add
+  [`plotIIC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_overlay_gg.md)
+  for overlaying all Item Information Curves (IIC) on a single plot
+  (IRT/GRM).
+- [`plotIIC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_overlay_gg.md)
+  supports both IRT and GRM models.
+- [`plotIIC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_overlay_gg.md)
+  supports common plot options (title, colors, linetype, show_legend,
+  legend_position).
+- Similar to `plot(IRT_result, type = "IIF", overlay = TRUE)` in
+  exametrika, but returns a ggplot2 object.
+
+## ggExametrika 0.0.16
+
+- Add
+  [`plotICC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICC_overlay_gg.md)
+  for overlaying all Item Characteristic Curves (ICC) on a single plot
+  (IRT).
+- [`plotICC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICC_overlay_gg.md)
+  supports common plot options (title, colors, linetype, show_legend,
+  legend_position).
+- Similar to `plot(IRT_result, type = "IRF", overlay = TRUE)` in
+  exametrika, but returns a ggplot2 object.
+
+## ggExametrika 0.0.15
+
+- Add
+  [`plotScoreFreq_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreFreq_gg.md)
+  for Score Frequency Distribution (LRAordinal, LRArated).
+- Common plot options (title, colors, linetype, show_legend,
+  legend_position) supported.
+
 ## ggExametrika 0.0.14
 
 - Add multi-valued data support to

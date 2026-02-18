@@ -6,8 +6,12 @@ Item Response Theory (2PL, 3PL, 4PL) visualization functions
 
 - [`plotICC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICC_gg.md)
   : Plot Item Characteristic Curves (ICC) from exametrika
+- [`plotICC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICC_overlay_gg.md)
+  : Plot All Item Characteristic Curves Overlaid from exametrika
 - [`plotIIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_gg.md)
   : Plot Item Information Curves (IIC) from exametrika
+- [`plotIIC_overlay_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_overlay_gg.md)
+  : Plot All Item Information Curves Overlaid from exametrika
 - [`plotTIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTIC_gg.md)
   : Plot Test Information Curve (TIC) from exametrika
 - [`plotTRF_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTRF_gg.md)
@@ -45,6 +49,19 @@ LCA, LRA, LDLRA visualization functions
 - [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md)
   : Plot Rank Membership Profile (RMP) from exametrika
 
+## Ordinal/Rated LRA Plots
+
+LRAordinal and LRArated visualization functions for polytomous data
+
+- [`plotScoreFreq_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreFreq_gg.md)
+  : Plot Score Frequency Distribution from exametrika
+- [`plotScoreRank_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreRank_gg.md)
+  : Plot Score-Rank Heatmap from exametrika
+- [`plotICRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICRP_gg.md)
+  : Plot Item Category Reference Profile from exametrika
+- [`plotICBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICBR_gg.md)
+  : Plot Item Category Boundary Response from exametrika
+
 ## Biclustering Plots
 
 Biclustering, IRM, and related model visualization
@@ -55,6 +72,8 @@ Biclustering, IRM, and related model visualization
   : Plot Rank Reference Vector (RRV) from exametrika
 - [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
   : Plot Array from exametrika
+- [`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md)
+  : Plot Field Cumulative Boundary Reference from exametrika
 - [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md)
   : Plot Field PIRP (Parent Item Reference Profile) from exametrika
 

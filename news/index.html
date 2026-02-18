@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.14</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.20</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,48 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.20" id="ggexametrika-0020">ggExametrika 0.0.20<a class="anchor" aria-label="anchor" href="#ggexametrika-0020"></a></h2>
+<ul><li>Add <code><a href="../reference/plotFCBR_gg.html">plotFCBR_gg()</a></code> for Field Cumulative Boundary Reference (FCBR) visualization (ordinalBiclustering).</li>
+<li>FCBR shows cumulative probability curves for each category boundary across latent classes/ranks.</li>
+<li>Support common plot options (title, colors, linetype, show_legend, legend_position) in <code><a href="../reference/plotFCBR_gg.html">plotFCBR_gg()</a></code>.</li>
+<li>FCBR is ordinal-specific and displays boundary probabilities P(Q&gt;=2), P(Q&gt;=3), etc., for each field.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.19" id="ggexametrika-0019">ggExametrika 0.0.19<a class="anchor" aria-label="anchor" href="#ggexametrika-0019"></a></h2>
+<ul><li>Add <code><a href="../reference/plotScoreRank_gg.html">plotScoreRank_gg()</a></code> for Score-Rank heatmap visualization (LRAordinal, LRArated).</li>
+<li>Support common plot options (title, colors, show_legend, legend_position) in <code><a href="../reference/plotScoreRank_gg.html">plotScoreRank_gg()</a></code>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.18" id="ggexametrika-0018">ggExametrika 0.0.18<a class="anchor" aria-label="anchor" href="#ggexametrika-0018"></a></h2>
+<ul><li>Add <code><a href="../reference/plotICBR_gg.html">plotICBR_gg()</a></code> for Item Category Boundary Response (ICBR) visualization (LRAordinal).</li>
+<li>Add <code><a href="../reference/plotICRP_gg.html">plotICRP_gg()</a></code> for Item Category Reference Profile (ICRP) visualization (LRAordinal, LRArated).</li>
+<li>Both functions support common plot options (title, colors, linetype, show_legend, legend_position).</li>
+<li>ICBR shows cumulative probability curves for each category boundary across latent ranks.</li>
+<li>ICRP shows response probability curves for each category across latent ranks (probabilities sum to 1.0).</li>
+<li>Add tidyr to Imports for data transformation in plotICBR_gg() and plotICRP_gg().</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.17" id="ggexametrika-0017">ggExametrika 0.0.17<a class="anchor" aria-label="anchor" href="#ggexametrika-0017"></a></h2>
+<ul><li>Add <code><a href="../reference/plotIIC_overlay_gg.html">plotIIC_overlay_gg()</a></code> for overlaying all Item Information Curves (IIC) on a single plot (IRT/GRM).</li>
+<li>
+<code><a href="../reference/plotIIC_overlay_gg.html">plotIIC_overlay_gg()</a></code> supports both IRT and GRM models.</li>
+<li>
+<code><a href="../reference/plotIIC_overlay_gg.html">plotIIC_overlay_gg()</a></code> supports common plot options (title, colors, linetype, show_legend, legend_position).</li>
+<li>Similar to <code>plot(IRT_result, type = "IIF", overlay = TRUE)</code> in exametrika, but returns a ggplot2 object.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.16" id="ggexametrika-0016">ggExametrika 0.0.16<a class="anchor" aria-label="anchor" href="#ggexametrika-0016"></a></h2>
+<ul><li>Add <code><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg()</a></code> for overlaying all Item Characteristic Curves (ICC) on a single plot (IRT).</li>
+<li>
+<code><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg()</a></code> supports common plot options (title, colors, linetype, show_legend, legend_position).</li>
+<li>Similar to <code>plot(IRT_result, type = "IRF", overlay = TRUE)</code> in exametrika, but returns a ggplot2 object.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.15" id="ggexametrika-0015">ggExametrika 0.0.15<a class="anchor" aria-label="anchor" href="#ggexametrika-0015"></a></h2>
+<ul><li>Add <code><a href="../reference/plotScoreFreq_gg.html">plotScoreFreq_gg()</a></code> for Score Frequency Distribution (LRAordinal, LRArated).</li>
+<li>Common plot options (title, colors, linetype, show_legend, legend_position) supported.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.14" id="ggexametrika-0014">ggExametrika 0.0.14<a class="anchor" aria-label="anchor" href="#ggexametrika-0014"></a></h2>
 <ul><li>Add multi-valued data support to <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> for ordinal/nominal Biclustering.</li>

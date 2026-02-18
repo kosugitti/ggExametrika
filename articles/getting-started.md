@@ -104,6 +104,36 @@ trf_plot <- plotTRF_gg(result_irt)
 trf_plot
 ```
 
+### plotICC_overlay_gg: ICC Overlay
+
+Overlays all Item Characteristic Curves on a single plot for easy
+comparison.
+
+``` r
+plotICC_overlay_gg(result_irt)
+```
+
+Select specific items and customize:
+
+``` r
+plotICC_overlay_gg(result_irt,
+  items = c(1, 3, 5, 7),
+  title = "Selected ICCs",
+  linetype = "solid",
+  legend_position = "bottom"
+)
+```
+
+### plotIIC_overlay_gg: IIC Overlay
+
+Overlays all Item Information Curves on a single plot.
+
+``` r
+plotIIC_overlay_gg(result_irt)
+```
+
+This function also works with GRM (see Section 2).
+
 ### LogisticModel / ItemInformationFunc: Helper Functions
 
 Low-level computation functions for IRT models.
@@ -294,6 +324,95 @@ combinePlots_gg(rmp_plots, selectPlots = 1:6)
 
 ------------------------------------------------------------------------
 
+## 4b. LRAordinal / LRArated (Polytomous Latent Rank Analysis)
+
+LRAordinal and LRArated handle ordinal and rated polytomous response
+data, providing specialized visualizations for score distributions and
+category-level analysis.
+
+``` r
+result_lra_ord <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+```
+
+### plotScoreFreq_gg: Score Frequency Distribution
+
+Shows the density distribution of scores with vertical lines indicating
+rank boundary thresholds.
+
+``` r
+plotScoreFreq_gg(result_lra_ord)
+```
+
+Customize colors and line types:
+
+``` r
+plotScoreFreq_gg(result_lra_ord,
+  title = "Score Distribution with Rank Boundaries",
+  colors = c("steelblue", "red"),
+  linetype = c("solid", "dashed")
+)
+```
+
+### plotScoreRank_gg: Score-Rank Heatmap
+
+Displays the joint distribution of observed scores and estimated ranks
+as a heatmap. Darker cells indicate higher frequency.
+
+``` r
+plotScoreRank_gg(result_lra_ord)
+```
+
+Customize gradient colors:
+
+``` r
+plotScoreRank_gg(result_lra_ord,
+  title = "Score-Rank Distribution",
+  colors = c("white", "darkblue"),
+  legend_position = "bottom"
+)
+```
+
+### plotICRP_gg: Item Category Reference Profile
+
+Shows the probability of selecting each response category across latent
+ranks. Probabilities at each rank sum to 1.0.
+
+``` r
+icrp_plots <- plotICRP_gg(result_lra_ord, items = 1:4)
+icrp_plots
+```
+
+### plotICBR_gg: Item Category Boundary Response
+
+Shows cumulative probability curves for each category boundary. For an
+item with K categories, displays P(response \>= k) for k = 1, …, K-1.
+
+``` r
+icbr_plots <- plotICBR_gg(result_lra_ord, items = 1:4)
+icbr_plots
+```
+
+Customize:
+
+``` r
+plotICBR_gg(result_lra_ord,
+  items = 1:6,
+  title = "Item Category Boundary Response",
+  legend_position = "bottom"
+)
+```
+
+### plotRMP_gg: Rank Membership Profile
+
+Also works with LRAordinal/LRArated:
+
+``` r
+rmp_plots <- plotRMP_gg(result_lra_ord)
+rmp_plots[[1]]
+```
+
+------------------------------------------------------------------------
+
 ## 5. Biclustering
 
 Biclustering simultaneously clusters items (into fields) and students
@@ -381,6 +500,32 @@ Hide cluster boundary lines:
 
 ``` r
 plotArray_gg(result_bic, Clusterd_lines = FALSE)
+```
+
+### Ordinal Biclustering: plotFCBR_gg
+
+For ordinal (polytomous) biclustering,
+[`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md)
+visualizes the Field Cumulative Boundary Reference. It shows boundary
+probabilities P(Q \>= k) for each field across latent classes/ranks.
+
+``` r
+result_ord_bic <- Biclustering(OrdinalData, ncls = 4, dataType = "ordinal")
+```
+
+``` r
+fcbr_plot <- plotFCBR_gg(result_ord_bic)
+fcbr_plot
+```
+
+Select specific fields and customize:
+
+``` r
+plotFCBR_gg(result_ord_bic,
+  fields = 1:4,
+  title = "Field Cumulative Boundary Reference",
+  legend_position = "bottom"
+)
 ```
 
 ------------------------------------------------------------------------
@@ -642,22 +787,29 @@ combinePlots_gg(plots, selectPlots = 1:15)
 
 ## Function-Model Compatibility Matrix
 
-| Function         | IRT | GRM | LCA | LRA | Biclustering | IRM | LDLRA | LDB | BINET | BNM |
-|------------------|:---:|:---:|:---:|:---:|:------------:|:---:|:-----:|:---:|:-----:|:---:|
-| plotICC_gg       |  x  |     |     |     |              |     |       |     |       |     |
-| plotIIC_gg       |  x  |  x  |     |     |              |     |       |     |       |     |
-| plotTIC_gg       |  x  |  x  |     |     |              |     |       |     |       |     |
-| plotTRF_gg       |  x  |     |     |     |              |     |       |     |       |     |
-| plotICRF_gg      |     |  x  |     |     |              |     |       |     |       |     |
-| plotIRP_gg       |     |     |  x  |  x  |              |     |   x   |     |       |     |
-| plotFRP_gg       |     |     |     |     |      x       |  x  |       |  x  |   x   |     |
-| plotTRP_gg       |     |     |  x  |  x  |      x       |  x  |       |  x  |   x   |     |
-| plotLCD_gg       |     |     |  x  |     |              |     |       |     |   x   |     |
-| plotLRD_gg       |     |     |     |  x  |      x       |     |   x   |  x  |       |     |
-| plotCMP_gg       |     |     |  x  |     |              |     |       |     |   x   |     |
-| plotRMP_gg       |     |     |     |  x  |      x       |     |   x   |  x  |       |     |
-| plotCRV_gg       |     |     |     |     |      x       |     |       |     |       |     |
-| plotRRV_gg       |     |     |     |     |      x       |     |       |     |       |     |
-| plotArray_gg     |     |     |     |     |      x       |  x  |       |  x  |   x   |     |
-| plotFieldPIRP_gg |     |     |     |     |              |     |       |  x  |       |     |
-| plotGraph_gg     |     |     |     |     |              |     |   x   |  x  |   x   |  x  |
+| Function           | IRT | GRM | LCA | LRA | LRAord | LRArat | Biclust | ordBiclust | IRM | LDLRA | LDB | BINET | BNM |
+|--------------------|:---:|:---:|:---:|:---:|:------:|:------:|:-------:|:----------:|:---:|:-----:|:---:|:-----:|:---:|
+| plotICC_gg         |  x  |     |     |     |        |        |         |            |     |       |     |       |     |
+| plotICC_overlay_gg |  x  |     |     |     |        |        |         |            |     |       |     |       |     |
+| plotIIC_gg         |  x  |  x  |     |     |        |        |         |            |     |       |     |       |     |
+| plotIIC_overlay_gg |  x  |  x  |     |     |        |        |         |            |     |       |     |       |     |
+| plotTIC_gg         |  x  |  x  |     |     |        |        |         |            |     |       |     |       |     |
+| plotTRF_gg         |  x  |     |     |     |        |        |         |            |     |       |     |       |     |
+| plotICRF_gg        |     |  x  |     |     |        |        |         |            |     |       |     |       |     |
+| plotIRP_gg         |     |     |  x  |  x  |        |        |         |            |     |   x   |     |       |     |
+| plotFRP_gg         |     |     |     |     |        |        |    x    |            |  x  |       |  x  |   x   |     |
+| plotTRP_gg         |     |     |  x  |  x  |        |        |    x    |            |  x  |       |  x  |   x   |     |
+| plotLCD_gg         |     |     |  x  |     |        |        |         |            |     |       |     |   x   |     |
+| plotLRD_gg         |     |     |     |  x  |        |        |    x    |            |     |   x   |  x  |       |     |
+| plotCMP_gg         |     |     |  x  |     |        |        |         |            |     |       |     |   x   |     |
+| plotRMP_gg         |     |     |     |  x  |   x    |   x    |    x    |     x      |     |   x   |  x  |       |     |
+| plotCRV_gg         |     |     |     |     |        |        |    x    |            |     |       |     |       |     |
+| plotRRV_gg         |     |     |     |     |        |        |    x    |            |     |       |     |       |     |
+| plotArray_gg       |     |     |     |     |        |        |    x    |     x      |  x  |       |  x  |   x   |     |
+| plotFieldPIRP_gg   |     |     |     |     |        |        |         |            |     |       |  x  |       |     |
+| plotGraph_gg       |     |     |     |     |        |        |         |            |     |   x   |  x  |   x   |  x  |
+| plotScoreFreq_gg   |     |     |     |     |   x    |   x    |         |            |     |       |     |       |     |
+| plotScoreRank_gg   |     |     |     |     |   x    |   x    |         |            |     |       |     |       |     |
+| plotICRP_gg        |     |     |     |     |   x    |   x    |         |            |     |       |     |       |     |
+| plotICBR_gg        |     |     |     |     |   x    |        |         |            |     |       |     |       |     |
+| plotFCBR_gg        |     |     |     |     |        |        |         |     x      |     |       |     |       |     |

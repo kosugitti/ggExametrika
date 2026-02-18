@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.14</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.20</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,10 +147,33 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <span><span class="va">trf_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="ploticc_overlay_gg-icc-オーバーレイ">plotICC_overlay_gg: ICC オーバーレイ<a class="anchor" aria-label="anchor" href="#ploticc_overlay_gg-icc-%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AC%E3%82%A4"></a>
+</h3>
+<p>全項目の項目特性曲線を1つのグラフに重ねて表示し、項目間の比較を容易にします。</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span></code></pre></div>
+<p>特定の項目を選択してカスタマイズ:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>,</span>
+<span>  items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"選択した項目のICC"</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="st">"solid"</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotiic_overlay_gg-iic-オーバーレイ">plotIIC_overlay_gg: IIC オーバーレイ<a class="anchor" aria-label="anchor" href="#plotiic_overlay_gg-iic-%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AC%E3%82%A4"></a>
+</h3>
+<p>全項目の項目情報曲線を1つのグラフに重ねて表示します。</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotIIC_overlay_gg.html">plotIIC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span></code></pre></div>
+<p>GRMデータにも対応しています（セクション2参照）。</p>
+</div>
+<div class="section level3">
 <h3 id="logisticmodel-iteminformationfunc-補助関数">LogisticModel / ItemInformationFunc: 補助関数<a class="anchor" aria-label="anchor" href="#logisticmodel-iteminformationfunc-%E8%A3%9C%E5%8A%A9%E9%96%A2%E6%95%B0"></a>
 </h3>
 <p>IRTモデルの低レベル計算関数です。</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 4パラメータロジスティックモデル: P(theta)</span></span>
 <span><span class="fu"><a href="../reference/LogisticModel.html">LogisticModel</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, a <span class="op">=</span> <span class="fl">1.5</span>, b <span class="op">=</span> <span class="fl">0.5</span>, c <span class="op">=</span> <span class="fl">0.2</span>, d <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span></span>
 <span></span>
@@ -163,18 +186,18 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h2 id="grm段階反応モデル">2. GRM（段階反応モデル）<a class="anchor" aria-label="anchor" href="#grm%E6%AE%B5%E9%9A%8E%E5%8F%8D%E5%BF%9C%E3%83%A2%E3%83%87%E3%83%AB"></a>
 </h2>
 <p>GRMは順序付き多値応答データ（例: リッカート尺度）を扱います。</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="ploticrf_gg-項目カテゴリ応答関数icrf">plotICRF_gg: 項目カテゴリ応答関数（ICRF）<a class="anchor" aria-label="anchor" href="#ploticrf_gg-%E9%A0%85%E7%9B%AE%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E5%BF%9C%E7%AD%94%E9%96%A2%E6%95%B0icrf"></a>
 </h3>
 <p>能力の関数として各応答カテゴリの選択確率を表示します。</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">icrf_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
 <span><span class="va">icrf_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">icrf_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <p>特定の項目を選択してカスタマイズ:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span>,</span>
 <span>  items <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"項目1-2のICRF"</span>,</span>
@@ -188,7 +211,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotiic_gggrm版-項目情報曲線">plotIIC_gg（GRM版）: 項目情報曲線<a class="anchor" aria-label="anchor" href="#plotiic_gggrm%E7%89%88-%E9%A0%85%E7%9B%AE%E6%83%85%E5%A0%B1%E6%9B%B2%E7%B7%9A"></a>
 </h3>
 <p>GRMデータにも対応しています:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iic_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIIC_gg.html">plotIIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
 <span><span class="va">iic_grm</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">iic_grm</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
@@ -196,14 +219,14 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <div class="section level3">
 <h3 id="plottic_gggrm版-テスト情報曲線">plotTIC_gg（GRM版）: テスト情報曲線<a class="anchor" aria-label="anchor" href="#plottic_gggrm%E7%89%88-%E3%83%86%E3%82%B9%E3%83%88%E6%83%85%E5%A0%B1%E6%9B%B2%E7%B7%9A"></a>
 </h3>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tic_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
 <span><span class="va">tic_grm</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="iteminformationfunc_grm-補助関数">ItemInformationFunc_GRM: 補助関数<a class="anchor" aria-label="anchor" href="#iteminformationfunc_grm-%E8%A3%9C%E5%8A%A9%E9%96%A2%E6%95%B0"></a>
 </h3>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 5カテゴリ項目の theta = 0 での情報量</span></span>
 <span><span class="fu"><a href="../reference/ItemInformationFunc_GRM.html">ItemInformationFunc_GRM</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, a <span class="op">=</span> <span class="fl">1.5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <hr>
@@ -213,13 +236,13 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h2 id="lca潜在クラス分析">3. LCA（潜在クラス分析）<a class="anchor" aria-label="anchor" href="#lca%E6%BD%9C%E5%9C%A8%E3%82%AF%E3%83%A9%E3%82%B9%E5%88%86%E6%9E%90"></a>
 </h2>
 <p>LCAは2値応答データから潜在クラス（離散的グループ）を識別します。</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotirp_gg-項目参照プロファイルirp">plotIRP_gg: 項目参照プロファイル（IRP）<a class="anchor" aria-label="anchor" href="#plotirp_gg-%E9%A0%85%E7%9B%AE%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABirp"></a>
 </h3>
 <p>各潜在クラスにおける各項目の正答確率を表示します。</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
 <span><span class="va">irp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">irp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
@@ -228,7 +251,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotfrp_gg-フィールド参照プロファイルfrp">plotFRP_gg: フィールド参照プロファイル（FRP）<a class="anchor" aria-label="anchor" href="#plotfrp_gg-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABfrp"></a>
 </h3>
 <p>クラスごとのフィールド（項目クラスタ）正答率を表示します。</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
 <span><span class="va">frp_plot</span></span></code></pre></div>
 </div>
@@ -236,18 +259,18 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plottrp_gg-テスト参照プロファイルtrp">plotTRP_gg: テスト参照プロファイル（TRP）<a class="anchor" aria-label="anchor" href="#plottrp_gg-%E3%83%86%E3%82%B9%E3%83%88%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABtrp"></a>
 </h3>
 <p>クラスごとの学生数と期待テスト得点を表示します。</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
 <span><span class="va">trp_plot</span></span></code></pre></div>
 <p>学生数ラベルやタイトルを非表示にする:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span>, Num_Students <span class="op">=</span> <span class="cn">FALSE</span>, title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotlcd_gg-潜在クラス分布lcd">plotLCD_gg: 潜在クラス分布（LCD）<a class="anchor" aria-label="anchor" href="#plotlcd_gg-%E6%BD%9C%E5%9C%A8%E3%82%AF%E3%83%A9%E3%82%B9%E5%88%86%E5%B8%83lcd"></a>
 </h3>
 <p>クラス帰属度の分布を表示します。</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lcd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLCD_gg.html">plotLCD_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
 <span><span class="va">lcd_plot</span></span></code></pre></div>
 </div>
@@ -255,7 +278,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotcmp_gg-クラスメンバーシッププロファイルcmp">plotCMP_gg: クラスメンバーシッププロファイル（CMP）<a class="anchor" aria-label="anchor" href="#plotcmp_gg-%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABcmp"></a>
 </h3>
 <p>各学生の全クラスに対する帰属確率プロファイルを表示します。</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 学生ごとにプロットのリストを返す</span></span>
 <span><span class="va">cmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCMP_gg.html">plotCMP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span></span>
 <span><span class="va">cmp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># 1人目の学生</span></span>
@@ -267,26 +290,26 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h2 id="lra潜在ランク分析">4. LRA（潜在ランク分析）<a class="anchor" aria-label="anchor" href="#lra%E6%BD%9C%E5%9C%A8%E3%83%A9%E3%83%B3%E3%82%AF%E5%88%86%E6%9E%90"></a>
 </h2>
 <p>LRAは2値応答データから順序付きの潜在ランクを識別します。</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotirp_gg-項目参照プロファイル">plotIRP_gg: 項目参照プロファイル<a class="anchor" aria-label="anchor" href="#plotirp_gg-%E9%A0%85%E7%9B%AE%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
 </h3>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">irp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotfrp_gg-フィールド参照プロファイル">plotFRP_gg: フィールド参照プロファイル<a class="anchor" aria-label="anchor" href="#plotfrp_gg-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
 </h3>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
 <span><span class="va">frp_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plottrp_gg-テスト参照プロファイル">plotTRP_gg: テスト参照プロファイル<a class="anchor" aria-label="anchor" href="#plottrp_gg-%E3%83%86%E3%82%B9%E3%83%88%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
 </h3>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
 <span><span class="va">trp_plot</span></span></code></pre></div>
 </div>
@@ -294,7 +317,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotlrd_gg-潜在ランク分布lrd">plotLRD_gg: 潜在ランク分布（LRD）<a class="anchor" aria-label="anchor" href="#plotlrd_gg-%E6%BD%9C%E5%9C%A8%E3%83%A9%E3%83%B3%E3%82%AF%E5%88%86%E5%B8%83lrd"></a>
 </h3>
 <p>ランク帰属度の分布を表示します。</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
 <span><span class="va">lrd_plot</span></span></code></pre></div>
 </div>
@@ -302,7 +325,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotrmp_gg-ランクメンバーシッププロファイルrmp">plotRMP_gg: ランクメンバーシッププロファイル（RMP）<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABrmp"></a>
 </h3>
 <p>各学生の全ランクに対する帰属確率プロファイルを表示します。</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span></span>
 <span><span class="va">rmp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
@@ -310,15 +333,87 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 </div>
 </div>
 <div class="section level2">
+<h2 id="b--lraordinal-lrarated多値潜在ランク分析">4b. LRAordinal / LRArated（多値潜在ランク分析）<a class="anchor" aria-label="anchor" href="#b--lraordinal-lrarated%E5%A4%9A%E5%80%A4%E6%BD%9C%E5%9C%A8%E3%83%A9%E3%83%B3%E3%82%AF%E5%88%86%E6%9E%90"></a>
+</h2>
+<p>LRAordinalとLRAratedは、順序尺度や評定尺度の多値応答データを扱い、
+得点分布やカテゴリレベルの分析に特化した可視化を提供します。</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="plotscorefreq_gg-得点頻度分布">plotScoreFreq_gg: 得点頻度分布<a class="anchor" aria-label="anchor" href="#plotscorefreq_gg-%E5%BE%97%E7%82%B9%E9%A0%BB%E5%BA%A6%E5%88%86%E5%B8%83"></a>
+</h3>
+<p>得点の密度分布と、隣接するランク間の閾値を垂直線で表示します。</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotScoreFreq_gg.html">plotScoreFreq_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span><span class="op">)</span></span></code></pre></div>
+<p>色と線の種類をカスタマイズ:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotScoreFreq_gg.html">plotScoreFreq_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"ランク境界付き得点分布"</span>,</span>
+<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"solid"</span>, <span class="st">"dashed"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotscorerank_gg-得点-ランクヒートマップ">plotScoreRank_gg: 得点-ランクヒートマップ<a class="anchor" aria-label="anchor" href="#plotscorerank_gg-%E5%BE%97%E7%82%B9-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%92%E3%83%BC%E3%83%88%E3%83%9E%E3%83%83%E3%83%97"></a>
+</h3>
+<p>観測得点と推定ランクの同時分布をヒートマップで表示します。
+色が濃いほど頻度が高いことを示します。</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotScoreRank_gg.html">plotScoreRank_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span><span class="op">)</span></span></code></pre></div>
+<p>グラデーション色のカスタマイズ:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotScoreRank_gg.html">plotScoreRank_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"得点-ランク分布"</span>,</span>
+<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"darkblue"</span><span class="op">)</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="ploticrp_gg-項目カテゴリ参照プロファイルicrp">plotICRP_gg: 項目カテゴリ参照プロファイル（ICRP）<a class="anchor" aria-label="anchor" href="#ploticrp_gg-%E9%A0%85%E7%9B%AE%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABicrp"></a>
+</h3>
+<p>各潜在ランクにおける各応答カテゴリの選択確率を表示します。
+各ランクでの確率の合計は1.0になります。</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">icrp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICRP_gg.html">plotICRP_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">icrp_plots</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="ploticbr_gg-項目カテゴリ境界応答icbr">plotICBR_gg: 項目カテゴリ境界応答（ICBR）<a class="anchor" aria-label="anchor" href="#ploticbr_gg-%E9%A0%85%E7%9B%AE%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E5%A2%83%E7%95%8C%E5%BF%9C%E7%AD%94icbr"></a>
+</h3>
+<p>各カテゴリ境界の累積確率曲線を表示します。
+K個のカテゴリを持つ項目に対して、P(応答 &gt;= k)（k = 1, …,
+K-1）を表示します。</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">icbr_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICBR_gg.html">plotICBR_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">icbr_plots</span></span></code></pre></div>
+<p>カスタマイズ:</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICBR_gg.html">plotICBR_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span>,</span>
+<span>  items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"項目カテゴリ境界応答"</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="plotrmp_gg-ランクメンバーシッププロファイル">plotRMP_gg: ランクメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
+</h3>
+<p>LRAordinal/LRAratedでも使用可能:</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span><span class="op">)</span></span>
+<span><span class="va">rmp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<hr>
+</div>
+</div>
+<div class="section level2">
 <h2 id="バイクラスタリング">5. バイクラスタリング<a class="anchor" aria-label="anchor" href="#%E3%83%90%E3%82%A4%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0"></a>
 </h2>
 <p>バイクラスタリングは、項目（フィールドへ）と学生（ランクへ）を同時にクラスタリングします。</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotfrp_gg-フィールド参照プロファイル-1">plotFRP_gg: フィールド参照プロファイル<a class="anchor" aria-label="anchor" href="#plotfrp_gg-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-1"></a>
 </h3>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
 <span><span class="va">frp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">frp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
@@ -326,21 +421,21 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <div class="section level3">
 <h3 id="plottrp_gg-テスト参照プロファイル-1">plotTRP_gg: テスト参照プロファイル<a class="anchor" aria-label="anchor" href="#plottrp_gg-%E3%83%86%E3%82%B9%E3%83%88%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-1"></a>
 </h3>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
 <span><span class="va">trp_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotlrd_gg-潜在ランク分布">plotLRD_gg: 潜在ランク分布<a class="anchor" aria-label="anchor" href="#plotlrd_gg-%E6%BD%9C%E5%9C%A8%E3%83%A9%E3%83%B3%E3%82%AF%E5%88%86%E5%B8%83"></a>
 </h3>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
 <span><span class="va">lrd_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="plotrmp_gg-ランクメンバーシッププロファイル">plotRMP_gg: ランクメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
+<h3 id="plotrmp_gg-ランクメンバーシッププロファイル-1">plotRMP_gg: ランクメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-1"></a>
 </h3>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -348,11 +443,11 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotcrv_gg-クラス参照ベクトルcrv">plotCRV_gg: クラス参照ベクトル（CRV）<a class="anchor" aria-label="anchor" href="#plotcrv_gg-%E3%82%AF%E3%83%A9%E3%82%B9%E5%8F%82%E7%85%A7%E3%83%99%E3%82%AF%E3%83%88%E3%83%ABcrv"></a>
 </h3>
 <p>全クラスのプロファイルを1つのプロットにまとめて表示します（クラスごとに異なる線）。</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crv_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
 <span><span class="va">crv_plot</span></span></code></pre></div>
 <p>カスタマイズ:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"クラス参照ベクトル"</span>,</span>
 <span>  linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
@@ -363,7 +458,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotrrv_gg-ランク参照ベクトルrrv">plotRRV_gg: ランク参照ベクトル（RRV）<a class="anchor" aria-label="anchor" href="#plotrrv_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E5%8F%82%E7%85%A7%E3%83%99%E3%82%AF%E3%83%88%E3%83%ABrrv"></a>
 </h3>
 <p>全ランクのプロファイルを1つのプロットにまとめて表示します（ランクごとに異なる線）。</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rrv_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRRV_gg.html">plotRRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
 <span><span class="va">rrv_plot</span></span></code></pre></div>
 </div>
@@ -371,16 +466,35 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotarray_gg-配列プロット">plotArray_gg: 配列プロット<a class="anchor" aria-label="anchor" href="#plotarray_gg-%E9%85%8D%E5%88%97%E3%83%97%E3%83%AD%E3%83%83%E3%83%88"></a>
 </h3>
 <p>2値データ行列をヒートマップとして可視化し、バイクラスタリング後のブロック対角構造を示します。</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 元データとクラスタリング済みデータの両方を表示</span></span>
 <span><span class="va">array_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
 <span><span class="va">array_plot</span></span></code></pre></div>
 <p>クラスタリング済みデータのみ表示:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span>, Original <span class="op">=</span> <span class="cn">FALSE</span>, Clusterd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>クラスタ境界線を非表示:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_bic</span>, Clusterd_lines <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="順序尺度バイクラスタリング-plotfcbr_gg">順序尺度バイクラスタリング: plotFCBR_gg<a class="anchor" aria-label="anchor" href="#%E9%A0%86%E5%BA%8F%E5%B0%BA%E5%BA%A6%E3%83%90%E3%82%A4%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0-plotfcbr_gg"></a>
+</h3>
+<p>順序尺度（多値）のバイクラスタリングでは、<code><a href="../reference/plotFCBR_gg.html">plotFCBR_gg()</a></code>
+でフィールド累積境界参照を 可視化できます。各フィールドの境界確率 P(Q
+&gt;= k) を潜在クラス/ランクごとに表示します。</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_ord_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">OrdinalData</span>, ncls <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fcbr_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFCBR_gg.html">plotFCBR_gg</a></span><span class="op">(</span><span class="va">result_ord_bic</span><span class="op">)</span></span>
+<span><span class="va">fcbr_plot</span></span></code></pre></div>
+<p>特定のフィールドを選択してカスタマイズ:</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotFCBR_gg.html">plotFCBR_gg</a></span><span class="op">(</span><span class="va">result_ord_bic</span>,</span>
+<span>  fields <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"フィールド累積境界参照"</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -388,17 +502,17 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h2 id="bnmベイジアンネットワークモデル">6. BNM（ベイジアンネットワークモデル）<a class="anchor" aria-label="anchor" href="#bnm%E3%83%99%E3%82%A4%E3%82%B8%E3%82%A2%E3%83%B3%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%A2%E3%83%87%E3%83%AB"></a>
 </h2>
 <p>BNMはベイジアンネットワークを用いて項目間の依存構造を発見します。</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotgraph_gg-dag可視化">plotGraph_gg: DAG可視化<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag%E5%8F%AF%E8%A6%96%E5%8C%96"></a>
 </h3>
 <p>モデルが発見した有向非巡回グラフ（DAG）を可視化します。</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span><span class="op">)</span></span>
 <span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p>レイアウトと外観のカスタマイズ:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span>,</span>
 <span>  layout <span class="op">=</span> <span class="st">"sugiyama"</span>,</span>
 <span>  rankdir <span class="op">=</span> <span class="st">"LR"</span>,</span>
@@ -418,26 +532,26 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h2 id="ldlra局所依存潜在ランク分析">7. LDLRA（局所依存潜在ランク分析）<a class="anchor" aria-label="anchor" href="#ldlra%E5%B1%80%E6%89%80%E4%BE%9D%E5%AD%98%E6%BD%9C%E5%9C%A8%E3%83%A9%E3%83%B3%E3%82%AF%E5%88%86%E6%9E%90"></a>
 </h2>
 <p>LDLRAは各ランク内に局所的な依存構造を追加します。</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotirp_gg-項目参照プロファイル-1">plotIRP_gg: 項目参照プロファイル<a class="anchor" aria-label="anchor" href="#plotirp_gg-%E9%A0%85%E7%9B%AE%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-1"></a>
 </h3>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">irp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">irp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotlrd_gg-潜在ランク分布-1">plotLRD_gg: 潜在ランク分布<a class="anchor" aria-label="anchor" href="#plotlrd_gg-%E6%BD%9C%E5%9C%A8%E3%83%A9%E3%83%B3%E3%82%AF%E5%88%86%E5%B8%83-1"></a>
 </h3>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
 <span><span class="va">lrd_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="plotrmp_gg-ランクメンバーシッププロファイル-1">plotRMP_gg: ランクメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-1"></a>
+<h3 id="plotrmp_gg-ランクメンバーシッププロファイル-2">plotRMP_gg: ランクメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-2"></a>
 </h3>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -445,7 +559,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotgraph_gg-ランクごとのdag">plotGraph_gg: ランクごとのDAG<a class="anchor" aria-label="anchor" href="#plotgraph_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%81%94%E3%81%A8%E3%81%AEdag"></a>
 </h3>
 <p>ランクごとに1つのDAGを返します。ランク間で依存関係がどう変化するかを確認できます。</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
 <span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># ランク1のDAG</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">dag_plots</span><span class="op">)</span></span></code></pre></div>
@@ -456,40 +570,40 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h2 id="ldb局所依存バイクラスタリング">8. LDB（局所依存バイクラスタリング）<a class="anchor" aria-label="anchor" href="#ldb%E5%B1%80%E6%89%80%E4%BE%9D%E5%AD%98%E3%83%90%E3%82%A4%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0"></a>
 </h2>
 <p>LDBはバイクラスタリングの枠組みに局所的な依存構造を追加します。</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotfrp_gg-フィールド参照プロファイル-2">plotFRP_gg: フィールド参照プロファイル<a class="anchor" aria-label="anchor" href="#plotfrp_gg-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-2"></a>
 </h3>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">frp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plottrp_gg-テスト参照プロファイル-2">plotTRP_gg: テスト参照プロファイル<a class="anchor" aria-label="anchor" href="#plottrp_gg-%E3%83%86%E3%82%B9%E3%83%88%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-2"></a>
 </h3>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="va">trp_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotlrd_gg-潜在ランク分布-2">plotLRD_gg: 潜在ランク分布<a class="anchor" aria-label="anchor" href="#plotlrd_gg-%E6%BD%9C%E5%9C%A8%E3%83%A9%E3%83%B3%E3%82%AF%E5%88%86%E5%B8%83-2"></a>
 </h3>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="va">lrd_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="plotrmp_gg-ランクメンバーシッププロファイル-2">plotRMP_gg: ランクメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-2"></a>
+<h3 id="plotrmp_gg-ランクメンバーシッププロファイル-3">plotRMP_gg: ランクメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotrmp_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-3"></a>
 </h3>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotarray_gg-配列プロット-1">plotArray_gg: 配列プロット<a class="anchor" aria-label="anchor" href="#plotarray_gg-%E9%85%8D%E5%88%97%E3%83%97%E3%83%AD%E3%83%83%E3%83%88-1"></a>
 </h3>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">array_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="va">array_plot</span></span></code></pre></div>
 </div>
@@ -497,7 +611,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotfieldpirp_gg-フィールド親項目参照プロファイル">plotFieldPIRP_gg: フィールド親項目参照プロファイル<a class="anchor" aria-label="anchor" href="#plotfieldpirp_gg-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E8%A6%AA%E9%A0%85%E7%9B%AE%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
 </h3>
 <p>親フィールドの得点に基づくフィールド正答率の変化を、ランクごとに表示します。</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fpirp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="va">fpirp_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># ランク1</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">fpirp_plots</span><span class="op">)</span></span></code></pre></div>
@@ -505,7 +619,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <div class="section level3">
 <h3 id="plotgraph_gg-ランクごとのdag-1">plotGraph_gg: ランクごとのDAG<a class="anchor" aria-label="anchor" href="#plotgraph_gg-%E3%83%A9%E3%83%B3%E3%82%AF%E3%81%94%E3%81%A8%E3%81%AEdag-1"></a>
 </h3>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">dag_plots</span><span class="op">)</span></span></code></pre></div>
@@ -516,40 +630,40 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h2 id="binetベイジアンネットワークテスト">9. BINET（ベイジアンネットワーク＆テスト）<a class="anchor" aria-label="anchor" href="#binet%E3%83%99%E3%82%A4%E3%82%B8%E3%82%A2%E3%83%B3%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%86%E3%82%B9%E3%83%88"></a>
 </h2>
 <p>BINETはベイジアンネットワーク構造とバイクラスタリングの枠組みを統合します。</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotfrp_gg-フィールド参照プロファイル-3">plotFRP_gg: フィールド参照プロファイル<a class="anchor" aria-label="anchor" href="#plotfrp_gg-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-3"></a>
 </h3>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">frp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plottrp_gg-テスト参照プロファイル-3">plotTRP_gg: テスト参照プロファイル<a class="anchor" aria-label="anchor" href="#plottrp_gg-%E3%83%86%E3%82%B9%E3%83%88%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB-3"></a>
 </h3>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
 <span><span class="va">trp_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotlcd_gg-潜在クラス分布">plotLCD_gg: 潜在クラス分布<a class="anchor" aria-label="anchor" href="#plotlcd_gg-%E6%BD%9C%E5%9C%A8%E3%82%AF%E3%83%A9%E3%82%B9%E5%88%86%E5%B8%83"></a>
 </h3>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lcd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLCD_gg.html">plotLCD_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
 <span><span class="va">lcd_plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotcmp_gg-クラスメンバーシッププロファイル">plotCMP_gg: クラスメンバーシッププロファイル<a class="anchor" aria-label="anchor" href="#plotcmp_gg-%E3%82%AF%E3%83%A9%E3%82%B9%E3%83%A1%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B7%E3%83%83%E3%83%97%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
 </h3>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotCMP_gg.html">plotCMP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">cmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="plotarray_gg-配列プロット-2">plotArray_gg: 配列プロット<a class="anchor" aria-label="anchor" href="#plotarray_gg-%E9%85%8D%E5%88%97%E3%83%97%E3%83%AD%E3%83%83%E3%83%88-2"></a>
 </h3>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">array_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotArray_gg.html">plotArray_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
 <span><span class="va">array_plot</span></span></code></pre></div>
 </div>
@@ -557,7 +671,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <h3 id="plotgraph_gg-dag可視化-1">plotGraph_gg: DAG可視化<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag%E5%8F%AF%E8%A6%96%E5%8C%96-1"></a>
 </h3>
 <p>BINETではエッジラベル（依存性の重み）を表示できます:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>, show_edge_label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">dag_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <hr>
@@ -614,7 +728,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <div class="section level3">
 <h3 id="例-ploticrf_gg-のカスタマイズ">例: plotICRF_gg のカスタマイズ<a class="anchor" aria-label="anchor" href="#%E4%BE%8B-ploticrf_gg-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA"></a>
 </h3>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span>,</span>
 <span>  items <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"ICRFのカスタム表示"</span>,</span>
@@ -627,7 +741,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <div class="section level3">
 <h3 id="例-plotcrv_gg-のカスタマイズ">例: plotCRV_gg のカスタマイズ<a class="anchor" aria-label="anchor" href="#%E4%BE%8B-plotcrv_gg-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA"></a>
 </h3>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  linetype <span class="op">=</span> <span class="st">"dotdash"</span>,</span>
@@ -642,7 +756,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 </h2>
 <p><code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code>
 は複数のggplotオブジェクトをグリッドレイアウトで配置します。</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># デフォルト: 最初の6つのプロット</span></span>
 <span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span></span>
@@ -657,19 +771,22 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <div class="section level2">
 <h2 id="関数-モデル対応表">関数-モデル対応表<a class="anchor" aria-label="anchor" href="#%E9%96%A2%E6%95%B0-%E3%83%A2%E3%83%87%E3%83%AB%E5%AF%BE%E5%BF%9C%E8%A1%A8"></a>
 </h2>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
+<col width="6%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
 <col width="8%">
+<col width="8%">
+<col width="9%">
+<col width="13%">
+<col width="5%">
 <col width="7%">
+<col width="5%">
 <col width="7%">
-<col width="7%">
-<col width="7%">
-<col width="20%">
-<col width="7%">
-<col width="10%">
-<col width="7%">
-<col width="10%">
-<col width="7%">
+<col width="5%">
 </colgroup>
 <thead><tr class="header">
 <th>関数</th>
@@ -677,7 +794,10 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <th align="center">GRM</th>
 <th align="center">LCA</th>
 <th align="center">LRA</th>
-<th align="center">Biclustering</th>
+<th align="center">LRAord</th>
+<th align="center">LRArat</th>
+<th align="center">Biclust</th>
+<th align="center">ordBiclust</th>
 <th align="center">IRM</th>
 <th align="center">LDLRA</th>
 <th align="center">LDB</th>
@@ -697,11 +817,49 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr class="even">
+<td>plotICC_overlay_gg</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
 <td>plotIIC_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotIIC_overlay_gg</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -723,10 +881,16 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr class="even">
 <td>plotTRF_gg</td>
 <td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -749,6 +913,9 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr class="even">
 <td>plotIRP_gg</td>
@@ -756,6 +923,9 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
@@ -769,7 +939,10 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
+<td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center">x</td>
@@ -782,7 +955,10 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
+<td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center">x</td>
@@ -799,6 +975,9 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
@@ -808,7 +987,10 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
@@ -825,6 +1007,9 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
@@ -833,6 +1018,9 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
@@ -847,7 +1035,10 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -860,7 +1051,10 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -873,6 +1067,9 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
@@ -882,6 +1079,9 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 </tr>
 <tr class="even">
 <td>plotFieldPIRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -901,10 +1101,93 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
+</tr>
+<tr class="even">
+<td>plotScoreFreq_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotScoreRank_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotICRP_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td>plotICBR_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>plotFCBR_gg</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">x</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 </tbody>
 </table>
