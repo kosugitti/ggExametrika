@@ -1,8 +1,12 @@
 # Test script for plotFRP_gg with multivalue support
 # Tests both binary and polytomous data with stat parameter
 
+# Load packages
 library(exametrika)
-library(ggExametrika)
+
+# Load the development version of ggExametrika
+cat("Loading ggExametrika from source...\n")
+devtools::load_all(".")
 
 cat("\n========================================\n")
 cat("Testing plotFRP_gg - Binary & Polytomous Data\n")
