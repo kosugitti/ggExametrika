@@ -4,38 +4,89 @@
 \alias{plotFRP_gg}
 \title{Plot Field Reference Profile (FRP) from exametrika}
 \usage{
-plotFRP_gg(data)
+plotFRP_gg(
+  data,
+  stat = "mean",
+  fields = NULL,
+  title = TRUE,
+  colors = NULL,
+  linetype = "solid",
+  show_legend = TRUE,
+  legend_position = "right"
+)
 }
 \arguments{
-\item{data}{An object of class \code{c("exametrika", "Biclustering")},
-\code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
-\code{c("exametrika", "BINET")}.}
+\item{data}{An object from exametrika: Biclustering, nominalBiclustering,
+ordinalBiclustering, IRM, LDB, or BINET output.}
+
+\item{stat}{Character. Statistic to use for polytomous data:
+\code{"mean"} (default), \code{"median"}, or \code{"mode"}.
+Ignored for binary data.}
+
+\item{fields}{Integer vector specifying which fields to plot. Default is all fields.}
+
+\item{title}{Logical or character. If \code{TRUE} (default), display automatic
+title. If \code{FALSE}, no title. If a character string, use it as the title.}
+
+\item{colors}{Character vector. Colors for each field line.
+If \code{NULL} (default), uses the package default palette.}
+
+\item{linetype}{Character or numeric. Line type for all lines.
+Default is \code{"solid"}.}
+
+\item{show_legend}{Logical. If \code{TRUE} (default), display the legend.}
+
+\item{legend_position}{Character. Position of the legend:
+\code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
-A list of ggplot objects, one for each field. Each plot shows the
-correct response rate across latent classes or ranks.
+A single ggplot object with all selected fields.
 }
 \description{
-This function takes exametrika output as input and generates
-Field Reference Profile (FRP) plots using ggplot2. FRP shows the
-correct response rate for each field (item cluster) at each latent
-class or rank level.
+This function takes exametrika output as input and generates a
+Field Reference Profile (FRP) plot using ggplot2. For binary data,
+it displays correct response rates. For polytomous data, it shows
+expected scores calculated using the specified statistic.
 }
 \details{
-In biclustering models, items are grouped into fields. The Field Reference
-Profile shows how each field's correct response rate varies across
-latent classes or ranks. Fields with monotonically increasing profiles
-indicate good alignment with the latent structure.
+The Field Reference Profile shows how response patterns vary across
+latent classes/ranks for each field (cluster of items).
+
+For \strong{binary data} (Biclustering, IRM, LDB, BINET):
+\itemize{
+\item Y-axis: Correct Response Rate (0-1)
+\item Each line represents one field
+}
+
+For \strong{polytomous data} (nominalBiclustering, ordinalBiclustering):
+\itemize{
+\item Y-axis: Expected Score (calculated using \code{stat} parameter)
+\item \code{stat = "mean"}: Weighted average across categories (default)
+\item \code{stat = "median"}: Median category value
+\item \code{stat = "mode"}: Most probable category
+}
 }
 \examples{
 \dontrun{
 library(exametrika)
-result <- Biclustering(J35S515, nfld = 5, ncls = 6)
-plots <- plotFRP_gg(result)
-plots[[1]] # Show FRP for the first field
+
+# Binary biclustering
+result_bin <- Biclustering(J35S515, ncls = 4, nfld = 3)
+plot <- plotFRP_gg(result_bin)
+
+# Ordinal biclustering with mean (default)
+result_ord <- Biclustering(OrdinalData, ncls = 4, nfld = 3, dataType = "ordinal")
+plot_mean <- plotFRP_gg(result_ord, stat = "mean")
+
+# Using mode for polytomous data
+plot_mode <- plotFRP_gg(result_ord, stat = "mode",
+                        title = "Field Reference Profile (Mode)",
+                        colors = c("red", "blue", "green"))
 }
 
 }
 \seealso{
-\code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}}
+\code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}},
+\code{\link{plotCRV_gg}}, \code{\link{plotRRV_gg}}
 }
