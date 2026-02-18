@@ -33,15 +33,17 @@
 #'
 #' For a field with \eqn{K} categories (1, 2, ..., K), the FCBR shows:
 #' \itemize{
-#'   \item Line 1: P(response >= 2 | class/rank)
-#'   \item Line 2: P(response >= 3 | class/rank)
+#'   \item Line 1: P(response >= 1 | class/rank) = 1.0 (always)
+#'   \item Line 2: P(response >= 2 | class/rank)
+#'   \item Line 3: P(response >= 3 | class/rank)
 #'   \item ...
-#'   \item Line K-1: P(response >= K | class/rank)
+#'   \item Line K: P(response >= K | class/rank)
 #' }
 #'
 #' The boundary probabilities are calculated by summing the probabilities of all
-#' categories at or above the boundary threshold. Higher classes/ranks (higher ability)
-#' typically show higher probabilities for higher boundaries.
+#' categories at or above the boundary threshold. P(Q>=1) is always 1.0 and appears
+#' as a horizontal line at the top. Higher classes/ranks (higher ability) typically
+#' show higher probabilities for higher boundaries.
 #'
 #' @examples
 #' \dontrun{
@@ -100,16 +102,16 @@ plotFCBR_gg <- function(data,
     selected_fields <- fields
   }
 
-  # 境界数（カテゴリ数 - 1）
-  n_boundaries <- maxQ - 1
+  # 境界数（カテゴリ数）- P(Q>=1), P(Q>=2), ... P(Q>=maxQ)を全て表示
+  n_boundaries <- maxQ
 
   # 各フィールド・クラス・境界の確率を計算
-  # Boundary b: P(Q >= b+1) = sum(BCRM[f, cc, (b+1):maxQ])
+  # Boundary b: P(Q >= b) = sum(BCRM[f, cc, b:maxQ])
   plot_data_list <- list()
 
   for (f in selected_fields) {
     for (b in 1:n_boundaries) {
-      q_threshold <- b + 1
+      q_threshold <- b
       for (cc in 1:ncls) {
         boundary_prob <- sum(BCRM[f, cc, q_threshold:maxQ])
         plot_data_list[[length(plot_data_list) + 1]] <- data.frame(
@@ -126,7 +128,7 @@ plotFCBR_gg <- function(data,
   long_data <- do.call(rbind, plot_data_list)
 
   # Boundaryを因子化（順序を保持）
-  boundary_levels <- paste0("P(Q>=", 2:maxQ, ")")
+  boundary_levels <- paste0("P(Q>=", 1:maxQ, ")")
   long_data$Boundary <- factor(long_data$Boundary, levels = boundary_levels)
 
   # 色の設定
