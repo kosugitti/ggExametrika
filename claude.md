@@ -72,10 +72,10 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
 | FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | **実装済（2値・多値対応、stat対応、共通オプション対応済み）** |
 | TRP | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET | plotTRP_gg | 実装済 |
-| LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済 ※多値版の動作未確認 |
-| LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
-| CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済 ※多値版の動作未確認 |
-| RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 ※多値版の動作未確認 |
+| LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済（多値対応確認済み） |
+| LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済（多値対応確認済み） |
+| CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済（多値対応確認済み） |
+| RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済（多値対応確認済み） |
 | CRV | Biclustering, nominalBiclustering, ordinalBiclustering | plotCRV_gg | 実装済（多値対応済み、stat対応済み、共通オプション対応済み） |
 | RRV | Biclustering, nominalBiclustering, ordinalBiclustering | plotRRV_gg | 実装済（多値対応済み、stat対応済み、共通オプション対応済み） |
 | Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済（多値対応済み、共通オプション対応済み） |
@@ -146,15 +146,13 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
    - Y軸自動調整（2値: 0-1、多値: 1-maxQ）
 
 #### その他の未実装プロット
-6. LDPSR (Latent Dependence Passing Student Rate) — BINET専用
-7. nominalBiclustering — LCD, LRD, CMP（動作未確認）
-8. ordinalBiclustering — LCD, LRD, CMP, RMP（動作未確認）
+5. LDPSR (Latent Dependence Passing Student Rate) — BINET専用
 
 #### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
-9. BNM - DAGの可視化
-10. LDLRA - ランク/クラスごとのDAG
-11. LDB - ランクごとのDAG
-12. BINET - 統合グラフ（edge label付き）
+6. BNM - DAGの可視化
+7. LDLRA - ランク/クラスごとのDAG
+8. LDB - ランクごとのDAG
+9. BINET - 統合グラフ（edge label付き）
 
 #### 既存関数の共通オプション対応（TODO）
 以下の関数に共通オプション（title, colors, linetype, show_legend, legend_position）を追加する。

@@ -1,3 +1,11 @@
+# ggExametrika 0.0.25
+
+* Fix class validation in `plotLCD_gg()`, `plotLRD_gg()`, `plotCMP_gg()`, and `plotRMP_gg()` to support polytomous biclustering models.
+* Add support for `ordinalBiclustering` and `nominalBiclustering` classes in LCD, LRD, CMP, and RMP plots.
+* Change class validation from `all(class(data) %in% c(...))` to `any(class(data) %in% c(...))` for better compatibility.
+* Add `inherits(data, "exametrika")` check for more robust input validation.
+* Full backward compatibility maintained for binary Biclustering, LCA, LRA, LDLRA, LDB, and BINET models.
+
 # ggExametrika 0.0.24
 
 * Add multi-valued (polytomous) data support to `plotRRV_gg()` and `plotCRV_gg()` for ordinal/nominal Biclustering.
