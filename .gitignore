@@ -8,3 +8,5 @@
 inst/doc
 Rplots.pdf
 .claude/settings.local.json
+docs/
+.DS_Store
