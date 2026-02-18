@@ -76,8 +76,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
 | CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済 ※多値版の動作未確認 |
 | RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 ※多値版の動作未確認 |
-| CRV | Biclustering | plotCRV_gg | 実装済（共通オプション対応済み） |
-| RRV | Biclustering, nominalBiclustering, ordinalBiclustering | plotRRV_gg | 実装済（2値、共通オプション対応済み） ※多値版（stat対応）は未実装 |
+| CRV | Biclustering, nominalBiclustering, ordinalBiclustering | plotCRV_gg | 実装済（多値対応済み、stat対応済み、共通オプション対応済み） |
+| RRV | Biclustering, nominalBiclustering, ordinalBiclustering | plotRRV_gg | 実装済（多値対応済み、stat対応済み、共通オプション対応済み） |
 | Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済（多値対応済み、共通オプション対応済み） |
 | **FCRP** | nominalBiclustering, ordinalBiclustering | - | **未実装（v1.9.0新規）** |
 | **FCBR** | ordinalBiclustering | plotFCBR_gg | **実装済（v1.9.0新規、ordinal専用、共通オプション対応済み）** |
@@ -100,8 +100,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LRAordinal | ScoreFreq, ScoreRank, ICRP, ICBR, RMP |
 | LRArated | ScoreFreq, ScoreRank, ICRP, RMP |
 | Biclustering | FRP, TRP, LCD, LRD, CMP, RMP, CRV, RRV, Array |
-| **nominalBiclustering** | FRP, **FCRP**, LCD, LRD, CMP, Array, **ScoreField**, **RRV** |
-| **ordinalBiclustering** | FRP, **FCRP**, **FCBR**, LCD, LRD, CMP, RMP, Array, **ScoreField**, **RRV** |
+| **nominalBiclustering** | FRP, **FCRP**, LCD, LRD, CMP, Array, **ScoreField**, CRV, RRV |
+| **ordinalBiclustering** | FRP, **FCRP**, **FCBR**, LCD, LRD, CMP, RMP, Array, **ScoreField**, CRV, RRV |
 | IRM (Biclustering_IRM) | FRP, TRP, Array |
 | LDLRA | IRP, TRP, LRD, RMP |
 | LDB | FRP, TRP, LRD, RMP, Array, FieldPIRP |
@@ -144,14 +144,11 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 4. **FRP** — 多値版で stat パラメータ（mean/median/mode）対応
    - 現状: plotFRP_gg は2値のみ対応
    - 必要: 多値データ用の期待得点計算ロジック追加
-5. **RRV** — 多値版で stat パラメータ（mean/median/mode）対応
-   - 現状: plotRRV_gg は2値のみ対応
-   - 必要: 多値データ用の転置プロット対応
 
 #### その他の未実装プロット
-6. LDPSR (Latent Dependence Passing Student Rate) — BINET専用
-7. nominalBiclustering — LCD, LRD, CMP（動作未確認）
-8. ordinalBiclustering — LCD, LRD, CMP, RMP（動作未確認）
+5. LDPSR (Latent Dependence Passing Student Rate) — BINET専用
+6. nominalBiclustering — LCD, LRD, CMP（動作未確認）
+7. ordinalBiclustering — LCD, LRD, CMP, RMP（動作未確認）
 
 #### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
 9. BNM - DAGの可視化

@@ -1,3 +1,13 @@
+# ggExametrika 0.0.21
+
+* Add multi-valued (polytomous) data support to `plotRRV_gg()` and `plotCRV_gg()` for ordinal/nominal Biclustering.
+* Add `stat` parameter to `plotRRV_gg()` and `plotCRV_gg()` for polytomous data: "mean" (default), "median", or "mode".
+* Add `show_labels` parameter to `plotRRV_gg()` and `plotCRV_gg()` (default: FALSE) for displaying rank/class labels using ggrepel.
+* Add ggrepel to Imports for automatic label positioning without overlaps.
+* Y-axis automatically adjusts: 0-1 for binary data (Correct Response Rate), 1-maxQ for polytomous data (Expected Score).
+* Title automatically includes stat name for polytomous data (e.g., "Rank Reference Vector (mean)").
+* Full backward compatibility maintained for binary Biclustering models.
+
 # ggExametrika 0.0.20
 
 * Add `plotFCBR_gg()` for Field Cumulative Boundary Reference (FCBR) visualization (ordinalBiclustering).
