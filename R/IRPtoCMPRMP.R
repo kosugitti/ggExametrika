@@ -508,21 +508,24 @@ plotTRP_gg <- function(data,
 plotLCD_gg <- function(data,
                        Num_Students = TRUE,
                        title = TRUE) {
-  if (all(class(data) %in% c("exametrika", "LCA")) ||
-    all(class(data) %in% c("exametrika", "BINET"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA", "BINET"))) {
     xlabel <- "Latent Class"
     mode <- TRUE
     LRD <- FALSE
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- FALSE
     warning(
       "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
     )
-  } else if (all(class(data) %in% c("exametrika", "LDLRA")) ||
-    all(class(data) %in% c("exametrika", "LDB"))) {
+  } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- TRUE
@@ -674,21 +677,24 @@ plotLCD_gg <- function(data,
 plotLRD_gg <- function(data,
                        Num_Students = TRUE,
                        title = TRUE) {
-  if (all(class(data) %in% c("exametrika", "LCA")) ||
-    all(class(data) %in% c("exametrika", "BINET"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA", "BINET"))) {
     xlabel <- "Latent Class"
     mode <- TRUE
     LRD <- FALSE
     warning(
       "The input data was supposed to be visualized with The Latent Class Distribution, so I will plot the LCD."
     )
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- FALSE
-  } else if (all(class(data) %in% c("exametrika", "LDLRA")) ||
-    all(class(data) %in% c("exametrika", "LDB"))) {
+  } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     LRD <- TRUE
@@ -830,7 +836,13 @@ plotLRD_gg <- function(data,
 
 
 plotCMP_gg <- function(data) {
-  if (all(class(data) %in% c("exametrika", "LCA"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA"))) {
     xlabel <- "Class"
     change_rowname <- NULL
     dig <- nchar(nrow(data$Students))
@@ -842,12 +854,9 @@ plotCMP_gg <- function(data) {
         )))
     }
     rownames(data$Students) <- change_rowname
-  } else if (all(class(data) %in% c("exametrika", "BINET"))) {
+  } else if (any(class(data) %in% c("BINET"))) {
     xlabel <- "Class"
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering")) ||
-    all(class(data) %in% c("exametrika", "LDB")) ||
-    all(class(data) %in% c("exametrika", "LDLRA"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
     xlabel <- "Rank"
     warning(
       "The input data was supposed to be visualized with The Rank Membership Profile, so I will plot the RMP."
@@ -932,7 +941,13 @@ plotCMP_gg <- function(data) {
 #' @export
 
 plotRMP_gg <- function(data) {
-  if (all(class(data) %in% c("exametrika", "LCA"))) {
+  # Validate exametrika object
+  if (!inherits(data, "exametrika")) {
+    stop("Invalid input. The variable must be from exametrika output.")
+  }
+
+  # Check model type
+  if (any(class(data) %in% c("LCA"))) {
     xlabel <- "Class"
     change_rowname <- NULL
     dig <- nchar(nrow(data$Students))
@@ -947,15 +962,12 @@ plotRMP_gg <- function(data) {
         )))
     }
     rownames(data$Students) <- change_rowname
-  } else if (all(class(data) %in% c("exametrika", "BINET"))) {
+  } else if (any(class(data) %in% c("BINET"))) {
     xlabel <- "Class"
     warning(
       "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
     )
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering")) ||
-    all(class(data) %in% c("exametrika", "LDB")) ||
-    all(class(data) %in% c("exametrika", "LDLRA"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
     xlabel <- "Rank"
   } else {
     stop(
