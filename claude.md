@@ -58,7 +58,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 合宿期間中（2026年2月）に v1.0.0 リリースを目指す。
 3名体制で並行開発を進める。
 
-### exametrikaのプロットタイプ一覧と実装状況
+### exametrikaのプロットタイプ一覧と実装状況（exametrika v1.9.0 準拠）
 
 ※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく
 
@@ -70,15 +70,18 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | IIF/IIC | IRT, GRM | plotIIC_gg | 実装済 |
 | TIF/TIC | IRT, GRM | plotTIC_gg | 実装済 |
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
-| FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | 実装済 ※多値版の動作未確認 |
+| FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | 実装済（2値） ※多値版（stat対応）は未実装 |
 | TRP | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET | plotTRP_gg | 実装済 |
 | LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済 ※多値版の動作未確認 |
 | LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済 ※多値版の動作未確認 |
 | CMP | LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET | plotCMP_gg | 実装済 ※多値版の動作未確認 |
 | RMP | LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated | plotRMP_gg | 実装済 ※多値版の動作未確認 |
 | CRV | Biclustering | plotCRV_gg | 実装済（共通オプション対応済み） |
-| RRV | Biclustering | plotRRV_gg | 実装済（共通オプション対応済み） |
+| RRV | Biclustering, nominalBiclustering, ordinalBiclustering | plotRRV_gg | 実装済（2値、共通オプション対応済み） ※多値版（stat対応）は未実装 |
 | Array | Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotArray_gg | 実装済（多値対応済み、共通オプション対応済み） |
+| **FCRP** | nominalBiclustering, ordinalBiclustering | - | **未実装（v1.9.0新規）** |
+| **FCBR** | ordinalBiclustering | - | **未実装（v1.9.0新規、ordinal専用）** |
+| **ScoreField** | nominalBiclustering, ordinalBiclustering | - | **未実装（v1.9.0新規）** |
 | FieldPIRP | LDB | plotFieldPIRP_gg | 実装済 |
 | LDPSR | BINET | - | 未実装 |
 | ScoreFreq | LRAordinal, LRArated | plotScoreFreq_gg | 実装済 |
@@ -86,7 +89,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | ICRP | LRAordinal, LRArated | plotICRP_gg | 実装済（共通オプション対応済み） |
 | ICBR | LRAordinal | plotICBR_gg | 実装済（共通オプション対応済み） |
 
-### exametrikaのモデル一覧とプロット対応（plot.exametrika valid_types準拠）
+### exametrikaのモデル一覧とプロット対応（plot.exametrika valid_types準拠、v1.9.0）
 
 | モデル | 対応プロットタイプ |
 |--------|-------------------|
@@ -97,12 +100,14 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | LRAordinal | ScoreFreq, ScoreRank, ICRP, ICBR, RMP |
 | LRArated | ScoreFreq, ScoreRank, ICRP, RMP |
 | Biclustering | FRP, TRP, LCD, LRD, CMP, RMP, CRV, RRV, Array |
-| nominalBiclustering | FRP, LCD, LRD, CMP, Array |
-| ordinalBiclustering | FRP, LCD, LRD, CMP, RMP, Array |
+| **nominalBiclustering** | FRP, **FCRP**, LCD, LRD, CMP, Array, **ScoreField**, **RRV** |
+| **ordinalBiclustering** | FRP, **FCRP**, **FCBR**, LCD, LRD, CMP, RMP, Array, **ScoreField**, **RRV** |
 | IRM (Biclustering_IRM) | FRP, TRP, Array |
 | LDLRA | IRP, TRP, LRD, RMP |
 | LDB | FRP, TRP, LRD, RMP, Array, FieldPIRP |
 | BINET | FRP, TRP, LRD, RMP, Array, LDPSR |
+
+**太字** = v1.9.0で追加された多値バイクラスタリング向けプロット
 
 ### DAG可視化（print.exametrikaでigraph使用）
 
@@ -124,29 +129,35 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 
 ### 未実装機能（v1.0.0までに実装予定）
 
-#### plot.exametrikaのプロットタイプ（新規実装）
-1. ~~CRV/RRV (Class/Rank Reference Vector)~~ → plotCRV_gg, plotRRV_gg として実装済み
-2. LDPSR (Latent Dependence Passing Student Rate) — BINET
-3. ~~ScoreFreq (スコア頻度分布)~~ → plotScoreFreq_gg として実装済み
-4. ~~ScoreRank (スコア-ランクヒートマップ)~~ → plotScoreRank_gg として実装済み
-5. ~~ICRP (Item Category Reference Profile)~~ → plotICRP_gg として実装済み
-6. ~~ICBR (Item Category Boundary Response)~~ → plotICBR_gg として実装済み
+#### v1.9.0で追加された多値バイクラスタリングプロット（新規実装）
+1. **FCRP** (Field Category Response Profile) — カテゴリ確率プロット、style パラメータ（line/bar）対応
+   - 対応モデル: nominalBiclustering, ordinalBiclustering
+   - 実装予定: `plotFCRP_gg()`
+2. **FCBR** (Field Cumulative Boundary Reference) — 境界確率プロット（ordinal専用）
+   - 対応モデル: ordinalBiclustering
+   - 実装予定: `plotFCBR_gg()`
+3. **ScoreField** — 期待得点ヒートマップ（フィールド×クラス/ランク）
+   - 対応モデル: nominalBiclustering, ordinalBiclustering
+   - 実装予定: `plotScoreField_gg()`
 
-#### GRM対応（既存関数の拡張）
-7. ~~IRF/ICC — GRMモデル対応~~ → plotICRF_gg として実装済み
-8. ~~IIF/IIC — GRMモデル対応~~ → plotIIC_gg に GRM 対応追加済み
-9. ~~TIF/TIC — GRMモデル対応~~ → plotTIC_gg に GRM 対応追加済み
+#### 多値版対応（既存関数の拡張）
+4. **FRP** — 多値版で stat パラメータ（mean/median/mode）対応
+   - 現状: plotFRP_gg は2値のみ対応
+   - 必要: 多値データ用の期待得点計算ロジック追加
+5. **RRV** — 多値版で stat パラメータ（mean/median/mode）対応
+   - 現状: plotRRV_gg は2値のみ対応
+   - 必要: 多値データ用の転置プロット対応
 
-#### 多値版モデル対応（動作確認・必要に応じて修正）
-10. ~~Array — nominalBiclustering, ordinalBiclustering 対応完了~~
-11. nominalBiclustering — FRP, LCD, LRD, CMP（動作未確認）
-12. ordinalBiclustering — FRP, LCD, LRD, CMP, RMP（動作未確認）
+#### その他の未実装プロット
+6. LDPSR (Latent Dependence Passing Student Rate) — BINET専用
+7. nominalBiclustering — LCD, LRD, CMP（動作未確認）
+8. ordinalBiclustering — LCD, LRD, CMP, RMP（動作未確認）
 
 #### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
-12. BNM - DAGの可視化
-13. LDLRA - ランク/クラスごとのDAG
-14. LDB - ランクごとのDAG
-15. BINET - 統合グラフ（edge label付き）
+9. BNM - DAGの可視化
+10. LDLRA - ランク/クラスごとのDAG
+11. LDB - ランクごとのDAG
+12. BINET - 統合グラフ（edge label付き）
 
 #### 既存関数の共通オプション対応（TODO）
 以下の関数に共通オプション（title, colors, linetype, show_legend, legend_position）を追加する。
@@ -156,7 +167,7 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 - [x] plotTIC_gg — 共通オプション対応済み (IRT/GRM両対応)
 - [ ] plotTRF_gg — title(ハードコード), colors/linetype/legend なし
 - [ ] plotIRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
-- [ ] plotFRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
+- [ ] plotFRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし（多値版実装時に対応）
 - [ ] plotTRP_gg — title(logical対応済み), colors/linetype/legend 未対応
 - [ ] plotLCD_gg — title(logical対応済み), colors/linetype/legend 未対応
 - [ ] plotLRD_gg — title(logical対応済み), colors/linetype/legend 未対応
@@ -165,6 +176,12 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 - [x] plotArray_gg — 共通オプション対応済み（多値データ対応含む）
 - [ ] plotFieldPIRP_gg — title(ハードコード), colors/linetype/legend なし
 - [ ] plotGraph_gg — 独自オプション多数、共通オプションとの整合性を検討
+
+#### 新規実装予定関数（v1.9.0対応、共通オプションは実装時に検討）
+- [ ] plotFCRP_gg — v1.9.0新規（style パラメータ: line/bar）
+- [ ] plotFCBR_gg — v1.9.0新規（ordinal専用）
+- [ ] plotScoreField_gg — v1.9.0新規（ヒートマップ）
+- [ ] plotLDPSR_gg — BINET専用
 
 ### DAG可視化の開発方針
 
