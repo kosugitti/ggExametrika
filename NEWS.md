@@ -1,3 +1,14 @@
+# ggExametrika 0.0.22
+
+* Add multi-valued data support to `plotFRP_gg()` (Field Reference Profile).
+* Add `stat` parameter for polytomous data: "mean" (weighted average), "median", "mode".
+* Support ordinalBiclustering and nominalBiclustering in addition to binary Biclustering/IRM/LDB/BINET.
+* Change return value from list to single ggplot object showing all fields.
+* Add common plot options (title, colors, linetype, show_legend, legend_position) to `plotFRP_gg()`.
+* For binary data: displays correct response rate (0-1).
+* For polytomous data: displays expected score calculated using selected `stat` method.
+* Add comprehensive test suite (develop/test_FRP_multivalue.R) covering binary/ordinal/nominal data.
+
 # ggExametrika 0.0.21
 
 * Add `plotScoreField_gg()` for Score-Field heatmap visualization (exametrika v1.9.0 feature).
