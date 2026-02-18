@@ -1,3 +1,13 @@
+# ggExametrika 0.0.23
+
+* Add `plotFCRP_gg()` for Field Category Response Profile (FCRP) visualization (exametrika v1.9.0 feature).
+* FCRP displays category response probability profiles for each field across latent classes/ranks in polytomous biclustering models (ordinalBiclustering, nominalBiclustering).
+* Support two visualization styles: "line" (default, line plot with points) and "bar" (stacked bar chart).
+* For bar style, add category boundary transition lines (dashed lines connecting adjacent bars).
+* Support common plot options (title, colors, linetype, show_legend, legend_position).
+* Requires 3+ response categories (use plotFRP_gg for binary data).
+* Completes exametrika v1.9.0 polytomous biclustering feature set (FCBR, ScoreField, FCRP all implemented).
+
 # ggExametrika 0.0.22
 
 * Add multi-valued data support to `plotFRP_gg()` (Field Reference Profile).
