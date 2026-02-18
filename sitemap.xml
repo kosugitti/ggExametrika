@@ -1,11 +1,11 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://kosugitti.github.io/ggExametrika/404.html</loc></url>
+<url><loc>https://kosugitti.github.io/ggExametrika/CLAUDE.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/LICENSE.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/articles/getting-started-ja.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/articles/getting-started.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/articles/index.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/authors.html</loc></url>
-<url><loc>https://kosugitti.github.io/ggExametrika/claude.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/index.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/log.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/news/index.html</loc></url>
@@ -19,6 +19,7 @@
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.html</loc></url>
+<url><loc>https://kosugitti.github.io/ggExametrika/reference/plotFCRP_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.html</loc></url>
@@ -34,6 +35,7 @@
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotLRD_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.html</loc></url>
+<url><loc>https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotScoreFreq_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotScoreRank_gg.html</loc></url>
 <url><loc>https://kosugitti.github.io/ggExametrika/reference/plotTIC_gg.html</loc></url>

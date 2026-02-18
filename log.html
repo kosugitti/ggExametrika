@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.20</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.25</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,17 @@
 
 <div class="section level2">
 <h2 id="id_2026-02-18">2026-02-18<a class="anchor" aria-label="anchor" href="#id_2026-02-18"></a></h2>
+<div class="section level3">
+<h3 id="plotfrp_gg-多値対応実装-claude-sonnet-45">plotFRP_gg() 多値対応実装 (Claude Sonnet 4.5)<a class="anchor" aria-label="anchor" href="#plotfrp_gg-%E5%A4%9A%E5%80%A4%E5%AF%BE%E5%BF%9C%E5%AE%9F%E8%A3%85-claude-sonnet-45"></a></h3>
+<p><strong>目的:</strong> plotFRP_gg()に多値データ（ordinalBiclustering, nominalBiclustering）対応を追加</p>
+<p><strong>実装内容:</strong> - 既存の2値データ対応を維持しつつ、多値データに完全対応 - <code>stat</code> パラメータ追加: “mean” (重み付き平均), “median” (中央値), “mode” (最頻値) - 共通オプション完全対応: title, colors, linetype, show_legend, legend_position - 返り値を変更: リスト → 単一のggplotオブジェクト（全フィールドを1つのグラフに） - データ型の自動判定: dim(data$FRP)が2次元なら2値、3次元なら多値</p>
+<p><strong>技術的詳細:</strong> - 2値データ: FRP[field, class] から正解率を直接プロット - 多値データ: BCRM[field, class, category] から期待得点を計算 - mean: sum(categories × probs) - カテゴリの重み付き平均 - median: min(which(cumsum(probs) &gt;= 0.5)) - 累積確率50%のカテゴリ - mode: which.max(probs) - 最も確率の高いカテゴリ</p>
+<p><strong>対応モデル:</strong> - 2値: Biclustering, IRM, LDB, BINET - 多値: ordinalBiclustering, nominalBiclustering</p>
+<p><strong>テスト:</strong> - develop/test_FRP_multivalue.R を作成（232行の包括的テスト） - Test 1: Binary Biclustering（4パターン） - Test 2: Ordinal Biclustering（mean/median/mode + 比較） - Test 3: Nominal Biclustering - Test 5: エラーハンドリング（無効なパラメータ検証） - Test 6: 共通オプション全組み合わせ - 全テストパス確認済み</p>
+<p><strong>ドキュメント:</strong> - roxygen2ドキュメント全面改訂 - 2値・多値両対応の詳細な説明追加 - statパラメータの使い分けを明記 - 実例コード追加（binary/ordinal両方）</p>
+<p><strong>ブランチ:</strong> - feature/frp-multivalue (4コミット) - e8b5bf9: 本体実装 - a747899: テスト追加 - f95152f: devtools::load_all追加 - 7c1f986: dataFormat修正</p>
+<p><strong>次回の課題:</strong> - FCRP (Field Category Response Profile) 実装 - ScoreField (期待得点ヒートマップ) 実装 - RRVの多値対応（stat パラメータ追加）</p>
+<hr></div>
 <div class="section level3">
 <h3 id="plotfcbr_gg-実装-kamimura">plotFCBR_gg() 実装 (kamimura)<a class="anchor" aria-label="anchor" href="#plotfcbr_gg-%E5%AE%9F%E8%A3%85-kamimura"></a></h3>
 <p><strong>目的:</strong> ordinalBiclustering モデル用のField Cumulative Boundary Reference (FCBR) を可視化する関数を実装</p>

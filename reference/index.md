@@ -72,8 +72,13 @@ Biclustering, IRM, and related model visualization
   : Plot Rank Reference Vector (RRV) from exametrika
 - [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
   : Plot Array from exametrika
+- [`plotFCRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCRP_gg.md)
+  : Plot Field Category Response Profile (FCRP) for Polytomous
+  Biclustering
 - [`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md)
   : Plot Field Cumulative Boundary Reference from exametrika
+- [`plotScoreField_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.md)
+  : Plot Score-Field Heatmap (ScoreField) for Polytomous Biclustering
 - [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md)
   : Plot Field PIRP (Parent Item Reference Profile) from exametrika
 

@@ -90,7 +90,8 @@ boundaries.
 
 ## See also
 
-`plotFCRP_gg`, `plotScoreField_gg`,
+[`plotFCRP_gg`](https://kosugitti.github.io/ggExametrika/reference/plotFCRP_gg.md),
+[`plotScoreField_gg`](https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.md),
 [`plotArray_gg`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
 
 ## Examples

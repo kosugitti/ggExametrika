@@ -4,6 +4,10 @@ This function takes exametrika Biclustering output as input and
 generates a Rank Reference Vector (RRV) plot using ggplot2. RRV shows
 how each latent rank performs across fields, with one line per rank.
 
+Supports both binary (2-valued) and polytomous (multi-valued)
+biclustering models. For polytomous data, the `stat` parameter controls
+how expected scores are calculated from category probabilities.
+
 ## Usage
 
 ``` r
@@ -13,7 +17,9 @@ plotRRV_gg(
   colors = NULL,
   linetype = "solid",
   show_legend = TRUE,
-  legend_position = "right"
+  legend_position = "right",
+  stat = "mean",
+  show_labels = NULL
 )
 ```
 
@@ -50,6 +56,23 @@ plotRRV_gg(
   Character. Position of the legend. One of `"right"` (default),
   `"top"`, `"bottom"`, `"left"`, `"none"`.
 
+- stat:
+
+  Character. Statistic for polytomous data: `"mean"` (default),
+  `"median"`, or `"mode"`. For binary data, this parameter is ignored.
+
+  - `"mean"`: Expected score (sum of category × probability)
+
+  - `"median"`: Median category (cumulative probability \>= 0.5)
+
+  - `"mode"`: Most probable category
+
+- show_labels:
+
+  Logical. If `TRUE`, displays rank labels on each point using `ggrepel`
+  to avoid overlaps. Defaults to `FALSE` since the legend already
+  provides rank information.
+
 ## Value
 
 A single ggplot object showing the Rank Reference Vector.
@@ -59,7 +82,21 @@ A single ggplot object showing the Rank Reference Vector.
 The Rank Reference Vector is the transpose of the Field Reference
 Profile (FRP). While FRP shows one plot per field, RRV displays all
 ranks in a single plot with fields on the x-axis. Each line represents a
-latent rank, showing its correct response rate pattern across fields.
+latent rank, showing its performance pattern across fields.
+
+**Binary Data (2 categories):**
+
+- Y-axis shows "Correct Response Rate" (0.0 to 1.0)
+
+- Values represent the probability of correct response
+
+**Polytomous Data (3+ categories):**
+
+- Y-axis shows "Expected Score" (1 to max category)
+
+- Values are calculated using the `stat` parameter
+
+- Higher scores indicate better performance
 
 RRV is used when latent ranks are ordinal (ordered). For unordered
 latent classes, use
@@ -69,15 +106,30 @@ instead.
 ## See also
 
 [`plotCRV_gg`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md),
-[`plotFRP_gg`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md)
+[`plotFRP_gg`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md),
+[`plotScoreField_gg`](https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.md)
 
 ## Examples
 
 ``` r
 if (FALSE) { # \dontrun{
+# Binary biclustering
 library(exametrika)
-result <- Biclustering(J35S515, nfld = 5, ncls = 6)
-plot <- plotRRV_gg(result)
-plot
+result <- Biclustering(J15S500, nfld = 3, ncls = 5)
+plotRRV_gg(result)
+
+# Ordinal biclustering (polytomous)
+data(J35S500)
+result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
+plotRRV_gg(result_ord)  # Default: mean
+plotRRV_gg(result_ord, stat = "median")
+plotRRV_gg(result_ord, stat = "mode")
+
+# Custom styling
+plotRRV_gg(result_ord,
+  title = "Rank Performance Across Fields",
+  colors = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e"),
+  legend_position = "bottom"
+)
 } # }
 ```

@@ -1,5 +1,105 @@
 # Changelog
 
+## ggExametrika 0.0.25
+
+- Fix class validation in
+  [`plotLCD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLCD_gg.md),
+  [`plotLRD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLRD_gg.md),
+  [`plotCMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.md),
+  and
+  [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md)
+  to support polytomous biclustering models.
+- Add support for `ordinalBiclustering` and `nominalBiclustering`
+  classes in LCD, LRD, CMP, and RMP plots.
+- Change class validation from `all(class(data) %in% c(...))` to
+  `any(class(data) %in% c(...))` for better compatibility.
+- Add `inherits(data, "exametrika")` check for more robust input
+  validation.
+- Full backward compatibility maintained for binary Biclustering, LCA,
+  LRA, LDLRA, LDB, and BINET models.
+
+## ggExametrika 0.0.24
+
+- Add multi-valued (polytomous) data support to
+  [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md)
+  and
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)
+  for ordinal/nominal Biclustering.
+- Add `stat` parameter to
+  [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md)
+  and
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)
+  for polytomous data: “mean” (default), “median”, or “mode”.
+- Add `show_labels` parameter to
+  [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md)
+  and
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)
+  (default: FALSE) for displaying rank/class labels using ggrepel.
+- Add ggrepel to Imports for automatic label positioning without
+  overlaps.
+- Y-axis automatically adjusts: 0-1 for binary data (Correct Response
+  Rate), 1-maxQ for polytomous data (Expected Score).
+- Title automatically includes stat name for polytomous data (e.g.,
+  “Rank Reference Vector (mean)”).
+- Full backward compatibility maintained for binary Biclustering models.
+
+## ggExametrika 0.0.23
+
+- Add
+  [`plotFCRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCRP_gg.md)
+  for Field Category Response Profile (FCRP) visualization (exametrika
+  v1.9.0 feature).
+- FCRP displays category response probability profiles for each field
+  across latent classes/ranks in polytomous biclustering models
+  (ordinalBiclustering, nominalBiclustering).
+- Support two visualization styles: “line” (default, line plot with
+  points) and “bar” (stacked bar chart).
+- For bar style, add category boundary transition lines (dashed lines
+  connecting adjacent bars).
+- Support common plot options (title, colors, linetype, show_legend,
+  legend_position).
+- Requires 3+ response categories (use plotFRP_gg for binary data).
+- Completes exametrika v1.9.0 polytomous biclustering feature set (FCBR,
+  ScoreField, FCRP all implemented).
+
+## ggExametrika 0.0.22
+
+- Add multi-valued data support to
+  [`plotFRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md)
+  (Field Reference Profile).
+- Add `stat` parameter for polytomous data: “mean” (weighted average),
+  “median”, “mode”.
+- Support ordinalBiclustering and nominalBiclustering in addition to
+  binary Biclustering/IRM/LDB/BINET.
+- Change return value from list to single ggplot object showing all
+  fields.
+- Add common plot options (title, colors, linetype, show_legend,
+  legend_position) to
+  [`plotFRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md).
+- For binary data: displays correct response rate (0-1).
+- For polytomous data: displays expected score calculated using selected
+  `stat` method.
+- Add comprehensive test suite (develop/test_FRP_multivalue.R) covering
+  binary/ordinal/nominal data.
+
+## ggExametrika 0.0.21
+
+- Add
+  [`plotScoreField_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.md)
+  for Score-Field heatmap visualization (exametrika v1.9.0 feature).
+- [`plotScoreField_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.md)
+  displays expected scores for each field across latent classes/ranks in
+  polytomous biclustering models (nominalBiclustering,
+  ordinalBiclustering).
+- Expected score calculation: sum of (category × probability) for each
+  field-class/rank combination.
+- Support common plot options (title, colors, show_legend,
+  legend_position).
+- Add `show_values` parameter to toggle display of score values on
+  heatmap cells.
+- Add `text_size` parameter to control size of value labels.
+- Uses colorblind-friendly yellow-orange-red gradient by default.
+
 ## ggExametrika 0.0.20
 
 - Add
