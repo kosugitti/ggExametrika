@@ -74,7 +74,9 @@ reference:
   - plotCRV_gg
   - plotRRV_gg
   - plotArray_gg
+  - plotFCRP_gg
   - plotFCBR_gg
+  - plotScoreField_gg
   - plotFieldPIRP_gg
 
 - title: DAG Visualization
