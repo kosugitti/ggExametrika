@@ -154,10 +154,37 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 8. ordinalBiclustering — LCD, LRD, CMP, RMP（動作未確認）
 
 #### DAG可視化（print.exametrikaでigraph使用 → ggraph化）
-9. BNM - DAGの可視化
-10. LDLRA - ランク/クラスごとのDAG
-11. LDB - ランクごとのDAG
-12. BINET - 統合グラフ（edge label付き）
+
+**開発順序は厳守すること。BNM → LDLRA → LDB → BINET の順に実装する。**
+前のモデルが完成するまで次のモデルに着手してはならない。
+各モデルは前段の構造を土台にしており、順番を飛ばすと設計が破綻する。
+
+9. **BNM（Bayesian Network Model）** — 項目同士のベイジアンネットワーク
+   - 項目（Item）ノード間の有向グラフ（DAG）を描画する
+   - 最も基本的なDAG可視化であり、他の全モデルの土台となる
+   - ノードは項目、エッジは項目間の依存関係を表す
+
+10. **LDLRA（Latent Rank Analysis with Local Dependence）** — ランクごとの項目DAG
+    - ランクごとに独立した項目同士のネットワークを描くグラフ
+    - BNMの拡張：同じ項目ノード間のDAGが、ランクごとに異なる構造を持つ
+    - 参考図: `develop/TDE_figures/LDLRA_TDE02.png`（ランクごとに区切られた項目DAG）
+
+11. **LDB（Local Dependence Biclustering）** — ランクごとのフィールドDAG
+    - ランクごとに独立したバイクラスタリングで、ランクごとにフィールド（Field）同士のネットワークを描くグラフ
+    - LDLRAとの違い：ノードが項目ではなくフィールド（Latent Field、緑ダイヤ）
+    - ランクごとにフィールドの依存構造が異なる
+    - 参考図: `develop/TDE_figures/LDB_TDE01.png`（ランクごとのフィールドDAG横並び）
+    - 参考図: `develop/TDE_figures/LDB_TDE02.png`（パラメータ推定値重ね表示版）
+
+12. **BINET（Bicluster Network Model）** — 統合ネットワーク（最も複雑）
+    - 項目全体を通じて、ランク（Latent Class）のつながりとフィールド（Latent Field）のつながりをネットワークで表す統合グラフ
+    - **あるランクの人間が次のランクに行くために、どのフィールドを経由するかを表現するモデル**
+    - Latent Class（青四角）とLatent Field（緑ダイヤ）の2種類のノードを同時にプロットしなければならない
+    - クラス間のエッジ上にフィールドが配置される構造
+    - 参考図: `develop/TDE_figures/BINET_TDE01.png`（クラス+フィールドの統合ネットワーク）
+    - 参考図: `develop/TDE_figures/BINET_TDE02.png`（Local Dependence PSRs重ね表示版）
+    - 参考図: `develop/TDE_figures/BINET_CMP_TDE.png`（グラフ上にCMP/LCDを表示した版）
+    - BNM, LDLRA, LDBの全てを理解した上で初めて実装できる。絶対に先にやるな
 
 #### 既存関数の共通オプション対応（TODO）
 以下の関数に共通オプション（title, colors, linetype, show_legend, legend_position）を追加する。
@@ -184,6 +211,22 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 - [ ] plotLDPSR_gg — BINET専用
 
 ### DAG可視化の開発方針
+
+**開発順序（厳守）: BNM → LDLRA → LDB → BINET**
+
+各モデルの構造的な積み上げ関係：
+```
+BNM:    項目ノード間の単純DAG（基礎）
+  ↓
+LDLRA:  BNMをランクごとに分割（項目ノード × ランク区切り）
+  ↓
+LDB:    ノードがフィールドに変わる（フィールドノード × ランク区切り）
+  ↓
+BINET:  クラスノード + フィールドノードの統合グラフ（最終形）
+```
+
+**参考画像**: `develop/TDE_figures/` にTest Data Engineeringからの出力例がある。
+これらの図に近づけることが目的。
 
 **2段階アプローチを採用:**
 
