@@ -35,7 +35,9 @@ reference:
   desc: Item Response Theory (2PL, 3PL, 4PL) visualization functions
   contents:
   - plotICC_gg
+  - plotICC_overlay_gg
   - plotIIC_gg
+  - plotIIC_overlay_gg
   - plotTIC_gg
   - plotTRF_gg
   - LogisticModel
@@ -58,12 +60,21 @@ reference:
   - plotCMP_gg
   - plotRMP_gg
 
+- title: Ordinal/Rated LRA Plots
+  desc: LRAordinal and LRArated visualization functions for polytomous data
+  contents:
+  - plotScoreFreq_gg
+  - plotScoreRank_gg
+  - plotICRP_gg
+  - plotICBR_gg
+
 - title: Biclustering Plots
   desc: Biclustering, IRM, and related model visualization
   contents:
   - plotCRV_gg
   - plotRRV_gg
   - plotArray_gg
+  - plotFCBR_gg
   - plotFieldPIRP_gg
 
 - title: DAG Visualization
