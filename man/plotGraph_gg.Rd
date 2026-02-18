@@ -7,13 +7,10 @@
 plotGraph_gg(
   data,
   layout = "sugiyama",
-  rankdir = "TB",
-  node_size = 8,
-  node_color = "steelblue",
-  label_size = 3,
-  arrow_size = 2,
-  edge_color = "gray40",
-  show_edge_label = TRUE,
+  direction = "BT",
+  node_size = 12,
+  label_size = 4,
+  arrow_size = 3,
   title = NULL
 )
 }
@@ -22,23 +19,28 @@ plotGraph_gg(
 
 \item{layout}{Character string specifying the layout algorithm.
 Options include "sugiyama" (default, hierarchical), "fr" (Fruchterman-Reingold),
-"kk" (Kamada-Kawai), "tree", "circle", "grid", "stress".}
+"kk" (Kamada-Kawai), "tree", "stress".}
 
-\item{rankdir}{Direction for hierarchical layouts. "TB" (top-to-bottom, default),
-"BT" (bottom-to-top), "LR" (left-to-right), "RL" (right-to-left).}
+\item{direction}{Character string for hierarchical layout direction.
+Controls the direction of arrows and node placement in hierarchical layouts.
+Only applies when \code{layout = "sugiyama"} (default).
+\itemize{
+\item \strong{"BT"} (default): Bottom-to-Top. Source nodes at bottom, arrows point upward.
+Use when representing progression or growth (e.g., learning paths).
+\item \strong{"TB"}: Top-to-Bottom. Source nodes at top, arrows point downward.
+Traditional hierarchical view (e.g., organizational charts).
+\item \strong{"LR"}: Left-to-Right. Source nodes at left, arrows point right.
+Good for wide displays or process flows.
+\item \strong{"RL"}: Right-to-Left. Source nodes at right, arrows point left.
+Alternative horizontal layout.
+}
+For other layouts (e.g., "fr", "kk"), this parameter is ignored.}
 
-\item{node_size}{Numeric value for node size. Default is 8.}
+\item{node_size}{Numeric value for node size. Default is 12.}
 
-\item{node_color}{Color for nodes. Default is "steelblue".}
+\item{label_size}{Numeric value for label text size inside nodes. Default is 4.}
 
-\item{label_size}{Numeric value for label text size. Default is 3.}
-
-\item{arrow_size}{Numeric value for arrow size. Default is 2.}
-
-\item{edge_color}{Color for edges. Default is "gray40".}
-
-\item{show_edge_label}{Logical. If TRUE, show edge labels (for BINET model).
-Default is TRUE.}
+\item{arrow_size}{Numeric value for arrow size. Default is 3.}
 
 \item{title}{Optional character string for plot title. If NULL, auto-generated.}
 }
@@ -49,33 +51,63 @@ For LDLRA/LDB, one plot per rank/class. For BINET, the integrated graph.
 \description{
 Creates a ggplot2-based visualization of DAG structures from exametrika
 Bayesian network models. Supports BNM, LDLRA, LDB, and BINET models.
+Design based on TDE figures with items as rounded rectangles and fields as diamonds.
 }
 \details{
-This function uses the ggraph package to create network visualizations.
-The layout algorithm can significantly affect the readability of the graph:
+Design follows TDE figure specifications:
 \itemize{
-\item "sugiyama": Best for DAGs, creates hierarchical layout
-\item "tree": Good for tree-like structures
-\item "fr": Force-directed, good for general networks
-\item "stress": Minimizes stress, often produces clean layouts
+\item BNM: Items shown as purple circles with numbers inside
+\item LDLRA: Items as circles per rank/class (to be implemented)
+\item LDB: Fields shown as green diamonds (to be implemented)
+\item BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)
 }
+
+\strong{Direction Guidelines:}
+
+Choose the direction that best represents your data structure:
+\itemize{
+\item Use \strong{BT (default)} for learning progression, skill development, or upward growth
+\item Use \strong{TB} for traditional hierarchies or causal flows
+\item Use \strong{LR/RL} for temporal sequences or wide-format displays
+}
+
+\strong{Auto-Scaling:}
+
+The function automatically scales node and arrow sizes based on graph complexity:
+\itemize{
+\item 1-5 nodes: 100\\% size
+\item 6-10 nodes: 80\\% size
+\item 11-20 nodes: 60\\% size
+\item 21+ nodes: 50\\% size
+}
+Arrows maintain a minimum size of 2mm to ensure visibility.
 }
 \examples{
 \dontrun{
 library(exametrika)
+library(ggExametrika)
+
 # BNM example
 DAG <- matrix(c("Item01", "Item02", "Item02", "Item03",
                 "Item02", "Item04", "Item03", "Item05",
                 "Item04", "Item05"), ncol = 2, byrow = TRUE)
 g <- igraph::graph_from_data_frame(DAG)
 result <- BNM(J5S10, g = g)
+
+# Default: Bottom-to-Top (arrows point upward)
 plots <- plotGraph_gg(result)
 plots[[1]]
 
-# LDLRA example
-result_ldlra <- LDLRA(J15S500, ncls = 3)
-plots <- plotGraph_gg(result_ldlra)
-combinePlots_gg(plots)
+# Alternative directions
+plotGraph_gg(result, direction = "TB")[[1]]  # Top-to-Bottom
+plotGraph_gg(result, direction = "LR")[[1]]  # Left-to-Right
+plotGraph_gg(result, direction = "RL")[[1]]  # Right-to-Left
+
+# Force-directed layout (no direction parameter)
+plotGraph_gg(result, layout = "fr")[[1]]
+
+# Custom title
+plotGraph_gg(result, title = "My Network Model")[[1]]
 }
 
 }

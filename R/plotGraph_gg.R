@@ -107,8 +107,8 @@ plotGraph_gg <- function(data,
     stop("This function supports BNM, LDLRA, LDB, and BINET models only.")
   }
 
-  # Currently BNM and LDLRA are implemented
-  if (!model_class %in% c("BNM", "LDLRA")) {
+  # Currently only BNM is implemented
+  if (!model_class %in% c("BNM")) {
     stop(paste0(model_class, " is not yet implemented. ",
                 "Development order: BNM -> LDLRA -> LDB -> BINET"))
   }
