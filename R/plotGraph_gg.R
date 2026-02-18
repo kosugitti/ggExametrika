@@ -99,7 +99,9 @@ plotGraph_gg <- function(data,
                          node_size = 12,
                          label_size = 4,
                          arrow_size = 3,
-                         title = NULL) {
+                         title = NULL,
+                         show_prob = FALSE,
+                         prob_digits = 3) {
 
   # Check class
   model_class <- class(data)[2]
@@ -313,6 +315,7 @@ plotGraph_gg <- function(data,
         lay <- layout
       }
 
+      # Build base plot
       p <- ggraph::ggraph(g, layout = lay) +
         # Edges with arrows (scaled)
         ggraph::geom_edge_link(
@@ -336,7 +339,26 @@ plotGraph_gg <- function(data,
           size = scaled_label_size,
           color = "black",
           fontface = "bold"
-        ) +
+        )
+
+      # Add probability labels if requested
+      if (show_prob && !is.null(data$IRP)) {
+        # Get probabilities for this rank
+        prob_values <- data$IRP[node_names, i]
+        # Format probabilities
+        prob_labels <- format(round(prob_values, prob_digits), nsmall = prob_digits)
+
+        # Add probability text to the right of nodes
+        p <- p + ggraph::geom_node_text(
+          ggplot2::aes(label = prob_labels),
+          hjust = -0.5,  # Position to the right
+          size = scaled_label_size * 0.8,
+          color = "gray30"
+        )
+      }
+
+      # Add remaining layers
+      p <- p +
         # Color scale for nodes
         ggplot2::scale_fill_manual(
           values = c("Item" = "#A23B72"),  # Purple

@@ -61,6 +61,10 @@
 - LR方向（左→右）レイアウトの修正・実装
 - 各ランクごとに独立したプロット生成
 - patchworkによる縦並び配置のサンプルコード作成
+- **確率表示機能追加（show_prob パラメータ）**
+  - data$IRP (Item Reference Profile) から各ランクの正答確率を取得
+  - ノードの右側に確率を表示（hjust = -0.5）
+  - prob_digits パラメータで小数点以下桁数を指定可能（デフォルト3桁）
 
 **技術的詳細:**
 - LDLRA処理ブロックを追加（R/plotGraph_gg.R: 224-365行）
@@ -82,6 +86,7 @@
 - develop/test_ldlra_different_structures.R - 異なる構造テスト
 - develop/test_ldlra_real_example.R - 実データ（J12S5000）使用例
 - develop/LDLRA_LEFT_TO_RIGHT_EXAMPLE.R - 完全なサンプルコード
+- develop/test_ldlra_with_prob.R - 確率表示機能テスト（show_prob=TRUE/FALSE比較）
 
 **動作確認:**
 - J12S5000データで3ランクLDLRAを実行
@@ -94,7 +99,7 @@
 
 **次のステップ:**
 - LDB（Local Dependence Biclustering）実装（開発順序: BNM → LDLRA → LDB → BINET）
-- LDLRA確率表示機能追加（show_prob パラメータ）
+- ~~LDLRA確率表示機能追加（show_prob パラメータ）~~ ✅ 完了
 - ScoreField (期待得点ヒートマップ) 実装
 - RRVの多値対応（stat パラメータ追加）
 
