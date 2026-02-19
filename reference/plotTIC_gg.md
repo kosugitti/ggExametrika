@@ -11,8 +11,10 @@ plotTIC_gg(
   data,
   xvariable = c(-4, 4),
   title = TRUE,
-  color = NULL,
-  linetype = "solid"
+  colors = NULL,
+  linetype = "solid",
+  show_legend = FALSE,
+  legend_position = "right"
 )
 ```
 
@@ -36,14 +38,23 @@ plotTIC_gg(
   title. If `FALSE`, no title. If a character string, use it as a custom
   title.
 
-- color:
+- colors:
 
-  Character. Color for the curve. If `NULL` (default), a
+  Character vector. Color(s) for the curve. If `NULL` (default), a
   colorblind-friendly palette is used.
 
 - linetype:
 
   Character or numeric specifying the line type. Default is `"solid"`.
+
+- show_legend:
+
+  Logical. If `TRUE`, display the legend. Default is `FALSE`.
+
+- legend_position:
+
+  Character. Position of the legend. One of `"right"` (default),
+  `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 ## Value
 

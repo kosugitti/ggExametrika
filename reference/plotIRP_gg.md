@@ -7,7 +7,14 @@ of a correct response for each item at each latent class or rank level.
 ## Usage
 
 ``` r
-plotIRP_gg(data)
+plotIRP_gg(
+  data,
+  title = TRUE,
+  colors = NULL,
+  linetype = "dashed",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 ```
 
 ## Arguments
@@ -16,6 +23,30 @@ plotIRP_gg(data)
 
   An object of class `c("exametrika", "LCA")`, `c("exametrika", "LRA")`,
   or `c("exametrika", "LDLRA")`.
+
+- title:
+
+  Logical or character. If `TRUE` (default), display an auto-generated
+  title. If `FALSE`, no title. If a character string, use it as a custom
+  title (only for single-item plots).
+
+- colors:
+
+  Character vector. Color(s) for points and lines. If `NULL` (default),
+  a colorblind-friendly palette is used.
+
+- linetype:
+
+  Character or numeric specifying the line type. Default is `"dashed"`.
+
+- show_legend:
+
+  Logical. If `TRUE`, display the legend. Default is `FALSE`.
+
+- legend_position:
+
+  Character. Position of the legend. One of `"right"` (default),
+  `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 ## Value
 

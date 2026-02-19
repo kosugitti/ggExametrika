@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.26</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.27</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,11 @@
 </ul></div>
 <div class="section level2">
 <h2 id="開発方針">開発方針<a class="anchor" aria-label="anchor" href="#%E9%96%8B%E7%99%BA%E6%96%B9%E9%87%9D"></a></h2>
+<div class="section level3">
+<h3 id="変更記録ルール恒久厳守">変更記録ルール（恒久・厳守）<a class="anchor" aria-label="anchor" href="#%E5%A4%89%E6%9B%B4%E8%A8%98%E9%8C%B2%E3%83%AB%E3%83%BC%E3%83%AB%E6%81%92%E4%B9%85%E5%8E%B3%E5%AE%88"></a></h3>
+<p><strong>軽微なバグ修正でも何でも、変更を加えたら必ずNEWS.mdに記録すること。</strong></p>
+<p>これは殿（プロジェクトオーナー）からの全体指示であり、全ての作業に適用される恒久的なルールである。 コードの変更、ドキュメントの修正、リファクタリング、バグ修正など、種類や規模を問わず、 変更があればNEWS.mdに記録する。記録を省略してはならない。</p>
+</div>
 <div class="section level3">
 <h3 id="コーディング規約">コーディング規約<a class="anchor" aria-label="anchor" href="#%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E8%A6%8F%E7%B4%84"></a></h3>
 <ul><li>roxygen2によるドキュメント生成</li>
@@ -340,20 +345,20 @@
 <div class="section level4">
 <h4 id="既存関数の共通オプション対応todo">既存関数の共通オプション対応（TODO）<a class="anchor" aria-label="anchor" href="#%E6%97%A2%E5%AD%98%E9%96%A2%E6%95%B0%E3%81%AE%E5%85%B1%E9%80%9A%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E5%AF%BE%E5%BF%9Ctodo"></a></h4>
 <p>以下の関数に共通オプション（title, colors, linetype, show_legend, legend_position）を追加する。</p>
-<ul class="task-list"><li><label><input type="checkbox">plotICC_gg — title(ハードコード), colors/linetype/legend なし</label></li>
+<ul class="task-list"><li><label><input type="checkbox" checked>plotICC_gg — 共通オプション対応済み (v0.0.27)</label></li>
 <li><label><input type="checkbox" checked>plotIIC_gg — 共通オプション対応済み (IRT/GRM両対応)</label></li>
-<li><label><input type="checkbox" checked>plotTIC_gg — 共通オプション対応済み (IRT/GRM両対応)</label></li>
-<li><label><input type="checkbox">plotTRF_gg — title(ハードコード), colors/linetype/legend なし</label></li>
-<li><label><input type="checkbox">plotIRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし</label></li>
+<li><label><input type="checkbox" checked>plotTIC_gg — 共通オプション対応済み (IRT/GRM両対応、v0.0.27でcolor→colors改名)</label></li>
+<li><label><input type="checkbox" checked>plotTRF_gg — 共通オプション対応済み (v0.0.27)</label></li>
+<li><label><input type="checkbox" checked>plotIRP_gg — 共通オプション対応済み (v0.0.27)</label></li>
 <li><label><input type="checkbox" checked>plotFRP_gg — 共通オプション対応済み（2値・多値両対応、stat パラメータ含む）</label></li>
-<li><label><input type="checkbox">plotTRP_gg — title(logical対応済み), colors/linetype/legend 未対応</label></li>
-<li><label><input type="checkbox">plotLCD_gg — title(logical対応済み), colors/linetype/legend 未対応</label></li>
-<li><label><input type="checkbox">plotLRD_gg — title(logical対応済み), colors/linetype/legend 未対応</label></li>
-<li><label><input type="checkbox">plotCMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし</label></li>
-<li><label><input type="checkbox">plotRMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし</label></li>
+<li><label><input type="checkbox" checked>plotTRP_gg — 共通オプション対応済み (v0.0.27、colors[1]=bar fill, colors[2]=line color)</label></li>
+<li><label><input type="checkbox" checked>plotLCD_gg — 共通オプション対応済み (v0.0.27、colors[1]=bar fill, colors[2]=line color)</label></li>
+<li><label><input type="checkbox" checked>plotLRD_gg — 共通オプション対応済み (v0.0.27、colors[1]=bar fill, colors[2]=line color)</label></li>
+<li><label><input type="checkbox" checked>plotCMP_gg — 共通オプション対応済み (v0.0.27)</label></li>
+<li><label><input type="checkbox" checked>plotRMP_gg — 共通オプション対応済み (v0.0.27)</label></li>
 <li><label><input type="checkbox" checked>plotArray_gg — 共通オプション対応済み（多値データ対応含む）</label></li>
-<li><label><input type="checkbox">plotFieldPIRP_gg — title(ハードコード), colors/linetype/legend なし</label></li>
-<li><label><input type="checkbox">plotGraph_gg — 独自オプション多数、共通オプションとの整合性を検討</label></li>
+<li><label><input type="checkbox" checked>plotFieldPIRP_gg — 共通オプション対応済み (v0.0.27)</label></li>
+<li><label><input type="checkbox" checked>plotGraph_gg — 共通オプション対応済み (v0.0.27、title/colors/show_legend/legend_position。linetypeはDAGには不適合のため除外)</label></li>
 </ul></div>
 <div class="section level4">
 <h4 id="新規実装予定関数v190対応共通オプションは実装時に検討">新規実装予定関数（v1.9.0対応、共通オプションは実装時に検討）<a class="anchor" aria-label="anchor" href="#%E6%96%B0%E8%A6%8F%E5%AE%9F%E8%A3%85%E4%BA%88%E5%AE%9A%E9%96%A2%E6%95%B0v190%E5%AF%BE%E5%BF%9C%E5%85%B1%E9%80%9A%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AF%E5%AE%9F%E8%A3%85%E6%99%82%E3%81%AB%E6%A4%9C%E8%A8%8E"></a></h4>

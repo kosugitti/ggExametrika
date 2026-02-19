@@ -1,5 +1,66 @@
 # Changelog
 
+## ggExametrika 0.0.27
+
+### Common Options Unification
+
+Add common plot options (title, colors, linetype, show_legend,
+legend_position) to 11 functions for API consistency.
+
+#### Fully new common options (6 functions)
+
+- Add common options to
+  [`plotICC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICC_gg.md):
+  title (logical/character), colors, linetype, show_legend,
+  legend_position. Also add `items` parameter for selecting which items
+  to plot.
+- Add common options to
+  [`plotTRF_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTRF_gg.md):
+  title (logical/character), colors, linetype, show_legend,
+  legend_position.
+- Add common options to
+  [`plotIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIRP_gg.md):
+  title (logical/character), colors, linetype (default: “dashed”),
+  show_legend, legend_position.
+- Add common options to
+  [`plotCMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.md):
+  title (logical/character), colors, linetype (default: “dashed”),
+  show_legend, legend_position.
+- Add common options to
+  [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md):
+  title (logical/character), colors, linetype (default: “dashed”),
+  show_legend, legend_position.
+- Add common options to
+  [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md):
+  title (logical/character), colors (per-field), linetype, show_legend,
+  legend_position.
+
+#### Supplemented missing options (4 functions)
+
+- Rename `color` to `colors` in
+  [`plotTIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTIC_gg.md)
+  for API consistency. Add `show_legend` and `legend_position`
+  parameters.
+- Add `colors`, `linetype`, `show_legend`, `legend_position` to
+  [`plotTRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTRP_gg.md).
+  Extend `title` to support character strings. colors\[1\]=bar fill,
+  colors\[2\]=line/point color.
+- Add `colors`, `linetype`, `show_legend`, `legend_position` to
+  [`plotLCD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLCD_gg.md).
+  Extend `title` to support character strings. colors\[1\]=bar fill,
+  colors\[2\]=line/point color.
+- Add `colors`, `linetype`, `show_legend`, `legend_position` to
+  [`plotLRD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLRD_gg.md).
+  Extend `title` to support character strings. colors\[1\]=bar fill,
+  colors\[2\]=line/point color.
+
+#### DAG visualization (1 function)
+
+- Add `title` (logical/character), `colors` (node fill), `show_legend`,
+  `legend_position` to
+  [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md).
+  Note: `linetype` is not applicable to DAG edge arrows.
+
 ## ggExametrika 0.0.26
 
 - Fix

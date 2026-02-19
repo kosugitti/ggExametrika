@@ -13,7 +13,7 @@ distribution."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.26</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.27</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,15 @@ distribution.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotLRD_gg</span><span class="op">(</span><span class="va">data</span>, Num_Students <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotLRD_gg</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  Num_Students <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="st">"dashed"</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"right"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -73,7 +81,31 @@ number of students on each bar.</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>Logical. If <code>TRUE</code> (default), display the plot title.</p></dd>
+<dd><p>Logical or character. If <code>TRUE</code> (default), display the
+auto-generated title. If <code>FALSE</code>, no title. If a character string,
+use it as a custom title.</p></dd>
+
+
+<dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
+<dd><p>Character vector of length 2. First element is the bar fill
+color, second is the line/point color. If <code>NULL</code> (default), uses
+gray for bars and black for line/points.</p></dd>
+
+
+<dt id="arg-linetype">linetype<a class="anchor" aria-label="anchor" href="#arg-linetype"></a></dt>
+<dd><p>Character or numeric specifying the line type for the
+frequency line. Default is <code>"dashed"</code>.</p></dd>
+
+
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, display the legend.
+Default is <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-legend-position">legend_position<a class="anchor" aria-label="anchor" href="#arg-legend-position"></a></dt>
+<dd><p>Character. Position of the legend.
+One of <code>"right"</code> (default), <code>"top"</code>, <code>"bottom"</code>,
+<code>"left"</code>, <code>"none"</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

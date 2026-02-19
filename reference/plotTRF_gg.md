@@ -7,7 +7,15 @@ score as a function of ability (theta).
 ## Usage
 
 ``` r
-plotTRF_gg(data, xvariable = c(-4, 4))
+plotTRF_gg(
+  data,
+  xvariable = c(-4, 4),
+  title = TRUE,
+  colors = NULL,
+  linetype = "solid",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 ```
 
 ## Arguments
@@ -21,6 +29,30 @@ plotTRF_gg(data, xvariable = c(-4, 4))
 
   A numeric vector of length 2 specifying the range of the x-axis
   (ability). Default is `c(-4, 4)`.
+
+- title:
+
+  Logical or character. If `TRUE` (default), display an auto-generated
+  title. If `FALSE`, no title. If a character string, use it as a custom
+  title.
+
+- colors:
+
+  Character vector. Color(s) for the curve. If `NULL` (default), a
+  colorblind-friendly palette is used.
+
+- linetype:
+
+  Character or numeric specifying the line type. Default is `"solid"`.
+
+- show_legend:
+
+  Logical. If `TRUE`, display the legend. Default is `FALSE`.
+
+- legend_position:
+
+  Character. Position of the legend. One of `"right"` (default),
+  `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 ## Value
 

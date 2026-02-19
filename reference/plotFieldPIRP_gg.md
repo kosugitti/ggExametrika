@@ -8,7 +8,14 @@ number-right score in parent fields.
 ## Usage
 
 ``` r
-plotFieldPIRP_gg(data)
+plotFieldPIRP_gg(
+  data,
+  title = TRUE,
+  colors = NULL,
+  linetype = "solid",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 ```
 
 ## Arguments
@@ -16,6 +23,31 @@ plotFieldPIRP_gg(data)
 - data:
 
   An object of class `c("exametrika", "LDB")`.
+
+- title:
+
+  Logical or character. If `TRUE` (default), display an auto-generated
+  title. If `FALSE`, no title. If a character string, use it as a custom
+  title prefix (rank number will be appended).
+
+- colors:
+
+  Character vector. Colors for each field line. If `NULL` (default),
+  uses black for all lines (with text labels for field identification).
+
+- linetype:
+
+  Character or numeric specifying the line type. Default is `"solid"`.
+
+- show_legend:
+
+  Logical. If `TRUE`, display the legend. Default is `FALSE` (uses text
+  labels instead).
+
+- legend_position:
+
+  Character. Position of the legend. One of `"right"` (default),
+  `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 ## Value
 

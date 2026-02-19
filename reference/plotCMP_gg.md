@@ -7,7 +7,14 @@ membership probability across all latent classes.
 ## Usage
 
 ``` r
-plotCMP_gg(data)
+plotCMP_gg(
+  data,
+  title = TRUE,
+  colors = NULL,
+  linetype = "dashed",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 ```
 
 ## Arguments
@@ -17,6 +24,30 @@ plotCMP_gg(data)
   An object of class `c("exametrika", "LCA")` or
   `c("exametrika", "BINET")`. If LRA, Biclustering, LDLRA, or LDB output
   is provided, RMP will be plotted instead with a warning.
+
+- title:
+
+  Logical or character. If `TRUE` (default), display an auto-generated
+  title. If `FALSE`, no title. If a character string, use it as a custom
+  title (only for single-student plots).
+
+- colors:
+
+  Character vector. Color(s) for points and lines. If `NULL` (default),
+  a colorblind-friendly palette is used.
+
+- linetype:
+
+  Character or numeric specifying the line type. Default is `"dashed"`.
+
+- show_legend:
+
+  Logical. If `TRUE`, display the legend. Default is `FALSE`.
+
+- legend_position:
+
+  Character. Position of the legend. One of `"right"` (default),
+  `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 ## Value
 

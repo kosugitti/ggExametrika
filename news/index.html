@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.26</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.27</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,33 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.27" id="ggexametrika-0027">ggExametrika 0.0.27<a class="anchor" aria-label="anchor" href="#ggexametrika-0027"></a></h2>
+<div class="section level3">
+<h3 id="common-options-unification-0-0-27">Common Options Unification<a class="anchor" aria-label="anchor" href="#common-options-unification-0-0-27"></a></h3>
+<p>Add common plot options (title, colors, linetype, show_legend, legend_position) to 11 functions for API consistency.</p>
+<div class="section level4">
+<h4 id="fully-new-common-options-functions-0-0-27">Fully new common options (6 functions)<a class="anchor" aria-label="anchor" href="#fully-new-common-options-functions-0-0-27"></a></h4>
+<ul><li>Add common options to <code><a href="../reference/plotICC_gg.html">plotICC_gg()</a></code>: title (logical/character), colors, linetype, show_legend, legend_position. Also add <code>items</code> parameter for selecting which items to plot.</li>
+<li>Add common options to <code><a href="../reference/plotTRF_gg.html">plotTRF_gg()</a></code>: title (logical/character), colors, linetype, show_legend, legend_position.</li>
+<li>Add common options to <code><a href="../reference/plotIRP_gg.html">plotIRP_gg()</a></code>: title (logical/character), colors, linetype (default: “dashed”), show_legend, legend_position.</li>
+<li>Add common options to <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code>: title (logical/character), colors, linetype (default: “dashed”), show_legend, legend_position.</li>
+<li>Add common options to <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code>: title (logical/character), colors, linetype (default: “dashed”), show_legend, legend_position.</li>
+<li>Add common options to <code><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg()</a></code>: title (logical/character), colors (per-field), linetype, show_legend, legend_position.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="supplemented-missing-options-functions-0-0-27">Supplemented missing options (4 functions)<a class="anchor" aria-label="anchor" href="#supplemented-missing-options-functions-0-0-27"></a></h4>
+<ul><li>Rename <code>color</code> to <code>colors</code> in <code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code> for API consistency. Add <code>show_legend</code> and <code>legend_position</code> parameters.</li>
+<li>Add <code>colors</code>, <code>linetype</code>, <code>show_legend</code>, <code>legend_position</code> to <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code>. Extend <code>title</code> to support character strings. colors[1]=bar fill, colors[2]=line/point color.</li>
+<li>Add <code>colors</code>, <code>linetype</code>, <code>show_legend</code>, <code>legend_position</code> to <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code>. Extend <code>title</code> to support character strings. colors[1]=bar fill, colors[2]=line/point color.</li>
+<li>Add <code>colors</code>, <code>linetype</code>, <code>show_legend</code>, <code>legend_position</code> to <code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code>. Extend <code>title</code> to support character strings. colors[1]=bar fill, colors[2]=line/point color.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="dag-visualization-function-0-0-27">DAG visualization (1 function)<a class="anchor" aria-label="anchor" href="#dag-visualization-function-0-0-27"></a></h4>
+<ul><li>Add <code>title</code> (logical/character), <code>colors</code> (node fill), <code>show_legend</code>, <code>legend_position</code> to <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code>. Note: <code>linetype</code> is not applicable to DAG edge arrows.</li>
+</ul></div>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.26" id="ggexametrika-0026">ggExametrika 0.0.26<a class="anchor" aria-label="anchor" href="#ggexametrika-0026"></a></h2>
 <ul><li>Fix <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> and <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> to access Students columns by name (<code>Membership *</code>) instead of index position. Prevents column-shift bugs when exametrika adds columns (e.g., <code>Estimate</code>).</li>

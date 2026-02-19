@@ -11,7 +11,7 @@ Design based on TDE figures with items as rounded rectangles and fields as diamo
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.26</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.27</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,10 @@ Design based on TDE figures with items as rounded rectangles and fields as diamo
 <span>  node_size <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>  label_size <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  arrow_size <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  title <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"right"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -102,7 +105,28 @@ Alternative horizontal layout.</p></li>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
-<dd><p>Optional character string for plot title. If NULL, auto-generated.</p></dd>
+<dd><p>Logical or character. If <code>TRUE</code> (default), display an
+auto-generated title. If <code>FALSE</code>, no title. If a character string,
+use it as a custom title.</p></dd>
+
+
+<dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
+<dd><p>Character vector. Colors for node types.
+For BNM: single color for Item nodes.
+For future models (LDLRA/LDB/BINET): colors for different node types.
+If <code>NULL</code> (default), uses the default node type colors
+(Item=purple, Field=green, Class=blue).</p></dd>
+
+
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, display the node type legend.
+Default is <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-legend-position">legend_position<a class="anchor" aria-label="anchor" href="#arg-legend-position"></a></dt>
+<dd><p>Character. Position of the legend.
+One of <code>"right"</code> (default), <code>"top"</code>, <code>"bottom"</code>,
+<code>"left"</code>, <code>"none"</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -126,6 +150,11 @@ For LDLRA/LDB, one plot per rank/class. For BINET, the integrated graph.</p>
 <li><p>11-20 nodes: 60\<!-- % size --></p></li>
 <li><p>21+ nodes: 50\<!-- % size --></p></li>
 </ul><p>Arrows maintain a minimum size of 2mm to ensure visibility.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>The <code>linetype</code> common option is not applicable to DAG visualization,
+as edges are drawn as directed arrows rather than standard lines.</p>
     </div>
 
     <div class="section level2">

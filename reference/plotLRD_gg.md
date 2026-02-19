@@ -7,7 +7,15 @@ students in each latent rank and the rank membership distribution.
 ## Usage
 
 ``` r
-plotLRD_gg(data, Num_Students = TRUE, title = TRUE)
+plotLRD_gg(
+  data,
+  Num_Students = TRUE,
+  title = TRUE,
+  colors = NULL,
+  linetype = "dashed",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 ```
 
 ## Arguments
@@ -26,7 +34,29 @@ plotLRD_gg(data, Num_Students = TRUE, title = TRUE)
 
 - title:
 
-  Logical. If `TRUE` (default), display the plot title.
+  Logical or character. If `TRUE` (default), display the auto-generated
+  title. If `FALSE`, no title. If a character string, use it as a custom
+  title.
+
+- colors:
+
+  Character vector of length 2. First element is the bar fill color,
+  second is the line/point color. If `NULL` (default), uses gray for
+  bars and black for line/points.
+
+- linetype:
+
+  Character or numeric specifying the line type for the frequency line.
+  Default is `"dashed"`.
+
+- show_legend:
+
+  Logical. If `TRUE`, display the legend. Default is `FALSE`.
+
+- legend_position:
+
+  Character. Position of the legend. One of `"right"` (default),
+  `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 ## Value
 

@@ -15,7 +15,10 @@ plotGraph_gg(
   node_size = 12,
   label_size = 4,
   arrow_size = 3,
-  title = NULL
+  title = TRUE,
+  colors = NULL,
+  show_legend = FALSE,
+  legend_position = "right"
 )
 ```
 
@@ -67,7 +70,25 @@ plotGraph_gg(
 
 - title:
 
-  Optional character string for plot title. If NULL, auto-generated.
+  Logical or character. If `TRUE` (default), display an auto-generated
+  title. If `FALSE`, no title. If a character string, use it as a custom
+  title.
+
+- colors:
+
+  Character vector. Colors for node types. For BNM: single color for
+  Item nodes. For future models (LDLRA/LDB/BINET): colors for different
+  node types. If `NULL` (default), uses the default node type colors
+  (Item=purple, Field=green, Class=blue).
+
+- show_legend:
+
+  Logical. If `TRUE`, display the node type legend. Default is `FALSE`.
+
+- legend_position:
+
+  Character. Position of the legend. One of `"right"` (default),
+  `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 ## Value
 
@@ -112,6 +133,11 @@ complexity:
 - 21+ nodes: 50\\
 
 Arrows maintain a minimum size of 2mm to ensure visibility.
+
+## Note
+
+The `linetype` common option is not applicable to DAG visualization, as
+edges are drawn as directed arrows rather than standard lines.
 
 ## Examples
 
