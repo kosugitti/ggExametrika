@@ -38,6 +38,40 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.28" id="ggexametrika-0028">ggExametrika 0.0.28<a class="anchor" aria-label="anchor" href="#ggexametrika-0028"></a></h2>
+<div class="section level3">
+<h3 id="test-infrastructure-setup-0-0-28">Test Infrastructure Setup<a class="anchor" aria-label="anchor" href="#test-infrastructure-setup-0-0-28"></a></h3>
+<p>Comprehensive testthat test suite for all 26 exported plot functions.</p>
+<ul><li>Create <code>helper-setup.R</code> with shared test fixtures (IRT 2PL/3PL, GRM, LCA, LRA, Biclustering binary/ordinal/nominal, LRAordinal, LRArated, BNM). Fixtures computed once and shared across all test files.</li>
+<li>Add 10 new test files covering all plot function families:
+<ul><li>
+<code>test-IRT-plots.R</code>: plotICC_gg, plotTRF_gg, plotICC_overlay_gg</li>
+<li>
+<code>test-IIC-TIC-plots.R</code>: plotIIC_gg, plotTIC_gg, plotIIC_overlay_gg (IRT + GRM)</li>
+<li>
+<code>test-GRM-plots.R</code>: plotICRF_gg</li>
+<li>
+<code>test-LCA-LRA-plots.R</code>: plotIRP_gg, plotTRP_gg, plotLCD_gg, plotLRD_gg, plotCMP_gg, plotRMP_gg</li>
+<li>
+<code>test-Biclustering-plots.R</code>: plotFRP_gg, plotCRV_gg, plotRRV_gg (binary + polytomous)</li>
+<li>
+<code>test-PolyBiclustering-plots.R</code>: plotFCRP_gg, plotFCBR_gg, plotScoreField_gg</li>
+<li>
+<code>test-LRAordinal-plots.R</code>: plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg, plotICBR_gg</li>
+<li>
+<code>test-DAG-plots.R</code>: plotGraph_gg (BNM)</li>
+<li>
+<code>test-utility.R</code>: combinePlots_gg</li>
+<li>
+<code>test-validation.R</code>: Cross-cutting input validation for all 24+ plot functions</li>
+</ul></li>
+<li>Add input validation tests for all functions: NULL, data.frame, numeric, character, list inputs and wrong model type cross-checks.</li>
+<li>Add common options tests for all functions: title (TRUE/FALSE/custom), colors, linetype, show_legend, legend_position.</li>
+<li>Remove empty legacy test files (test_ICCtoTIC.R, test_IRPtoCMPRMP.R, test_option.R) and Rplots.pdf artifact.</li>
+<li>Total: 433 PASS, 0 FAIL, 22 WARN (ggplot2 deprecation only), 4 SKIP (BNM fixture unavailable).</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.27" id="ggexametrika-0027">ggExametrika 0.0.27<a class="anchor" aria-label="anchor" href="#ggexametrika-0027"></a></h2>
 <div class="section level3">
 <h3 id="common-options-unification-0-0-27">Common Options Unification<a class="anchor" aria-label="anchor" href="#common-options-unification-0-0-27"></a></h3>
