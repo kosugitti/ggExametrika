@@ -1,3 +1,16 @@
+# ggExametrika 0.0.29
+
+## Documentation
+
+* README.md を実装状況に合わせて全面更新
+  - モデル一覧に nominalBiclustering, ordinalBiclustering, LRAordinal, LRArated を追加
+  - Function-Model 互換テーブルを4分割（IRT/GRM、LCA/LRA系、Biclustering系、Network系）に再構成し、全関数・全モデルの対応状況を正確に記載
+  - 未掲載だった関数を追加: plotICC_overlay_gg, plotIIC_overlay_gg, plotFCRP_gg, plotFCBR_gg, plotScoreField_gg, plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg, plotICBR_gg
+  - 互換テーブルのマーク漏れを修正（plotFRP_gg の LCA/LRA 対応、plotLCD_gg/plotCMP_gg の Biclustering 系対応、plotRMP_gg の BINET 対応 等）
+  - LRAordinal/LRArated、多値 Biclustering、overlay 関数の使用例を追加
+  - Common Plot Options に stat, style, show_labels 等の関数固有パラメータを追記
+  - 存在しない日本語ガイドへのリンクを削除
+
 # ggExametrika 0.0.28
 
 ## Test Infrastructure Setup
