@@ -316,7 +316,7 @@ plotArray_gg <- function(data,
       clusterd_plot <- clusterd_plot + theme(legend.position = legend_position)
     }
 
-    plots[[2]] <- clusterd_plot
+    plots[[length(plots) + 1]] <- clusterd_plot
   }
 
   if (Original == TRUE && Clusterd == TRUE) {

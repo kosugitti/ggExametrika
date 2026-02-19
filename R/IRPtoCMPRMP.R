@@ -365,32 +365,32 @@ plotTRP_gg <- function(data,
   if (all(class(data) %in% c("exametrika", "LCA")) ||
     all(class(data) %in% c("exametrika", "BINET"))) {
     xlabel <- "Latent Class"
-    con_bran <- FALSE
   } else if (all(class(data) %in% c("exametrika", "LRA")) ||
     all(class(data) %in% c("exametrika", "Biclustering")) ||
-    all(class(data) %in% c("exametrika", "IRM"))) {
+    all(class(data) %in% c("exametrika", "IRM")) ||
+    all(class(data) %in% c("exametrika", "LDB")) ||
+    all(class(data) %in% c("exametrika", "LDLRA"))) {
     xlabel <- "Latent Rank"
-    con_bran <- FALSE
-  } else if (all(class(data) %in% c("exametrika", "LDB"))) {
-    xlabel <- "Latent Rank"
-    con_bran <- TRUE
   } else {
     stop(
-      "Invalid input. The variable must be from exametrika output or from either LCA, LRA, Biclustering, LDB, or BINET."
+      "Invalid input. The variable must be from exametrika output or from either LCA, LRA, Biclustering, LDLRA, LDB, or BINET."
     )
   }
 
-  if (con_bran == TRUE) {
-    x1 <- data.frame(
-      LC = c(1:length(data$LRD)),
-      Num = c(data$LRD)
-    )
+  # 受検者分布: rank系モデルはLRD優先、class系モデルはLCD優先（フォールバック付き）
+  if (xlabel == "Latent Rank") {
+    dist_data <- .first_non_null(data$LRD, data$LCD)
   } else {
-    x1 <- data.frame(
-      LC = c(1:length(data$LCD)),
-      Num = c(data$LCD)
-    )
+    dist_data <- .first_non_null(data$LCD, data$LRD)
   }
+  if (is.null(dist_data)) {
+    stop("No LCD or LRD data found in the input object.")
+  }
+
+  x1 <- data.frame(
+    LC = seq_along(dist_data),
+    Num = c(dist_data)
+  )
 
   x2 <- data.frame(
     LC = c(1:length(data$TRP)),
@@ -517,18 +517,15 @@ plotLCD_gg <- function(data,
   if (any(class(data) %in% c("LCA", "BINET"))) {
     xlabel <- "Latent Class"
     mode <- TRUE
-    LRD <- FALSE
   } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
-    LRD <- FALSE
     warning(
       "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
     )
   } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
-    LRD <- TRUE
     warning(
       "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
     )
@@ -538,30 +535,24 @@ plotLCD_gg <- function(data,
     )
   }
 
-
-  if (LRD == TRUE) {
-    x1 <- data.frame(
-      LC = c(1:length(data$LRD)),
-      Num = c(data$LRD)
-    )
+  # 受検者分布: class系モデルはLCD優先、rank系モデルはLRD優先（フォールバック付き）
+  if (mode) {
+    dist_data <- .first_non_null(data$LCD, data$LRD)
+    freq_data <- .first_non_null(data$CMD, data$RMD)
   } else {
-    x1 <- data.frame(
-      LC = c(1:length(data$LCD)),
-      Num = c(data$LCD)
-    )
+    dist_data <- .first_non_null(data$LRD, data$LCD)
+    freq_data <- .first_non_null(data$RMD, data$CMD)
   }
 
-  if (LRD == TRUE) {
-    x2 <- data.frame(
-      LC = c(1:length(data$RMD)),
-      Fre = c(data$RMD)
-    )
-  } else {
-    x2 <- data.frame(
-      LC = c(1:length(data$CMD)),
-      Fre = c(data$CMD)
-    )
-  }
+  x1 <- data.frame(
+    LC = seq_along(dist_data),
+    Num = c(dist_data)
+  )
+
+  x2 <- data.frame(
+    LC = seq_along(freq_data),
+    Fre = c(freq_data)
+  )
 
   variable_scaler <- function(y2, yaxis1, yaxis2) {
     a <- diff(yaxis1) / diff(yaxis2)
@@ -686,48 +677,39 @@ plotLRD_gg <- function(data,
   if (any(class(data) %in% c("LCA", "BINET"))) {
     xlabel <- "Latent Class"
     mode <- TRUE
-    LRD <- FALSE
     warning(
       "The input data was supposed to be visualized with The Latent Class Distribution, so I will plot the LCD."
     )
   } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
-    LRD <- FALSE
   } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
-    LRD <- TRUE
   } else {
     stop(
       "Invalid input. The variable must be from exametrika output or from either LRA, Biclustering, LDLRA or LDB."
     )
   }
 
-
-  if (LRD == TRUE) {
-    x1 <- data.frame(
-      LC = c(1:length(data$LRD)),
-      Num = c(data$LRD)
-    )
+  # 受検者分布: class系モデルはLCD優先、rank系モデルはLRD優先（フォールバック付き）
+  if (mode) {
+    dist_data <- .first_non_null(data$LCD, data$LRD)
+    freq_data <- .first_non_null(data$CMD, data$RMD)
   } else {
-    x1 <- data.frame(
-      LC = c(1:length(data$LCD)),
-      Num = c(data$LCD)
-    )
+    dist_data <- .first_non_null(data$LRD, data$LCD)
+    freq_data <- .first_non_null(data$RMD, data$CMD)
   }
 
-  if (LRD == TRUE) {
-    x2 <- data.frame(
-      LC = c(1:length(data$RMD)),
-      Fre = c(data$RMD)
-    )
-  } else {
-    x2 <- data.frame(
-      LC = c(1:length(data$CMD)),
-      Fre = c(data$CMD)
-    )
-  }
+  x1 <- data.frame(
+    LC = seq_along(dist_data),
+    Num = c(dist_data)
+  )
+
+  x2 <- data.frame(
+    LC = seq_along(freq_data),
+    Fre = c(freq_data)
+  )
 
   variable_scaler <- function(y2, yaxis1, yaxis2) {
     a <- diff(yaxis1) / diff(yaxis2)
