@@ -1,3 +1,26 @@
+# ggExametrika 0.0.28
+
+## Test Infrastructure Setup
+
+Comprehensive testthat test suite for all 26 exported plot functions.
+
+* Create `helper-setup.R` with shared test fixtures (IRT 2PL/3PL, GRM, LCA, LRA, Biclustering binary/ordinal/nominal, LRAordinal, LRArated, BNM). Fixtures computed once and shared across all test files.
+* Add 10 new test files covering all plot function families:
+  - `test-IRT-plots.R`: plotICC_gg, plotTRF_gg, plotICC_overlay_gg
+  - `test-IIC-TIC-plots.R`: plotIIC_gg, plotTIC_gg, plotIIC_overlay_gg (IRT + GRM)
+  - `test-GRM-plots.R`: plotICRF_gg
+  - `test-LCA-LRA-plots.R`: plotIRP_gg, plotTRP_gg, plotLCD_gg, plotLRD_gg, plotCMP_gg, plotRMP_gg
+  - `test-Biclustering-plots.R`: plotFRP_gg, plotCRV_gg, plotRRV_gg (binary + polytomous)
+  - `test-PolyBiclustering-plots.R`: plotFCRP_gg, plotFCBR_gg, plotScoreField_gg
+  - `test-LRAordinal-plots.R`: plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg, plotICBR_gg
+  - `test-DAG-plots.R`: plotGraph_gg (BNM)
+  - `test-utility.R`: combinePlots_gg
+  - `test-validation.R`: Cross-cutting input validation for all 24+ plot functions
+* Add input validation tests for all functions: NULL, data.frame, numeric, character, list inputs and wrong model type cross-checks.
+* Add common options tests for all functions: title (TRUE/FALSE/custom), colors, linetype, show_legend, legend_position.
+* Remove empty legacy test files (test_ICCtoTIC.R, test_IRPtoCMPRMP.R, test_option.R) and Rplots.pdf artifact.
+* Total: 433 PASS, 0 FAIL, 22 WARN (ggplot2 deprecation only), 4 SKIP (BNM fixture unavailable).
+
 # ggExametrika 0.0.27
 
 ## Common Options Unification
