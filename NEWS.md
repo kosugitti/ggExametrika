@@ -1,3 +1,11 @@
+# ggExametrika 0.0.26
+
+* Fix `plotCMP_gg()` and `plotRMP_gg()` to access Students columns by name (`Membership *`) instead of index position. Prevents column-shift bugs when exametrika adds columns (e.g., `Estimate`).
+* Fix `plotCMP_gg()` and `plotRMP_gg()` `$Nclass` reference to fallback chain: `n_class` -> `Nclass` -> `n_rank` -> `Nrank`. Now accepts LRA/Biclustering objects without errors.
+* Migrate `$Nclass`/`$Nfield` references in `plotArray_gg()` and `plotFieldPIRP_gg()` to new naming convention (`n_class`/`n_field`/`n_rank`) with fallback to deprecated names (`Nclass`/`Nfield`/`Nrank`).
+* Add internal utility `.first_non_null()` for safe fallback chains across naming conventions.
+* Full backward compatibility maintained with older exametrika versions.
+
 # ggExametrika 0.0.25
 
 * Fix class validation in `plotLCD_gg()`, `plotLRD_gg()`, `plotCMP_gg()`, and `plotRMP_gg()` to support polytomous biclustering models.

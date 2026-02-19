@@ -1,3 +1,20 @@
+#' Return the first non-NULL value from arguments
+#'
+#' Internal utility for fallback chains (e.g., new naming -> deprecated naming).
+#'
+#' @param ... Values to check in order.
+#' @return The first non-NULL value, or NULL if all are NULL.
+#' @keywords internal
+
+.first_non_null <- function(...) {
+  args <- list(...)
+  for (x in args) {
+    if (!is.null(x)) return(x)
+  }
+  return(NULL)
+}
+
+
 #' Default color palette for ggExametrika
 #'
 #' Returns the package default color palette (ColorBrewer Dark2).

@@ -291,9 +291,9 @@ plotArray_gg <- function(data,
       class_breaks <- cumsum(table(sorted_class))
       field_breaks <- cumsum(table(sorted_field))
 
-      # Use Nclass if available, otherwise use Nrank
-      n_class <- if (!is.null(data$Nclass)) data$Nclass else data$Nrank
-      n_field <- if (!is.null(data$Nfield)) data$Nfield else length(unique(data$FieldEstimated))
+      # 新名称優先、旧名称フォールバックでクラス数・フィールド数を取得
+      n_class <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
+      n_field <- .first_non_null(data$n_field, data$Nfield, length(unique(data$FieldEstimated)))
 
       h <- class_breaks[1:(n_class - 1)]
       v <- field_breaks[1:(n_field - 1)]
@@ -373,9 +373,10 @@ plotFieldPIRP_gg <- function(data) {
   }
 
 
-  n_cls <- data$Nclass
+  # 新名称優先、旧名称フォールバックでクラス数・フィールド数を取得
+  n_cls <- .first_non_null(data$n_rank, data$Nrank, data$n_class, data$Nclass)
 
-  n_field <- data$Nfield
+  n_field <- .first_non_null(data$n_field, data$Nfield)
 
   plots <- list()
 

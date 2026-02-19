@@ -868,25 +868,32 @@ plotCMP_gg <- function(data) {
   }
 
 
-  n_cls <- data$Nclass
+  # フォールバック付きでクラス/ランク数を取得（新名称優先）
+  n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
 
-  if (n_cls < 2 || n_cls > 20) {
+  if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
     stop("Invalid number of Class or Rank")
+  }
+
+  # 列名ベースでMembership列を取得（列ズレ防止）
+  membership_cols <- grep("^Membership", colnames(data$Students))
+  if (length(membership_cols) == 0) {
+    stop("No 'Membership' columns found in data$Students")
   }
 
   plots <- list()
 
   for (i in 1:nrow(data$Students)) {
     x <- data.frame(
-      Membership = c(data$Students[i, 1:n_cls]),
-      rank = c(1:n_cls)
+      Membership = as.numeric(data$Students[i, membership_cols]),
+      rank = seq_along(membership_cols)
     )
 
     plots[[i]] <- ggplot(x, aes(x = rank, y = Membership)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       geom_point() +
       geom_line(linetype = "dashed") +
-      scale_x_continuous(breaks = seq(1, n_cls, 1)) +
+      scale_x_continuous(breaks = seq_along(membership_cols)) +
       labs(
         title = paste0(
           xlabel,
@@ -976,25 +983,32 @@ plotRMP_gg <- function(data) {
   }
 
 
-  n_cls <- data$Nclass
+  # フォールバック付きでクラス/ランク数を取得（新名称優先）
+  n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
 
-  if (n_cls < 2 || n_cls > 20) {
+  if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
     stop("Invalid number of Class or Rank")
+  }
+
+  # 列名ベースでMembership列を取得（列ズレ防止）
+  membership_cols <- grep("^Membership", colnames(data$Students))
+  if (length(membership_cols) == 0) {
+    stop("No 'Membership' columns found in data$Students")
   }
 
   plots <- list()
 
   for (i in 1:nrow(data$Students)) {
     x <- data.frame(
-      Membership = c(data$Students[i, 1:n_cls]),
-      rank = c(1:n_cls)
+      Membership = as.numeric(data$Students[i, membership_cols]),
+      rank = seq_along(membership_cols)
     )
 
     plots[[i]] <- ggplot(x, aes(x = rank, y = Membership)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       geom_point() +
       geom_line(linetype = "dashed") +
-      scale_x_continuous(breaks = seq(1, n_cls, 1)) +
+      scale_x_continuous(breaks = seq_along(membership_cols)) +
       labs(
         title = paste0(
           xlabel,
