@@ -8,8 +8,10 @@ plotTIC_gg(
   data,
   xvariable = c(-4, 4),
   title = TRUE,
-  color = NULL,
-  linetype = "solid"
+  colors = NULL,
+  linetype = "solid",
+  show_legend = FALSE,
+  legend_position = "right"
 )
 }
 \arguments{
@@ -24,11 +26,18 @@ x-axis (ability). Default is \code{c(-4, 4)}.}
 auto-generated title. If \code{FALSE}, no title. If a character string,
 use it as a custom title.}
 
-\item{color}{Character. Color for the curve.
+\item{colors}{Character vector. Color(s) for the curve.
 If \code{NULL} (default), a colorblind-friendly palette is used.}
 
 \item{linetype}{Character or numeric specifying the line type.
 Default is \code{"solid"}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend.
+Default is \code{FALSE}.}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A single ggplot object showing the Test Information Curve.

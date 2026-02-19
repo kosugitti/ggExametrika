@@ -4,7 +4,15 @@
 \alias{plotLRD_gg}
 \title{Plot Latent Rank Distribution (LRD) from exametrika}
 \usage{
-plotLRD_gg(data, Num_Students = TRUE, title = TRUE)
+plotLRD_gg(
+  data,
+  Num_Students = TRUE,
+  title = TRUE,
+  colors = NULL,
+  linetype = "dashed",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "LRA")},
@@ -15,7 +23,23 @@ LCD will be plotted instead with a warning.}
 \item{Num_Students}{Logical. If \code{TRUE} (default), display the
 number of students on each bar.}
 
-\item{title}{Logical. If \code{TRUE} (default), display the plot title.}
+\item{title}{Logical or character. If \code{TRUE} (default), display the
+auto-generated title. If \code{FALSE}, no title. If a character string,
+use it as a custom title.}
+
+\item{colors}{Character vector of length 2. First element is the bar fill
+color, second is the line/point color. If \code{NULL} (default), uses
+gray for bars and black for line/points.}
+
+\item{linetype}{Character or numeric specifying the line type for the
+frequency line. Default is \code{"dashed"}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend.
+Default is \code{FALSE}.}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A single ggplot object with dual y-axes showing both the

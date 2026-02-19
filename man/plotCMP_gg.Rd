@@ -4,12 +4,36 @@
 \alias{plotCMP_gg}
 \title{Plot Class Membership Profile (CMP) from exametrika}
 \usage{
-plotCMP_gg(data)
+plotCMP_gg(
+  data,
+  title = TRUE,
+  colors = NULL,
+  linetype = "dashed",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "LCA")} or
 \code{c("exametrika", "BINET")}. If LRA, Biclustering, LDLRA, or LDB
 output is provided, RMP will be plotted instead with a warning.}
+
+\item{title}{Logical or character. If \code{TRUE} (default), display an
+auto-generated title. If \code{FALSE}, no title. If a character string,
+use it as a custom title (only for single-student plots).}
+
+\item{colors}{Character vector. Color(s) for points and lines.
+If \code{NULL} (default), a colorblind-friendly palette is used.}
+
+\item{linetype}{Character or numeric specifying the line type.
+Default is \code{"dashed"}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend.
+Default is \code{FALSE}.}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A list of ggplot objects, one for each student. Each plot shows

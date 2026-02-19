@@ -7,8 +7,22 @@
 #'
 #' @param data An object of class \code{c("exametrika", "IRT")} from
 #'   \code{exametrika::IRT()}.
+#' @param items Numeric vector specifying which items to plot.
+#'   If \code{NULL} (default), all items are plotted.
 #' @param xvariable A numeric vector of length 2 specifying the range of the
 #'   x-axis (ability). Default is \code{c(-4, 4)}.
+#' @param title Logical or character. If \code{TRUE} (default), display an
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title (only for single-item plots).
+#' @param colors Character vector. Color(s) for the curve.
+#'   If \code{NULL} (default), a colorblind-friendly palette is used.
+#' @param linetype Character or numeric specifying the line type.
+#'   Default is \code{"solid"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A list of ggplot objects, one for each item. Each plot shows the
 #'   Item Characteristic Curve for that item.
@@ -39,11 +53,18 @@
 #' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 ylim
 #' @importFrom ggplot2 stat_function
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 labs theme
 #' @export
 
 
-plotICC_gg <- function(data, xvariable = c(-4, 4)) {
+plotICC_gg <- function(data,
+                       items = NULL,
+                       xvariable = c(-4, 4),
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "solid",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   if (!all(class(data) %in% c("exametrika", "IRT"))) {
     stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
   }
@@ -58,9 +79,25 @@ plotICC_gg <- function(data, xvariable = c(-4, 4)) {
     stop("Invalid number of parameters.")
   }
 
+  n_items <- nrow(data$params)
+  if (is.null(items)) {
+    items <- 1:n_items
+  }
+  if (any(items < 1 | items > n_items)) {
+    stop("'items' must contain values between 1 and ", n_items)
+  }
+
+  # 色の設定
+  if (is.null(colors)) {
+    use_color <- .gg_exametrika_palette(1)[1]
+  } else {
+    use_color <- colors[1]
+  }
+
   plots <- list()
 
-  for (i in 1:nrow(data$params)) {
+  for (idx in seq_along(items)) {
+    i <- items[idx]
     args <- c(slope = data$params$slope[i], location = data$params$location[i])
     if (n_params == 3) {
       args["lowerAsym"] <- data$params$lowerAsym[i]
@@ -69,15 +106,34 @@ plotICC_gg <- function(data, xvariable = c(-4, 4)) {
       args["upperAsym"] <- data$params$upperAsym[i]
     }
 
-    plots[[i]] <- ggplot(data = data.frame(x = xvariable)) +
+    # タイトルの設定
+    if (is.logical(title) && title) {
+      plot_title <- paste0("Item Characteristic Curve, ", rownames(data$params)[i])
+    } else if (is.logical(title) && !title) {
+      plot_title <- NULL
+    } else {
+      plot_title <- title
+    }
+
+    p <- ggplot(data = data.frame(x = xvariable)) +
       xlim(xvariable[1], xvariable[2]) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      stat_function(fun = Item_Characteristic_function, args = args) +
+      stat_function(fun = Item_Characteristic_function, args = args,
+                    color = use_color, linetype = linetype) +
       labs(
-        title = paste0("Item Characteristic Curve, ", rownames(data$params)[i]),
+        title = plot_title,
         x = "ability",
         y = "probability"
       )
+
+    # 凡例の制御
+    if (!show_legend) {
+      p <- p + theme(legend.position = "none")
+    } else {
+      p <- p + theme(legend.position = legend_position)
+    }
+
+    plots[[idx]] <- p
   }
 
   return(plots)
@@ -408,10 +464,15 @@ plotIIC_gg <- function(data,
 #' @param title Logical or character. If \code{TRUE} (default), display an
 #'   auto-generated title. If \code{FALSE}, no title. If a character string,
 #'   use it as a custom title.
-#' @param color Character. Color for the curve.
+#' @param colors Character vector. Color(s) for the curve.
 #'   If \code{NULL} (default), a colorblind-friendly palette is used.
 #' @param linetype Character or numeric specifying the line type.
 #'   Default is \code{"solid"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A single ggplot object showing the Test Information Curve.
 #'
@@ -450,8 +511,10 @@ plotIIC_gg <- function(data,
 plotTIC_gg <- function(data,
                        xvariable = c(-4, 4),
                        title = TRUE,
-                       color = NULL,
-                       linetype = "solid") {
+                       colors = NULL,
+                       linetype = "solid",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   # Check model type
   is_IRT <- all(class(data) %in% c("exametrika", "IRT"))
   is_GRM <- all(class(data) %in% c("exametrika", "GRM"))
@@ -461,10 +524,10 @@ plotTIC_gg <- function(data,
   }
 
   # 色の設定
-  if (is.null(color)) {
+  if (is.null(colors)) {
     use_color <- .gg_exametrika_palette(1)[1]
   } else {
-    use_color <- color
+    use_color <- colors[1]
   }
 
   # タイトルの設定
@@ -507,6 +570,13 @@ plotTIC_gg <- function(data,
         y = "information"
       )
 
+    # 凡例の制御
+    if (!show_legend) {
+      plot <- plot + theme(legend.position = "none")
+    } else {
+      plot <- plot + theme(legend.position = legend_position)
+    }
+
     return(plot)
   }
 
@@ -545,6 +615,13 @@ plotTIC_gg <- function(data,
         y = "information"
       )
 
+    # 凡例の制御
+    if (!show_legend) {
+      plot <- plot + theme(legend.position = "none")
+    } else {
+      plot <- plot + theme(legend.position = legend_position)
+    }
+
     return(plot)
   }
 }
@@ -560,6 +637,18 @@ plotTIC_gg <- function(data,
 #'   \code{exametrika::IRT()}.
 #' @param xvariable A numeric vector of length 2 specifying the range of the
 #'   x-axis (ability). Default is \code{c(-4, 4)}.
+#' @param title Logical or character. If \code{TRUE} (default), display an
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title.
+#' @param colors Character vector. Color(s) for the curve.
+#'   If \code{NULL} (default), a colorblind-friendly palette is used.
+#' @param linetype Character or numeric specifying the line type.
+#'   Default is \code{"solid"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A single ggplot object showing the Test Response Function.
 #'
@@ -586,11 +675,17 @@ plotTIC_gg <- function(data,
 #' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 ylim
 #' @importFrom ggplot2 stat_function
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 labs theme
 #' @export
 
 
-plotTRF_gg <- function(data, xvariable = c(-4, 4)) {
+plotTRF_gg <- function(data,
+                       xvariable = c(-4, 4),
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "solid",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   if (!all(class(data) %in% c("exametrika", "IRT"))) {
     stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
   }
@@ -602,6 +697,22 @@ plotTRF_gg <- function(data, xvariable = c(-4, 4)) {
   }
 
   n_items <- nrow(data$params)
+
+  # 色の設定
+  if (is.null(colors)) {
+    use_color <- .gg_exametrika_palette(1)[1]
+  } else {
+    use_color <- colors[1]
+  }
+
+  # タイトルの設定
+  if (is.logical(title) && title) {
+    plot_title <- "Test Response Function"
+  } else if (is.logical(title) && !title) {
+    plot_title <- NULL
+  } else {
+    plot_title <- title
+  }
 
   multi <- function(x) {
     total <- 0
@@ -620,12 +731,19 @@ plotTRF_gg <- function(data, xvariable = c(-4, 4)) {
   plot <- ggplot(data = data.frame(x = xvariable)) +
     xlim(xvariable[1], xvariable[2]) +
     ylim(0, n_items) +
-    stat_function(fun = multi) +
+    stat_function(fun = multi, color = use_color, linetype = linetype) +
     labs(
-      title = "Test Response Function",
+      title = plot_title,
       x = "ability",
       y = "expected score"
     )
+
+  # 凡例の制御
+  if (!show_legend) {
+    plot <- plot + theme(legend.position = "none")
+  } else {
+    plot <- plot + theme(legend.position = legend_position)
+  }
 
   return(plot)
 }

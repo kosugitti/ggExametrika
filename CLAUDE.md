@@ -12,6 +12,14 @@ CRAN公開を目指す。
 
 ## 開発方針
 
+### 変更記録ルール（恒久・厳守）
+
+**軽微なバグ修正でも何でも、変更を加えたら必ずNEWS.mdに記録すること。**
+
+これは殿（プロジェクトオーナー）からの全体指示であり、全ての作業に適用される恒久的なルールである。
+コードの変更、ドキュメントの修正、リファクタリング、バグ修正など、種類や規模を問わず、
+変更があればNEWS.mdに記録する。記録を省略してはならない。
+
 ### コーディング規約
 - roxygen2によるドキュメント生成
 - testthatによるユニットテスト
@@ -184,20 +192,20 @@ ggExametrikaでは別関数として実装し、より明示的に使い分け�
 #### 既存関数の共通オプション対応（TODO）
 以下の関数に共通オプション（title, colors, linetype, show_legend, legend_position）を追加する。
 
-- [ ] plotICC_gg — title(ハードコード), colors/linetype/legend なし
+- [x] plotICC_gg — 共通オプション対応済み (v0.0.27)
 - [x] plotIIC_gg — 共通オプション対応済み (IRT/GRM両対応)
-- [x] plotTIC_gg — 共通オプション対応済み (IRT/GRM両対応)
-- [ ] plotTRF_gg — title(ハードコード), colors/linetype/legend なし
-- [ ] plotIRP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
+- [x] plotTIC_gg — 共通オプション対応済み (IRT/GRM両対応、v0.0.27でcolor→colors改名)
+- [x] plotTRF_gg — 共通オプション対応済み (v0.0.27)
+- [x] plotIRP_gg — 共通オプション対応済み (v0.0.27)
 - [x] plotFRP_gg — 共通オプション対応済み（2値・多値両対応、stat パラメータ含む）
-- [ ] plotTRP_gg — title(logical対応済み), colors/linetype/legend 未対応
-- [ ] plotLCD_gg — title(logical対応済み), colors/linetype/legend 未対応
-- [ ] plotLRD_gg — title(logical対応済み), colors/linetype/legend 未対応
-- [ ] plotCMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
-- [ ] plotRMP_gg — title(ハードコード), linetype(dashed固定), colors/legend なし
+- [x] plotTRP_gg — 共通オプション対応済み (v0.0.27、colors[1]=bar fill, colors[2]=line color)
+- [x] plotLCD_gg — 共通オプション対応済み (v0.0.27、colors[1]=bar fill, colors[2]=line color)
+- [x] plotLRD_gg — 共通オプション対応済み (v0.0.27、colors[1]=bar fill, colors[2]=line color)
+- [x] plotCMP_gg — 共通オプション対応済み (v0.0.27)
+- [x] plotRMP_gg — 共通オプション対応済み (v0.0.27)
 - [x] plotArray_gg — 共通オプション対応済み（多値データ対応含む）
-- [ ] plotFieldPIRP_gg — title(ハードコード), colors/linetype/legend なし
-- [ ] plotGraph_gg — 独自オプション多数、共通オプションとの整合性を検討
+- [x] plotFieldPIRP_gg — 共通オプション対応済み (v0.0.27)
+- [x] plotGraph_gg — 共通オプション対応済み (v0.0.27、title/colors/show_legend/legend_position。linetypeはDAGには不適合のため除外)
 
 #### 新規実装予定関数（v1.9.0対応、共通オプションは実装時に検討）
 - [x] plotFCRP_gg — v1.9.0新規（style パラメータ: line/bar）実装済み

@@ -336,6 +336,19 @@ plotArray_gg <- function(data,
 #' function of the number-right score in parent fields.
 #'
 #' @param data An object of class \code{c("exametrika", "LDB")}.
+#' @param title Logical or character. If \code{TRUE} (default), display an
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title prefix (rank number will be appended).
+#' @param colors Character vector. Colors for each field line.
+#'   If \code{NULL} (default), uses black for all lines (with text labels
+#'   for field identification).
+#' @param linetype Character or numeric specifying the line type.
+#'   Default is \code{"solid"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE} (uses text labels instead).
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A list of ggplot objects, one for each rank. Each plot shows
 #'   the correct response rate curves for all fields at that rank level.
@@ -359,15 +372,21 @@ plotArray_gg <- function(data,
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}}
 #'
-#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 ggplot aes
 #' @importFrom ggplot2 ylim
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 geom_text
 #' @importFrom ggplot2 scale_x_continuous
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_color_manual
+#' @importFrom ggplot2 labs theme
 #' @export
 
-plotFieldPIRP_gg <- function(data) {
+plotFieldPIRP_gg <- function(data,
+                              title = TRUE,
+                              colors = NULL,
+                              linetype = "solid",
+                              show_legend = FALSE,
+                              legend_position = "right") {
   if (all(class(data) %in% c("exametrika", "LDB"))) {} else {
     stop("Invalid input. The variable must be from exametrika output or from LDB.")
   }
@@ -377,6 +396,13 @@ plotFieldPIRP_gg <- function(data) {
   n_cls <- .first_non_null(data$n_rank, data$Nrank, data$n_class, data$Nclass)
 
   n_field <- .first_non_null(data$n_field, data$Nfield)
+
+  # 色の設定
+  if (is.null(colors)) {
+    use_colors <- .gg_exametrika_palette(n_field)
+  } else {
+    use_colors <- rep_len(colors, n_field)
+  }
 
   plots <- list()
 
@@ -399,21 +425,42 @@ plotFieldPIRP_gg <- function(data) {
       plot_data <- rbind(plot_data, field_data)
     }
 
-    plots[[i]] <-
-      ggplot(plot_data, aes(
-        x = l,
-        y = k,
-        group = field
-      )) +
+    # タイトルの設定
+    if (is.logical(title) && title) {
+      plot_title <- paste0("Rank ", i)
+    } else if (is.logical(title) && !title) {
+      plot_title <- NULL
+    } else {
+      plot_title <- paste0(title, " - Rank ", i)
+    }
+
+    p <- ggplot(plot_data, aes(
+      x = l,
+      y = k,
+      group = field,
+      color = field
+    )) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       scale_x_continuous(breaks = seq(0, max(plot_data$l), 1)) +
-      geom_line() +
-      geom_text(aes(x = l, y = k - 0.02), label = substr(plot_data$field, 7, 8)) +
+      geom_line(linetype = linetype) +
+      geom_text(aes(x = l, y = k - 0.02, label = substr(field, 7, 8)),
+                show.legend = FALSE) +
+      scale_color_manual(values = use_colors) +
       labs(
-        title = paste0("Rank ", i),
+        title = plot_title,
         x = "PIRP(Number-Right Score) in Parent Field(s) ",
-        y = "Correct Response Rate"
+        y = "Correct Response Rate",
+        color = "Field"
       )
+
+    # 凡例の制御
+    if (!show_legend) {
+      p <- p + theme(legend.position = "none")
+    } else {
+      p <- p + theme(legend.position = legend_position)
+    }
+
+    plots[[i]] <- p
   }
 
   return(plots)

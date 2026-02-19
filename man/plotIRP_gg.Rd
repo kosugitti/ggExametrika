@@ -4,11 +4,35 @@
 \alias{plotIRP_gg}
 \title{Plot Item Reference Profile (IRP) from exametrika}
 \usage{
-plotIRP_gg(data)
+plotIRP_gg(
+  data,
+  title = TRUE,
+  colors = NULL,
+  linetype = "dashed",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "LCA")},
 \code{c("exametrika", "LRA")}, or \code{c("exametrika", "LDLRA")}.}
+
+\item{title}{Logical or character. If \code{TRUE} (default), display an
+auto-generated title. If \code{FALSE}, no title. If a character string,
+use it as a custom title (only for single-item plots).}
+
+\item{colors}{Character vector. Color(s) for points and lines.
+If \code{NULL} (default), a colorblind-friendly palette is used.}
+
+\item{linetype}{Character or numeric specifying the line type.
+Default is \code{"dashed"}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend.
+Default is \code{FALSE}.}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A list of ggplot objects, one for each item. Each plot shows the

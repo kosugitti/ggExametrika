@@ -8,6 +8,18 @@
 #'
 #' @param data An object of class \code{c("exametrika", "LCA")},
 #'   \code{c("exametrika", "LRA")}, or \code{c("exametrika", "LDLRA")}.
+#' @param title Logical or character. If \code{TRUE} (default), display an
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title (only for single-item plots).
+#' @param colors Character vector. Color(s) for points and lines.
+#'   If \code{NULL} (default), a colorblind-friendly palette is used.
+#' @param linetype Character or numeric specifying the line type.
+#'   Default is \code{"dashed"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A list of ggplot objects, one for each item. Each plot shows the
 #'   correct response rate across latent classes or ranks.
@@ -32,10 +44,15 @@
 #' @importFrom ggplot2 geom_point
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 scale_x_continuous
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 labs theme
 #' @export
 
-plotIRP_gg <- function(data) {
+plotIRP_gg <- function(data,
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "dashed",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   if (all(class(data) %in% c("exametrika", "LCA"))) {
     xlabel <- "Latent Class"
   } else if (all(class(data) %in% c("exametrika", "LRA")) || all(class(data) %in% c("exametrika", "LDLRA"))) {
@@ -44,6 +61,12 @@ plotIRP_gg <- function(data) {
     stop("Invalid input. The variable must be from exametrika output or from either LCA, LRA, or LDLRA.")
   }
 
+  # 色の設定
+  if (is.null(colors)) {
+    use_color <- .gg_exametrika_palette(1)[1]
+  } else {
+    use_color <- colors[1]
+  }
 
   n_cls <- ncol(data$IRP)
 
@@ -59,16 +82,34 @@ plotIRP_gg <- function(data) {
       rank = c(1:n_cls)
     )
 
-    plots[[i]] <- ggplot(x, aes(x = rank, y = CRR)) +
+    # タイトルの設定
+    if (is.logical(title) && title) {
+      plot_title <- paste0("Item Reference Profile, ", rownames(data$IRP)[i])
+    } else if (is.logical(title) && !title) {
+      plot_title <- NULL
+    } else {
+      plot_title <- title
+    }
+
+    p <- ggplot(x, aes(x = rank, y = CRR)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      geom_point() +
-      geom_line(linetype = "dashed") +
+      geom_point(color = use_color) +
+      geom_line(linetype = linetype, color = use_color) +
       scale_x_continuous(breaks = seq(1, n_cls, 1)) +
       labs(
-        title = paste0("Item Reference Profile, ", rownames(data$IRP)[i]),
+        title = plot_title,
         x = xlabel,
         y = "Correct Response Rate"
       )
+
+    # 凡例の制御
+    if (!show_legend) {
+      p <- p + theme(legend.position = "none")
+    } else {
+      p <- p + theme(legend.position = legend_position)
+    }
+
+    plots[[i]] <- p
   }
 
   return(plots)
@@ -325,7 +366,19 @@ plotFRP_gg <- function(data,
 #'   LDB, or BINET output.
 #' @param Num_Students Logical. If \code{TRUE} (default), display the
 #'   number of students on each bar.
-#' @param title Logical. If \code{TRUE} (default), display the plot title.
+#' @param title Logical or character. If \code{TRUE} (default), display the
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title.
+#' @param colors Character vector of length 2. First element is the bar fill
+#'   color, second is the line/point color. If \code{NULL} (default), uses
+#'   gray for bars and black for line/points.
+#' @param linetype Character or numeric specifying the line type for the
+#'   expected score line. Default is \code{"dashed"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A single ggplot object with dual y-axes showing both the
 #'   student distribution and expected scores.
@@ -361,7 +414,11 @@ plotFRP_gg <- function(data,
 
 plotTRP_gg <- function(data,
                        Num_Students = TRUE,
-                       title = TRUE) {
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "dashed",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   if (all(class(data) %in% c("exametrika", "LCA")) ||
     all(class(data) %in% c("exametrika", "BINET"))) {
     xlabel <- "Latent Class"
@@ -421,21 +478,35 @@ plotTRP_gg <- function(data,
     Num_label <- ""
   }
 
-  if (title == T) {
-    title <- "Test Reference Profile"
+  # 色の設定
+  if (is.null(colors)) {
+    bar_fill <- "gray"
+    line_color <- "black"
   } else {
-    title <- ""
+    bar_fill <- colors[1]
+    line_color <- if (length(colors) >= 2) colors[2] else "black"
+  }
+
+  # タイトルの設定
+  if (is.logical(title) && title) {
+    plot_title <- "Test Reference Profile"
+  } else if (is.logical(title) && !title) {
+    plot_title <- NULL
+  } else {
+    plot_title <- title
   }
 
 
   plot <- ggplot(x1, aes(x = LC, y = Num)) +
     geom_bar(
       stat = "identity",
-      fill = "gray",
+      fill = bar_fill,
       colour = "black"
     ) +
-    geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), size = 2.1) +
-    geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)), linetype = "dashed") +
+    geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)),
+               size = 2.1, color = line_color) +
+    geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)),
+              linetype = linetype, color = line_color) +
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
@@ -451,10 +522,16 @@ plotTRP_gg <- function(data,
     ) +
     theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
     labs(
-      title = title,
+      title = plot_title,
       x = xlabel
     )
 
+  # 凡例の制御
+  if (!show_legend) {
+    plot <- plot + theme(legend.position = "none")
+  } else {
+    plot <- plot + theme(legend.position = legend_position)
+  }
 
   return(plot)
 }
@@ -473,7 +550,19 @@ plotTRP_gg <- function(data,
 #'   is provided, LRD will be plotted instead with a warning.
 #' @param Num_Students Logical. If \code{TRUE} (default), display the
 #'   number of students on each bar.
-#' @param title Logical. If \code{TRUE} (default), display the plot title.
+#' @param title Logical or character. If \code{TRUE} (default), display the
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title.
+#' @param colors Character vector of length 2. First element is the bar fill
+#'   color, second is the line/point color. If \code{NULL} (default), uses
+#'   gray for bars and black for line/points.
+#' @param linetype Character or numeric specifying the line type for the
+#'   frequency line. Default is \code{"dashed"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A single ggplot object with dual y-axes showing both the
 #'   student count and membership frequency.
@@ -507,7 +596,11 @@ plotTRP_gg <- function(data,
 
 plotLCD_gg <- function(data,
                        Num_Students = TRUE,
-                       title = TRUE) {
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "dashed",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   # Validate exametrika object
   if (!inherits(data, "exametrika")) {
     stop("Invalid input. The variable must be from exametrika output.")
@@ -578,25 +671,39 @@ plotLCD_gg <- function(data,
     Num_label <- ""
   }
 
-  if (title == T) {
-    if (mode == TRUE) {
-      title <- "Latent Class Distribution"
-    } else if (mode == FALSE) {
-      title <- "Latent Rank Distribution"
-    }
+  # 色の設定
+  if (is.null(colors)) {
+    bar_fill <- "gray"
+    line_color <- "black"
   } else {
-    title <- ""
+    bar_fill <- colors[1]
+    line_color <- if (length(colors) >= 2) colors[2] else "black"
+  }
+
+  # タイトルの設定
+  if (is.logical(title) && title) {
+    if (mode == TRUE) {
+      plot_title <- "Latent Class Distribution"
+    } else {
+      plot_title <- "Latent Rank Distribution"
+    }
+  } else if (is.logical(title) && !title) {
+    plot_title <- NULL
+  } else {
+    plot_title <- title
   }
 
 
   plot <- ggplot(x1, aes(x = LC, y = Num)) +
     geom_bar(
       stat = "identity",
-      fill = "gray",
+      fill = bar_fill,
       colour = "black"
     ) +
-    geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)), size = 2.1) +
-    geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)), linetype = "dashed") +
+    geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
+               size = 2.1, color = line_color) +
+    geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
+              linetype = linetype, color = line_color) +
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
@@ -612,10 +719,16 @@ plotLCD_gg <- function(data,
     ) +
     theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
     labs(
-      title = title,
+      title = plot_title,
       x = xlabel
     )
 
+  # 凡例の制御
+  if (!show_legend) {
+    plot <- plot + theme(legend.position = "none")
+  } else {
+    plot <- plot + theme(legend.position = legend_position)
+  }
 
   return(plot)
 }
@@ -634,7 +747,19 @@ plotLCD_gg <- function(data,
 #'   LCD will be plotted instead with a warning.
 #' @param Num_Students Logical. If \code{TRUE} (default), display the
 #'   number of students on each bar.
-#' @param title Logical. If \code{TRUE} (default), display the plot title.
+#' @param title Logical or character. If \code{TRUE} (default), display the
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title.
+#' @param colors Character vector of length 2. First element is the bar fill
+#'   color, second is the line/point color. If \code{NULL} (default), uses
+#'   gray for bars and black for line/points.
+#' @param linetype Character or numeric specifying the line type for the
+#'   frequency line. Default is \code{"dashed"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A single ggplot object with dual y-axes showing both the
 #'   student count and membership frequency.
@@ -667,7 +792,11 @@ plotLCD_gg <- function(data,
 
 plotLRD_gg <- function(data,
                        Num_Students = TRUE,
-                       title = TRUE) {
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "dashed",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   # Validate exametrika object
   if (!inherits(data, "exametrika")) {
     stop("Invalid input. The variable must be from exametrika output.")
@@ -735,25 +864,39 @@ plotLRD_gg <- function(data,
     Num_label <- ""
   }
 
-  if (title == T) {
-    if (mode == TRUE) {
-      title <- "Latent Class Distribution"
-    } else if (mode == FALSE) {
-      title <- "Latent Rank Distribution"
-    }
+  # 色の設定
+  if (is.null(colors)) {
+    bar_fill <- "gray"
+    line_color <- "black"
   } else {
-    title <- ""
+    bar_fill <- colors[1]
+    line_color <- if (length(colors) >= 2) colors[2] else "black"
+  }
+
+  # タイトルの設定
+  if (is.logical(title) && title) {
+    if (mode == TRUE) {
+      plot_title <- "Latent Class Distribution"
+    } else {
+      plot_title <- "Latent Rank Distribution"
+    }
+  } else if (is.logical(title) && !title) {
+    plot_title <- NULL
+  } else {
+    plot_title <- title
   }
 
 
   plot <- ggplot(x1, aes(x = LC, y = Num)) +
     geom_bar(
       stat = "identity",
-      fill = "gray",
+      fill = bar_fill,
       colour = "black"
     ) +
-    geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)), size = 2.1) +
-    geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)), linetype = "dashed") +
+    geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
+               size = 2.1, color = line_color) +
+    geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
+              linetype = linetype, color = line_color) +
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
@@ -769,10 +912,16 @@ plotLRD_gg <- function(data,
     ) +
     theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
     labs(
-      title = title,
+      title = plot_title,
       x = xlabel
     )
 
+  # 凡例の制御
+  if (!show_legend) {
+    plot <- plot + theme(legend.position = "none")
+  } else {
+    plot <- plot + theme(legend.position = legend_position)
+  }
 
   return(plot)
 }
@@ -788,6 +937,18 @@ plotLRD_gg <- function(data,
 #' @param data An object of class \code{c("exametrika", "LCA")} or
 #'   \code{c("exametrika", "BINET")}. If LRA, Biclustering, LDLRA, or LDB
 #'   output is provided, RMP will be plotted instead with a warning.
+#' @param title Logical or character. If \code{TRUE} (default), display an
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title (only for single-student plots).
+#' @param colors Character vector. Color(s) for points and lines.
+#'   If \code{NULL} (default), a colorblind-friendly palette is used.
+#' @param linetype Character or numeric specifying the line type.
+#'   Default is \code{"dashed"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A list of ggplot objects, one for each student. Each plot shows
 #'   the membership probability across all latent classes.
@@ -813,11 +974,16 @@ plotLRD_gg <- function(data,
 #' @importFrom ggplot2 geom_point
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 scale_x_continuous
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 labs theme
 #' @export
 
 
-plotCMP_gg <- function(data) {
+plotCMP_gg <- function(data,
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "dashed",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   # Validate exametrika object
   if (!inherits(data, "exametrika")) {
     stop("Invalid input. The variable must be from exametrika output.")
@@ -857,6 +1023,13 @@ plotCMP_gg <- function(data) {
     stop("Invalid number of Class or Rank")
   }
 
+  # 色の設定
+  if (is.null(colors)) {
+    use_color <- .gg_exametrika_palette(1)[1]
+  } else {
+    use_color <- colors[1]
+  }
+
   # 列名ベースでMembership列を取得（列ズレ防止）
   membership_cols <- grep("^Membership", colnames(data$Students))
   if (length(membership_cols) == 0) {
@@ -871,20 +1044,38 @@ plotCMP_gg <- function(data) {
       rank = seq_along(membership_cols)
     )
 
-    plots[[i]] <- ggplot(x, aes(x = rank, y = Membership)) +
+    # タイトルの設定
+    if (is.logical(title) && title) {
+      plot_title <- paste0(
+        xlabel,
+        " Membership Profile, ",
+        rownames(data$Students)[i]
+      )
+    } else if (is.logical(title) && !title) {
+      plot_title <- NULL
+    } else {
+      plot_title <- title
+    }
+
+    p <- ggplot(x, aes(x = rank, y = Membership)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      geom_point() +
-      geom_line(linetype = "dashed") +
+      geom_point(color = use_color) +
+      geom_line(linetype = linetype, color = use_color) +
       scale_x_continuous(breaks = seq_along(membership_cols)) +
       labs(
-        title = paste0(
-          xlabel,
-          " Membership Profile, ",
-          rownames(data$Students)[i]
-        ),
+        title = plot_title,
         x = paste0("Latent ", xlabel),
         y = "Membership"
       )
+
+    # 凡例の制御
+    if (!show_legend) {
+      p <- p + theme(legend.position = "none")
+    } else {
+      p <- p + theme(legend.position = legend_position)
+    }
+
+    plots[[i]] <- p
   }
 
   return(plots)
@@ -901,6 +1092,18 @@ plotCMP_gg <- function(data) {
 #'   \code{c("exametrika", "Biclustering")}, \code{c("exametrika", "LDLRA")},
 #'   or \code{c("exametrika", "LDB")}. If LCA or BINET output is provided,
 #'   CMP will be plotted instead with a warning.
+#' @param title Logical or character. If \code{TRUE} (default), display an
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title (only for single-student plots).
+#' @param colors Character vector. Color(s) for points and lines.
+#'   If \code{NULL} (default), a colorblind-friendly palette is used.
+#' @param linetype Character or numeric specifying the line type.
+#'   Default is \code{"dashed"}.
+#' @param show_legend Logical. If \code{TRUE}, display the legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
 #'
 #' @return A list of ggplot objects, one for each student. Each plot shows
 #'   the membership probability across all latent ranks.
@@ -926,10 +1129,15 @@ plotCMP_gg <- function(data) {
 #' @importFrom ggplot2 geom_point
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 scale_x_continuous
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 labs theme
 #' @export
 
-plotRMP_gg <- function(data) {
+plotRMP_gg <- function(data,
+                       title = TRUE,
+                       colors = NULL,
+                       linetype = "dashed",
+                       show_legend = FALSE,
+                       legend_position = "right") {
   # Validate exametrika object
   if (!inherits(data, "exametrika")) {
     stop("Invalid input. The variable must be from exametrika output.")
@@ -965,6 +1173,13 @@ plotRMP_gg <- function(data) {
   }
 
 
+  # 色の設定
+  if (is.null(colors)) {
+    use_color <- .gg_exametrika_palette(1)[1]
+  } else {
+    use_color <- colors[1]
+  }
+
   # フォールバック付きでクラス/ランク数を取得（新名称優先）
   n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
 
@@ -986,20 +1201,38 @@ plotRMP_gg <- function(data) {
       rank = seq_along(membership_cols)
     )
 
-    plots[[i]] <- ggplot(x, aes(x = rank, y = Membership)) +
+    # タイトルの設定
+    if (is.logical(title) && title) {
+      plot_title <- paste0(
+        xlabel,
+        " Membership Profile, ",
+        rownames(data$Students)[i]
+      )
+    } else if (is.logical(title) && !title) {
+      plot_title <- NULL
+    } else {
+      plot_title <- title
+    }
+
+    p <- ggplot(x, aes(x = rank, y = Membership)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      geom_point() +
-      geom_line(linetype = "dashed") +
+      geom_point(color = use_color) +
+      geom_line(linetype = linetype, color = use_color) +
       scale_x_continuous(breaks = seq_along(membership_cols)) +
       labs(
-        title = paste0(
-          xlabel,
-          " Membership Profile, ",
-          rownames(data$Students)[i]
-        ),
+        title = plot_title,
         x = paste0("Latent ", xlabel),
         y = "Membership"
       )
+
+    # 凡例の制御
+    if (!show_legend) {
+      p <- p + theme(legend.position = "none")
+    } else {
+      p <- p + theme(legend.position = legend_position)
+    }
+
+    plots[[i]] <- p
   }
 
   return(plots)

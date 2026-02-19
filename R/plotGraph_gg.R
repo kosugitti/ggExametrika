@@ -26,7 +26,22 @@
 #' @param node_size Numeric value for node size. Default is 12.
 #' @param label_size Numeric value for label text size inside nodes. Default is 4.
 #' @param arrow_size Numeric value for arrow size. Default is 3.
-#' @param title Optional character string for plot title. If NULL, auto-generated.
+#' @param title Logical or character. If \code{TRUE} (default), display an
+#'   auto-generated title. If \code{FALSE}, no title. If a character string,
+#'   use it as a custom title.
+#' @param colors Character vector. Colors for node types.
+#'   For BNM: single color for Item nodes.
+#'   For future models (LDLRA/LDB/BINET): colors for different node types.
+#'   If \code{NULL} (default), uses the default node type colors
+#'   (Item=purple, Field=green, Class=blue).
+#' @param show_legend Logical. If \code{TRUE}, display the node type legend.
+#'   Default is \code{FALSE}.
+#' @param legend_position Character. Position of the legend.
+#'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+#'   \code{"left"}, \code{"none"}.
+#'
+#' @note The \code{linetype} common option is not applicable to DAG visualization,
+#'   as edges are drawn as directed arrows rather than standard lines.
 #'
 #' @return A list of ggplot objects. For BNM, a single-element list.
 #'   For LDLRA/LDB, one plot per rank/class. For BINET, the integrated graph.
@@ -99,7 +114,10 @@ plotGraph_gg <- function(data,
                          node_size = 12,
                          label_size = 4,
                          arrow_size = 3,
-                         title = NULL) {
+                         title = TRUE,
+                         colors = NULL,
+                         show_legend = FALSE,
+                         legend_position = "right") {
 
   # Check class
   model_class <- class(data)[2]
@@ -148,8 +166,21 @@ plotGraph_gg <- function(data,
     scaled_arrow_size <- max(arrow_size * scale_factor, 2.0)  # Minimum 2mm for arrows
     scaled_label_size <- label_size * scale_factor
 
-    # Create plot
-    plot_title <- if (is.null(title)) "Bayesian Network Model" else title
+    # ノード色の設定
+    if (is.null(colors)) {
+      item_color <- "#A23B72"  # Purple (default)
+    } else {
+      item_color <- colors[1]
+    }
+
+    # タイトルの設定
+    if (is.logical(title) && title) {
+      plot_title <- "Bayesian Network Model"
+    } else if (is.logical(title) && !title) {
+      plot_title <- NULL
+    } else {
+      plot_title <- title
+    }
 
     # Compute layout and apply direction transformation
     if (layout == "sugiyama") {
@@ -201,22 +232,35 @@ plotGraph_gg <- function(data,
       ) +
       # Color scale for nodes
       ggplot2::scale_fill_manual(
-        values = c("Item" = "#A23B72"),  # Purple
+        values = c("Item" = item_color),
         name = "",
         labels = c("Item" = "Item")
       ) +
       # Theme and labels
       ggplot2::theme_void() +
-      ggplot2::ggtitle(plot_title) +
       ggplot2::theme(
-        plot.title = ggplot2::element_text(
-          size = 14,
-          face = "bold",
-          hjust = 0.5,
-          margin = ggplot2::margin(b = 10)
-        ),
         plot.margin = ggplot2::margin(15, 15, 15, 15)  # Add margin to prevent cutoff
       )
+
+    # タイトルの設定
+    if (!is.null(plot_title)) {
+      p <- p + ggplot2::ggtitle(plot_title) +
+        ggplot2::theme(
+          plot.title = ggplot2::element_text(
+            size = 14,
+            face = "bold",
+            hjust = 0.5,
+            margin = ggplot2::margin(b = 10)
+          )
+        )
+    }
+
+    # 凡例の制御
+    if (!show_legend) {
+      p <- p + ggplot2::theme(legend.position = "none")
+    } else {
+      p <- p + ggplot2::theme(legend.position = legend_position)
+    }
 
     return(list(p))
   }

@@ -4,10 +4,35 @@
 \alias{plotFieldPIRP_gg}
 \title{Plot Field PIRP (Parent Item Reference Profile) from exametrika}
 \usage{
-plotFieldPIRP_gg(data)
+plotFieldPIRP_gg(
+  data,
+  title = TRUE,
+  colors = NULL,
+  linetype = "solid",
+  show_legend = FALSE,
+  legend_position = "right"
+)
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "LDB")}.}
+
+\item{title}{Logical or character. If \code{TRUE} (default), display an
+auto-generated title. If \code{FALSE}, no title. If a character string,
+use it as a custom title prefix (rank number will be appended).}
+
+\item{colors}{Character vector. Colors for each field line.
+If \code{NULL} (default), uses black for all lines (with text labels
+for field identification).}
+
+\item{linetype}{Character or numeric specifying the line type.
+Default is \code{"solid"}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend.
+Default is \code{FALSE} (uses text labels instead).}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A list of ggplot objects, one for each rank. Each plot shows

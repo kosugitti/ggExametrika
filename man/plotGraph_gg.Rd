@@ -11,7 +11,10 @@ plotGraph_gg(
   node_size = 12,
   label_size = 4,
   arrow_size = 3,
-  title = NULL
+  title = TRUE,
+  colors = NULL,
+  show_legend = FALSE,
+  legend_position = "right"
 )
 }
 \arguments{
@@ -42,7 +45,22 @@ For other layouts (e.g., "fr", "kk"), this parameter is ignored.}
 
 \item{arrow_size}{Numeric value for arrow size. Default is 3.}
 
-\item{title}{Optional character string for plot title. If NULL, auto-generated.}
+\item{title}{Logical or character. If \code{TRUE} (default), display an
+auto-generated title. If \code{FALSE}, no title. If a character string,
+use it as a custom title.}
+
+\item{colors}{Character vector. Colors for node types.
+For BNM: single color for Item nodes.
+For future models (LDLRA/LDB/BINET): colors for different node types.
+If \code{NULL} (default), uses the default node type colors
+(Item=purple, Field=green, Class=blue).}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the node type legend.
+Default is \code{FALSE}.}
+
+\item{legend_position}{Character. Position of the legend.
+One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
+\code{"left"}, \code{"none"}.}
 }
 \value{
 A list of ggplot objects. For BNM, a single-element list.
@@ -81,6 +99,10 @@ The function automatically scales node and arrow sizes based on graph complexity
 \item 21+ nodes: 50\\% size
 }
 Arrows maintain a minimum size of 2mm to ensure visibility.
+}
+\note{
+The \code{linetype} common option is not applicable to DAG visualization,
+as edges are drawn as directed arrows rather than standard lines.
 }
 \examples{
 \dontrun{

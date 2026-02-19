@@ -1,3 +1,26 @@
+# ggExametrika 0.0.27
+
+## Common Options Unification
+
+Add common plot options (title, colors, linetype, show_legend, legend_position) to 11 functions for API consistency.
+
+### Fully new common options (6 functions)
+* Add common options to `plotICC_gg()`: title (logical/character), colors, linetype, show_legend, legend_position. Also add `items` parameter for selecting which items to plot.
+* Add common options to `plotTRF_gg()`: title (logical/character), colors, linetype, show_legend, legend_position.
+* Add common options to `plotIRP_gg()`: title (logical/character), colors, linetype (default: "dashed"), show_legend, legend_position.
+* Add common options to `plotCMP_gg()`: title (logical/character), colors, linetype (default: "dashed"), show_legend, legend_position.
+* Add common options to `plotRMP_gg()`: title (logical/character), colors, linetype (default: "dashed"), show_legend, legend_position.
+* Add common options to `plotFieldPIRP_gg()`: title (logical/character), colors (per-field), linetype, show_legend, legend_position.
+
+### Supplemented missing options (4 functions)
+* Rename `color` to `colors` in `plotTIC_gg()` for API consistency. Add `show_legend` and `legend_position` parameters.
+* Add `colors`, `linetype`, `show_legend`, `legend_position` to `plotTRP_gg()`. Extend `title` to support character strings. colors[1]=bar fill, colors[2]=line/point color.
+* Add `colors`, `linetype`, `show_legend`, `legend_position` to `plotLCD_gg()`. Extend `title` to support character strings. colors[1]=bar fill, colors[2]=line/point color.
+* Add `colors`, `linetype`, `show_legend`, `legend_position` to `plotLRD_gg()`. Extend `title` to support character strings. colors[1]=bar fill, colors[2]=line/point color.
+
+### DAG visualization (1 function)
+* Add `title` (logical/character), `colors` (node fill), `show_legend`, `legend_position` to `plotGraph_gg()`. Note: `linetype` is not applicable to DAG edge arrows.
+
 # ggExametrika 0.0.26
 
 * Fix `plotCMP_gg()` and `plotRMP_gg()` to access Students columns by name (`Membership *`) instead of index position. Prevents column-shift bugs when exametrika adds columns (e.g., `Estimate`).
