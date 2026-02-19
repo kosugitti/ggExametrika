@@ -1,5 +1,47 @@
 # Changelog
 
+## ggExametrika 0.0.26
+
+- Fix
+  [`plotCMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.md)
+  and
+  [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md)
+  to access Students columns by name (`Membership *`) instead of index
+  position. Prevents column-shift bugs when exametrika adds columns
+  (e.g., `Estimate`).
+- Fix
+  [`plotCMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.md)
+  and
+  [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md)
+  `$Nclass` reference to fallback chain: `n_class` -\> `Nclass` -\>
+  `n_rank` -\> `Nrank`. Now accepts LRA/Biclustering objects without
+  errors.
+- Migrate `$Nclass`/`$Nfield` references in
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  and
+  [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md)
+  to new naming convention (`n_class`/`n_field`/`n_rank`) with fallback
+  to deprecated names (`Nclass`/`Nfield`/`Nrank`).
+- Add internal utility
+  [`.first_non_null()`](https://kosugitti.github.io/ggExametrika/reference/dot-first_non_null.md)
+  for safe fallback chains across naming conventions.
+- Fix
+  [`plotTRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTRP_gg.md),
+  [`plotLCD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLCD_gg.md),
+  [`plotLRD_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLRD_gg.md)
+  to use LCD/LRD fallback chains. LRA and LDLRA models (which have
+  `$LRD` but not `$LCD`) now work correctly with all three functions.
+- Add LDLRA support to
+  [`plotTRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotTRP_gg.md)
+  (previously missing from valid model types).
+- Fix
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  single-panel return value: when only `Original = FALSE` or
+  `Clusterd = FALSE`, the function now correctly returns a list with the
+  single plot at index 1 (previously stored at index 2 when only
+  Clusterd was TRUE, causing `plot[[1]]` to be NULL).
+- Full backward compatibility maintained with older exametrika versions.
+
 ## ggExametrika 0.0.25
 
 - Fix class validation in

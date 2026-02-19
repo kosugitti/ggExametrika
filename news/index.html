@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.25</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.26</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,17 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.26" id="ggexametrika-0026">ggExametrika 0.0.26<a class="anchor" aria-label="anchor" href="#ggexametrika-0026"></a></h2>
+<ul><li>Fix <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> and <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> to access Students columns by name (<code>Membership *</code>) instead of index position. Prevents column-shift bugs when exametrika adds columns (e.g., <code>Estimate</code>).</li>
+<li>Fix <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> and <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> <code>$Nclass</code> reference to fallback chain: <code>n_class</code> -&gt; <code>Nclass</code> -&gt; <code>n_rank</code> -&gt; <code>Nrank</code>. Now accepts LRA/Biclustering objects without errors.</li>
+<li>Migrate <code>$Nclass</code>/<code>$Nfield</code> references in <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> and <code><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg()</a></code> to new naming convention (<code>n_class</code>/<code>n_field</code>/<code>n_rank</code>) with fallback to deprecated names (<code>Nclass</code>/<code>Nfield</code>/<code>Nrank</code>).</li>
+<li>Add internal utility <code><a href="../reference/dot-first_non_null.html">.first_non_null()</a></code> for safe fallback chains across naming conventions.</li>
+<li>Fix <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code>, <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code>, <code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code> to use LCD/LRD fallback chains. LRA and LDLRA models (which have <code>$LRD</code> but not <code>$LCD</code>) now work correctly with all three functions.</li>
+<li>Add LDLRA support to <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> (previously missing from valid model types).</li>
+<li>Fix <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> single-panel return value: when only <code>Original = FALSE</code> or <code>Clusterd = FALSE</code>, the function now correctly returns a list with the single plot at index 1 (previously stored at index 2 when only Clusterd was TRUE, causing <code>plot[[1]]</code> to be NULL).</li>
+<li>Full backward compatibility maintained with older exametrika versions.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.25" id="ggexametrika-0025">ggExametrika 0.0.25<a class="anchor" aria-label="anchor" href="#ggexametrika-0025"></a></h2>
 <ul><li>Fix class validation in <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code>, <code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code>, <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code>, and <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> to support polytomous biclustering models.</li>
