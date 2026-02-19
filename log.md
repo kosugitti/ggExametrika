@@ -48,6 +48,58 @@
 
 **次回の課題:**
 - FCRP (Field Category Response Profile) 実装
+
+---
+
+### plotGraph_gg() LDLRA対応実装 (Claude Sonnet 4.5)
+
+**目的:** plotGraph_gg()にLDLRA（Latent Rank Analysis with Local Dependence）モデルの可視化機能を追加
+
+**実装内容:**
+- LDLRA全ランク対応（複数ランクのDAGを一度にプロット）
+- 孤立ノード（エッジなし）の自動検出・除外
+- LR方向（左→右）レイアウトの修正・実装
+- 各ランクごとに独立したプロット生成
+- patchworkによる縦並び配置のサンプルコード作成
+- **確率表示機能追加（show_prob パラメータ）**
+  - data$IRP (Item Reference Profile) から各ランクの正答確率を取得
+  - ノードの右側に確率を表示（hjust = -0.5）
+  - prob_digits パラメータで小数点以下桁数を指定可能（デフォルト3桁）
+
+**技術的詳細:**
+- LDLRA処理ブロックを追加（R/plotGraph_gg.R: 224-365行）
+- 全ランクをループ処理（data$Nclass分）
+- 各ランクで孤立ノード削除（igraph::degree == 0）
+- BNMと同じスタイル（紫色円形ノード、sugiyamaレイアウト）
+- direction="LR"の座標変換修正（swap + flip）
+
+**対応機能:**
+1. 複数ランクの同時処理
+2. ランクごとに異なるDAG構造に対応
+3. 自動スケーリング（ノード数に応じて調整）
+4. タイトル自動生成（"LDLRA - Rank N"）
+
+**テストコード作成:**
+- develop/test_ldlra_structure.R - 基本構造確認
+- develop/test_ldlra_all_ranks.R - 全ランク手動プロット
+- develop/test_ldlra_patchwork.R - patchwork縦並び
+- develop/test_ldlra_different_structures.R - 異なる構造テスト
+- develop/test_ldlra_real_example.R - 実データ（J12S5000）使用例
+- develop/LDLRA_LEFT_TO_RIGHT_EXAMPLE.R - 完全なサンプルコード
+- develop/test_ldlra_with_prob.R - 確率表示機能テスト（show_prob=TRUE/FALSE比較）
+
+**動作確認:**
+- J12S5000データで3ランクLDLRAを実行
+- 各ランクで異なるDAG構造（単純直列/分岐/複雑ネットワーク）をテスト
+- 左→右方向レイアウト正常動作確認
+- patchworkによる縦並び配置成功
+
+**ブランチ:**
+- feature/ldlra-dag
+
+**次のステップ:**
+- LDB（Local Dependence Biclustering）実装（開発順序: BNM → LDLRA → LDB → BINET）
+- ~~LDLRA確率表示機能追加（show_prob パラメータ）~~ ✅ 完了
 - ScoreField (期待得点ヒートマップ) 実装
 - RRVの多値対応（stat パラメータ追加）
 
