@@ -203,6 +203,15 @@ test_that("plotGraph_gg rejects all invalid input types", {
   }
 })
 
+# --- BINET LDPSR function ---
+
+test_that("plotLDPSR_gg rejects all invalid input types", {
+  for (nm in names(invalid_inputs)) {
+    expect_error(plotLDPSR_gg(invalid_inputs[[nm]]),
+      info = paste("plotLDPSR_gg should reject", nm))
+  }
+})
+
 # --- Wrong model type cross-checks ---
 
 test_that("IRT functions reject non-IRT models", {

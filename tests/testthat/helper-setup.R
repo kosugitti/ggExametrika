@@ -101,6 +101,29 @@ if (has_exametrika) {
     exametrika::BNM(exametrika::J5S10, g = bnm_dag)
   }, error = function(e) NULL)
 
+  # ---- BINET fixture ----
+  # BINET requires field assignments (conf) and DAG edge file (adj_file).
+  # Note: BINET's adj_list input path has a known bug (g_csv undefined),
+  # so we use adj_file with a temporary CSV instead.
+  fixture_BINET <- tryCatch({
+    binet_conf <- rep(1:3, length.out = 35)
+    # Create temporary edge CSV: From, To, Field
+    binet_edges <- data.frame(
+      From  = c(1, 2, 1, 2, 1, 2),
+      To    = c(2, 3, 2, 3, 2, 3),
+      Field = c(1, 1, 2, 2, 3, 3)
+    )
+    binet_edge_file <- tempfile(fileext = ".csv")
+    write.csv(binet_edges, binet_edge_file, row.names = FALSE)
+    result <- exametrika::BINET(exametrika::J35S515,
+      ncls = 3, nfld = 3,
+      conf = binet_conf, adj_file = binet_edge_file,
+      verbose = FALSE
+    )
+    unlink(binet_edge_file)
+    result
+  }, error = function(e) NULL)
+
   # Clean up temporary variables
   rm(.synth_ordinal, .synth_nominal)
 }

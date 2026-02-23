@@ -1,3 +1,17 @@
+# ggExametrika 0.0.32
+
+## New Features
+
+* Add `plotLDPSR_gg()` for Local Dependence Passing Student Rate (LDPSR) visualization (BINET only). LDPSR shows item-level correct response rate profiles comparing parent and child classes at each DAG edge, visualizing how students improve when transitioning between latent classes via a specific field.
+* `plotLDPSR_gg()` supports common plot options (title, colors, linetype, show_legend, legend_position).
+* Returns a list of ggplot objects (one per DAG edge), compatible with `combinePlots_gg()`.
+
+## Test Infrastructure
+
+* Add BINET test fixture to `helper-setup.R` using J35S515 with 3 classes, 5 fields, and a simple chain DAG structure.
+* Add `test-LDPSR-plots.R` with comprehensive tests: basic functionality, common options, input validation, model type rejection, and combinePlots_gg integration.
+* Add `plotLDPSR_gg` validation entry to `test-validation.R`.
+
 # ggExametrika 0.0.31
 
 ## Bug Fixes
