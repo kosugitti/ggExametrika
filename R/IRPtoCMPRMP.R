@@ -1164,11 +1164,11 @@ plotRMP_gg <- function(data,
     warning(
       "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
     )
-  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
+  } else if (any(class(data) %in% c("LRA", "LRAordinal", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
     xlabel <- "Rank"
   } else {
     stop(
-      "Invalid input. The variable must be from exametrika output or from either LRA, Biclustering, LDLRA or LDB."
+      "Invalid input. The variable must be from exametrika output or from either LRA, LRAordinal, Biclustering, LDLRA or LDB."
     )
   }
 

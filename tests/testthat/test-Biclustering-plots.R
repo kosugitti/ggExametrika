@@ -90,12 +90,16 @@ test_that("plotCRV_gg returns ggplot for binary Biclustering", {
   expect_s3_class(result, "gg")
 })
 
-test_that("plotCRV_gg errors on polytomous data (3D FRP not supported by t())", {
+test_that("plotCRV_gg works with polytomous data (stat parameter)", {
   skip_if_not_installed("exametrika")
   skip_if(is.null(fixture_ordBiclust), "ordinal Biclustering fixture not available")
 
-  # CRV uses t(data$FRP) which cannot handle 3D arrays from polytomous models
-  expect_error(plotCRV_gg(fixture_ordBiclust))
+  # CRV now supports polytomous data via stat parameter
+  expect_s3_class(plotCRV_gg(fixture_ordBiclust), "gg")
+  expect_s3_class(plotCRV_gg(fixture_ordBiclust, stat = "mean"), "gg")
+  expect_s3_class(plotCRV_gg(fixture_ordBiclust, stat = "median"), "gg")
+  expect_s3_class(plotCRV_gg(fixture_ordBiclust, stat = "mode"), "gg")
+  expect_s3_class(plotCRV_gg(fixture_ordBiclust, show_labels = TRUE), "gg")
 })
 
 test_that("plotCRV_gg common options work", {

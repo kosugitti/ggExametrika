@@ -30,6 +30,10 @@
 #' a Class Reference Vector (CRV) plot using ggplot2. CRV shows how each
 #' latent class performs across fields, with one line per class.
 #'
+#' Supports both binary (2-valued) and polytomous (multi-valued) biclustering models.
+#' For polytomous data, the \code{stat} parameter controls how expected scores
+#' are calculated from category probabilities.
+#'
 #' @param data An object of class \code{c("exametrika", "Biclustering")} from
 #'   \code{exametrika::Biclustering()}.
 #' @param title Logical or character. If \code{TRUE} (default), display an
@@ -44,6 +48,16 @@
 #' @param legend_position Character. Position of the legend.
 #'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
 #'   \code{"left"}, \code{"none"}.
+#' @param stat Character. Statistic for polytomous data: \code{"mean"} (default),
+#'   \code{"median"}, or \code{"mode"}. For binary data, this parameter is ignored.
+#'   \itemize{
+#'     \item \code{"mean"}: Expected score (sum of category x probability)
+#'     \item \code{"median"}: Median category (cumulative probability >= 0.5)
+#'     \item \code{"mode"}: Most probable category
+#'   }
+#' @param show_labels Logical. If \code{TRUE}, displays class labels on each
+#'   point using \code{ggrepel} to avoid overlaps. Defaults to \code{FALSE}
+#'   since the legend already provides class information.
 #'
 #' @return A single ggplot object showing the Class Reference Vector.
 #'
@@ -53,21 +67,38 @@
 #' single plot with fields on the x-axis. Each line represents a latent class,
 #' showing its correct response rate pattern across fields.
 #'
+#' **Binary Data (2 categories):**
+#' - Y-axis shows "Correct Response Rate" (0.0 to 1.0)
+#' - Values represent the probability of correct response
+#'
+#' **Polytomous Data (3+ categories):**
+#' - Y-axis shows "Expected Score" (1 to max category)
+#' - Values are calculated using the \code{stat} parameter
+#' - Higher scores indicate better performance
+#'
 #' CRV is used when latent classes are nominal (unordered). For ordered
 #' latent ranks, use \code{\link{plotRRV_gg}} instead.
 #'
 #' @examples
 #' \dontrun{
+#' # Binary biclustering
 #' library(exametrika)
 #' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
-#' plot <- plotCRV_gg(result)
-#' plot
+#' plotCRV_gg(result)
+#'
+#' # Ordinal biclustering (polytomous)
+#' data(J35S500)
+#' result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
+#' plotCRV_gg(result_ord)  # Default: mean
+#' plotCRV_gg(result_ord, stat = "median")
+#' plotCRV_gg(result_ord, stat = "mode")
 #' }
 #'
-#' @seealso \code{\link{plotRRV_gg}}, \code{\link{plotFRP_gg}}
+#' @seealso \code{\link{plotRRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}
 #'
 #' @importFrom ggplot2 ggplot aes geom_line geom_point labs theme
 #'   scale_color_manual scale_x_continuous scale_y_continuous
+#' @importFrom ggrepel geom_text_repel
 #' @export
 
 plotCRV_gg <- function(data,
@@ -75,7 +106,9 @@ plotCRV_gg <- function(data,
                        colors = NULL,
                        linetype = "solid",
                        show_legend = TRUE,
-                       legend_position = "right") {
+                       legend_position = "right",
+                       stat = "mean",
+                       show_labels = NULL) {
   # Check if this is an exametrika Biclustering model
   if (!inherits(data, "exametrika")) {
     stop("Invalid input. The variable must be from exametrika output.")
@@ -87,18 +120,52 @@ plotCRV_gg <- function(data,
     stop("Invalid input. The variable must be from Biclustering, ordinalBiclustering, or nominalBiclustering.")
   }
 
-  # FRPを転置: 行=Class, 列=Field
-  RRV <- t(data$FRP)
-  n_cls <- nrow(RRV)
-  n_fld <- ncol(RRV)
+  # Validate stat parameter
+  if (!stat %in% c("mean", "median", "mode")) {
+    stop("stat must be one of: 'mean', 'median', 'mode'")
+  }
+
+  # Check FRP dimensionality
+  frp_dims <- length(dim(data$FRP))
+  is_polytomous <- (frp_dims == 3)
+
+  if (is_polytomous) {
+    # Polytomous (3D): Field x Class/Rank x Category
+    BCRM <- data$FRP
+    maxQ <- dim(BCRM)[3]
+
+    # Calculate expected scores
+    FRP_mat <- .calc_expected_scores(BCRM, stat)
+    CRV <- t(FRP_mat)  # Transpose to Class x Field
+
+    n_cls <- nrow(CRV)
+    n_fld <- ncol(CRV)
+    y_label <- paste0("Expected Score (", stat, ")")
+    y_limits <- c(1, maxQ)
+    y_breaks <- 1:maxQ
+  } else {
+    # Binary (2D): Field x Class/Rank
+    CRV <- t(data$FRP)
+    n_cls <- nrow(CRV)
+    n_fld <- ncol(CRV)
+    y_label <- "Correct Response Rate"
+    y_limits <- c(0, 1)
+    y_breaks <- seq(0, 1, 0.25)
+  }
 
   # long format に変換
   plot_data <- data.frame(
     field = rep(1:n_fld, each = n_cls),
-    field_label = rep(colnames(RRV), each = n_cls),
-    crr = as.vector(t(RRV)),
-    class = factor(rep(rownames(RRV), times = n_fld))
+    field_label = rep(paste0("F", 1:n_fld), each = n_cls),
+    value = as.vector(t(CRV)),
+    class = factor(rep(paste0("C", 1:n_cls), times = n_fld), levels = paste0("C", 1:n_cls)),
+    class_num = rep(1:n_cls, times = n_fld)
   )
+
+  # Set default for show_labels
+  if (is.null(show_labels)) {
+    show_labels <- FALSE
+  }
 
   # 色の設定
   if (is.null(colors)) {
@@ -109,25 +176,44 @@ plotCRV_gg <- function(data,
 
   # タイトルの設定
   if (is.logical(title) && title) {
-    plot_title <- "Class Reference Vector"
+    if (is_polytomous) {
+      plot_title <- paste0("Class Reference Vector (", stat, ")")
+    } else {
+      plot_title <- "Class Reference Vector"
+    }
   } else if (is.logical(title) && !title) {
     plot_title <- NULL
   } else {
     plot_title <- title
   }
 
-  p <- ggplot(plot_data, aes(x = field, y = crr, color = class)) +
+  p <- ggplot(plot_data, aes(x = field, y = value, color = class)) +
     geom_line(linetype = linetype) +
     geom_point() +
-    scale_x_continuous(breaks = 1:n_fld, labels = colnames(RRV)) +
-    scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
+    scale_x_continuous(breaks = 1:n_fld, labels = paste0("F", 1:n_fld)) +
+    scale_y_continuous(limits = y_limits, breaks = y_breaks) +
     scale_color_manual(values = use_colors) +
     labs(
       title = plot_title,
       x = "Field",
-      y = "Correct Response Rate",
+      y = y_label,
       color = NULL
     )
+
+  # ラベル表示（ggrepelで重なりを回避）
+  if (show_labels) {
+    p <- p + ggrepel::geom_text_repel(
+      data = plot_data,
+      mapping = aes(x = field, y = value, label = class_num, color = class),
+      size = 3,
+      box.padding = 0.5,
+      point.padding = 0.3,
+      segment.color = "grey50",
+      segment.size = 0.3,
+      max.overlaps = Inf,
+      show.legend = FALSE
+    )
+  }
 
   # 凡例の制御
   if (show_legend) {

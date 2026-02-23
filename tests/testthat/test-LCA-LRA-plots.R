@@ -245,6 +245,26 @@ test_that("plotRMP_gg common options work", {
   expect_s3_class(plotRMP_gg(fixture_LRA, colors = "green")[[1]], "gg")
 })
 
+test_that("plotRMP_gg works with LRAordinal", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LRAord), "LRAordinal fixture not available")
+
+  result <- plotRMP_gg(fixture_LRAord)
+  expect_type(result, "list")
+  expect_true(length(result) > 0)
+  expect_s3_class(result[[1]], "gg")
+})
+
+test_that("plotRMP_gg works with LRArated", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LRArated), "LRArated fixture not available")
+
+  result <- plotRMP_gg(fixture_LRArated)
+  expect_type(result, "list")
+  expect_true(length(result) > 0)
+  expect_s3_class(result[[1]], "gg")
+})
+
 test_that("plotRMP_gg rejects invalid input", {
   expect_error(plotRMP_gg(NULL), "Invalid input")
   expect_error(plotRMP_gg(data.frame(x = 1)), "Invalid input")
