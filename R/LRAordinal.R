@@ -56,7 +56,7 @@ plotScoreFreq_gg <- function(data,
                              linetype = c("solid", "dashed"),
                              show_legend = FALSE,
                              legend_position = "right") {
-  # クラスチェック
+  # Class validation
   is_LRAordinal <- all(class(data) %in% c("exametrika", "LRAordinal"))
   is_LRArated <- all(class(data) %in% c("exametrika", "LRArated"))
 
@@ -64,12 +64,12 @@ plotScoreFreq_gg <- function(data,
     stop("Invalid input. The variable must be from exametrika output (LRAordinal or LRArated).")
   }
 
-  # Students データからスコアとランクを取得
+  # Extract scores and ranks from Students data
   tmp <- as.data.frame(data$Students)
   sc <- tmp$Score
   rank <- tmp$Estimate
 
-  # ランク間の閾値を計算
+  # Calculate thresholds between ranks
   unique_ranks <- sort(unique(rank))
   n_ranks <- length(unique_ranks)
   thresholds <- numeric(n_ranks - 1)
@@ -80,7 +80,7 @@ plotScoreFreq_gg <- function(data,
     thresholds[i] <- (max_rank_i + min_rank_next) / 2
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     palette <- .gg_exametrika_palette(2)
     color_density <- palette[1]
@@ -90,12 +90,12 @@ plotScoreFreq_gg <- function(data,
     color_threshold <- colors[2]
   }
 
-  # linetype の設定
+  # Linetype setup
   if (length(linetype) == 1) {
     linetype <- c(linetype, "dashed")
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     plot_title <- "Score Frequency Distribution"
   } else if (is.logical(title) && !title) {
@@ -104,7 +104,7 @@ plotScoreFreq_gg <- function(data,
     plot_title <- title
   }
 
-  # プロット作成
+  # Build plot
   plot_data <- data.frame(score = sc)
 
   p <- ggplot(plot_data, aes(x = score)) +
@@ -120,7 +120,7 @@ plotScoreFreq_gg <- function(data,
       y = "Density"
     )
 
-  # 凡例の制御
+  # Legend control
   if (show_legend) {
     p <- p + theme(legend.position = legend_position)
   } else {
@@ -207,24 +207,24 @@ plotICBR_gg <- function(data,
                         show_legend = TRUE,
                         legend_position = "right") {
 
-  # クラスチェック
+  # Class validation
   if (!all(c("exametrika", "LRAordinal") %in% class(data))) {
     stop("Invalid input. The data must be from exametrika LRAordinal output (dataType = 'ordinal').")
   }
 
-  # ICBRデータの存在確認
+  # Check ICBR data existence
   if (!"ICBR" %in% names(data)) {
     stop("ICBR data not found in the input object.")
   }
 
   icbr_data <- data$ICBR
 
-  # 項目の選択
+  # Item selection
   all_items <- unique(icbr_data$ItemLabel)
   if (is.null(items)) {
     selected_items <- all_items
   } else {
-    # items が数値インデックスの場合、ItemLabelに変換
+    # Convert numeric indices to ItemLabel
     if (is.numeric(items)) {
       selected_items <- all_items[items]
     } else {
@@ -232,11 +232,10 @@ plotICBR_gg <- function(data,
     }
   }
 
-  # 選択された項目のみをフィルタリング
+  # Filter selected items
   plot_data <- icbr_data[icbr_data$ItemLabel %in% selected_items, ]
 
-  # Wide形式からLong形式に変換
-  # rank1, rank2, ... → Rank列と Probability列
+  # Convert wide to long format (rank1, rank2, ... -> Rank and Probability)
   rank_cols <- grep("^rank[0-9]+$", colnames(plot_data), value = TRUE)
 
   long_data <- tidyr::pivot_longer(
@@ -247,32 +246,32 @@ plotICBR_gg <- function(data,
     names_prefix = "rank"
   )
 
-  # Rankを数値に変換
+  # Convert Rank to numeric
   long_data$Rank <- as.numeric(long_data$Rank)
 
-  # ランクを逆順に変換（低能力→高能力の順にプロットするため）
-  # exametrikaではrank1が高能力、rank4が低能力なので、逆転させる
+  # Reverse rank order for plotting (low ability -> high ability)
+  # In exametrika, rank1 = high ability, so reverse for visual ordering
   n_ranks <- max(long_data$Rank)
   long_data$Rank <- n_ranks - long_data$Rank + 1
 
-  # CategoryLabelから項目名プレフィックスを除去（例: "V1-Cat1" → "Cat1"）
-  # これにより、全項目で同じカテゴリラベルを使用し、色パレットの問題を回避
+  # Strip item name prefix from CategoryLabel (e.g., "V1-Cat1" -> "Cat1")
+  # This ensures consistent category labels across items for color mapping
   long_data$Category <- sub("^.*-", "", long_data$CategoryLabel)
 
-  # 色の設定
+  # Color setup
   n_categories <- length(unique(long_data$Category))
   if (is.null(colors)) {
     colors <- .gg_exametrika_palette(n_categories)
   }
 
-  # linetypeの設定
+  # Linetype setup
   if (is.null(linetype)) {
-    # 自動的にlinetypeを割り当て
+    # Automatically assign linetypes
     linetype_options <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
     linetype <- rep(linetype_options, length.out = n_categories)
   }
 
-  # プロット作成
+  # Build plot
   p <- ggplot(long_data, aes(x = Rank, y = Probability,
                              color = Category,
                              linetype = Category,
@@ -287,11 +286,10 @@ plotICBR_gg <- function(data,
       linetype = "Category"
     ) +
     theme(
-      strip.text = element_text(size = 10, face = "bold"),
-      legend.position = legend_position
+      strip.text = element_text(size = 10, face = "bold")
     )
 
-  # 色とlinetypeのスケール設定
+  # Color and linetype scale setup
   if (!is.null(colors)) {
     p <- p + scale_color_manual(values = colors)
   }
@@ -299,21 +297,22 @@ plotICBR_gg <- function(data,
     p <- p + scale_linetype_manual(values = linetype)
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title)) {
     if (title && length(selected_items) == 1) {
       p <- p + labs(title = paste("Item Category Boundary Response:", selected_items[1]))
     } else if (title && length(selected_items) > 1) {
       p <- p + labs(title = "Item Category Boundary Response")
     }
-    # title = FALSE の場合は何もしない
   } else if (is.character(title)) {
     p <- p + labs(title = title)
   }
 
-  # 凡例の制御
+  # Legend control
   if (!show_legend) {
     p <- p + theme(legend.position = "none")
+  } else {
+    p <- p + theme(legend.position = legend_position)
   }
 
   return(p)
@@ -397,7 +396,7 @@ plotICRP_gg <- function(data,
                         show_legend = TRUE,
                         legend_position = "right") {
 
-  # クラスチェック
+  # Class validation
   is_LRAordinal <- all(c("exametrika", "LRAordinal") %in% class(data))
   is_LRArated <- all(c("exametrika", "LRArated") %in% class(data))
 
@@ -405,19 +404,19 @@ plotICRP_gg <- function(data,
     stop("Invalid input. The data must be from exametrika LRAordinal or LRArated output.")
   }
 
-  # ICRPデータの存在確認
+  # Check ICRP data existence
   if (!"ICRP" %in% names(data)) {
     stop("ICRP data not found in the input object.")
   }
 
   icrp_data <- data$ICRP
 
-  # 項目の選択
+  # Item selection
   all_items <- unique(icrp_data$ItemLabel)
   if (is.null(items)) {
     selected_items <- all_items
   } else {
-    # items が数値インデックスの場合、ItemLabelに変換
+    # Convert numeric indices to ItemLabel
     if (is.numeric(items)) {
       selected_items <- all_items[items]
     } else {
@@ -425,11 +424,10 @@ plotICRP_gg <- function(data,
     }
   }
 
-  # 選択された項目のみをフィルタリング
+  # Filter selected items
   plot_data <- icrp_data[icrp_data$ItemLabel %in% selected_items, ]
 
-  # Wide形式からLong形式に変換
-  # rank1, rank2, ... → Rank列と Probability列
+  # Convert wide to long format (rank1, rank2, ... -> Rank and Probability)
   rank_cols <- grep("^rank[0-9]+$", colnames(plot_data), value = TRUE)
 
   long_data <- tidyr::pivot_longer(
@@ -440,32 +438,32 @@ plotICRP_gg <- function(data,
     names_prefix = "rank"
   )
 
-  # Rankを数値に変換
+  # Convert Rank to numeric
   long_data$Rank <- as.numeric(long_data$Rank)
 
-  # ランクを逆順に変換（低能力→高能力の順にプロットするため）
-  # exametrikaではrank1が低能力、rank4が高能力なので、逆転させる
+  # Reverse rank order for plotting (low ability -> high ability)
+  # In exametrika, rank1 = low ability, so reverse for visual ordering
   n_ranks <- max(long_data$Rank)
   long_data$Rank <- n_ranks - long_data$Rank + 1
 
-  # CategoryLabelから項目名プレフィックスを除去（例: "V1-Cat1" → "Cat1"）
-  # これにより、全項目で同じカテゴリラベルを使用し、色パレットの問題を回避
+  # Strip item name prefix from CategoryLabel (e.g., "V1-Cat1" -> "Cat1")
+  # This ensures consistent category labels across items for color mapping
   long_data$Category <- sub("^.*-", "", long_data$CategoryLabel)
 
-  # 色の設定
+  # Color setup
   n_categories <- length(unique(long_data$Category))
   if (is.null(colors)) {
     colors <- .gg_exametrika_palette(n_categories)
   }
 
-  # linetypeの設定
+  # Linetype setup
   if (is.null(linetype)) {
-    # 自動的にlinetypeを割り当て
+    # Automatically assign linetypes
     linetype_options <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
     linetype <- rep(linetype_options, length.out = n_categories)
   }
 
-  # プロット作成
+  # Build plot
   p <- ggplot(long_data, aes(x = Rank, y = Probability,
                              color = Category,
                              linetype = Category,
@@ -480,11 +478,10 @@ plotICRP_gg <- function(data,
       linetype = "Category"
     ) +
     theme(
-      strip.text = element_text(size = 10, face = "bold"),
-      legend.position = legend_position
+      strip.text = element_text(size = 10, face = "bold")
     )
 
-  # 色とlinetypeのスケール設定
+  # Color and linetype scale setup
   if (!is.null(colors)) {
     p <- p + scale_color_manual(values = colors)
   }
@@ -492,21 +489,22 @@ plotICRP_gg <- function(data,
     p <- p + scale_linetype_manual(values = linetype)
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title)) {
     if (title && length(selected_items) == 1) {
       p <- p + labs(title = paste("Item Category Reference Profile:", selected_items[1]))
     } else if (title && length(selected_items) > 1) {
       p <- p + labs(title = "Item Category Reference Profile")
     }
-    # title = FALSE の場合は何もしない
   } else if (is.character(title)) {
     p <- p + labs(title = title)
   }
 
-  # 凡例の制御
+  # Legend control
   if (!show_legend) {
     p <- p + theme(legend.position = "none")
+  } else {
+    p <- p + theme(legend.position = legend_position)
   }
 
   return(p)

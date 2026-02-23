@@ -76,23 +76,23 @@ plotFCBR_gg <- function(data,
                         show_legend = TRUE,
                         legend_position = "right") {
 
-  # クラスチェック - ordinalBiclustering専用
+  # Class check - ordinalBiclustering only
   if (!all(c("exametrika", "ordinalBiclustering") %in% class(data))) {
     stop("Invalid input. The data must be from exametrika ordinalBiclustering output (dataType = 'ordinal').")
   }
 
-  # FRPデータの存在確認（ordinalBiclusteringではBCRMがFRPとして格納される）
+  # Check FRP data existence (in ordinalBiclustering, BCRM is stored as FRP)
   if (!"FRP" %in% names(data)) {
     stop("FRP (BCRM) data not found in the input object.")
   }
 
-  BCRM <- data$FRP  # 3次元配列: [field, class/rank, category]
+  BCRM <- data$FRP  # 3D array: [field, class/rank, category]
   nfld <- dim(BCRM)[1]
   ncls <- dim(BCRM)[2]
   maxQ <- dim(BCRM)[3]
   msg <- data$msg  # "Class" or "Rank"
 
-  # フィールドの選択
+  # Field selection
   if (is.null(fields)) {
     selected_fields <- 1:nfld
   } else {
@@ -102,10 +102,10 @@ plotFCBR_gg <- function(data,
     selected_fields <- fields
   }
 
-  # 境界数（カテゴリ数）- P(Q>=1), P(Q>=2), ... P(Q>=maxQ)を全て表示
+  # Number of boundaries (categories) - display all: P(Q>=1), P(Q>=2), ... P(Q>=maxQ)
   n_boundaries <- maxQ
 
-  # 各フィールド・クラス・境界の確率を計算
+  # Calculate probability for each field, class, and boundary
   # Boundary b: P(Q >= b) = sum(BCRM[f, cc, b:maxQ])
   plot_data_list <- list()
 
@@ -124,26 +124,26 @@ plotFCBR_gg <- function(data,
     }
   }
 
-  # データフレームに結合
+  # Combine into a data frame
   long_data <- do.call(rbind, plot_data_list)
 
-  # Boundaryを因子化（順序を保持）
+  # Convert Boundary to factor (preserve order)
   boundary_levels <- paste0("P(Q>=", 1:maxQ, ")")
   long_data$Boundary <- factor(long_data$Boundary, levels = boundary_levels)
 
-  # 色の設定
+  # Set up colors
   if (is.null(colors)) {
     colors <- .gg_exametrika_palette(n_boundaries)
   }
 
-  # linetypeの設定
+  # Set up linetype
   if (is.null(linetype)) {
-    # 自動的にlinetypeを割り当て
+    # Automatically assign linetypes
     linetype_options <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
     linetype <- rep(linetype_options, length.out = n_boundaries)
   }
 
-  # プロット作成
+  # Create plot
   p <- ggplot(long_data, aes(x = ClassRank, y = Probability,
                              color = Boundary,
                              linetype = Boundary,
@@ -164,7 +164,7 @@ plotFCBR_gg <- function(data,
       legend.position = legend_position
     )
 
-  # 色とlinetypeのスケール設定
+  # Set color and linetype scales
   if (!is.null(colors)) {
     p <- p + scale_color_manual(values = colors)
   }
@@ -172,19 +172,18 @@ plotFCBR_gg <- function(data,
     p <- p + scale_linetype_manual(values = linetype)
   }
 
-  # タイトルの設定
+  # Set title
   if (is.logical(title)) {
     if (title && length(selected_fields) == 1) {
       p <- p + labs(title = paste("Field Cumulative Boundary Reference: Field", selected_fields[1]))
     } else if (title && length(selected_fields) > 1) {
       p <- p + labs(title = "Field Cumulative Boundary Reference")
     }
-    # title = FALSE の場合は何もしない
   } else if (is.character(title)) {
     p <- p + labs(title = title)
   }
 
-  # 凡例の制御
+  # Legend control
   if (!show_legend) {
     p <- p + theme(legend.position = "none")
   }

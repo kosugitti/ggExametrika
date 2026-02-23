@@ -291,7 +291,7 @@ plotArray_gg <- function(data,
       class_breaks <- cumsum(table(sorted_class))
       field_breaks <- cumsum(table(sorted_field))
 
-      # 新名称優先、旧名称フォールバックでクラス数・フィールド数を取得
+      # Get class/field count (prefer new names, fallback to old names)
       n_class <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
       n_field <- .first_non_null(data$n_field, data$Nfield, length(unique(data$FieldEstimated)))
 
@@ -392,12 +392,12 @@ plotFieldPIRP_gg <- function(data,
   }
 
 
-  # 新名称優先、旧名称フォールバックでクラス数・フィールド数を取得
+  # Get class/field count (prefer new names, fallback to old names)
   n_cls <- .first_non_null(data$n_rank, data$Nrank, data$n_class, data$Nclass)
 
   n_field <- .first_non_null(data$n_field, data$Nfield)
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_colors <- .gg_exametrika_palette(n_field)
   } else {
@@ -425,7 +425,7 @@ plotFieldPIRP_gg <- function(data,
       plot_data <- rbind(plot_data, field_data)
     }
 
-    # タイトルの設定
+    # Title setup
     if (is.logical(title) && title) {
       plot_title <- paste0("Rank ", i)
     } else if (is.logical(title) && !title) {
@@ -453,7 +453,7 @@ plotFieldPIRP_gg <- function(data,
         color = "Field"
       )
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       p <- p + theme(legend.position = "none")
     } else {

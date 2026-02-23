@@ -87,7 +87,7 @@ plotICC_gg <- function(data,
     stop("'items' must contain values between 1 and ", n_items)
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_color <- .gg_exametrika_palette(1)[1]
   } else {
@@ -106,7 +106,7 @@ plotICC_gg <- function(data,
       args["upperAsym"] <- data$params$upperAsym[i]
     }
 
-    # タイトルの設定
+    # Title setup
     if (is.logical(title) && title) {
       plot_title <- paste0("Item Characteristic Curve, ", rownames(data$params)[i])
     } else if (is.logical(title) && !title) {
@@ -126,7 +126,7 @@ plotICC_gg <- function(data,
         y = "probability"
       )
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       p <- p + theme(legend.position = "none")
     } else {
@@ -330,7 +330,7 @@ plotIIC_gg <- function(data,
       stop("'items' must contain values between 1 and ", n_items)
     }
 
-    # 色の設定
+    # Color setup
     if (is.null(colors)) {
       use_color <- .gg_exametrika_palette(1)[1]
     } else {
@@ -349,7 +349,7 @@ plotIIC_gg <- function(data,
         args["d"] <- data$params$upperAsym[i]
       }
 
-      # タイトルの設定
+      # Title setup
       if (is.logical(title) && title) {
         plot_title <- paste0("Item Information Curve, ", rownames(data$params)[i])
       } else if (is.logical(title) && !title) {
@@ -367,7 +367,7 @@ plotIIC_gg <- function(data,
           y = "information"
         )
 
-      # 凡例の制御（IRT では基本的に不要）
+      # Legend control (generally not needed for IRT)
       if (!show_legend) {
         p <- p + theme(legend.position = "none")
       } else {
@@ -392,7 +392,7 @@ plotIIC_gg <- function(data,
       stop("'items' must contain values between 1 and ", n_items)
     }
 
-    # 色の設定
+    # Color setup
     if (is.null(colors)) {
       use_color <- .gg_exametrika_palette(1)[1]
     } else {
@@ -408,7 +408,7 @@ plotIIC_gg <- function(data,
       b <- as.numeric(params[i, -1])
       b <- b[!is.na(b)]
 
-      # GRM Item Information を計算
+      # Compute GRM Item Information
       info_values <- sapply(thetas, function(theta) {
         ItemInformationFunc_GRM(theta, a, b)
       })
@@ -418,7 +418,7 @@ plotIIC_gg <- function(data,
         information = info_values
       )
 
-      # タイトルの設定
+      # Title setup
       if (is.logical(title) && title) {
         plot_title <- paste("Item Information Curve,", rownames(params)[i])
       } else if (is.logical(title) && !title) {
@@ -435,7 +435,7 @@ plotIIC_gg <- function(data,
           y = "information"
         )
 
-      # 凡例の制御
+      # Legend control
       if (!show_legend) {
         p <- p + theme(legend.position = "none")
       } else {
@@ -523,14 +523,14 @@ plotTIC_gg <- function(data,
     stop("Invalid input. The variable must be from exametrika output (IRT or GRM).")
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_color <- .gg_exametrika_palette(1)[1]
   } else {
     use_color <- colors[1]
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     plot_title <- "Test Information Curve"
   } else if (is.logical(title) && !title) {
@@ -570,7 +570,7 @@ plotTIC_gg <- function(data,
         y = "information"
       )
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       plot <- plot + theme(legend.position = "none")
     } else {
@@ -587,7 +587,7 @@ plotTIC_gg <- function(data,
 
     thetas <- seq(xvariable[1], xvariable[2], length.out = 501)
 
-    # 全アイテムの情報量を合計
+    # Sum information across all items
     total_info <- numeric(length(thetas))
 
     for (i in 1:n_items) {
@@ -615,7 +615,7 @@ plotTIC_gg <- function(data,
         y = "information"
       )
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       plot <- plot + theme(legend.position = "none")
     } else {
@@ -698,14 +698,14 @@ plotTRF_gg <- function(data,
 
   n_items <- nrow(data$params)
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_color <- .gg_exametrika_palette(1)[1]
   } else {
     use_color <- colors[1]
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     plot_title <- "Test Response Function"
   } else if (is.logical(title) && !title) {
@@ -738,7 +738,7 @@ plotTRF_gg <- function(data,
       y = "expected score"
     )
 
-  # 凡例の制御
+  # Legend control
   if (!show_legend) {
     plot <- plot + theme(legend.position = "none")
   } else {

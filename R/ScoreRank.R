@@ -50,7 +50,7 @@ plotScoreRank_gg <- function(data,
                              colors = NULL,
                              show_legend = TRUE,
                              legend_position = "right") {
-  # クラスチェック
+  # Class validation
   is_LRAordinal <- all(class(data) %in% c("exametrika", "LRAordinal"))
   is_LRArated <- all(class(data) %in% c("exametrika", "LRArated"))
 
@@ -62,14 +62,14 @@ plotScoreRank_gg <- function(data,
   n_rank <- ncol(score_rank_matrix)
   scores <- as.numeric(rownames(score_rank_matrix))
 
-  # long format に変換
+  # Convert to long format
   plot_data <- data.frame(
     rank = rep(1:n_rank, each = length(scores)),
     score = rep(scores, times = n_rank),
     count = as.vector(score_rank_matrix)
   )
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     color_low <- "white"
     color_high <- "black"
@@ -78,7 +78,7 @@ plotScoreRank_gg <- function(data,
     color_high <- colors[2]
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     plot_title <- "Score-Rank Distribution"
   } else if (is.logical(title) && !title) {
@@ -98,7 +98,7 @@ plotScoreRank_gg <- function(data,
       fill = "Count"
     )
 
-  # 凡例の制御
+  # Legend control
   if (show_legend) {
     p <- p + theme(legend.position = legend_position)
   } else {

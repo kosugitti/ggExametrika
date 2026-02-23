@@ -61,7 +61,7 @@ plotIRP_gg <- function(data,
     stop("Invalid input. The variable must be from exametrika output or from either LCA, LRA, or LDLRA.")
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_color <- .gg_exametrika_palette(1)[1]
   } else {
@@ -82,7 +82,7 @@ plotIRP_gg <- function(data,
       rank = c(1:n_cls)
     )
 
-    # タイトルの設定
+    # Title setup
     if (is.logical(title) && title) {
       plot_title <- paste0("Item Reference Profile, ", rownames(data$IRP)[i])
     } else if (is.logical(title) && !title) {
@@ -102,7 +102,7 @@ plotIRP_gg <- function(data,
         y = "Correct Response Rate"
       )
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       p <- p + theme(legend.position = "none")
     } else {
@@ -195,7 +195,7 @@ plotFRP_gg <- function(data,
                        show_legend = TRUE,
                        legend_position = "right") {
 
-  # クラスチェック
+  # Class validation
   valid_classes <- c("Biclustering", "nominalBiclustering", "ordinalBiclustering",
                      "IRM", "LDB", "BINET")
   data_class <- class(data)[class(data) != "exametrika"]
@@ -205,27 +205,27 @@ plotFRP_gg <- function(data,
          "Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, or BINET.")
   }
 
-  # statパラメータチェック
+  # Validate stat parameter
   if (!stat %in% c("mean", "median", "mode")) {
     stop("'stat' must be one of: 'mean', 'median', 'mode'")
   }
 
-  # FRPデータの存在確認
+  # Check FRP data existence
   if (!"FRP" %in% names(data)) {
     stop("FRP data not found in the input object.")
   }
 
-  # データ型判定: 2次元（2値）か3次元（多値）か
+  # Data type detection: 2D (binary) or 3D (polytomous)
   is_polytomous <- length(dim(data$FRP)) == 3
 
   if (is_polytomous) {
-    # === 多値データ（nominalBiclustering, ordinalBiclustering） ===
+    # === Polytomous data (nominalBiclustering, ordinalBiclustering) ===
     BCRM <- data$FRP  # [field, class, category]
     nfld <- dim(BCRM)[1]
     ncls <- dim(BCRM)[2]
     maxQ <- dim(BCRM)[3]
 
-    # フィールド選択
+    # Field selection
     if (is.null(fields)) {
       selected_fields <- 1:nfld
     } else {
@@ -235,26 +235,26 @@ plotFRP_gg <- function(data,
       selected_fields <- fields
     }
 
-    # 期待得点の計算
+    # Expected score calculation
     expected_scores <- matrix(0, nrow = length(selected_fields), ncol = ncls)
     rownames(expected_scores) <- paste0("Field ", selected_fields)
 
     for (idx in seq_along(selected_fields)) {
       f <- selected_fields[idx]
       for (cc in 1:ncls) {
-        probs <- BCRM[f, cc, ]  # カテゴリ確率ベクトル
+        probs <- BCRM[f, cc, ]  # Category probability vector
         categories <- 1:maxQ
 
         if (stat == "mean") {
-          # 重み付き平均
+          # Weighted average
           expected_scores[idx, cc] <- sum(categories * probs)
         } else if (stat == "median") {
-          # 累積確率から中央値を計算
+          # Compute median from cumulative probabilities
           cum_probs <- cumsum(probs)
           median_cat <- min(which(cum_probs >= 0.5))
           expected_scores[idx, cc] <- median_cat
         } else if (stat == "mode") {
-          # 最頻値（最も確率が高いカテゴリ）
+          # Mode (category with the highest probability)
           mode_cat <- which.max(probs)
           expected_scores[idx, cc] <- mode_cat
         }
@@ -267,12 +267,12 @@ plotFRP_gg <- function(data,
                       "mode" = "Expected Score (Mode)")
 
   } else {
-    # === 2値データ（Biclustering, IRM, LDB, BINET） ===
+    # === Binary data (Biclustering, IRM, LDB, BINET) ===
     FRP_matrix <- data$FRP  # [field, class]
     nfld <- nrow(FRP_matrix)
     ncls <- ncol(FRP_matrix)
 
-    # フィールド選択
+    # Field selection
     if (is.null(fields)) {
       selected_fields <- 1:nfld
     } else {
@@ -287,7 +287,7 @@ plotFRP_gg <- function(data,
     y_label <- "Correct Response Rate"
   }
 
-  # データフレーム作成
+  # Build data frame
   plot_data_list <- list()
   for (idx in seq_along(selected_fields)) {
     for (cc in 1:ncls) {
@@ -300,19 +300,19 @@ plotFRP_gg <- function(data,
   }
   long_data <- do.call(rbind, plot_data_list)
 
-  # Fieldを因子化（順序保持）
+  # Convert Field to factor (preserve order)
   long_data$Field <- factor(long_data$Field, levels = unique(long_data$Field))
 
-  # 色の設定
+  # Color setup
   n_fields <- length(selected_fields)
   if (is.null(colors)) {
     colors <- .gg_exametrika_palette(n_fields)
   }
 
-  # msg取得（Class or Rank）
+  # Get msg (Class or Rank)
   msg <- if ("msg" %in% names(data)) data$msg else "Class"
 
-  # プロット作成
+  # Build plot
   p <- ggplot(long_data, aes(x = ClassRank, y = Value, color = Field, group = Field)) +
     geom_line(linewidth = 0.8, linetype = linetype) +
     geom_point(size = 2) +
@@ -322,15 +322,14 @@ plotFRP_gg <- function(data,
       x = paste("Latent", msg),
       y = y_label,
       color = "Field"
-    ) +
-    theme(legend.position = legend_position)
+    )
 
-  # 色のスケール設定
+  # Color scale setup
   if (!is.null(colors)) {
     p <- p + scale_color_manual(values = colors)
   }
 
-  # タイトル設定
+  # Title setup
   if (is.logical(title)) {
     if (title) {
       if (is_polytomous) {
@@ -346,9 +345,11 @@ plotFRP_gg <- function(data,
     p <- p + labs(title = title)
   }
 
-  # 凡例制御
+  # Legend control
   if (!show_legend) {
     p <- p + theme(legend.position = "none")
+  } else {
+    p <- p + theme(legend.position = legend_position)
   }
 
   return(p)
@@ -434,7 +435,7 @@ plotTRP_gg <- function(data,
     )
   }
 
-  # 受検者分布: rank系モデルはLRD優先、class系モデルはLCD優先（フォールバック付き）
+  # Student distribution: rank models prefer LRD, class models prefer LCD (with fallback)
   if (xlabel == "Latent Rank") {
     dist_data <- .first_non_null(data$LRD, data$LCD)
   } else {
@@ -478,7 +479,7 @@ plotTRP_gg <- function(data,
     Num_label <- ""
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     bar_fill <- "gray"
     line_color <- "black"
@@ -487,7 +488,7 @@ plotTRP_gg <- function(data,
     line_color <- if (length(colors) >= 2) colors[2] else "black"
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     plot_title <- "Test Reference Profile"
   } else if (is.logical(title) && !title) {
@@ -526,7 +527,7 @@ plotTRP_gg <- function(data,
       x = xlabel
     )
 
-  # 凡例の制御
+  # Legend control
   if (!show_legend) {
     plot <- plot + theme(legend.position = "none")
   } else {
@@ -628,7 +629,7 @@ plotLCD_gg <- function(data,
     )
   }
 
-  # 受検者分布: class系モデルはLCD優先、rank系モデルはLRD優先（フォールバック付き）
+  # Student distribution: class models prefer LCD, rank models prefer LRD (with fallback)
   if (mode) {
     dist_data <- .first_non_null(data$LCD, data$LRD)
     freq_data <- .first_non_null(data$CMD, data$RMD)
@@ -671,7 +672,7 @@ plotLCD_gg <- function(data,
     Num_label <- ""
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     bar_fill <- "gray"
     line_color <- "black"
@@ -680,7 +681,7 @@ plotLCD_gg <- function(data,
     line_color <- if (length(colors) >= 2) colors[2] else "black"
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     if (mode == TRUE) {
       plot_title <- "Latent Class Distribution"
@@ -723,7 +724,7 @@ plotLCD_gg <- function(data,
       x = xlabel
     )
 
-  # 凡例の制御
+  # Legend control
   if (!show_legend) {
     plot <- plot + theme(legend.position = "none")
   } else {
@@ -821,7 +822,7 @@ plotLRD_gg <- function(data,
     )
   }
 
-  # 受検者分布: class系モデルはLCD優先、rank系モデルはLRD優先（フォールバック付き）
+  # Student distribution: class models prefer LCD, rank models prefer LRD (with fallback)
   if (mode) {
     dist_data <- .first_non_null(data$LCD, data$LRD)
     freq_data <- .first_non_null(data$CMD, data$RMD)
@@ -864,7 +865,7 @@ plotLRD_gg <- function(data,
     Num_label <- ""
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     bar_fill <- "gray"
     line_color <- "black"
@@ -873,7 +874,7 @@ plotLRD_gg <- function(data,
     line_color <- if (length(colors) >= 2) colors[2] else "black"
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     if (mode == TRUE) {
       plot_title <- "Latent Class Distribution"
@@ -916,7 +917,7 @@ plotLRD_gg <- function(data,
       x = xlabel
     )
 
-  # 凡例の制御
+  # Legend control
   if (!show_legend) {
     plot <- plot + theme(legend.position = "none")
   } else {
@@ -1016,21 +1017,21 @@ plotCMP_gg <- function(data,
   }
 
 
-  # フォールバック付きでクラス/ランク数を取得（新名称優先）
+  # Get number of classes/ranks with fallback (prefer new field names)
   n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
 
   if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
     stop("Invalid number of Class or Rank")
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_color <- .gg_exametrika_palette(1)[1]
   } else {
     use_color <- colors[1]
   }
 
-  # 列名ベースでMembership列を取得（列ズレ防止）
+  # Get Membership columns by name (prevent column index mismatch)
   membership_cols <- grep("^Membership", colnames(data$Students))
   if (length(membership_cols) == 0) {
     stop("No 'Membership' columns found in data$Students")
@@ -1044,7 +1045,7 @@ plotCMP_gg <- function(data,
       rank = seq_along(membership_cols)
     )
 
-    # タイトルの設定
+    # Title setup
     if (is.logical(title) && title) {
       plot_title <- paste0(
         xlabel,
@@ -1068,7 +1069,7 @@ plotCMP_gg <- function(data,
         y = "Membership"
       )
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       p <- p + theme(legend.position = "none")
     } else {
@@ -1173,21 +1174,21 @@ plotRMP_gg <- function(data,
   }
 
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_color <- .gg_exametrika_palette(1)[1]
   } else {
     use_color <- colors[1]
   }
 
-  # フォールバック付きでクラス/ランク数を取得（新名称優先）
+  # Get number of classes/ranks with fallback (prefer new field names)
   n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
 
   if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
     stop("Invalid number of Class or Rank")
   }
 
-  # 列名ベースでMembership列を取得（列ズレ防止）
+  # Get Membership columns by name (prevent column index mismatch)
   membership_cols <- grep("^Membership", colnames(data$Students))
   if (length(membership_cols) == 0) {
     stop("No 'Membership' columns found in data$Students")
@@ -1201,7 +1202,7 @@ plotRMP_gg <- function(data,
       rank = seq_along(membership_cols)
     )
 
-    # タイトルの設定
+    # Title setup
     if (is.logical(title) && title) {
       plot_title <- paste0(
         xlabel,
@@ -1225,7 +1226,7 @@ plotRMP_gg <- function(data,
         y = "Membership"
       )
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       p <- p + theme(legend.position = "none")
     } else {

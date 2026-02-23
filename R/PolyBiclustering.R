@@ -168,8 +168,7 @@ plotFCRP_gg <- function(data,
         linetype = "Category"
       ) +
       theme(
-        strip.text = element_text(size = 10, face = "bold"),
-        legend.position = legend_position
+        strip.text = element_text(size = 10, face = "bold")
       )
 
     # Apply custom colors if provided
@@ -244,8 +243,7 @@ plotFCRP_gg <- function(data,
         fill = "Category"
       ) +
       theme(
-        strip.text = element_text(size = 10, face = "bold"),
-        legend.position = legend_position
+        strip.text = element_text(size = 10, face = "bold")
       )
 
     # Apply custom colors if provided
@@ -259,7 +257,6 @@ plotFCRP_gg <- function(data,
     if (title) {
       p <- p + labs(title = "Field Category Response Profile")
     }
-    # title = FALSE の場合は何もしない
   } else if (is.character(title)) {
     p <- p + labs(title = title)
   }
@@ -267,6 +264,8 @@ plotFCRP_gg <- function(data,
   # Handle legend visibility
   if (!show_legend) {
     p <- p + theme(legend.position = "none")
+  } else {
+    p <- p + theme(legend.position = legend_position)
   }
 
   return(p)

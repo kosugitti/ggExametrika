@@ -75,9 +75,9 @@ plotICRF_gg <- function(data,
     stop("'items' must contain values between 1 and ", n_items)
   }
 
-  # デフォルトのカラーパレット（パッケージ共通）
+  # Default color palette (shared across package)
 
-  # grm_prob相当の計算（exametrikaに依存しないようローカル定義）
+  # Compute GRM probabilities (defined locally to avoid exametrika dependency)
   grm_cumprob <- function(theta, a, b) {
     1 / (1 + exp(-a * (theta - b)))
   }
@@ -108,27 +108,27 @@ plotICRF_gg <- function(data,
     b <- b[!is.na(b)]
     K <- length(b) + 1
 
-    # カテゴリ応答確率を計算
+    # Compute category response probabilities
     prob_matrix <- matrix(0, nrow = length(thetas), ncol = K)
     for (t in seq_along(thetas)) {
       prob_matrix[t, ] <- grm_category_prob(thetas[t], a, b)
     }
 
-    # long format に変換
+    # Convert to long format
     plot_data <- data.frame(
       theta = rep(thetas, K),
       probability = as.vector(prob_matrix),
       category = factor(rep(paste("Category", 1:K), each = length(thetas)))
     )
 
-    # 色の設定
+    # Color setup
     if (is.null(colors)) {
       use_colors <- .gg_exametrika_palette(K)
     } else {
       use_colors <- colors[1:K]
     }
 
-    # タイトルの設定
+    # Title setup
     if (is.logical(title) && title) {
       plot_title <- paste("Item Category Response Function,", rownames(params)[i])
     } else if (is.logical(title) && !title) {
@@ -148,7 +148,7 @@ plotICRF_gg <- function(data,
         color = NULL
       )
 
-    # 凡例の制御
+    # Legend control
     if (show_legend) {
       p <- p + theme(legend.position = legend_position)
     } else {

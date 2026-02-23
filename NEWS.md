@@ -1,3 +1,14 @@
+# ggExametrika 0.0.31
+
+## Bug Fixes
+
+* Fix legend control in `plotICBR_gg()`, `plotICRP_gg()`, `plotFCRP_gg()`, and `plotFRP_gg()`: `legend.position` was unconditionally applied in the initial `theme()` call, then `show_legend = FALSE` attempted to override it in a separate `theme()` layer. Replaced with a single conditional block for consistent behavior.
+
+## CRAN Compliance
+
+* Convert all Japanese comments in R source files to English (9 files, ~100 comments). Non-ASCII characters in source code cause encoding warnings in R CMD check --as-cran.
+* Translate Japanese text in NEWS.md v0.0.29 entry to English.
+
 # ggExametrika 0.0.30
 
 ## Bug Fixes
@@ -25,14 +36,14 @@
 
 ## Documentation
 
-* README.md を実装状況に合わせて全面更新
-  - モデル一覧に nominalBiclustering, ordinalBiclustering, LRAordinal, LRArated を追加
-  - Function-Model 互換テーブルを4分割（IRT/GRM、LCA/LRA系、Biclustering系、Network系）に再構成し、全関数・全モデルの対応状況を正確に記載
-  - 未掲載だった関数を追加: plotICC_overlay_gg, plotIIC_overlay_gg, plotFCRP_gg, plotFCBR_gg, plotScoreField_gg, plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg, plotICBR_gg
-  - 互換テーブルのマーク漏れを修正（plotFRP_gg の LCA/LRA 対応、plotLCD_gg/plotCMP_gg の Biclustering 系対応、plotRMP_gg の BINET 対応 等）
-  - LRAordinal/LRArated、多値 Biclustering、overlay 関数の使用例を追加
-  - Common Plot Options に stat, style, show_labels 等の関数固有パラメータを追記
-  - 存在しない日本語ガイドへのリンクを削除
+* Comprehensive README.md update to reflect current implementation status
+  - Add nominalBiclustering, ordinalBiclustering, LRAordinal, LRArated to model list
+  - Reorganize Function-Model compatibility table into 4 sections (IRT/GRM, LCA/LRA, Biclustering, Network) with accurate coverage for all functions and models
+  - Add previously unlisted functions: plotICC_overlay_gg, plotIIC_overlay_gg, plotFCRP_gg, plotFCBR_gg, plotScoreField_gg, plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg, plotICBR_gg
+  - Fix missing marks in compatibility table (plotFRP_gg LCA/LRA support, plotLCD_gg/plotCMP_gg Biclustering support, plotRMP_gg BINET support, etc.)
+  - Add usage examples for LRAordinal/LRArated, polytomous Biclustering, and overlay functions
+  - Add function-specific parameters (stat, style, show_labels) to Common Plot Options section
+  - Remove broken link to non-existent Japanese guide
 
 # ggExametrika 0.0.28
 

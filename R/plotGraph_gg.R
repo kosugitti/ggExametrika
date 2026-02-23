@@ -166,14 +166,14 @@ plotGraph_gg <- function(data,
     scaled_arrow_size <- max(arrow_size * scale_factor, 2.0)  # Minimum 2mm for arrows
     scaled_label_size <- label_size * scale_factor
 
-    # ノード色の設定
+    # Set node colors
     if (is.null(colors)) {
       item_color <- "#A23B72"  # Purple (default)
     } else {
       item_color <- colors[1]
     }
 
-    # タイトルの設定
+    # Set title
     if (is.logical(title) && title) {
       plot_title <- "Bayesian Network Model"
     } else if (is.logical(title) && !title) {
@@ -242,7 +242,7 @@ plotGraph_gg <- function(data,
         plot.margin = ggplot2::margin(15, 15, 15, 15)  # Add margin to prevent cutoff
       )
 
-    # タイトルの設定
+    # Apply title
     if (!is.null(plot_title)) {
       p <- p + ggplot2::ggtitle(plot_title) +
         ggplot2::theme(
@@ -255,7 +255,7 @@ plotGraph_gg <- function(data,
         )
     }
 
-    # 凡例の制御
+    # Legend control
     if (!show_legend) {
       p <- p + ggplot2::theme(legend.position = "none")
     } else {

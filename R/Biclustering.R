@@ -153,7 +153,7 @@ plotCRV_gg <- function(data,
     y_breaks <- seq(0, 1, 0.25)
   }
 
-  # long format に変換
+  # Convert to long format
   plot_data <- data.frame(
     field = rep(1:n_fld, each = n_cls),
     field_label = rep(paste0("F", 1:n_fld), each = n_cls),
@@ -167,14 +167,14 @@ plotCRV_gg <- function(data,
     show_labels <- FALSE
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_colors <- .gg_exametrika_palette(n_cls)
   } else {
     use_colors <- colors[1:n_cls]
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     if (is_polytomous) {
       plot_title <- paste0("Class Reference Vector (", stat, ")")
@@ -200,7 +200,7 @@ plotCRV_gg <- function(data,
       color = NULL
     )
 
-  # ラベル表示（ggrepelで重なりを回避）
+  # Label display (using ggrepel to avoid overlaps)
   if (show_labels) {
     p <- p + ggrepel::geom_text_repel(
       data = plot_data,
@@ -215,7 +215,7 @@ plotCRV_gg <- function(data,
     )
   }
 
-  # 凡例の制御
+  # Legend control
   if (show_legend) {
     p <- p + theme(legend.position = legend_position)
   } else {
@@ -363,7 +363,7 @@ plotRRV_gg <- function(data,
     y_breaks <- seq(0, 1, 0.25)
   }
 
-  # long format に変換
+  # Convert to long format
   plot_data <- data.frame(
     field = rep(1:n_fld, each = n_rank),
     field_label = rep(paste0("F", 1:n_fld), each = n_rank),
@@ -377,14 +377,14 @@ plotRRV_gg <- function(data,
     show_labels <- FALSE  # Default to FALSE since legend provides rank information
   }
 
-  # 色の設定
+  # Color setup
   if (is.null(colors)) {
     use_colors <- .gg_exametrika_palette(n_rank)
   } else {
     use_colors <- colors[1:n_rank]
   }
 
-  # タイトルの設定
+  # Title setup
   if (is.logical(title) && title) {
     if (is_polytomous) {
       plot_title <- paste0("Rank Reference Vector (", stat, ")")
@@ -410,7 +410,7 @@ plotRRV_gg <- function(data,
       color = NULL
     )
 
-  # ラベル表示（ggrepelで重なりを回避）
+  # Label display (using ggrepel to avoid overlaps)
   if (show_labels) {
     p <- p + geom_text_repel(
       data = plot_data,
@@ -425,7 +425,7 @@ plotRRV_gg <- function(data,
     )
   }
 
-  # 凡例の制御
+  # Legend control
   if (show_legend) {
     p <- p + theme(legend.position = legend_position)
   } else {
