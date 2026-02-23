@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.29</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.30</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -119,7 +119,7 @@
 <p>exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とする。 合宿期間中（2026年2月）に v1.0.0 リリースを目指す。 3名体制で並行開発を進める。</p>
 <div class="section level3">
 <h3 id="exametrikaのプロットタイプ一覧と実装状況exametrika-v190-準拠">exametrikaのプロットタイプ一覧と実装状況（exametrika v1.9.0 準拠）<a class="anchor" aria-label="anchor" href="#exametrika%E3%81%AE%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E3%82%BF%E3%82%A4%E3%83%97%E4%B8%80%E8%A6%A7%E3%81%A8%E5%AE%9F%E8%A3%85%E7%8A%B6%E6%B3%81exametrika-v190-%E6%BA%96%E6%8B%A0"></a></h3>
-<p>※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく</p>
+<p>※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく（注: 一部不正確な宣言あり、下記注釈参照）</p>
 <table class="table"><colgroup><col width="30%"><col width="22%"><col width="34%"><col width="12%"></colgroup><thead><tr class="header"><th>プロットタイプ</th>
 <th>対応モデル</th>
 <th>ggExametrika関数</th>
@@ -149,7 +149,8 @@
 <td>plotIRP_gg</td>
 <td>実装済</td>
 </tr><tr class="odd"><td>FRP</td>
-<td>LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET</td>
+<td>
+<del>LCA, LRA</del>(*1), Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET</td>
 <td>plotFRP_gg</td>
 <td><strong>実装済（2値・多値対応、stat対応、共通オプション対応済み）</strong></td>
 </tr><tr class="even"><td>TRP</td>
@@ -230,9 +231,9 @@
 </tr><tr class="even"><td>GRM</td>
 <td>IRF/ICC, IIF/IIC, TIF/TIC</td>
 </tr><tr class="odd"><td>LCA</td>
-<td>IRP, FRP, TRP, LCD, CMP</td>
+<td>IRP, <del>FRP</del>(*1), TRP, LCD, CMP</td>
 </tr><tr class="even"><td>LRA</td>
-<td>IRP, FRP, TRP, LRD, RMP</td>
+<td>IRP, <del>FRP</del>(*1), TRP, LRD, RMP</td>
 </tr><tr class="odd"><td>LRAordinal</td>
 <td>ScoreFreq, ScoreRank, ICRP, ICBR, RMP</td>
 </tr><tr class="even"><td>LRArated</td>
@@ -252,6 +253,7 @@
 </tr><tr class="odd"><td>BINET</td>
 <td>FRP, TRP, LRD, RMP, Array, LDPSR</td>
 </tr></tbody></table><p><strong>太字</strong> = v1.9.0で追加された多値バイクラスタリング向けプロット</p>
+<p><strong>注釈:</strong> - (*1) <strong>FRPのLCA/LRA対応について（2026-02-23調査）</strong>: exametrikaのplot.exametrika valid_typesではLCA/LRAに対しFRPが有効と宣言されているが、実際にはLCA()もLRA()も出力に<span class="math inline">$FRPフィールドを含まない。exametrikaのplot関数は`x$</span>FRP`に直接アクセスするため、LCA/LRAでFRPを描画しようとするとエラーになる。これはexametrika側のvalid_types宣言の誤りであり、ggExametrikaでは正しくLCA/LRAを拒否している。長男（exametrika）への修正提案事項。</p>
 </div>
 <div class="section level3">
 <h3 id="dag可視化printexametrikaでigraph使用">DAG可視化（print.exametrikaでigraph使用）<a class="anchor" aria-label="anchor" href="#dag%E5%8F%AF%E8%A6%96%E5%8C%96printexametrika%E3%81%A7igraph%E4%BD%BF%E7%94%A8"></a></h3>

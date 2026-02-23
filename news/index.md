@@ -1,5 +1,58 @@
 # Changelog
 
+## ggExametrika 0.0.30
+
+### Bug Fixes
+
+- Fix
+  [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md)
+  to support LRAordinal and LRArated model types. Previously these
+  models were rejected with “Invalid input” error despite having valid
+  Students/Membership data.
+- Add polytomous (multi-valued) data support to
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)
+  with `stat` parameter (“mean”, “median”, “mode”), matching the
+  existing
+  [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md)
+  functionality. For binary data, backward compatibility is fully
+  maintained.
+- Add `show_labels` parameter to
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)
+  for displaying class labels using ggrepel.
+- For polytomous CRV, Y-axis automatically adjusts to “Expected Score
+  (stat)” with range 1-maxQ. Title includes stat name.
+
+### CI / Test Infrastructure
+
+- Add GitHub Actions workflow `R-CMD-check.yaml` for multi-platform R
+  CMD check (macOS, Windows, Ubuntu with R release/devel/oldrel-1).
+- Add GitHub Actions workflow `test-coverage.yaml` for covr test
+  coverage with optional Codecov upload.
+- Fix BNM test fixture in `helper-setup.R`: BNM requires a DAG graph
+  argument (`g`). Added igraph DAG creation for J5S10 dataset. This
+  resolves 4 previously skipped DAG tests.
+- Add tests for
+  [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md)
+  with LRAordinal/LRArated models.
+- Update
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)
+  tests: replace error-expectation test with polytomous support tests
+  (stat, show_labels).
+- Remove Dropbox conflict copy artifact from tests/testthat/.
+- Test results: FAIL 0 \| WARN 22 \| SKIP 0 \| PASS 452 (previously 433
+  PASS + 4 SKIP).
+
+### Documentation
+
+- Update CLAUDE.md: Correct FRP model support table. exametrika’s
+  `plot.exametrika` `valid_types` declares FRP as valid for LCA and LRA,
+  but neither [`LCA()`](https://rdrr.io/pkg/exametrika/man/LCA.html) nor
+  [`LRA()`](https://rdrr.io/pkg/exametrika/man/LRA.html) actually
+  produce a `$FRP` field in their output. The
+  [`plotFRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md)
+  correctly rejects these models. Added annotation (\*1) to model
+  compatibility tables documenting this exametrika-side inconsistency.
+
 ## ggExametrika 0.0.29
 
 ### Documentation

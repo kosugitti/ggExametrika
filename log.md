@@ -1,5 +1,65 @@
 # ggExametrika 開発ログ
 
+## 2026-02-23
+
+### CI整備・BNMフィクスチャ修正 (次男/gg)
+
+**目的:** CI/CDパイプラインの整備とテストインフラの改善
+
+**実装内容:** - GitHub Actions ワークフロー追加 - `R-CMD-check.yaml`:
+マルチプラットフォーム R CMD check（macOS/Windows/Ubuntu、R
+release/devel/oldrel-1） - `test-coverage.yaml`: covr テストカバレッジ +
+Codecov（オプション） - BNMテストフィクスチャ修正:
+BNMはグラフ引数(g)が必須だが、helper-setup.R で省略されていた -
+igraphでJ5S10用の簡易DAGを作成してBNMに渡すように修正 -
+以前スキップされていた4テスト（DAGテスト）がすべてパスするように -
+test-coverage.yaml:
+CODECOV_TOKENが未設定でもCI全体が失敗しないよう改善 -
+Dropbox競合コピーアーティファクト削除
+
+**テスト結果:** - 修正前: FAIL 0 \| WARN 22 \| SKIP 4 \| PASS 433 -
+修正後: FAIL 0 \| WARN 22 \| SKIP 0 \| PASS 442
+
+**CI整備方針の分析:** - R-CMD-check.yaml:
+r-lib標準テンプレート。exametrikaはSuggestsにあり、CRANバージョン(v1.8.1)で動作確認される -
+test-coverage.yaml: CODECOV_TOKEN設定はリポジトリ管理者(殿)の判断待ち -
+pkgdown.yaml: 既にコミット済み -
+.Rbuildignoreに`^\.github$`が設定済みでCRAN対応済み
+
+**plotRMP_gg `$Nclass` → `$n_class` 修正の確認結果:** -
+v0.0.26で[`.first_non_null()`](https://kosugitti.github.io/ggExametrika/reference/dot-first_non_null.md)によるフォールバックチェーン実装済み -
+対象: plotRMP_gg, plotCMP_gg, plotArray_gg, plotFieldPIRP_gg,
+plotTRP_gg, plotLCD_gg, plotLRD_gg - 追加対応不要
+
+**三男への影響:** - CI設定はパッケージ機能に変更なし、三男への影響なし
+
+**次回の作業:** -
+長男のexametrikaビルド完了後、最新版をインストールして動作確認
+
+### LCA/LRA FRPプロット問題の調査・文書化 (次男/gg) — セッション2
+
+**目的:** 殿の指示「LCA FRPプロット等のバグ修正」を受け、plotFRP_gg が
+LCA/LRA を受け付けない問題を調査
+
+**調査結果:** - plotFRP_gg の v0.0.22 リライト時に LCA/LRA が
+valid_classes から脱落していた -
+**しかしこれは回帰バグではなく、正しい動作であることが判明** -
+exametrika の LCA()/LRA() は出力に \$FRP フィールドを含まない -
+exametrika の plot.exametrika の valid_types が LCA/LRA に対し FRP
+を誤って宣言している - FRP（Field Reference
+Profile）は「フィールド」を持つ Biclustering 系モデル専用
+
+**対応内容:** - CLAUDE.md: FRP の対応モデル表を修正（LCA/LRA
+に取り消し線と注釈追加） - NEWS.md: Documentation セクションに記録 -
+develop/session_log_2026-02-23.md: 詳細な調査経緯・判断根拠を記録 -
+長男への修正提案: valid_types から LCA/LRA の FRP を削除すべき
+
+**テスト結果:** FAIL 0 \| WARN 22 \| SKIP 0 \| PASS 452（変更なし）
+
+**三男への影響:** ドキュメント修正のみ、影響なし
+
+**ブランチ:** feature/frp-lca-doc-fix-and-session-log
+
 ## 2026-02-18
 
 ### plotFRP_gg() 多値対応実装 (Claude Sonnet 4.5)

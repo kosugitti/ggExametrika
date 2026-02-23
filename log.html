@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.29</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.30</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,28 @@
 
 <div id="ggexametrika-開発ログ" class="section level1">
 
+<div class="section level2">
+<h2 id="id_2026-02-23">2026-02-23<a class="anchor" aria-label="anchor" href="#id_2026-02-23"></a></h2>
+<div class="section level3">
+<h3 id="ci整備bnmフィクスチャ修正-次男gg">CI整備・BNMフィクスチャ修正 (次男/gg)<a class="anchor" aria-label="anchor" href="#ci%E6%95%B4%E5%82%99bnm%E3%83%95%E3%82%A3%E3%82%AF%E3%82%B9%E3%83%81%E3%83%A3%E4%BF%AE%E6%AD%A3-%E6%AC%A1%E7%94%B7gg"></a></h3>
+<p><strong>目的:</strong> CI/CDパイプラインの整備とテストインフラの改善</p>
+<p><strong>実装内容:</strong> - GitHub Actions ワークフロー追加 - <code>R-CMD-check.yaml</code>: マルチプラットフォーム R CMD check（macOS/Windows/Ubuntu、R release/devel/oldrel-1） - <code>test-coverage.yaml</code>: covr テストカバレッジ + Codecov（オプション） - BNMテストフィクスチャ修正: BNMはグラフ引数(g)が必須だが、helper-setup.R で省略されていた - igraphでJ5S10用の簡易DAGを作成してBNMに渡すように修正 - 以前スキップされていた4テスト（DAGテスト）がすべてパスするように - test-coverage.yaml: CODECOV_TOKENが未設定でもCI全体が失敗しないよう改善 - Dropbox競合コピーアーティファクト削除</p>
+<p><strong>テスト結果:</strong> - 修正前: FAIL 0 | WARN 22 | SKIP 4 | PASS 433 - 修正後: FAIL 0 | WARN 22 | SKIP 0 | PASS 442</p>
+<p><strong>CI整備方針の分析:</strong> - R-CMD-check.yaml: r-lib標準テンプレート。exametrikaはSuggestsにあり、CRANバージョン(v1.8.1)で動作確認される - test-coverage.yaml: CODECOV_TOKEN設定はリポジトリ管理者(殿)の判断待ち - pkgdown.yaml: 既にコミット済み - .Rbuildignoreに<code>^\.github$</code>が設定済みでCRAN対応済み</p>
+<p><strong>plotRMP_gg <code>$Nclass</code> → <code>$n_class</code> 修正の確認結果:</strong> - v0.0.26で<code><a href="reference/dot-first_non_null.html">.first_non_null()</a></code>によるフォールバックチェーン実装済み - 対象: plotRMP_gg, plotCMP_gg, plotArray_gg, plotFieldPIRP_gg, plotTRP_gg, plotLCD_gg, plotLRD_gg - 追加対応不要</p>
+<p><strong>三男への影響:</strong> - CI設定はパッケージ機能に変更なし、三男への影響なし</p>
+<p><strong>次回の作業:</strong> - 長男のexametrikaビルド完了後、最新版をインストールして動作確認</p>
+</div>
+<div class="section level3">
+<h3 id="lcalra-frpプロット問題の調査文書化-次男gg--セッション2">LCA/LRA FRPプロット問題の調査・文書化 (次男/gg) — セッション2<a class="anchor" aria-label="anchor" href="#lcalra-frp%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E5%95%8F%E9%A1%8C%E3%81%AE%E8%AA%BF%E6%9F%BB%E6%96%87%E6%9B%B8%E5%8C%96-%E6%AC%A1%E7%94%B7gg--%E3%82%BB%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B32"></a></h3>
+<p><strong>目的:</strong> 殿の指示「LCA FRPプロット等のバグ修正」を受け、plotFRP_gg が LCA/LRA を受け付けない問題を調査</p>
+<p><strong>調査結果:</strong> - plotFRP_gg の v0.0.22 リライト時に LCA/LRA が valid_classes から脱落していた - <strong>しかしこれは回帰バグではなく、正しい動作であることが判明</strong> - exametrika の LCA()/LRA() は出力に $FRP フィールドを含まない - exametrika の plot.exametrika の valid_types が LCA/LRA に対し FRP を誤って宣言している - FRP（Field Reference Profile）は「フィールド」を持つ Biclustering 系モデル専用</p>
+<p><strong>対応内容:</strong> - CLAUDE.md: FRP の対応モデル表を修正（LCA/LRA に取り消し線と注釈追加） - NEWS.md: Documentation セクションに記録 - develop/session_log_2026-02-23.md: 詳細な調査経緯・判断根拠を記録 - 長男への修正提案: valid_types から LCA/LRA の FRP を削除すべき</p>
+<p><strong>テスト結果:</strong> FAIL 0 | WARN 22 | SKIP 0 | PASS 452（変更なし）</p>
+<p><strong>三男への影響:</strong> ドキュメント修正のみ、影響なし</p>
+<p><strong>ブランチ:</strong> feature/frp-lca-doc-fix-and-session-log</p>
+</div>
+</div>
 <div class="section level2">
 <h2 id="id_2026-02-18">2026-02-18<a class="anchor" aria-label="anchor" href="#id_2026-02-18"></a></h2>
 <div class="section level3">

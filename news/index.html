@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.29</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.30</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,30 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.30" id="ggexametrika-0030">ggExametrika 0.0.30<a class="anchor" aria-label="anchor" href="#ggexametrika-0030"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-30">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-30"></a></h3>
+<ul><li>Fix <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> to support LRAordinal and LRArated model types. Previously these models were rejected with “Invalid input” error despite having valid Students/Membership data.</li>
+<li>Add polytomous (multi-valued) data support to <code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code> with <code>stat</code> parameter (“mean”, “median”, “mode”), matching the existing <code><a href="../reference/plotRRV_gg.html">plotRRV_gg()</a></code> functionality. For binary data, backward compatibility is fully maintained.</li>
+<li>Add <code>show_labels</code> parameter to <code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code> for displaying class labels using ggrepel.</li>
+<li>For polytomous CRV, Y-axis automatically adjusts to “Expected Score (stat)” with range 1-maxQ. Title includes stat name.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="ci--test-infrastructure-0-0-30">CI / Test Infrastructure<a class="anchor" aria-label="anchor" href="#ci--test-infrastructure-0-0-30"></a></h3>
+<ul><li>Add GitHub Actions workflow <code>R-CMD-check.yaml</code> for multi-platform R CMD check (macOS, Windows, Ubuntu with R release/devel/oldrel-1).</li>
+<li>Add GitHub Actions workflow <code>test-coverage.yaml</code> for covr test coverage with optional Codecov upload.</li>
+<li>Fix BNM test fixture in <code>helper-setup.R</code>: BNM requires a DAG graph argument (<code>g</code>). Added igraph DAG creation for J5S10 dataset. This resolves 4 previously skipped DAG tests.</li>
+<li>Add tests for <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> with LRAordinal/LRArated models.</li>
+<li>Update <code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code> tests: replace error-expectation test with polytomous support tests (stat, show_labels).</li>
+<li>Remove Dropbox conflict copy artifact from tests/testthat/.</li>
+<li>Test results: FAIL 0 | WARN 22 | SKIP 0 | PASS 452 (previously 433 PASS + 4 SKIP).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-0-30">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-0-30"></a></h3>
+<ul><li>Update CLAUDE.md: Correct FRP model support table. exametrika’s <code>plot.exametrika</code> <code>valid_types</code> declares FRP as valid for LCA and LRA, but neither <code><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA()</a></code> nor <code><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA()</a></code> actually produce a <code>$FRP</code> field in their output. The <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code> correctly rejects these models. Added annotation (*1) to model compatibility tables documenting this exametrika-side inconsistency.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.29" id="ggexametrika-0029">ggExametrika 0.0.29<a class="anchor" aria-label="anchor" href="#ggexametrika-0029"></a></h2>
 <div class="section level3">
