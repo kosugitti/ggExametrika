@@ -68,7 +68,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 
 ### exametrikaのプロットタイプ一覧と実装状況（exametrika v1.9.0 準拠）
 
-※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく
+※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく（注: 一部不正確な宣言あり、下記注釈参照）
 
 | プロットタイプ | 対応モデル | ggExametrika関数 | 状況 |
 |---------------|-----------|-----------------|------|
@@ -78,7 +78,7 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | IIF/IIC | IRT, GRM | plotIIC_gg | 実装済 |
 | TIF/TIC | IRT, GRM | plotTIC_gg | 実装済 |
 | IRP | LCA, LRA, LDLRA | plotIRP_gg | 実装済 |
-| FRP | LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | **実装済（2値・多値対応、stat対応、共通オプション対応済み）** |
+| FRP | ~~LCA, LRA~~(*1), Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET | plotFRP_gg | **実装済（2値・多値対応、stat対応、共通オプション対応済み）** |
 | TRP | LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET | plotTRP_gg | 実装済 |
 | LCD | LCA, Biclustering, nominalBiclustering, ordinalBiclustering | plotLCD_gg | 実装済（多値対応確認済み） |
 | LRD | LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET | plotLRD_gg | 実装済（多値対応確認済み） |
@@ -103,8 +103,8 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 |--------|-------------------|
 | IRT | IRF/ICC, TRF, IIF/IIC, TIF/TIC |
 | GRM | IRF/ICC, IIF/IIC, TIF/TIC |
-| LCA | IRP, FRP, TRP, LCD, CMP |
-| LRA | IRP, FRP, TRP, LRD, RMP |
+| LCA | IRP, ~~FRP~~(*1), TRP, LCD, CMP |
+| LRA | IRP, ~~FRP~~(*1), TRP, LRD, RMP |
 | LRAordinal | ScoreFreq, ScoreRank, ICRP, ICBR, RMP |
 | LRArated | ScoreFreq, ScoreRank, ICRP, RMP |
 | Biclustering | FRP, TRP, LCD, LRD, CMP, RMP, CRV, RRV, Array |
@@ -116,6 +116,9 @@ exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とす
 | BINET | FRP, TRP, LRD, RMP, Array, LDPSR |
 
 **太字** = v1.9.0で追加された多値バイクラスタリング向けプロット
+
+**注釈:**
+- (*1) **FRPのLCA/LRA対応について（2026-02-23調査）**: exametrikaのplot.exametrika valid_typesではLCA/LRAに対しFRPが有効と宣言されているが、実際にはLCA()もLRA()も出力に$FRPフィールドを含まない。exametrikaのplot関数は`x$FRP`に直接アクセスするため、LCA/LRAでFRPを描画しようとするとエラーになる。これはexametrika側のvalid_types宣言の誤りであり、ggExametrikaでは正しくLCA/LRAを拒否している。長男（exametrika）への修正提案事項。
 
 ### DAG可視化（print.exametrikaでigraph使用）
 

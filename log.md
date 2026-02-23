@@ -37,6 +37,29 @@
 **次回の作業:**
 - 長男のexametrikaビルド完了後、最新版をインストールして動作確認
 
+### LCA/LRA FRPプロット問題の調査・文書化 (次男/gg) — セッション2
+
+**目的:** 殿の指示「LCA FRPプロット等のバグ修正」を受け、plotFRP_gg が LCA/LRA を受け付けない問題を調査
+
+**調査結果:**
+- plotFRP_gg の v0.0.22 リライト時に LCA/LRA が valid_classes から脱落していた
+- **しかしこれは回帰バグではなく、正しい動作であることが判明**
+- exametrika の LCA()/LRA() は出力に $FRP フィールドを含まない
+- exametrika の plot.exametrika の valid_types が LCA/LRA に対し FRP を誤って宣言している
+- FRP（Field Reference Profile）は「フィールド」を持つ Biclustering 系モデル専用
+
+**対応内容:**
+- CLAUDE.md: FRP の対応モデル表を修正（LCA/LRA に取り消し線と注釈追加）
+- NEWS.md: Documentation セクションに記録
+- develop/session_log_2026-02-23.md: 詳細な調査経緯・判断根拠を記録
+- 長男への修正提案: valid_types から LCA/LRA の FRP を削除すべき
+
+**テスト結果:** FAIL 0 | WARN 22 | SKIP 0 | PASS 452（変更なし）
+
+**三男への影響:** ドキュメント修正のみ、影響なし
+
+**ブランチ:** feature/frp-lca-doc-fix-and-session-log
+
 ## 2026-02-18
 
 ### plotFRP_gg() 多値対応実装 (Claude Sonnet 4.5)

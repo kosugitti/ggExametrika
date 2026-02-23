@@ -17,6 +17,10 @@
 * Remove Dropbox conflict copy artifact from tests/testthat/.
 * Test results: FAIL 0 | WARN 22 | SKIP 0 | PASS 452 (previously 433 PASS + 4 SKIP).
 
+## Documentation
+
+* Update CLAUDE.md: Correct FRP model support table. exametrika's `plot.exametrika` `valid_types` declares FRP as valid for LCA and LRA, but neither `LCA()` nor `LRA()` actually produce a `$FRP` field in their output. The `plotFRP_gg()` correctly rejects these models. Added annotation (*1) to model compatibility tables documenting this exametrika-side inconsistency.
+
 # ggExametrika 0.0.29
 
 ## Documentation
