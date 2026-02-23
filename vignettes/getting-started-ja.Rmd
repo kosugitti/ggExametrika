@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.width = 7,
   fig.height = 5,
-  eval = FALSE
+  eval = requireNamespace("exametrika", quietly = TRUE)
 )
 ```
 
@@ -780,29 +780,32 @@ combinePlots_gg(plots, selectPlots = 1:15)
 
 ## 関数-モデル対応表
 
-| 関数 | IRT | GRM | LCA | LRA | LRAord | LRArat | Biclust | ordBiclust | IRM | LDLRA | LDB | BINET | BNM |
-|------|:---:|:---:|:---:|:---:|:------:|:------:|:-------:|:----------:|:---:|:-----:|:---:|:-----:|:---:|
-| plotICC_gg | x | | | | | | | | | | | | |
-| plotICC_overlay_gg | x | | | | | | | | | | | | |
-| plotIIC_gg | x | x | | | | | | | | | | | |
-| plotIIC_overlay_gg | x | x | | | | | | | | | | | |
-| plotTIC_gg | x | x | | | | | | | | | | | |
-| plotTRF_gg | x | | | | | | | | | | | | |
-| plotICRF_gg | | x | | | | | | | | | | | |
-| plotIRP_gg | | | x | x | | | | | | x | | | |
-| plotFRP_gg | | | | | | | x | | x | | x | x | |
-| plotTRP_gg | | | x | x | | | x | | x | | x | x | |
-| plotLCD_gg | | | x | | | | | | | | | x | |
-| plotLRD_gg | | | | x | | | x | | | x | x | | |
-| plotCMP_gg | | | x | | | | | | | | | x | |
-| plotRMP_gg | | | | x | x | x | x | x | | x | x | | |
-| plotCRV_gg | | | | | | | x | | | | | | |
-| plotRRV_gg | | | | | | | x | | | | | | |
-| plotArray_gg | | | | | | | x | x | x | | x | x | |
-| plotFieldPIRP_gg | | | | | | | | | | | x | | |
-| plotGraph_gg | | | | | | | | | | x | x | x | x |
-| plotScoreFreq_gg | | | | | x | x | | | | | | | |
-| plotScoreRank_gg | | | | | x | x | | | | | | | |
-| plotICRP_gg | | | | | x | x | | | | | | | |
-| plotICBR_gg | | | | | x | | | | | | | | |
-| plotFCBR_gg | | | | | | | | x | | | | | |
+| 関数 | IRT | GRM | LCA | LRA | LRAord | LRArat | Biclust | nomBiclust | ordBiclust | IRM | LDLRA | LDB | BINET | BNM |
+|------|:---:|:---:|:---:|:---:|:------:|:------:|:-------:|:----------:|:----------:|:---:|:-----:|:---:|:-----:|:---:|
+| plotICC_gg | x | | | | | | | | | | | | | |
+| plotICC_overlay_gg | x | | | | | | | | | | | | | |
+| plotIIC_gg | x | x | | | | | | | | | | | | |
+| plotIIC_overlay_gg | x | x | | | | | | | | | | | | |
+| plotTIC_gg | x | x | | | | | | | | | | | | |
+| plotTRF_gg | x | | | | | | | | | | | | | |
+| plotICRF_gg | | x | | | | | | | | | | | | |
+| plotIRP_gg | | | x | x | | | | | | | x | | | |
+| plotFRP_gg | | | | | | | x | x | x | x | | x | x | |
+| plotTRP_gg | | | x | x | | | x | | | x | x | x | x | |
+| plotLCD_gg | | | x | | | | | | | | | | x | |
+| plotLRD_gg | | | | x | | | x | x | x | | x | x | | |
+| plotCMP_gg | | | x | | | | | | | | | | x | |
+| plotRMP_gg | | | | x | x | x | x | x | x | | x | x | | |
+| plotCRV_gg | | | | | | | x | x | x | | | | | |
+| plotRRV_gg | | | | | | | x | x | x | | | | | |
+| plotArray_gg | | | | | | | x | x | x | x | | x | x | |
+| plotFieldPIRP_gg | | | | | | | | | | | | x | | |
+| plotGraph_gg | | | | | | | | | | | x | x | x | x |
+| plotScoreFreq_gg | | | | | x | x | | | | | | | | |
+| plotScoreRank_gg | | | | | x | x | | | | | | | | |
+| plotICRP_gg | | | | | x | x | | | | | | | | |
+| plotICBR_gg | | | | | x | | | | | | | | | |
+| plotFCBR_gg | | | | | | | | | x | | | | | |
+| plotFCRP_gg | | | | | | | | x | x | | | | | |
+| plotScoreField_gg | | | | | | | | x | x | | | | | |
+| plotLDPSR_gg | | | | | | | | | | | | | x | |

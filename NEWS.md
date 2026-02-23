@@ -1,5 +1,13 @@
 # ggExametrika 0.0.33
 
+## GitHub Pages / pkgdown (Phase 2)
+
+* Change vignettes (getting-started.Rmd, getting-started-ja.Rmd) from `eval = FALSE` to `eval = requireNamespace("exametrika", quietly = TRUE)`. Vignette code chunks now execute automatically when exametrika is installed, producing live output on pkgdown site, while still being skipped gracefully when unavailable.
+* Add `nomBiclust` (nominalBiclustering) column to Function-Model Compatibility Matrix in both English and Japanese vignettes.
+* Add three new function rows to the compatibility matrix: `plotFCRP_gg` (v1.9.0), `plotScoreField_gg` (v1.9.0), `plotLDPSR_gg` (v0.0.32).
+* Fix missing `ordBiclust` marks in the compatibility matrix for `plotFRP_gg`, `plotLRD_gg`, `plotCRV_gg`, and `plotRRV_gg`. These functions natively accept ordinalBiclustering in their validation code but were not marked in the matrix.
+* Fix missing `LDLRA` mark for `plotTRP_gg` in the compatibility matrix. The function accepts LDLRA in its validation code but was not marked.
+
 ## GitHub Pages / pkgdown (Phase 1)
 
 * Migrate `@examples` + `\dontrun{}` to `@examplesIf requireNamespace("exametrika", quietly = TRUE)` for all 28 plot functions. Examples now run automatically when exametrika is installed (improving pkgdown reference pages with live output) while still being skipped gracefully when exametrika is unavailable.
