@@ -28,10 +28,12 @@
 #' @param arrow_size Numeric value for arrow size. Default is 3.
 #' @param title Logical or character. If \code{TRUE} (default), display an
 #'   auto-generated title. If \code{FALSE}, no title. If a character string,
-#'   use it as a custom title.
+#'   use it as a custom title. For LDLRA, a single string gets " - Rank N"
+#'   appended; a character vector of length equal to the number of ranks
+#'   assigns each element as the title for the corresponding rank.
 #' @param colors Character vector. Colors for node types.
-#'   For BNM: single color for Item nodes.
-#'   For future models (LDLRA/LDB/BINET): colors for different node types.
+#'   For BNM/LDLRA: single color for Item nodes.
+#'   For future models (LDB/BINET): colors for different node types.
 #'   If \code{NULL} (default), uses the default node type colors
 #'   (Item=purple, Field=green, Class=blue).
 #' @param show_legend Logical. If \code{TRUE}, display the node type legend.
@@ -50,7 +52,7 @@
 #' Design follows TDE figure specifications:
 #' \itemize{
 #'   \item BNM: Items shown as purple circles with numbers inside
-#'   \item LDLRA: Items as circles per rank/class (to be implemented)
+#'   \item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
 #'   \item LDB: Fields shown as green diamonds (to be implemented)
 #'   \item BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)
 #' }
@@ -123,8 +125,8 @@ plotGraph_gg <- function(data,
     stop("This function supports BNM, LDLRA, LDB, and BINET models only.")
   }
 
-  # Currently only BNM is implemented
-  if (!model_class %in% c("BNM")) {
+  # Currently BNM and LDLRA are implemented
+  if (!model_class %in% c("BNM", "LDLRA")) {
     stop(paste0(model_class, " is not yet implemented. ",
                 "Development order: BNM -> LDLRA -> LDB -> BINET"))
   }
@@ -192,12 +194,12 @@ plotGraph_gg <- function(data,
       } else if (direction == "TB") {
         # Top-to-bottom: default, no change
       } else if (direction == "LR") {
-        # Left-to-right: swap x and y
+        # Left-to-right: swap x and y, then flip to get left-to-right order
         lay <- lay[, c(2, 1)]
+        lay[, 1] <- -lay[, 1]  # Flip x-axis so source nodes are on the left
       } else if (direction == "RL") {
-        # Right-to-left: swap and flip x
+        # Right-to-left: swap x and y (source on right)
         lay <- lay[, c(2, 1)]
-        lay[, 1] <- -lay[, 1]
       }
     } else {
       # For non-hierarchical layouts, use ggraph's default
@@ -261,5 +263,172 @@ plotGraph_gg <- function(data,
     }
 
     return(list(p))
+  }
+
+  # ===================================================================
+  # LDLRA Implementation
+  # ===================================================================
+  if (model_class == "LDLRA") {
+    # Get number of ranks
+    n_ranks <- data$Nclass
+
+    # Create list to store plots
+    plot_list <- list()
+
+    # Loop through all ranks
+    for (i in 1:n_ranks) {
+      # Get graph for this rank
+      g <- data$g_list[[i]]
+
+      # Remove isolated nodes (nodes with no edges)
+      degree <- igraph::degree(g, mode = "all")
+      isolated <- names(degree[degree == 0])
+
+      if (length(isolated) > 0) {
+        message("Rank ", i, ": Removing ", length(isolated), " isolated node(s)")
+        g <- igraph::delete_vertices(g, isolated)
+      }
+
+      # Check if graph has any nodes left
+      if (igraph::vcount(g) == 0) {
+        warning("Rank ", i, ": No connected nodes found - skipping")
+        next
+      }
+
+      # Extract node numbers from names (e.g., "Item01" -> "1", "Item10" -> "10")
+      node_names <- igraph::V(g)$name
+      node_numbers <- gsub("Item0?", "", node_names)
+
+      # Add node attributes
+      igraph::V(g)$node_number <- node_numbers
+      igraph::V(g)$node_type <- "Item"
+
+      # Dynamic scaling based on number of nodes
+      n_nodes <- igraph::vcount(g)
+
+      # Adjust sizes based on graph complexity
+      if (n_nodes <= 5) {
+        scale_factor <- 1.0
+      } else if (n_nodes <= 10) {
+        scale_factor <- 0.8
+      } else if (n_nodes <= 20) {
+        scale_factor <- 0.6
+      } else {
+        scale_factor <- 0.5
+      }
+
+      # Apply scaling to parameters
+      scaled_node_size <- node_size * scale_factor
+      scaled_arrow_size <- max(arrow_size * scale_factor, 2.0)  # Minimum 2mm for arrows
+      scaled_label_size <- label_size * scale_factor
+
+      # Set node colors
+      if (is.null(colors)) {
+        item_color <- "#A23B72"  # Purple (default)
+      } else {
+        item_color <- colors[1]
+      }
+
+      # Set title (common option: logical or character)
+      if (is.logical(title) && title) {
+        plot_title <- paste0("LDLRA - Rank ", i)
+      } else if (is.logical(title) && !title) {
+        plot_title <- NULL
+      } else if (is.character(title) && length(title) == 1) {
+        # Single custom title - append rank number
+        plot_title <- paste0(title, " - Rank ", i)
+      } else if (is.character(title) && length(title) >= i) {
+        # Vector of titles for each rank
+        plot_title <- title[i]
+      } else {
+        plot_title <- paste0("LDLRA - Rank ", i)
+      }
+
+      # Compute layout and apply direction transformation
+      if (layout == "sugiyama") {
+        # Use igraph's sugiyama layout
+        lay <- igraph::layout_with_sugiyama(g)$layout
+
+        # Apply direction transformation
+        if (direction == "BT") {
+          # Bottom-to-top: flip y-axis
+          lay[, 2] <- -lay[, 2]
+        } else if (direction == "TB") {
+          # Top-to-bottom: default, no change
+        } else if (direction == "LR") {
+          # Left-to-right: swap x and y, then flip to get left-to-right order
+          lay <- lay[, c(2, 1)]
+          lay[, 1] <- -lay[, 1]  # Flip x-axis so source nodes are on the left
+        } else if (direction == "RL") {
+          # Right-to-left: swap x and y (source on right)
+          lay <- lay[, c(2, 1)]
+        }
+      } else {
+        # For non-hierarchical layouts, use ggraph's default
+        lay <- layout
+      }
+
+      # Build base plot using matrix layout (like BNM)
+      p <- ggraph::ggraph(g, layout = lay) +
+        # Edges with arrows (scaled)
+        ggraph::geom_edge_link(
+          arrow = grid::arrow(length = grid::unit(scaled_arrow_size, "mm"), type = "closed"),
+          end_cap = ggraph::circle(scaled_node_size / 1.5, "mm"),
+          color = "gray30",
+          width = 0.8 * scale_factor
+        ) +
+        # Nodes as circles (scaled)
+        ggraph::geom_node_point(
+          ggplot2::aes(fill = node_type),
+          shape = 21,  # Circle with fill
+          size = scaled_node_size,
+          color = "black",
+          stroke = 1.2 * scale_factor,
+          show.legend = FALSE
+        ) +
+        # Numbers inside nodes (scaled)
+        ggraph::geom_node_text(
+          ggplot2::aes(label = node_number),
+          size = scaled_label_size,
+          color = "black",
+          fontface = "bold"
+        ) +
+        # Color scale for nodes
+        ggplot2::scale_fill_manual(
+          values = c("Item" = item_color),
+          name = "",
+          labels = c("Item" = "Item")
+        ) +
+        # Theme and labels
+        ggplot2::theme_void() +
+        ggplot2::theme(
+          plot.margin = ggplot2::margin(15, 15, 15, 15)
+        )
+
+      # Apply title
+      if (!is.null(plot_title)) {
+        p <- p + ggplot2::ggtitle(plot_title) +
+          ggplot2::theme(
+            plot.title = ggplot2::element_text(
+              size = 14,
+              face = "bold",
+              hjust = 0.5,
+              margin = ggplot2::margin(b = 10)
+            )
+          )
+      }
+
+      # Legend control
+      if (!show_legend) {
+        p <- p + ggplot2::theme(legend.position = "none")
+      } else {
+        p <- p + ggplot2::theme(legend.position = legend_position)
+      }
+
+      # Add to plot list
+      plot_list[[i]] <- p
+    }
+
+    return(plot_list)
   }
 }
