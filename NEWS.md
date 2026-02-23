@@ -1,3 +1,13 @@
+# ggExametrika 0.0.30
+
+## CI / Test Infrastructure
+
+* Add GitHub Actions workflow `R-CMD-check.yaml` for multi-platform R CMD check (macOS, Windows, Ubuntu with R release/devel/oldrel-1).
+* Add GitHub Actions workflow `test-coverage.yaml` for covr test coverage with optional Codecov upload.
+* Fix BNM test fixture in `helper-setup.R`: BNM requires a DAG graph argument (`g`). Added igraph DAG creation for J5S10 dataset. This resolves 4 previously skipped DAG tests.
+* Remove Dropbox conflict copy artifact from tests/testthat/.
+* Test results: FAIL 0 | WARN 22 | SKIP 0 | PASS 442 (previously 433 PASS + 4 SKIP).
+
 # ggExametrika 0.0.29
 
 ## Documentation

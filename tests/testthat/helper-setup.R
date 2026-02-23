@@ -91,10 +91,15 @@ if (has_exametrika) {
   )
 
   # ---- BNM fixture (fast) ----
-  fixture_BNM <- tryCatch(
-    exametrika::BNM(exametrika::J5S10),
-    error = function(e) NULL
-  )
+  # BNM requires a DAG (directed acyclic graph) as input
+  fixture_BNM <- tryCatch({
+    # Create a simple DAG for J5S10 (5 items)
+    bnm_dag <- igraph::make_empty_graph(n = 5, directed = TRUE)
+    igraph::V(bnm_dag)$name <- exametrika::J5S10$ItemLabel
+    # Add edges: Item01->Item03, Item02->Item04, Item03->Item05
+    bnm_dag <- igraph::add_edges(bnm_dag, c(1, 3, 2, 4, 3, 5))
+    exametrika::BNM(exametrika::J5S10, g = bnm_dag)
+  }, error = function(e) NULL)
 
   # Clean up temporary variables
   rm(.synth_ordinal, .synth_nominal)
