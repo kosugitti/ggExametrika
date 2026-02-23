@@ -48,16 +48,16 @@
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' # Ordinal biclustering example with polytomous data
-#' result <- Biclustering(OrdinalData, ncls = 4, dataType = "ordinal")
+#' result <- Biclustering(J35S500, ncls = 4, nfld = 5)
 #'
 #' # Plot first 4 fields
 #' plot <- plotFCBR_gg(result, fields = 1:4)
 #' plot
 #'
-#' # Custom colors and title
-#' plot <- plotFCBR_gg(result, fields = 1:6,
+#' # Custom colors and title (5 colors needed for 5-category ordinal data)
+#' plot <- plotFCBR_gg(result, fields = 1:5,
 #'                     title = "Field Cumulative Boundary Reference",
-#'                     colors = c("red", "blue", "green", "purple"))
+#'                     colors = c("red", "blue", "green", "purple", "orange"))
 #' plot
 #'
 #' @seealso \code{\link{plotFCRP_gg}}, \code{\link{plotScoreField_gg}}, \code{\link{plotArray_gg}}

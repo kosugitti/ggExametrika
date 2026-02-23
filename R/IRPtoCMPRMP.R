@@ -167,7 +167,7 @@ plotIRP_gg <- function(data,
 #' plot <- plotFRP_gg(result_bin)
 #'
 #' # Ordinal biclustering with mean (default)
-#' result_ord <- Biclustering(OrdinalData, ncls = 4, nfld = 3, dataType = "ordinal")
+#' result_ord <- Biclustering(J35S500, ncls = 4, nfld = 3)
 #' plot_mean <- plotFRP_gg(result_ord, stat = "mean")
 #'
 #' # Using mode for polytomous data

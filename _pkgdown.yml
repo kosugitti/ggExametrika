@@ -18,6 +18,9 @@ navbar:
     articles:
       text: Articles
       menu:
+      - text: "Plot Gallery"
+        href: articles/plot-gallery.html
+      - text: "---"
       - text: "Getting Started (English)"
         href: articles/getting-started.html
       - text: "入門ガイド (日本語)"
@@ -28,6 +31,10 @@ navbar:
       aria-label: GitHub
 
 articles:
+- title: Gallery
+  navbar: ~
+  contents:
+  - plot-gallery
 - title: English
   navbar: ~
   contents:

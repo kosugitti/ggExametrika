@@ -26,7 +26,7 @@ Analysis, Biclustering, Bayesian Network Models, and more.
 
 ## Installation
 
-```{r}
+```{r, eval = FALSE}
 # Install from GitHub
 devtools::install_github("kosugitti/ggExametrika")
 ```
@@ -100,7 +100,7 @@ Customize appearance:
 ```{r}
 plotTIC_gg(result_irt,
   title = "Custom Title",
-  color = "darkred",
+  colors = "darkred",
   linetype = "dashed"
 )
 ```
@@ -232,15 +232,6 @@ irp_plots[[1]]
 combinePlots_gg(irp_plots, selectPlots = 1:6)
 ```
 
-### plotFRP_gg: Field Reference Profile
-
-Shows the correct response rate by field (item cluster) for each class.
-
-```{r}
-frp_plot <- plotFRP_gg(result_lca)
-frp_plot
-```
-
 ### plotTRP_gg: Test Reference Profile
 
 Displays the number of students and expected test score per class.
@@ -291,13 +282,6 @@ result_lra <- LRA(J15S500, nrank = 4)
 ```{r}
 irp_plots <- plotIRP_gg(result_lra)
 combinePlots_gg(irp_plots, selectPlots = 1:6)
-```
-
-### plotFRP_gg: Field Reference Profile
-
-```{r}
-frp_plot <- plotFRP_gg(result_lra)
-frp_plot
 ```
 
 ### plotTRP_gg: Test Reference Profile
@@ -427,9 +411,8 @@ result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
 ### plotFRP_gg: Field Reference Profile
 
 ```{r}
-frp_plots <- plotFRP_gg(result_bic)
-frp_plots[[1]]
-combinePlots_gg(frp_plots, selectPlots = 1:5)
+frp_plot <- plotFRP_gg(result_bic)
+frp_plot
 ```
 
 ### plotTRP_gg: Test Reference Profile
@@ -511,7 +494,7 @@ Field Cumulative Boundary Reference. It shows boundary probabilities
 P(Q >= k) for each field across latent classes/ranks.
 
 ```{r}
-result_ord_bic <- Biclustering(OrdinalData, ncls = 4, dataType = "ordinal")
+result_ord_bic <- Biclustering(J35S500, ncls = 5, nfld = 5)
 ```
 
 ```{r}
@@ -535,7 +518,7 @@ plotFCBR_gg(result_ord_bic,
 
 BNM discovers the dependency structure among items using a Bayesian network.
 
-```{r}
+```{r, eval = FALSE}
 result_bnm <- BNM(J15S500)
 ```
 
@@ -543,21 +526,19 @@ result_bnm <- BNM(J15S500)
 
 Visualizes the Directed Acyclic Graph (DAG) discovered by the model.
 
-```{r}
+```{r, eval = FALSE}
 dag_plots <- plotGraph_gg(result_bnm)
 dag_plots[[1]]
 ```
 
 Customize layout and appearance:
 
-```{r}
+```{r, eval = FALSE}
 plotGraph_gg(result_bnm,
   layout = "sugiyama",
-  rankdir = "LR",
+  direction = "LR",
   node_size = 10,
-  node_color = "coral",
   label_size = 4,
-  edge_color = "gray60",
   title = "BNM DAG"
 )
 ```
@@ -571,27 +552,27 @@ Available layouts: `"sugiyama"` (hierarchical), `"fr"` (Fruchterman-Reingold),
 
 LDLRA adds local dependency structures within each rank.
 
-```{r}
+```{r, eval = FALSE}
 result_ldlra <- LDLRA(J15S500, ncls = 5)
 ```
 
 ### plotIRP_gg: Item Reference Profile
 
-```{r}
+```{r, eval = FALSE}
 irp_plots <- plotIRP_gg(result_ldlra)
 combinePlots_gg(irp_plots, selectPlots = 1:6)
 ```
 
 ### plotLRD_gg: Latent Rank Distribution
 
-```{r}
+```{r, eval = FALSE}
 lrd_plot <- plotLRD_gg(result_ldlra)
 lrd_plot
 ```
 
 ### plotRMP_gg: Rank Membership Profile
 
-```{r}
+```{r, eval = FALSE}
 rmp_plots <- plotRMP_gg(result_ldlra)
 combinePlots_gg(rmp_plots, selectPlots = 1:6)
 ```
@@ -599,8 +580,9 @@ combinePlots_gg(rmp_plots, selectPlots = 1:6)
 ### plotGraph_gg: DAG per Rank
 
 Returns one DAG per rank, showing how dependencies change across ranks.
+*(DAG visualization for LDLRA is coming soon.)*
 
-```{r}
+```{r, eval = FALSE}
 dag_plots <- plotGraph_gg(result_ldlra)
 dag_plots[[1]]  # Rank 1 DAG
 combinePlots_gg(dag_plots)
@@ -612,41 +594,41 @@ combinePlots_gg(dag_plots)
 
 LDB adds local dependency structures to the biclustering framework.
 
-```{r}
+```{r, eval = FALSE}
 result_ldb <- LDB(J35S515, ncls = 6, nfld = 5)
 ```
 
 ### plotFRP_gg: Field Reference Profile
 
-```{r}
-frp_plots <- plotFRP_gg(result_ldb)
-combinePlots_gg(frp_plots, selectPlots = 1:5)
+```{r, eval = FALSE}
+frp_plot <- plotFRP_gg(result_ldb)
+frp_plot
 ```
 
 ### plotTRP_gg: Test Reference Profile
 
-```{r}
+```{r, eval = FALSE}
 trp_plot <- plotTRP_gg(result_ldb)
 trp_plot
 ```
 
 ### plotLRD_gg: Latent Rank Distribution
 
-```{r}
+```{r, eval = FALSE}
 lrd_plot <- plotLRD_gg(result_ldb)
 lrd_plot
 ```
 
 ### plotRMP_gg: Rank Membership Profile
 
-```{r}
+```{r, eval = FALSE}
 rmp_plots <- plotRMP_gg(result_ldb)
 combinePlots_gg(rmp_plots, selectPlots = 1:6)
 ```
 
 ### plotArray_gg: Array Plot
 
-```{r}
+```{r, eval = FALSE}
 array_plot <- plotArray_gg(result_ldb)
 array_plot
 ```
@@ -655,7 +637,7 @@ array_plot
 
 Shows how field performance varies based on parent field scores, for each rank.
 
-```{r}
+```{r, eval = FALSE}
 fpirp_plots <- plotFieldPIRP_gg(result_ldb)
 fpirp_plots[[1]]  # Rank 1
 combinePlots_gg(fpirp_plots)
@@ -663,7 +645,9 @@ combinePlots_gg(fpirp_plots)
 
 ### plotGraph_gg: DAG per Rank
 
-```{r}
+*(DAG visualization for LDB is coming soon.)*
+
+```{r, eval = FALSE}
 dag_plots <- plotGraph_gg(result_ldb)
 dag_plots[[1]]
 combinePlots_gg(dag_plots)
@@ -675,51 +659,52 @@ combinePlots_gg(dag_plots)
 
 BINET combines Bayesian network structure with the biclustering framework.
 
-```{r}
+```{r, eval = FALSE}
 result_binet <- BINET(J35S515, ncls = 6, nfld = 5)
 ```
 
 ### plotFRP_gg: Field Reference Profile
 
-```{r}
-frp_plots <- plotFRP_gg(result_binet)
-combinePlots_gg(frp_plots, selectPlots = 1:5)
+```{r, eval = FALSE}
+frp_plot <- plotFRP_gg(result_binet)
+frp_plot
 ```
 
 ### plotTRP_gg: Test Reference Profile
 
-```{r}
+```{r, eval = FALSE}
 trp_plot <- plotTRP_gg(result_binet)
 trp_plot
 ```
 
 ### plotLCD_gg: Latent Class Distribution
 
-```{r}
+```{r, eval = FALSE}
 lcd_plot <- plotLCD_gg(result_binet)
 lcd_plot
 ```
 
 ### plotCMP_gg: Class Membership Profile
 
-```{r}
+```{r, eval = FALSE}
 cmp_plots <- plotCMP_gg(result_binet)
 combinePlots_gg(cmp_plots, selectPlots = 1:6)
 ```
 
 ### plotArray_gg: Array Plot
 
-```{r}
+```{r, eval = FALSE}
 array_plot <- plotArray_gg(result_binet)
 array_plot
 ```
 
 ### plotGraph_gg: DAG Visualization
 
-BINET supports edge labels showing dependency weights:
+BINET supports edge labels showing dependency weights.
+*(DAG visualization for BINET is coming soon.)*
 
-```{r}
-dag_plots <- plotGraph_gg(result_binet, show_edge_label = TRUE)
+```{r, eval = FALSE}
+dag_plots <- plotGraph_gg(result_binet)
 dag_plots[[1]]
 ```
 

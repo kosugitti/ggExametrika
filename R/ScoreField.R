@@ -40,8 +40,8 @@
 #' to achieve higher scores in that field.
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
+#' library(exametrika)
 #' # Ordinal Biclustering example
-#' data(J35S500)
 #' result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
 #'
 #' # Basic plot

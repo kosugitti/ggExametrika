@@ -1,5 +1,26 @@
 # ggExametrika 0.0.33
 
+## GitHub Pages / pkgdown (Phase 3)
+
+* Add Plot Gallery article (`vignettes/articles/plot-gallery.Rmd`) as a pkgdown-only article showcasing all 27 visualization functions with live rendered examples. The gallery is organized into 7 sections: IRT Models, GRM, Latent Class/Rank Analysis, Biclustering (binary/ordinal/nominal), LRAordinal/LRArated, Network Models (DAG), and Common Options Demo.
+* Uses six sample datasets (J15S500, J5S1000, J35S515, J35S500, J20S600, J15S3810) covering binary, ordinal, and nominal response types, and 8 model types (IRT, GRM, LCA, LRA, LRAordinal, Biclustering, ordinal Biclustering, nominal Biclustering). Network models (BNM, LDLRA, LDB, BINET) are shown as reference code only (eval=FALSE) since they require explicit graph structure input.
+* Add Plot Gallery to `_pkgdown.yml` navbar menu (displayed at the top of the Articles dropdown) and articles section.
+
+## Vignette Bug Fixes
+
+* Remove incorrect `plotFRP_gg(result_lca)` and `plotFRP_gg(result_lra)` calls from both English and Japanese getting-started vignettes. `plotFRP_gg()` requires Biclustering-family models; LCA/LRA do not produce FRP output (exametrika valid_types declaration is incorrect).
+* Replace non-existent `OrdinalData` dataset with `J35S500` in ordinal Biclustering example.
+* Fix `color =` to `colors =` in `plotTIC_gg()` customization example (parameter name mismatch).
+* Fix `rankdir =` to `direction =` and remove non-existent `node_color`/`edge_color` parameters from `plotGraph_gg()` customization example.
+* Set LDLRA, LDB, and BINET `plotGraph_gg()` examples to `eval = FALSE` with "coming soon" notes, as DAG visualization currently supports BNM only.
+* Fix `plotFRP_gg()` usage in vignettes: the function returns a single ggplot object, not a list. Removed incorrect `[[1]]` indexing and `combinePlots_gg()` calls.
+* Set BNM, LDLRA, LDB, and BINET model fitting and all dependent plot chunks to `eval = FALSE` in both vignettes. BNM requires explicit graph input; LDLRA/LDB/BINET are computationally expensive and have unresolved API issues with current exametrika version.
+* Set `devtools::install_github()` chunks to `eval = FALSE` in both vignettes. devtools is not available during R CMD check.
+* Replace non-existent `OrdinalData` dataset with `J35S500` in `plotFCBR_gg()` and `plotFRP_gg()` roxygen examples.
+* Fix `plotFCBR_gg()` example: `fields = 1:6` exceeded `nfld = 5`, and `colors` had 4 values for 5-category data. Changed to `fields = 1:5` and added 5th color.
+* Add missing `library(exametrika)` to `plotFCRP_gg()` and `plotScoreField_gg()` roxygen examples.
+* Change `plotFieldPIRP_gg()` and `plotLDPSR_gg()` examples from `@examplesIf` to `@examples` with `\dontrun{}`. LDB and BINET require explicit graph structure input that cannot be created in simple examples.
+
 ## GitHub Pages / pkgdown (Phase 2)
 
 * Change vignettes (getting-started.Rmd, getting-started-ja.Rmd) from `eval = FALSE` to `eval = requireNamespace("exametrika", quietly = TRUE)`. Vignette code chunks now execute automatically when exametrika is installed, producing live output on pkgdown site, while still being skipped gracefully when unavailable.

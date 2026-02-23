@@ -1,0 +1,577 @@
+---
+title: "Plot Gallery"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  message = FALSE,
+  warning = FALSE,
+  eval = requireNamespace("exametrika", quietly = TRUE)
+)
+```
+
+This gallery showcases every visualization function in **ggExametrika**.
+Each plot is generated from real model output using the
+[exametrika](https://kosugitti.github.io/Exametrika/) package.
+All functions return standard ggplot objects, so you can further customize
+them with `+ theme()`, `+ labs()`, etc.
+
+## Setup
+
+```{r setup}
+library(exametrika)
+library(ggExametrika)
+```
+
+## Model Fitting
+
+We fit all models up front.
+
+```{r model-fitting, cache = TRUE, results = "hide"}
+# --- IRT (binary, 15 items, 500 students) ---
+result_irt <- IRT(J15S500, model = 2)
+
+# --- GRM (ordinal, 5 items, 1000 students) ---
+result_grm <- GRM(J5S1000)
+
+# --- LCA (binary, 15 items, 500 students, 3 classes) ---
+result_lca <- LCA(J15S500, ncls = 3)
+
+# --- LRA (binary, 15 items, 500 students, 4 ranks) ---
+result_lra <- LRA(J15S500, nrank = 4)
+
+# --- LRAordinal (ordinal, 15 items, 3810 students, 4 ranks) ---
+result_lra_ord <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+
+# --- Biclustering: binary (35 items, 515 students) ---
+result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
+
+# --- Biclustering: ordinal (35 items, 500 students, 5 categories) ---
+result_ord_bic <- Biclustering(J35S500, ncls = 5, nfld = 5)
+
+# --- Biclustering: nominal (20 items, 600 students, 4 categories) ---
+result_nom_bic <- Biclustering(J20S600, ncls = 5, nfld = 4)
+```
+
+Network models (BNM, LDLRA, LDB, BINET) require explicit graph structure
+input. The code below is shown for reference but not executed.
+DAG visualization support is under active development.
+
+```{r network-model-fitting, eval = FALSE}
+# --- BNM (requires adjacency matrix or igraph object) ---
+result_bnm <- BNM(J15S500, adj_matrix = adj_mat)
+
+# --- LDLRA (requires graph list, one per rank) ---
+result_ldlra <- LDLRA(J15S500, ncls = 5, g_list = graph_list)
+
+# --- LDB (requires graph list and field configuration) ---
+result_ldb <- LDB(J35S515, ncls = 6, nfld = 5, g_list = graph_list)
+
+# --- BINET (requires graph list and field configuration) ---
+result_binet <- BINET(J35S515, ncls = 6, nfld = 5, g_list = graph_list)
+```
+
+---
+
+## 1. IRT Models
+
+Item Response Theory (2PL, 3PL, 4PL) visualization for binary response data.
+Data: **J15S500** (15 items, 500 students).
+
+### plotICC_gg --- Item Characteristic Curve
+
+Probability of a correct response as a function of ability ($\theta$).
+Returns a list of plots (one per item).
+
+```{r icc-single}
+icc_plots <- plotICC_gg(result_irt)
+icc_plots[[1]]
+```
+
+```{r icc-combine, fig.width = 10, fig.height = 8}
+combinePlots_gg(icc_plots, selectPlots = 1:6)
+```
+
+### plotICC_overlay_gg --- ICC Overlay
+
+All item curves overlaid on a single plot for easy comparison.
+
+```{r icc-overlay}
+plotICC_overlay_gg(result_irt)
+```
+
+### plotIIC_gg --- Item Information Curve
+
+How precisely each item measures ability at different $\theta$ levels.
+
+```{r iic-single}
+iic_plots <- plotIIC_gg(result_irt)
+iic_plots[[1]]
+```
+
+```{r iic-combine, fig.width = 10, fig.height = 8}
+combinePlots_gg(iic_plots, selectPlots = 1:6)
+```
+
+### plotIIC_overlay_gg --- IIC Overlay
+
+All item information curves on a single plot.
+
+```{r iic-overlay}
+plotIIC_overlay_gg(result_irt)
+```
+
+### plotTIC_gg --- Test Information Curve
+
+Total test information (sum of all item information functions).
+
+```{r tic}
+plotTIC_gg(result_irt)
+```
+
+### plotTRF_gg --- Test Response Function
+
+Expected total score as a function of ability.
+
+```{r trf}
+plotTRF_gg(result_irt)
+```
+
+---
+
+## 2. GRM (Graded Response Model)
+
+Visualization for ordered polytomous response data.
+Data: **J5S1000** (5 items, 1000 students).
+
+### plotICRF_gg --- Item Category Response Function
+
+Probability of each response category as a function of ability.
+Returns a list of plots (one per item).
+
+```{r icrf-single}
+icrf_plots <- plotICRF_gg(result_grm)
+icrf_plots[[1]]
+```
+
+```{r icrf-combine, fig.width = 10, fig.height = 8}
+combinePlots_gg(icrf_plots, selectPlots = 1:5)
+```
+
+> **Note:** `plotIIC_gg()` and `plotTIC_gg()` also accept GRM output.
+> See the [Getting Started](getting-started.html) vignette for examples.
+
+---
+
+## 3. Latent Class / Rank Analysis
+
+Visualization for discrete latent variable models.
+Data: **J15S500** with LCA (3 classes) and LRA (4 ranks).
+
+### plotIRP_gg --- Item Reference Profile
+
+Probability of a correct response for each item within each latent class or rank.
+Returns a list of plots (one per item).
+
+```{r irp-single}
+irp_plots <- plotIRP_gg(result_lca)
+irp_plots[[1]]
+```
+
+```{r irp-combine, fig.width = 10, fig.height = 8}
+combinePlots_gg(irp_plots, selectPlots = 1:6)
+```
+
+### plotFRP_gg --- Field Reference Profile
+
+Correct response rate by field for each class/rank.
+Returns a list of plots (one per field).
+
+> **Note:** `plotFRP_gg()` requires a model with field structure
+> (Biclustering, IRM, LDB, or BINET). Shown here with binary Biclustering
+> on J35S515 (5 fields, 6 ranks).
+
+```{r frp}
+plotFRP_gg(result_bic)
+```
+
+### plotTRP_gg --- Test Reference Profile
+
+Number of students and expected test score per class/rank.
+
+```{r trp-lca}
+plotTRP_gg(result_lca)
+```
+
+### plotLCD_gg --- Latent Class Distribution
+
+Class membership distribution (LCA).
+
+```{r lcd}
+plotLCD_gg(result_lca)
+```
+
+### plotLRD_gg --- Latent Rank Distribution
+
+Rank membership distribution (LRA).
+
+```{r lrd}
+plotLRD_gg(result_lra)
+```
+
+### plotCMP_gg --- Class Membership Profile
+
+Membership probability profile for each student across all classes.
+Returns a list of plots (one per student).
+
+```{r cmp, fig.width = 10, fig.height = 8}
+cmp_plots <- plotCMP_gg(result_lca)
+combinePlots_gg(cmp_plots, selectPlots = 1:6)
+```
+
+### plotRMP_gg --- Rank Membership Profile
+
+Membership probability profile for each student across all ranks.
+Returns a list of plots (one per student).
+
+```{r rmp, fig.width = 10, fig.height = 8}
+rmp_plots <- plotRMP_gg(result_lra)
+combinePlots_gg(rmp_plots, selectPlots = 1:6)
+```
+
+---
+
+## 4. Biclustering
+
+Biclustering simultaneously clusters items (into fields) and students
+(into ranks/classes). This section covers binary, ordinal, and nominal
+Biclustering visualizations.
+
+### Binary Biclustering
+
+Data: **J35S515** (35 items, 515 students, 5 fields, 6 ranks).
+
+#### plotCRV_gg --- Class Reference Vector
+
+All class profiles in a single plot with one line per class.
+
+```{r crv}
+plotCRV_gg(result_bic)
+```
+
+#### plotRRV_gg --- Rank Reference Vector
+
+All rank profiles in a single plot with one line per rank.
+
+```{r rrv}
+plotRRV_gg(result_bic)
+```
+
+#### plotArray_gg --- Array Plot
+
+Visualizes the data matrix as a heatmap showing the block-diagonal
+structure after biclustering.
+
+```{r array-both, fig.width = 10, fig.height = 5}
+plotArray_gg(result_bic)
+```
+
+Clustered array only:
+
+```{r array-clustered}
+plotArray_gg(result_bic, Original = FALSE, Clusterd = TRUE)
+```
+
+### Ordinal Biclustering
+
+Data: **J35S500** (35 items, 500 students, 5 categories, 5 fields, 5 classes).
+
+#### plotFCRP_gg --- Field Category Response Profile
+
+Category probability plot with two display styles.
+
+Line style (default):
+
+```{r fcrp-line}
+plotFCRP_gg(result_ord_bic, style = "line")
+```
+
+Bar style:
+
+```{r fcrp-bar}
+plotFCRP_gg(result_ord_bic, style = "bar")
+```
+
+#### plotFCBR_gg --- Field Cumulative Boundary Reference
+
+Boundary probabilities $P(Q \geq k)$ for each field across latent classes.
+Ordinal Biclustering only.
+
+```{r fcbr}
+plotFCBR_gg(result_ord_bic)
+```
+
+Select specific fields:
+
+```{r fcbr-select}
+plotFCBR_gg(result_ord_bic, fields = 1:3)
+```
+
+#### plotScoreField_gg --- Expected Score Heatmap
+
+Expected score for each field at each class/rank, displayed as a heatmap.
+
+```{r scorefield-ord}
+plotScoreField_gg(result_ord_bic)
+```
+
+### Nominal Biclustering
+
+Data: **J20S600** (20 items, 600 students, 4 categories, 4 fields, 5 classes).
+
+#### plotFCRP_gg (nominal)
+
+```{r fcrp-nom}
+plotFCRP_gg(result_nom_bic, style = "line")
+```
+
+#### plotScoreField_gg (nominal)
+
+```{r scorefield-nom}
+plotScoreField_gg(result_nom_bic)
+```
+
+### Polytomous stat parameter
+
+`plotFRP_gg()`, `plotCRV_gg()`, and `plotRRV_gg()` accept a `stat` parameter
+for polytomous data: `"mean"` (default), `"median"`, or `"mode"`.
+
+```{r frp-stat, fig.width = 10, fig.height = 8}
+p_mean <- plotFRP_gg(result_ord_bic, stat = "mean") +
+  ggplot2::ggtitle("stat = 'mean'")
+p_median <- plotFRP_gg(result_ord_bic, stat = "median") +
+  ggplot2::ggtitle("stat = 'median'")
+p_mode <- plotFRP_gg(result_ord_bic, stat = "mode") +
+  ggplot2::ggtitle("stat = 'mode'")
+gridExtra::grid.arrange(p_mean, p_median, p_mode, ncol = 2)
+```
+
+---
+
+## 5. LRAordinal / LRArated
+
+Polytomous Latent Rank Analysis with specialized score-level visualizations.
+Data: **J15S3810** (15 items, 3810 students, 4 ranks, ordinal).
+
+### plotScoreFreq_gg --- Score Frequency Distribution
+
+Density distribution of scores with vertical lines at rank boundary thresholds.
+
+```{r scorefreq}
+plotScoreFreq_gg(result_lra_ord)
+```
+
+### plotScoreRank_gg --- Score-Rank Heatmap
+
+Joint distribution of observed scores and estimated ranks.
+Darker cells indicate higher frequency.
+
+```{r scorerank}
+plotScoreRank_gg(result_lra_ord)
+```
+
+### plotICRP_gg --- Item Category Reference Profile
+
+Probability of selecting each response category across latent ranks.
+Probabilities at each rank sum to 1.0.
+
+```{r icrp}
+plotICRP_gg(result_lra_ord, items = 1:4)
+```
+
+```{r icrp-more}
+plotICRP_gg(result_lra_ord, items = 5:8)
+```
+
+### plotICBR_gg --- Item Category Boundary Response
+
+Cumulative probability curves $P(\text{response} \geq k)$ for each category
+boundary. LRAordinal only.
+
+```{r icbr}
+plotICBR_gg(result_lra_ord, items = 1:4)
+```
+
+---
+
+## 6. Network Models (DAG)
+
+Directed Acyclic Graph and network model visualizations.
+
+> **Note:** Network models (BNM, LDLRA, LDB, BINET) require explicit graph
+> structure input (adjacency matrix or igraph object). The code below is
+> shown for reference but not executed. DAG visualization support via
+> `plotGraph_gg()` is under active development — currently BNM is supported,
+> with LDLRA, LDB, and BINET coming soon.
+
+### plotGraph_gg --- DAG Visualization
+
+#### BNM (Bayesian Network Model)
+
+The simplest DAG: item-to-item dependency structure.
+Data: **J15S500**.
+
+```{r dag-bnm, eval = FALSE}
+dag_bnm <- plotGraph_gg(result_bnm)
+dag_bnm[[1]]
+```
+
+#### LDLRA (Locally Dependent Latent Rank Analysis)
+
+One DAG per rank, showing how item dependencies change across ranks.
+*(DAG visualization for LDLRA is coming soon.)*
+
+```{r dag-ldlra, fig.width = 10, fig.height = 8, eval = FALSE}
+dag_ldlra <- plotGraph_gg(result_ldlra)
+combinePlots_gg(dag_ldlra)
+```
+
+#### LDB (Locally Dependent Biclustering)
+
+One DAG per rank with field-level nodes.
+*(DAG visualization for LDB is coming soon.)*
+
+```{r dag-ldb, fig.width = 10, fig.height = 8, eval = FALSE}
+dag_ldb <- plotGraph_gg(result_ldb)
+combinePlots_gg(dag_ldb)
+```
+
+#### BINET (Bayesian Network and Test)
+
+Integrated network combining latent classes and fields.
+*(DAG visualization for BINET is coming soon.)*
+
+```{r dag-binet, eval = FALSE}
+dag_binet <- plotGraph_gg(result_binet)
+dag_binet[[1]]
+```
+
+### plotFieldPIRP_gg --- Field Parent Item Reference Profile
+
+Shows how field performance varies based on parent field scores, for each rank.
+LDB only. Returns a list of plots (one per rank).
+*(Requires LDB result with graph input; shown for reference.)*
+
+```{r fpirp, fig.width = 10, fig.height = 8, eval = FALSE}
+fpirp_plots <- plotFieldPIRP_gg(result_ldb)
+combinePlots_gg(fpirp_plots)
+```
+
+### plotLDPSR_gg --- Latent Dependence Passing Student Rate
+
+Item-level correct response rate comparing parent and child classes
+at each DAG edge. BINET only. Returns a list of plots (one per edge).
+*(Requires BINET result with graph input; shown for reference.)*
+
+```{r ldpsr, eval = FALSE}
+ldpsr_plots <- plotLDPSR_gg(result_binet)
+ldpsr_plots[[1]]
+```
+
+```{r ldpsr-combine, fig.width = 10, fig.height = 8, eval = FALSE}
+combinePlots_gg(ldpsr_plots, selectPlots = 1:min(6, length(ldpsr_plots)))
+```
+
+---
+
+## 7. Common Options Demo
+
+All plot functions share a consistent set of customization options.
+Every function returns a ggplot object, so you can add further layers
+with standard ggplot2 syntax.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `title` | logical or character | `TRUE` | `TRUE` = auto title, `FALSE` = hidden, character = custom |
+| `colors` | character vector | `NULL` | `NULL` = colorblind-friendly palette, or custom colors |
+| `linetype` | character or numeric | varies | `"solid"`, `"dashed"`, `"dotted"`, etc. |
+| `show_legend` | logical | varies | Show or hide the legend |
+| `legend_position` | character | `"right"` | `"right"`, `"top"`, `"bottom"`, `"left"`, `"none"` |
+
+### title
+
+```{r opt-title, fig.width = 10, fig.height = 4}
+p1 <- plotICC_overlay_gg(result_irt, items = 1:5, title = TRUE)
+p2 <- plotICC_overlay_gg(result_irt, items = 1:5, title = FALSE)
+p3 <- plotICC_overlay_gg(result_irt, items = 1:5, title = "My Custom Title")
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+### colors
+
+```{r opt-colors}
+plotICRF_gg(result_grm,
+  items = 1,
+  colors = c("#D81B60", "#1E88E5", "#FFC107", "#004D40", "#7B1FA2")
+)
+```
+
+```{r opt-colors-crv}
+plotCRV_gg(result_bic,
+  colors = c("steelblue", "coral", "forestgreen",
+             "mediumpurple", "goldenrod", "hotpink")
+)
+```
+
+### linetype
+
+```{r opt-linetype, fig.width = 10, fig.height = 4}
+p1 <- plotTIC_gg(result_irt, linetype = "solid", title = "solid")
+p2 <- plotTIC_gg(result_irt, linetype = "dashed", title = "dashed")
+p3 <- plotTIC_gg(result_irt, linetype = "dotdash", title = "dotdash")
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+### show_legend and legend_position
+
+```{r opt-legend, fig.width = 10, fig.height = 8}
+p1 <- plotICC_overlay_gg(result_irt, items = 1:5,
+  show_legend = TRUE, legend_position = "right", title = "right")
+p2 <- plotICC_overlay_gg(result_irt, items = 1:5,
+  show_legend = TRUE, legend_position = "bottom", title = "bottom")
+p3 <- plotICC_overlay_gg(result_irt, items = 1:5,
+  show_legend = TRUE, legend_position = "top", title = "top")
+p4 <- plotICC_overlay_gg(result_irt, items = 1:5,
+  show_legend = FALSE, title = "show_legend = FALSE")
+gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+### Combining options
+
+```{r opt-combined}
+plotICRF_gg(result_grm,
+  items = 1,
+  title = "Fully Customized ICRF",
+  colors = c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00"),
+  linetype = "solid",
+  show_legend = TRUE,
+  legend_position = "bottom"
+)
+```
+
+### Post-hoc ggplot2 customization
+
+Since all functions return ggplot objects, you can add any ggplot2 layer:
+
+```{r opt-posthoc}
+plotTIC_gg(result_irt) +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    subtitle = "Custom subtitle via ggplot2",
+    caption = "Generated with ggExametrika"
+  )
+```

@@ -360,11 +360,14 @@ plotArray_gg <- function(data,
 #' Note: Warning messages about NA values may appear during plotting
 #' but the behavior is normal.
 #'
-#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
+#' @examples
+#' \dontrun{
 #' library(exametrika)
-#' result <- LDB(J35S515, nfld = 5, ncls = 6)
+#' # LDB requires graph structure input (g_list or adj_file)
+#' result <- LDB(J35S515, ncls = 6, g_list = graph_list)
 #' plots <- plotFieldPIRP_gg(result)
 #' plots[[1]] # Show Field PIRP for rank 1
+#' }
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}}
 #'

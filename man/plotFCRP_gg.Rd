@@ -69,8 +69,8 @@ The \code{style} parameter allows two visualizations:
 }
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(exametrika)
 # Ordinal Biclustering with 5 categories
-data(J35S500)
 result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
 
 # Line plot (default)
