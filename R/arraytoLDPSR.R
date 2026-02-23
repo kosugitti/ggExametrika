@@ -47,8 +47,7 @@
 #' diagonal pattern where high-ability students (bottom rows) answer
 #' difficult items (right columns) correctly.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 #'
@@ -62,7 +61,6 @@
 #' synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
 #' result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
 #' plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
-#' }
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}
 #'
@@ -362,13 +360,11 @@ plotArray_gg <- function(data,
 #' Note: Warning messages about NA values may appear during plotting
 #' but the behavior is normal.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LDB(J35S515, nfld = 5, ncls = 6)
 #' plots <- plotFieldPIRP_gg(result)
 #' plots[[1]] # Show Field PIRP for rank 1
-#' }
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}}
 #'

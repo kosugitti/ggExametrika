@@ -39,8 +39,7 @@
 #' Higher expected scores indicate that students in that class/rank are expected
 #' to achieve higher scores in that field.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' # Ordinal Biclustering example
 #' data(J35S500)
 #' result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -64,7 +63,6 @@
 #' data(J20S600)
 #' result_nom <- Biclustering(J20S600, ncls = 5, nfld = 4)
 #' plotScoreField_gg(result_nom)
-#' }
 #'
 #' @seealso
 #' \code{\link{plotFCRP_gg}} for field category response profiles,

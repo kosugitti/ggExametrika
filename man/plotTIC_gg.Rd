@@ -56,7 +56,7 @@ approximately equal to the squared standard error of measurement.
 The function supports IRT models (2PL, 3PL, 4PL) and GRM.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
@@ -67,8 +67,7 @@ plot_irt # Show Test Information Curve
 result_grm <- GRM(J5S1000)
 plot_grm <- plotTIC_gg(result_grm)
 plot_grm # Show Test Information Curve
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}, \code{\link{plotICRF_gg}}

@@ -63,7 +63,7 @@ information function. For GRM, the information is computed as:
 \deqn{I(\theta) = a^2 \sum_{k=1}^{K-1} P_k^*(\theta) [1 - P_k^*(\theta)]}
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
@@ -74,8 +74,7 @@ plots_irt[[1]] # Show IIC for the first item
 result_grm <- GRM(J5S1000)
 plots_grm <- plotIIC_gg(result_grm)
 plots_grm[[1]] # Show IIC for the first item
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}, \code{\link{plotICRF_gg}}

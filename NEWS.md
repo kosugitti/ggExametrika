@@ -1,3 +1,13 @@
+# ggExametrika 0.0.33
+
+## GitHub Pages / pkgdown (Phase 1)
+
+* Migrate `@examples` + `\dontrun{}` to `@examplesIf requireNamespace("exametrika", quietly = TRUE)` for all 28 plot functions. Examples now run automatically when exametrika is installed (improving pkgdown reference pages with live output) while still being skipped gracefully when exametrika is unavailable.
+* Three pure utility functions (LogisticModel, ItemInformationFunc, ItemInformationFunc_GRM) retain `@examples` since they have no exametrika dependency.
+* Add `plotLDPSR_gg` to `_pkgdown.yml` reference section under "DAG & Network Model Plots".
+* Rename "DAG Visualization" section to "DAG & Network Model Plots" in `_pkgdown.yml` to better reflect the inclusion of BINET-specific profile plots.
+* Add `figures` section to `_pkgdown.yml` with explicit dimensions (fig.width=7, fig.height=5, dpi=96, fig.retina=2) for consistent example plot rendering on GitHub Pages.
+
 # ggExametrika 0.0.32
 
 ## New Features

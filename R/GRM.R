@@ -37,14 +37,12 @@
 #' \deqn{P_k^*(\theta) = \frac{1}{1 + \exp(-a(\theta - b_k))}}
 #' \deqn{P_k(\theta) = P_k^*(\theta) - P_{k+1}^*(\theta)}
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- GRM(J5S1000)
 #' plots <- plotICRF_gg(result)
 #' plots[[1]] # Show ICRF for the first item
 #' combinePlots_gg(plots, selectPlots = 1:5)
-#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}
 #'

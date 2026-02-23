@@ -56,13 +56,12 @@ The y-axis ranges from 0 to the total number of items.
 The function supports 2PL, 3PL, and 4PL IRT models.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- IRT(J15S500, model = 3)
 plot <- plotTRF_gg(result)
 plot # Show Test Response Function
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}

@@ -105,7 +105,7 @@ The \code{linetype} common option is not applicable to DAG visualization,
 as edges are drawn as directed arrows rather than standard lines.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 library(ggExametrika)
 
@@ -130,6 +130,5 @@ plotGraph_gg(result, layout = "fr")[[1]]
 
 # Custom title
 plotGraph_gg(result, title = "My Network Model")[[1]]
-}
-
+\dontshow{\}) # examplesIf}
 }

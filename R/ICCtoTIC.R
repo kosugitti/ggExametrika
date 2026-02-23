@@ -38,14 +38,12 @@
 #' The ICC is computed using the four-parameter logistic model:
 #' \deqn{P(\theta) = c + \frac{d - c}{1 + \exp(-a(\theta - b))}}
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- IRT(J15S500, model = 3)
 #' plots <- plotICC_gg(result)
 #' plots[[1]] # Show ICC for the first item
 #' combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 items
-#' }
 #'
 #' @seealso \code{\link{plotIIC_gg}}, \code{\link{plotTIC_gg}}
 #'
@@ -267,8 +265,7 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 #' information function. For GRM, the information is computed as:
 #' \deqn{I(\theta) = a^2 \sum_{k=1}^{K-1} P_k^*(\theta) [1 - P_k^*(\theta)]}
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' # IRT example
 #' result_irt <- IRT(J15S500, model = 3)
@@ -279,7 +276,6 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 #' result_grm <- GRM(J5S1000)
 #' plots_grm <- plotIIC_gg(result_grm)
 #' plots_grm[[1]] # Show IIC for the first item
-#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}, \code{\link{plotICRF_gg}}
 #'
@@ -484,8 +480,7 @@ plotIIC_gg <- function(data,
 #'
 #' The function supports IRT models (2PL, 3PL, 4PL) and GRM.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' # IRT example
 #' result_irt <- IRT(J15S500, model = 3)
@@ -496,7 +491,6 @@ plotIIC_gg <- function(data,
 #' result_grm <- GRM(J5S1000)
 #' plot_grm <- plotTIC_gg(result_grm)
 #' plot_grm # Show Test Information Curve
-#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}, \code{\link{plotICRF_gg}}
 #'
@@ -661,13 +655,11 @@ plotTIC_gg <- function(data,
 #' The y-axis ranges from 0 to the total number of items.
 #' The function supports 2PL, 3PL, and 4PL IRT models.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- IRT(J15S500, model = 3)
 #' plot <- plotTRF_gg(result)
 #' plot # Show Test Response Function
-#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}
 #'
@@ -786,14 +778,12 @@ plotTRF_gg <- function(data,
 #' The ICC is computed using the four-parameter logistic model:
 #' \deqn{P(\theta) = c + \frac{d - c}{1 + \exp(-a(\theta - b))}}
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- IRT(J15S500, model = 3)
 #' plotICC_overlay_gg(result) # All items
 #' plotICC_overlay_gg(result, items = 1:5) # First 5 items only
 #' plotICC_overlay_gg(result, title = "My Custom Title", show_legend = TRUE)
-#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}
 #'
@@ -943,8 +933,7 @@ plotICC_overlay_gg <- function(data,
 #' parameters provide more information. The peak of the information curve
 #' occurs near the item's difficulty parameter.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' # IRT example
 #' result_irt <- IRT(J15S500, model = 3)
@@ -954,7 +943,6 @@ plotICC_overlay_gg <- function(data,
 #' # GRM example
 #' result_grm <- GRM(J5S1000)
 #' plotIIC_overlay_gg(result_grm, show_legend = TRUE)
-#' }
 #'
 #' @seealso \code{\link{plotIIC_gg}}, \code{\link{plotICC_gg}}
 #'

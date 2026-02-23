@@ -68,7 +68,7 @@ For \strong{polytomous data} (nominalBiclustering, ordinalBiclustering):
 }
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 
 # Binary biclustering
@@ -83,8 +83,7 @@ plot_mean <- plotFRP_gg(result_ord, stat = "mean")
 plot_mode <- plotFRP_gg(result_ord, stat = "mode",
                         title = "Field Reference Profile (Mode)",
                         colors = c("red", "blue", "green"))
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}},

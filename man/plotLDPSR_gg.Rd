@@ -64,14 +64,13 @@ each item when transitioning from the parent class to the child class
 via the specified field.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- BINET(J35S515, ncls = 13, nfld = 12, conf = conf, adj_file = edges)
 plots <- plotLDPSR_gg(result)
 plots[[1]]  # Show LDPSR for the first edge
 combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 edges
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}},

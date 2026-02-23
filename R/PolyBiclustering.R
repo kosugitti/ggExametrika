@@ -45,8 +45,7 @@
 #'   \item \code{"bar"}: Shows stacked bar chart with category proportions
 #' }
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' # Ordinal Biclustering with 5 categories
 #' data(J35S500)
 #' result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -63,7 +62,6 @@
 #'   title = "Category Response Patterns",
 #'   colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#CC79A7")
 #' )
-#' }
 #'
 #' @seealso \code{\link{plotFCBR_gg}}, \code{\link{plotScoreField_gg}}
 #'

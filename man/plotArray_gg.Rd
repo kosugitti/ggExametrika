@@ -74,7 +74,7 @@ diagonal pattern where high-ability students (bottom rows) answer
 difficult items (right columns) correctly.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 
@@ -88,8 +88,7 @@ plotArray_gg(result, Clusterd_lines_color = "blue")
 synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
 result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
 plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}

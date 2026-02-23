@@ -29,13 +29,11 @@
 #' latent classes (LCA) or ranks (LRA, LDLRA). Items with monotonically
 #' increasing profiles indicate good discrimination between classes/ranks.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S500, nrank = 5)
 #' plots <- plotIRP_gg(result)
 #' plots[[1]] # Show IRP for the first item
-#' }
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}
 #'
@@ -161,8 +159,7 @@ plotIRP_gg <- function(data,
 #'   \item \code{stat = "mode"}: Most probable category
 #' }
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #'
 #' # Binary biclustering
@@ -177,7 +174,6 @@ plotIRP_gg <- function(data,
 #' plot_mode <- plotFRP_gg(result_ord, stat = "mode",
 #'                         title = "Field Reference Profile (Mode)",
 #'                         colors = c("red", "blue", "green"))
-#' }
 #'
 #' @seealso \code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}},
 #'   \code{\link{plotCRV_gg}}, \code{\link{plotRRV_gg}}
@@ -391,13 +387,11 @@ plotFRP_gg <- function(data,
 #' In well-fitted models, expected scores should increase monotonically
 #' with class/rank number.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S500, nrank = 5)
 #' plot <- plotTRP_gg(result)
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotIRP_gg}}, \code{\link{plotLCD_gg}},
 #'   \code{\link{plotLRD_gg}}
@@ -574,13 +568,11 @@ plotTRP_gg <- function(data,
 #' assigned to each class, and the line graph shows the cumulative
 #' class membership distribution.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LCA(J15S500, ncls = 5)
 #' plot <- plotLCD_gg(result)
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotLRD_gg}}, \code{\link{plotTRP_gg}}
 #'
@@ -770,13 +762,11 @@ plotLCD_gg <- function(data,
 #' across latent ranks. Unlike latent classes, ranks have an ordinal
 #' interpretation where higher ranks indicate higher ability levels.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S500, nrank = 5)
 #' plot <- plotLRD_gg(result)
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotLCD_gg}}, \code{\link{plotTRP_gg}}
 #'
@@ -960,13 +950,11 @@ plotLRD_gg <- function(data,
 #' in a single class are well-classified, while students with similar
 #' probabilities across classes may be ambiguous cases.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LCA(J15S500, ncls = 5)
 #' plots <- plotCMP_gg(result)
 #' plots[[1]] # Show CMP for the first student
-#' }
 #'
 #' @seealso \code{\link{plotRMP_gg}}, \code{\link{plotLCD_gg}}
 #'
@@ -1115,13 +1103,11 @@ plotCMP_gg <- function(data,
 #' has an ordinal interpretation. Students with unimodal profiles
 #' centered on a single rank are well-classified.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S500, nrank = 5)
 #' plots <- plotRMP_gg(result)
 #' plots[[1]] # Show RMP for the first student
-#' }
 #'
 #' @seealso \code{\link{plotCMP_gg}}, \code{\link{plotLRD_gg}}
 #'

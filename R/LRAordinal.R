@@ -36,13 +36,11 @@
 #' This plot is useful for understanding how latent ranks correspond to
 #' observed score ranges.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #' plot <- plotScoreFreq_gg(result)
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}
 #'
@@ -176,8 +174,7 @@ plotScoreFreq_gg <- function(data,
 #' Higher ranks typically show lower probabilities for higher categories,
 #' indicating lower ability levels.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #'
@@ -190,7 +187,6 @@ plotScoreFreq_gg <- function(data,
 #'                     title = "Item Category Boundary Response",
 #'                     colors = c("red", "blue", "green", "purple"))
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}
 #'
@@ -365,8 +361,7 @@ plotICBR_gg <- function(data,
 #' Typically, higher ranks (higher ability) show higher probabilities for
 #' higher categories and lower probabilities for lower categories.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #'
@@ -379,7 +374,6 @@ plotICBR_gg <- function(data,
 #'                     title = "Item Category Reference Profile",
 #'                     colors = c("red", "blue", "green", "purple"))
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotICBR_gg}}, \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}
 #'

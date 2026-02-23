@@ -52,13 +52,12 @@ has an ordinal interpretation. Students with unimodal profiles
 centered on a single rank are well-classified.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LRA(J15S500, nrank = 5)
 plots <- plotRMP_gg(result)
 plots[[1]] # Show RMP for the first student
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotCMP_gg}}, \code{\link{plotLRD_gg}}

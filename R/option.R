@@ -20,14 +20,12 @@
 #' For more control over layout, consider using \code{gridExtra::grid.arrange}
 #' directly with the \code{nrow} and \code{ncol} arguments.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- IRT(J15S500, model = 3)
 #' plots <- plotICC_gg(result)
 #' combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 items
 #' combinePlots_gg(plots, selectPlots = c(1, 5, 10)) # Show specific items
-#' }
 #'
 #' @importFrom gridExtra grid.arrange
 #' @export

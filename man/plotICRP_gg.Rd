@@ -66,7 +66,7 @@ Typically, higher ranks (higher ability) show higher probabilities for
 higher categories and lower probabilities for lower categories.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 
@@ -79,8 +79,7 @@ plot <- plotICRP_gg(result, items = 1:6,
                     title = "Item Category Reference Profile",
                     colors = c("red", "blue", "green", "purple"))
 plot
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotICBR_gg}}, \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}

@@ -57,13 +57,12 @@ across latent ranks. Unlike latent classes, ranks have an ordinal
 interpretation where higher ranks indicate higher ability levels.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LRA(J15S500, nrank = 5)
 plot <- plotLRD_gg(result)
 plot
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotLCD_gg}}, \code{\link{plotTRP_gg}}

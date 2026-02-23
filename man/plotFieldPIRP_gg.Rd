@@ -54,13 +54,12 @@ Note: Warning messages about NA values may appear during plotting
 but the behavior is normal.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LDB(J35S515, nfld = 5, ncls = 6)
 plots <- plotFieldPIRP_gg(result)
 plots[[1]] # Show Field PIRP for rank 1
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}}

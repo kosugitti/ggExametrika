@@ -79,8 +79,7 @@
 #' CRV is used when latent classes are nominal (unordered). For ordered
 #' latent ranks, use \code{\link{plotRRV_gg}} instead.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' # Binary biclustering
 #' library(exametrika)
 #' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
@@ -92,7 +91,6 @@
 #' plotCRV_gg(result_ord)  # Default: mean
 #' plotCRV_gg(result_ord, stat = "median")
 #' plotCRV_gg(result_ord, stat = "mode")
-#' }
 #'
 #' @seealso \code{\link{plotRRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}
 #'
@@ -282,8 +280,7 @@ plotCRV_gg <- function(data,
 #' RRV is used when latent ranks are ordinal (ordered). For unordered
 #' latent classes, use \code{\link{plotCRV_gg}} instead.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' # Binary biclustering
 #' library(exametrika)
 #' result <- Biclustering(J15S500, nfld = 3, ncls = 5)
@@ -302,7 +299,6 @@ plotCRV_gg <- function(data,
 #'   colors = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e"),
 #'   legend_position = "bottom"
 #' )
-#' }
 #'
 #' @seealso \code{\link{plotCRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}
 #'

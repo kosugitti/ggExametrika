@@ -57,13 +57,12 @@ assigned to each class, and the line graph shows the cumulative
 class membership distribution.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LCA(J15S500, ncls = 5)
 plot <- plotLCD_gg(result)
 plot
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotLRD_gg}}, \code{\link{plotTRP_gg}}

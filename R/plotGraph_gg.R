@@ -75,8 +75,7 @@
 #' }
 #' Arrows maintain a minimum size of 2mm to ensure visibility.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' library(ggExametrika)
 #'
@@ -101,7 +100,6 @@
 #'
 #' # Custom title
 #' plotGraph_gg(result, title = "My Network Model")[[1]]
-#' }
 #'
 #' @importFrom ggraph ggraph geom_edge_link geom_node_point geom_node_text
 #' @importFrom ggplot2 ggplot aes theme_void ggtitle scale_fill_manual guide_legend

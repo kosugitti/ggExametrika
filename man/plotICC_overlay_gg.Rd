@@ -60,14 +60,13 @@ The ICC is computed using the four-parameter logistic model:
 \deqn{P(\theta) = c + \frac{d - c}{1 + \exp(-a(\theta - b))}}
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- IRT(J15S500, model = 3)
 plotICC_overlay_gg(result) # All items
 plotICC_overlay_gg(result, items = 1:5) # First 5 items only
 plotICC_overlay_gg(result, title = "My Custom Title", show_legend = TRUE)
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}

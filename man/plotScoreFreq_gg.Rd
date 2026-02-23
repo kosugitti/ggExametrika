@@ -57,13 +57,12 @@ This plot is useful for understanding how latent ranks correspond to
 observed score ranges.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 plot <- plotScoreFreq_gg(result)
 plot
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}

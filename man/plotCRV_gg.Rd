@@ -83,7 +83,7 @@ CRV is used when latent classes are nominal (unordered). For ordered
 latent ranks, use \code{\link{plotRRV_gg}} instead.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Binary biclustering
 library(exametrika)
 result <- Biclustering(J35S515, nfld = 5, ncls = 6)
@@ -95,8 +95,7 @@ result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
 plotCRV_gg(result_ord)  # Default: mean
 plotCRV_gg(result_ord, stat = "median")
 plotCRV_gg(result_ord, stat = "mode")
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotRRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}

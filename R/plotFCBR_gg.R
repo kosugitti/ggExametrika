@@ -45,8 +45,7 @@
 #' as a horizontal line at the top. Higher classes/ranks (higher ability) typically
 #' show higher probabilities for higher boundaries.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' # Ordinal biclustering example with polytomous data
 #' result <- Biclustering(OrdinalData, ncls = 4, dataType = "ordinal")
@@ -60,7 +59,6 @@
 #'                     title = "Field Cumulative Boundary Reference",
 #'                     colors = c("red", "blue", "green", "purple"))
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotFCRP_gg}}, \code{\link{plotScoreField_gg}}, \code{\link{plotArray_gg}}
 #'

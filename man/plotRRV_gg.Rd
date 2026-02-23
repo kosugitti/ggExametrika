@@ -83,7 +83,7 @@ RRV is used when latent ranks are ordinal (ordered). For unordered
 latent classes, use \code{\link{plotCRV_gg}} instead.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Binary biclustering
 library(exametrika)
 result <- Biclustering(J15S500, nfld = 3, ncls = 5)
@@ -102,8 +102,7 @@ plotRRV_gg(result_ord,
   colors = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e"),
   legend_position = "bottom"
 )
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotCRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}

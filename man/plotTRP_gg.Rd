@@ -57,13 +57,12 @@ In well-fitted models, expected scores should increase monotonically
 with class/rank number.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LRA(J15S500, nrank = 5)
 plot <- plotTRP_gg(result)
 plot
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotIRP_gg}}, \code{\link{plotLCD_gg}},

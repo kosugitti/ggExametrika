@@ -51,13 +51,12 @@ in a single class are well-classified, while students with similar
 probabilities across classes may be ambiguous cases.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LCA(J15S500, ncls = 5)
 plots <- plotCMP_gg(result)
 plots[[1]] # Show CMP for the first student
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotRMP_gg}}, \code{\link{plotLCD_gg}}

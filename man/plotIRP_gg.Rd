@@ -50,13 +50,12 @@ latent classes (LCA) or ranks (LRA, LDLRA). Items with monotonically
 increasing profiles indicate good discrimination between classes/ranks.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 result <- LRA(J15S500, nrank = 5)
 plots <- plotIRP_gg(result)
 plots[[1]] # Show IRP for the first item
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}

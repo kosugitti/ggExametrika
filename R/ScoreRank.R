@@ -31,13 +31,11 @@
 #' The data is taken from \code{data$ScoreRank}, a matrix where rows
 #' represent scores and columns represent latent ranks.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #' plot <- plotScoreRank_gg(result)
 #' plot
-#' }
 #'
 #' @seealso \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}
 #'

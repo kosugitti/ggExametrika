@@ -3,6 +3,13 @@ url: https://kosugitti.github.io/ggExametrika/
 template:
   bootstrap: 5
 
+figures:
+  dpi: 96
+  fig.ext: png
+  fig.width: 7
+  fig.height: 5
+  fig.retina: 2
+
 navbar:
   structure:
     left:  [intro, reference, articles, news]
@@ -79,10 +86,11 @@ reference:
   - plotScoreField_gg
   - plotFieldPIRP_gg
 
-- title: DAG Visualization
-  desc: Directed Acyclic Graph visualization (BNM, LDLRA, LDB, BINET)
+- title: DAG & Network Model Plots
+  desc: Directed Acyclic Graph and network model visualization (BNM, LDLRA, LDB, BINET)
   contents:
   - plotGraph_gg
+  - plotLDPSR_gg
 
 - title: Utilities
   desc: Helper functions

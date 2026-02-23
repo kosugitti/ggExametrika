@@ -68,7 +68,7 @@ The \code{style} parameter allows two visualizations:
 }
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Ordinal Biclustering with 5 categories
 data(J35S500)
 result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -85,8 +85,7 @@ plotFCRP_gg(result,
   title = "Category Response Patterns",
   colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#CC79A7")
 )
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotFCBR_gg}}, \code{\link{plotScoreField_gg}}
