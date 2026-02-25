@@ -1,5 +1,12 @@
 # ggExametrika 0.0.33
 
+## CI / Infrastructure Fixes
+
+* Fix `_pkgdown.yml`: quote `plot-gallery` in articles contents to prevent YAML parsing issues.
+* Move `getting-started.Rmd` and `getting-started-ja.Rmd` from `vignettes/` to `vignettes/articles/` as pkgdown-only articles. Remove vignette YAML metadata (`\VignetteIndexEntry`, `\VignetteEngine`, `\VignetteEncoding`) and `output: rmarkdown::html_vignette`. This resolves R CMD check vignette build errors caused by exametrika dependency during check.
+* Add `^vignettes/articles$` to `.Rbuildignore` to exclude pkgdown-only articles from package build.
+* Update `test-coverage.yaml`: upgrade `codecov/codecov-action` from v4 to v5, add `print(cov)` for log output, add testthat output display and failure artifact upload steps, update parameter names for v5 compatibility (`file` to `files`, `plugin` to `plugins`).
+
 ## GitHub Pages / pkgdown (Phase 3)
 
 * Add Plot Gallery article (`vignettes/articles/plot-gallery.Rmd`) as a pkgdown-only article showcasing all 27 visualization functions with live rendered examples. The gallery is organized into 7 sections: IRT Models, GRM, Latent Class/Rank Analysis, Biclustering (binary/ordinal/nominal), LRAordinal/LRArated, Network Models (DAG), and Common Options Demo.

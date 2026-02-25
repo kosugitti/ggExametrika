@@ -34,7 +34,7 @@ articles:
 - title: Gallery
   navbar: ~
   contents:
-  - plot-gallery
+  - "plot-gallery"
 - title: English
   navbar: ~
   contents:
