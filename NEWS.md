@@ -5,7 +5,7 @@
 * Fix `_pkgdown.yml`: use `'"articles/name"'` syntax for article references in contents. pkgdown evaluates contents entries as R expressions, so bare `plot-gallery` was parsed as `plot - gallery` (subtraction). Additionally, pkgdown prefixes article names with `articles/` for files in `vignettes/articles/`.
 * Move `getting-started.Rmd` and `getting-started-ja.Rmd` from `vignettes/` to `vignettes/articles/` as pkgdown-only articles. Remove vignette YAML metadata (`\VignetteIndexEntry`, `\VignetteEngine`, `\VignetteEncoding`) and `output: rmarkdown::html_vignette`. This resolves R CMD check vignette build errors caused by exametrika dependency during check.
 * Add `^vignettes/articles$` to `.Rbuildignore` to exclude pkgdown-only articles from package build.
-* Update `test-coverage.yaml`: upgrade `codecov/codecov-action` from v4 to v5, add `print(cov)` for log output, add testthat output display and failure artifact upload steps, update parameter names for v5 compatibility (`file` to `files`, `plugin` to `plugins`). Make codecov upload conditional on `CODECOV_TOKEN` being set to avoid CI failure when token is unavailable.
+* Update `test-coverage.yaml`: upgrade `codecov/codecov-action` from v4 to v5, add `print(cov)` for log output, add testthat output display and failure artifact upload steps, update parameter names for v5 compatibility (`file` to `files`, `plugin` to `plugins`). Set `fail_ci_if_error: false` for codecov upload to avoid CI failure when `CODECOV_TOKEN` is not configured.
 
 ## GitHub Pages / pkgdown (Phase 3)
 
