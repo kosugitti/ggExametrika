@@ -18,6 +18,17 @@
   [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md),
   [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md).
   TODO: revert after exametrika v1.9.0 is released on CRAN.
+- Remove `LazyData: true` from DESCRIPTION (package has no data
+  directory).
+- Remove `VignetteBuilder: knitr` and `knitr`/`rmarkdown` from Suggests
+  (no vignettes after migration to pkgdown articles).
+- Add `utils::globalVariables("value")` in `R/zzz.R` to suppress R CMD
+  check NOTE for NSE variable in
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md).
+- Add `github::kosugitti/exametrika` to `R-CMD-check.yaml` and
+  `test-coverage.yaml` extra-packages. CRAN version (v1.8.1) lacks
+  v1.9.0 datasets; examples with `@examplesIf` + `\dontrun{}` do not
+  correctly suppress execution due to `withAutoprint` interaction.
 
 ### CI / Infrastructure Fixes
 

@@ -45,6 +45,10 @@
 <h3 id="r-cmd-check-fixes-0-0-33">R CMD check Fixes<a class="anchor" aria-label="anchor" href="#r-cmd-check-fixes-0-0-33"></a></h3>
 <ul><li>Add <code>LICENSE</code> file (YEAR/COPYRIGHT HOLDER format) for CRAN compliance. <code>DESCRIPTION</code> specifies <code>License: MIT + file LICENSE</code>, which requires a <code>LICENSE</code> file (not just <code>LICENSE.md</code>).</li>
 <li>Wrap <code>J35S500</code> examples in <code>\dontrun{}</code> to avoid R CMD check failures when exametrika &lt; 1.9.0 is installed. <code>J35S500</code> dataset is only available in exametrika &gt;= 1.9.0 (not yet on CRAN). Affected functions: <code><a href="../reference/plotFCBR_gg.html">plotFCBR_gg()</a></code>, <code><a href="../reference/plotFCRP_gg.html">plotFCRP_gg()</a></code>, <code><a href="../reference/plotScoreField_gg.html">plotScoreField_gg()</a></code>, <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code>, <code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code>, <code><a href="../reference/plotRRV_gg.html">plotRRV_gg()</a></code>. TODO: revert after exametrika v1.9.0 is released on CRAN.</li>
+<li>Remove <code>LazyData: true</code> from DESCRIPTION (package has no data directory).</li>
+<li>Remove <code>VignetteBuilder: knitr</code> and <code>knitr</code>/<code>rmarkdown</code> from Suggests (no vignettes after migration to pkgdown articles).</li>
+<li>Add <code>utils::globalVariables("value")</code> in <code>R/zzz.R</code> to suppress R CMD check NOTE for NSE variable in <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code>.</li>
+<li>Add <code>github::kosugitti/exametrika</code> to <code>R-CMD-check.yaml</code> and <code>test-coverage.yaml</code> extra-packages. CRAN version (v1.8.1) lacks v1.9.0 datasets; examples with <code>@examplesIf</code> + <code>\dontrun{}</code> do not correctly suppress execution due to <code>withAutoprint</code> interaction.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="ci--infrastructure-fixes-0-0-33">CI / Infrastructure Fixes<a class="anchor" aria-label="anchor" href="#ci--infrastructure-fixes-0-0-33"></a></h3>
