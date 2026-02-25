@@ -72,12 +72,14 @@ plotGraph_gg(
 
   Logical or character. If `TRUE` (default), display an auto-generated
   title. If `FALSE`, no title. If a character string, use it as a custom
-  title.
+  title. For LDLRA, a single string gets " - Rank N" appended; a
+  character vector of length equal to the number of ranks assigns each
+  element as the title for the corresponding rank.
 
 - colors:
 
-  Character vector. Colors for node types. For BNM: single color for
-  Item nodes. For future models (LDLRA/LDB/BINET): colors for different
+  Character vector. Colors for node types. For BNM/LDLRA: single color
+  for Item nodes. For future models (LDB/BINET): colors for different
   node types. If `NULL` (default), uses the default node type colors
   (Item=purple, Field=green, Class=blue).
 
@@ -101,7 +103,8 @@ Design follows TDE figure specifications:
 
 - BNM: Items shown as purple circles with numbers inside
 
-- LDLRA: Items as circles per rank/class (to be implemented)
+- LDLRA: Items as circles per rank/class, one plot per rank. Isolated
+  nodes auto-removed
 
 - LDB: Fields shown as green diamonds (to be implemented)
 

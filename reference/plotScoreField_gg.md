@@ -99,21 +99,15 @@ for score-rank heatmaps
 ## Examples
 
 ``` r
+# TODO: Revert \dontrun to @examplesIf after exametrika v1.9.0 is on CRAN.
+# J35S500 dataset requires exametrika >= 1.9.0.
+if (FALSE) { # \dontrun{
 library(exametrika)
 # Ordinal Biclustering example
 result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
-#> Ranklustering is chosen.
-#> iter 1 log_lik -22710.5                                                         
-#> iter 2 log_lik -21311.9                                                         
-#> iter 3 log_lik -21002.5                                                         
-#> iter 4 log_lik -20945.8                                                         
-#> iter 5 log_lik -20932.3                                                         
-#> iter 6 log_lik -20929.2                                                         
-#> iter 7 log_lik -20929.8                                                         
 
 # Basic plot
 plotScoreField_gg(result)
-
 
 # Custom title and hide values
 plotScoreField_gg(result,
@@ -121,25 +115,15 @@ plotScoreField_gg(result,
   show_values = FALSE
 )
 
-
 # Custom color gradient
 plotScoreField_gg(result,
   colors = c("white", "blue", "darkblue"),
   legend_position = "bottom"
 )
 
-
 # Nominal Biclustering example
 data(J20S600)
 result_nom <- Biclustering(J20S600, ncls = 5, nfld = 4)
-#> iter 1 log_lik -16400.2                                                         
-#> iter 2 log_lik -16394.3                                                         
-#> iter 3 log_lik -16330.5                                                         
-#> iter 4 log_lik -15845.9                                                         
-#> iter 5 log_lik -14692                                                           
-#> iter 6 log_lik -14160.1                                                         
-#> iter 7 log_lik -13964.5                                                         
-#> iter 8 log_lik -13927.8                                                         
-#> iter 9 log_lik -13935.1                                                         
 plotScoreField_gg(result_nom)
+} # }
 ```

@@ -153,20 +153,14 @@ result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 plotCRV_gg(result)
 
 
+# TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+# J35S500 dataset requires exametrika >= 1.9.0.
+if (FALSE) { # \dontrun{
 # Ordinal biclustering (polytomous)
 data(J35S500)
 result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
-#> Ranklustering is chosen.
-#> iter 1 log_lik -22710.5                                                         
-#> iter 2 log_lik -21311.9                                                         
-#> iter 3 log_lik -21002.5                                                         
-#> iter 4 log_lik -20945.8                                                         
-#> iter 5 log_lik -20932.3                                                         
-#> iter 6 log_lik -20929.2                                                         
-#> iter 7 log_lik -20929.8                                                         
 plotCRV_gg(result_ord)  # Default: mean
-
 plotCRV_gg(result_ord, stat = "median")
-
 plotCRV_gg(result_ord, stat = "mode")
+} # }
 ```

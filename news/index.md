@@ -2,6 +2,23 @@
 
 ## ggExametrika 0.0.33
 
+### R CMD check Fixes
+
+- Add `LICENSE` file (YEAR/COPYRIGHT HOLDER format) for CRAN compliance.
+  `DESCRIPTION` specifies `License: MIT + file LICENSE`, which requires
+  a `LICENSE` file (not just `LICENSE.md`).
+- Wrap `J35S500` examples in `\dontrun{}` to avoid R CMD check failures
+  when exametrika \< 1.9.0 is installed. `J35S500` dataset is only
+  available in exametrika \>= 1.9.0 (not yet on CRAN). Affected
+  functions:
+  [`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md),
+  [`plotFCRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCRP_gg.md),
+  [`plotScoreField_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.md),
+  [`plotFRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md),
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md),
+  [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md).
+  TODO: revert after exametrika v1.9.0 is released on CRAN.
+
 ### CI / Infrastructure Fixes
 
 - Fix `_pkgdown.yml`: use `'"articles/name"'` syntax for article

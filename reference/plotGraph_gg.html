@@ -109,13 +109,15 @@ Alternative horizontal layout.</p></li>
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>Logical or character. If <code>TRUE</code> (default), display an
 auto-generated title. If <code>FALSE</code>, no title. If a character string,
-use it as a custom title.</p></dd>
+use it as a custom title. For LDLRA, a single string gets " - Rank N"
+appended; a character vector of length equal to the number of ranks
+assigns each element as the title for the corresponding rank.</p></dd>
 
 
 <dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
 <dd><p>Character vector. Colors for node types.
-For BNM: single color for Item nodes.
-For future models (LDLRA/LDB/BINET): colors for different node types.
+For BNM/LDLRA: single color for Item nodes.
+For future models (LDB/BINET): colors for different node types.
 If <code>NULL</code> (default), uses the default node type colors
 (Item=purple, Field=green, Class=blue).</p></dd>
 
@@ -139,7 +141,7 @@ For LDLRA/LDB, one plot per rank/class. For BINET, the integrated graph.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Design follows TDE figure specifications:</p><ul><li><p>BNM: Items shown as purple circles with numbers inside</p></li>
-<li><p>LDLRA: Items as circles per rank/class (to be implemented)</p></li>
+<li><p>LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed</p></li>
 <li><p>LDB: Fields shown as green diamonds (to be implemented)</p></li>
 <li><p>BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)</p></li>
 </ul><p><strong>Direction Guidelines:</strong></p>
