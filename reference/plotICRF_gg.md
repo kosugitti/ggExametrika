@@ -25,7 +25,7 @@ plotICRF_gg(
 - data:
 
   An object of class `c("exametrika", "GRM")` from
-  [`exametrika::GRM()`](https://rdrr.io/pkg/exametrika/man/GRM.html).
+  [`exametrika::GRM()`](https://kosugitti.github.io/exametrika/reference/GRM.html).
 
 - items:
 

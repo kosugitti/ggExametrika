@@ -22,9 +22,24 @@
   directory).
 - Remove `VignetteBuilder: knitr` and `knitr`/`rmarkdown` from Suggests
   (no vignettes after migration to pkgdown articles).
-- Add `utils::globalVariables("value")` in `R/zzz.R` to suppress R CMD
-  check NOTE for NSE variable in
-  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md).
+- Comprehensive NSE (Non-Standard Evaluation) global variable
+  declarations in `R/zzz.R` via
+  [`utils::globalVariables()`](https://rdrr.io/r/utils/globalVariables.html).
+  Covers all ggplot2
+  [`aes()`](https://ggplot2.tidyverse.org/reference/aes.html) and tidyr
+  NSE variables across all plot functions (30+ variables). Previously
+  only `value` was declared.
+- Add `@importFrom` for missing function imports:
+  [`stats::ave`](https://rdrr.io/r/stats/ave.html),
+  [`stats::median`](https://rdrr.io/r/stats/median.html),
+  [`stats::setNames`](https://rdrr.io/r/stats/setNames.html),
+  [`utils::tail`](https://rdrr.io/r/utils/head.html),
+  [`ggplot2::geom_segment`](https://ggplot2.tidyverse.org/reference/geom_segment.html),
+  [`ggplot2::sec_axis`](https://ggplot2.tidyverse.org/reference/sec_axis.html),
+  [`ggplot2::scale_fill_gradientn`](https://ggplot2.tidyverse.org/reference/scale_gradient.html),
+  [`ggplot2::scale_x_reverse`](https://ggplot2.tidyverse.org/reference/scale_continuous.html),
+  [`tidyr::all_of`](https://tidyselect.r-lib.org/reference/all_of.html).
+  Resolves all “no visible global function definition” NOTEs.
 - Add `github::kosugitti/exametrika` to `R-CMD-check.yaml` and
   `test-coverage.yaml` extra-packages. CRAN version (v1.8.1) lacks
   v1.9.0 datasets; examples with `@examplesIf` + `\dontrun{}` do not
@@ -260,9 +275,11 @@
 
 - Update CLAUDE.md: Correct FRP model support table. exametrika’s
   `plot.exametrika` `valid_types` declares FRP as valid for LCA and LRA,
-  but neither [`LCA()`](https://rdrr.io/pkg/exametrika/man/LCA.html) nor
-  [`LRA()`](https://rdrr.io/pkg/exametrika/man/LRA.html) actually
-  produce a `$FRP` field in their output. The
+  but neither
+  [`LCA()`](https://kosugitti.github.io/exametrika/reference/LCA.html)
+  nor
+  [`LRA()`](https://kosugitti.github.io/exametrika/reference/LRA.html)
+  actually produce a `$FRP` field in their output. The
   [`plotFRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFRP_gg.md)
   correctly rejects these models. Added annotation (\*1) to model
   compatibility tables documenting this exametrika-side inconsistency.

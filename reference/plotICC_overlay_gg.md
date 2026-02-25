@@ -24,7 +24,7 @@ plotICC_overlay_gg(
 - data:
 
   An object of class `c("exametrika", "IRT")` from
-  [`exametrika::IRT()`](https://rdrr.io/pkg/exametrika/man/IRT.html).
+  [`exametrika::IRT()`](https://kosugitti.github.io/exametrika/reference/IRT.html).
 
 - items:
 

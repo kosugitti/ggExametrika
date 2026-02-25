@@ -23,9 +23,9 @@ plotTIC_gg(
 - data:
 
   An object of class `c("exametrika", "IRT")` from
-  [`exametrika::IRT()`](https://rdrr.io/pkg/exametrika/man/IRT.html) or
-  `c("exametrika", "GRM")` from
-  [`exametrika::GRM()`](https://rdrr.io/pkg/exametrika/man/GRM.html).
+  [`exametrika::IRT()`](https://kosugitti.github.io/exametrika/reference/IRT.html)
+  or `c("exametrika", "GRM")` from
+  [`exametrika::GRM()`](https://kosugitti.github.io/exametrika/reference/GRM.html).
 
 - xvariable:
 

@@ -25,7 +25,7 @@ plotICBR_gg(
 - data:
 
   An object of class `c("exametrika", "LRAordinal")` from
-  [`exametrika::LRA()`](https://rdrr.io/pkg/exametrika/man/LRA.html)
+  [`exametrika::LRA()`](https://kosugitti.github.io/exametrika/reference/LRA.html)
   with `dataType = "ordinal"`.
 
 - items:

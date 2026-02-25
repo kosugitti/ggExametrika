@@ -105,7 +105,7 @@ more.</p>
 <p>IRT models (2PL, 3PL, 4PL) estimate item parameters for binary
 response data.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; iter 1 LogLik -3915.61 iter 2 LogLik -3901.1 iter 3 LogLik -3896.89 iter 4</span></span>
 <span><span class="co">#&gt; LogLik -3894.98 iter 5 LogLik -3894.02 iter 6 LogLik -3893.53 iter 7 LogLik</span></span>
 <span><span class="co">#&gt; -3893.28 iter 8 LogLik -3893.15 iter 9 LogLik -3893.08 iter 10 LogLik -3893.04</span></span>
@@ -220,7 +220,7 @@ comparison.</p>
 <p>GRM handles ordered polytomous response data (e.g., Likert
 scales).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Parameters: 18 | Initial LL: -6252.352 </span></span>
 <span><span class="co">#&gt; initial  value 6252.351598 </span></span>
 <span><span class="co">#&gt; iter  10 value 6032.463982</span></span>
@@ -291,7 +291,7 @@ ability.</p>
 <p>LCA identifies latent classes (discrete groups) from binary response
 data.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; iter 1 log_lik -3955.4 iter 2 log_lik -3904.63 iter 3 log_lik -3890.82 iter 4</span></span>
 <span><span class="co">#&gt; log_lik -3880 iter 5 log_lik -3870.82 iter 6 log_lik -3863.52 iter 7 log_lik</span></span>
 <span><span class="co">#&gt; -3857.89 iter 8 log_lik -3853.58 iter 9 log_lik -3850.31 iter 10 log_lik</span></span>
@@ -355,7 +355,7 @@ classes.</p>
 </h2>
 <p>LRA identifies ordered latent ranks from binary response data.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotirp_gg-item-reference-profile-1">plotIRP_gg: Item Reference Profile<a class="anchor" aria-label="anchor" href="#plotirp_gg-item-reference-profile-1"></a>
 </h3>
@@ -403,7 +403,7 @@ ranks.</p>
 data, providing specialized visualizations for score distributions and
 category-level analysis.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotscorefreq_gg-score-frequency-distribution">plotScoreFreq_gg: Score Frequency Distribution<a class="anchor" aria-label="anchor" href="#plotscorefreq_gg-score-frequency-distribution"></a>
 </h3>
@@ -484,7 +484,7 @@ K-1.</p>
 <p>Biclustering simultaneously clusters items (into fields) and students
 (into ranks).</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Biclustering is chosen.</span></span>
 <span><span class="co">#&gt; iter 1 log_lik -8463.81                                                         iter 2 log_lik -8195.78                                                         iter 3 log_lik -8121.09                                                         iter 4 log_lik -8091.3                                                          iter 5 log_lik -8086.61                                                         iter 6 log_lik -8086.47                                                         </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -586,7 +586,7 @@ visualizes the Field Cumulative Boundary Reference. It shows boundary
 probabilities P(Q &gt;= k) for each field across latent
 classes/ranks.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_ord_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_ord_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Biclustering is chosen.</span></span>
 <span><span class="co">#&gt; iter 1 log_lik -22710.5 iter 2 log_lik -21311.9 iter 3 log_lik -21002.5 iter 4</span></span>
 <span><span class="co">#&gt; log_lik -20945.8 iter 5 log_lik -20932.3 iter 6 log_lik -20929.2 iter 7 log_lik</span></span>
@@ -612,7 +612,7 @@ classes/ranks.</p>
 <p>BNM discovers the dependency structure among items using a Bayesian
 network.</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotgraph_gg-dag-visualization">plotGraph_gg: DAG Visualization<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag-visualization"></a>
 </h3>
@@ -642,7 +642,7 @@ model.</p>
 </h2>
 <p>LDLRA adds local dependency structures within each rank.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotirp_gg-item-reference-profile-2">plotIRP_gg: Item Reference Profile<a class="anchor" aria-label="anchor" href="#plotirp_gg-item-reference-profile-2"></a>
 </h3>
@@ -682,7 +682,7 @@ ranks. <em>(DAG visualization for LDLRA is coming soon.)</em></p>
 <p>LDB adds local dependency structures to the biclustering
 framework.</p>
 <div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotfrp_gg-field-reference-profile-1">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile-1"></a>
 </h3>
@@ -745,7 +745,7 @@ each rank.</p>
 <p>BINET combines Bayesian network structure with the biclustering
 framework.</p>
 <div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotfrp_gg-field-reference-profile-2">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile-2"></a>
 </h3>

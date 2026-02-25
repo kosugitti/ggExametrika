@@ -87,43 +87,43 @@ etc.</p>
 <p>We fit all models up front.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># --- IRT (binary, 15 items, 500 students) ---</span></span>
-<span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- GRM (ordinal, 5 items, 1000 students) ---</span></span>
-<span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
+<span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- LCA (binary, 15 items, 500 students, 3 classes) ---</span></span>
-<span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- LRA (binary, 15 items, 500 students, 4 ranks) ---</span></span>
-<span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- LRAordinal (ordinal, 15 items, 3810 students, 4 ranks) ---</span></span>
-<span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span>
+<span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- Biclustering: binary (35 items, 515 students) ---</span></span>
-<span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- Biclustering: ordinal (35 items, 500 students, 5 categories) ---</span></span>
-<span><span class="va">result_ord_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">result_ord_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- Biclustering: nominal (20 items, 600 students, 4 categories) ---</span></span>
-<span><span class="va">result_nom_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J20S600</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">result_nom_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J20S600</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p>Network models (BNM, LDLRA, LDB, BINET) require explicit graph
 structure input. The code below is shown for reference but not executed.
 DAG visualization support is under active development.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># --- BNM (requires adjacency matrix or igraph object) ---</span></span>
-<span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span>, adj_matrix <span class="op">=</span> <span class="va">adj_mat</span><span class="op">)</span></span>
+<span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span>, adj_matrix <span class="op">=</span> <span class="va">adj_mat</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- LDLRA (requires graph list, one per rank) ---</span></span>
-<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span>
+<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- LDB (requires graph list and field configuration) ---</span></span>
-<span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span>
+<span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- BINET (requires graph list and field configuration) ---</span></span>
-<span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">

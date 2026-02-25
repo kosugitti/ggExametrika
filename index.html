@@ -148,7 +148,7 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/ggExametrika/">ggExametrika</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotICC_gg.html">plotICC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span>
 <span><span class="va">plots</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
@@ -185,7 +185,7 @@
 <h3 id="grm-item-category-response-function-ploticrf_gg">GRM: Item Category Response Function (plotICRF_gg)<a class="anchor" aria-label="anchor" href="#grm-item-category-response-function-ploticrf_gg"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
 <span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span>
 <span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
@@ -198,7 +198,7 @@
 <h3 id="lca-latent-class-analysis">LCA: Latent Class Analysis<a class="anchor" aria-label="anchor" href="#lca-latent-class-analysis"></a>
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span>         <span class="co"># Item Reference Profile</span></span>
 <span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lca</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
@@ -210,7 +210,7 @@
 <h3 id="lra-latent-rank-analysis">LRA: Latent Rank Analysis<a class="anchor" aria-label="anchor" href="#lra-latent-rank-analysis"></a>
 </h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_lra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S500</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plotIRP_gg.html">plotIRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span>         <span class="co"># Item Reference Profile</span></span>
 <span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_lra</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
@@ -222,7 +222,7 @@
 <h3 id="lraordinal--lrarated">LRAordinal / LRArated<a class="anchor" aria-label="anchor" href="#lraordinal--lrarated"></a>
 </h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J5S1000</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>  <span class="co"># ordinal data</span></span>
+<code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J5S1000</span>, nrank <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>  <span class="co"># ordinal data</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plotScoreFreq_gg.html">plotScoreFreq_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span><span class="op">)</span>   <span class="co"># Score Frequency Distribution</span></span>
 <span><span class="fu"><a href="reference/plotScoreRank_gg.html">plotScoreRank_gg</a></span><span class="op">(</span><span class="va">result_lra_ord</span><span class="op">)</span>   <span class="co"># Score-Rank Heatmap</span></span>
@@ -234,7 +234,7 @@
 <h3 id="biclustering-binary">Biclustering (binary)<a class="anchor" aria-label="anchor" href="#biclustering-binary"></a>
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
 <span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span>         <span class="co"># Test Reference Profile</span></span>
@@ -251,7 +251,7 @@
 </h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Nominal Biclustering</span></span>
-<span><span class="va">result_nom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">data</span>, ncls <span class="op">=</span> <span class="fl">3</span>, nfld <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">result_nom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">data</span>, ncls <span class="op">=</span> <span class="fl">3</span>, nfld <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_nom</span>, stat <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span>   <span class="co"># stat: "mean", "median", or "mode"</span></span>
 <span><span class="fu"><a href="reference/plotFCRP_gg.html">plotFCRP_gg</a></span><span class="op">(</span><span class="va">result_nom</span>, style <span class="op">=</span> <span class="st">"line"</span><span class="op">)</span> <span class="co"># Field Category Response Profile (style: "line" or "bar")</span></span>
@@ -267,7 +267,7 @@
 <h3 id="ldb-locally-dependent-biclustering">LDB: Locally Dependent Biclustering<a class="anchor" aria-label="anchor" href="#ldb-locally-dependent-biclustering"></a>
 </h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>         <span class="co"># Field Reference Profile</span></span>
 <span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span>         <span class="co"># Test Reference Profile</span></span>
@@ -281,7 +281,7 @@
 <h3 id="binet-bayesian-network-and-test">BINET: Bayesian Network and Test<a class="anchor" aria-label="anchor" href="#binet-bayesian-network-and-test"></a>
 </h3>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plotFRP_gg.html">plotFRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span>       <span class="co"># Field Reference Profile</span></span>
 <span><span class="fu"><a href="reference/plotTRP_gg.html">plotTRP_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span>       <span class="co"># Test Reference Profile</span></span>
@@ -294,10 +294,10 @@
 <h3 id="bnm--ldlra-dag-visualization-plotgraph_gg">BNM / LDLRA: DAG Visualization (plotGraph_gg)<a class="anchor" aria-label="anchor" href="#bnm--ldlra-dag-visualization-plotgraph_gg"></a>
 </h3>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span>     <span class="co"># One DAG per rank</span></span></code></pre></div>
 </div>
 </div>

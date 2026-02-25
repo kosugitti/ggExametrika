@@ -24,7 +24,7 @@ plotScoreFreq_gg(
 
   An object of class `c("exametrika", "LRAordinal")` or
   `c("exametrika", "LRArated")` from
-  [`exametrika::LRA()`](https://rdrr.io/pkg/exametrika/man/LRA.html).
+  [`exametrika::LRA()`](https://kosugitti.github.io/exametrika/reference/LRA.html).
 
 - title:
 

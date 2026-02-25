@@ -24,7 +24,7 @@ plotFCRP_gg(
 
   An object of class `c("exametrika", "ordinalBiclustering")` or
   `c("exametrika", "nominalBiclustering")` from
-  [`exametrika::Biclustering()`](https://rdrr.io/pkg/exametrika/man/Biclustering.html).
+  [`exametrika::Biclustering()`](https://kosugitti.github.io/exametrika/reference/Biclustering.html).
 
 - style:
 
