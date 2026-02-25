@@ -82,12 +82,15 @@ Biclustering, IRM, and related model visualization
 - [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md)
   : Plot Field PIRP (Parent Item Reference Profile) from exametrika
 
-## DAG Visualization
+## DAG & Network Model Plots
 
-Directed Acyclic Graph visualization (BNM, LDLRA, LDB, BINET)
+Directed Acyclic Graph and network model visualization (BNM, LDLRA, LDB,
+BINET)
 
 - [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md)
   : Plot DAG (Directed Acyclic Graph) from exametrika
+- [`plotLDPSR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLDPSR_gg.md)
+  : Plot LDPSR (Local Dependence Passing Student Rate) from exametrika
 
 ## Utilities
 

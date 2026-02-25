@@ -79,10 +79,8 @@ with class/rank number.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(exametrika)
 result <- LRA(J15S500, nrank = 5)
 plot <- plotTRP_gg(result)
 plot
-} # }
 ```

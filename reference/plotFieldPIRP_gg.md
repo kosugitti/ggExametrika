@@ -74,7 +74,8 @@ the behavior is normal.
 ``` r
 if (FALSE) { # \dontrun{
 library(exametrika)
-result <- LDB(J35S515, nfld = 5, ncls = 6)
+# LDB requires graph structure input (g_list or adj_file)
+result <- LDB(J35S515, ncls = 6, g_list = graph_list)
 plots <- plotFieldPIRP_gg(result)
 plots[[1]] # Show Field PIRP for rank 1
 } # }

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.33</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,9 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/plot-gallery.html">Plot Gallery</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
     <li><a class="dropdown-item" href="../articles/getting-started-ja.html">入門ガイド (日本語)</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -37,6 +39,70 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.33" id="ggexametrika-0033">ggExametrika 0.0.33<a class="anchor" aria-label="anchor" href="#ggexametrika-0033"></a></h2>
+<div class="section level3">
+<h3 id="ci--infrastructure-fixes-0-0-33">CI / Infrastructure Fixes<a class="anchor" aria-label="anchor" href="#ci--infrastructure-fixes-0-0-33"></a></h3>
+<ul><li>Fix <code>_pkgdown.yml</code>: use <code>'"articles/name"'</code> syntax for article references in contents. pkgdown evaluates contents entries as R expressions, so bare <code>plot-gallery</code> was parsed as <code>plot - gallery</code> (subtraction). Additionally, pkgdown prefixes article names with <code>articles/</code> for files in <code>vignettes/articles/</code>.</li>
+<li>Move <code>getting-started.Rmd</code> and <code>getting-started-ja.Rmd</code> from <code>vignettes/</code> to <code>vignettes/articles/</code> as pkgdown-only articles. Remove vignette YAML metadata (<code>\VignetteIndexEntry</code>, <code>\VignetteEngine</code>, <code>\VignetteEncoding</code>) and <code>output: rmarkdown::html_vignette</code>. This resolves R CMD check vignette build errors caused by exametrika dependency during check.</li>
+<li>Add <code>^vignettes/articles$</code> to <code>.Rbuildignore</code> to exclude pkgdown-only articles from package build.</li>
+<li>Update <code>test-coverage.yaml</code>: upgrade <code>codecov/codecov-action</code> from v4 to v5, add <code>print(cov)</code> for log output, add testthat output display and failure artifact upload steps, update parameter names for v5 compatibility (<code>file</code> to <code>files</code>, <code>plugin</code> to <code>plugins</code>). Set <code>fail_ci_if_error: false</code> for codecov upload to avoid CI failure when <code>CODECOV_TOKEN</code> is not configured.</li>
+<li>Update <code>pkgdown.yaml</code>: install exametrika from GitHub (<code>github::kosugitti/exametrika</code>) to ensure v1.9.0 datasets (e.g., <code>J35S500</code>) are available for article rendering.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="github-pages--pkgdown-phase-0-0-33">GitHub Pages / pkgdown (Phase 3)<a class="anchor" aria-label="anchor" href="#github-pages--pkgdown-phase-0-0-33"></a></h3>
+<ul><li>Add Plot Gallery article (<code>vignettes/articles/plot-gallery.Rmd</code>) as a pkgdown-only article showcasing all 27 visualization functions with live rendered examples. The gallery is organized into 7 sections: IRT Models, GRM, Latent Class/Rank Analysis, Biclustering (binary/ordinal/nominal), LRAordinal/LRArated, Network Models (DAG), and Common Options Demo.</li>
+<li>Uses six sample datasets (J15S500, J5S1000, J35S515, J35S500, J20S600, J15S3810) covering binary, ordinal, and nominal response types, and 8 model types (IRT, GRM, LCA, LRA, LRAordinal, Biclustering, ordinal Biclustering, nominal Biclustering). Network models (BNM, LDLRA, LDB, BINET) are shown as reference code only (eval=FALSE) since they require explicit graph structure input.</li>
+<li>Add Plot Gallery to <code>_pkgdown.yml</code> navbar menu (displayed at the top of the Articles dropdown) and articles section.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="vignette-bug-fixes-0-0-33">Vignette Bug Fixes<a class="anchor" aria-label="anchor" href="#vignette-bug-fixes-0-0-33"></a></h3>
+<ul><li>Remove incorrect <code>plotFRP_gg(result_lca)</code> and <code>plotFRP_gg(result_lra)</code> calls from both English and Japanese getting-started vignettes. <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code> requires Biclustering-family models; LCA/LRA do not produce FRP output (exametrika valid_types declaration is incorrect).</li>
+<li>Replace non-existent <code>OrdinalData</code> dataset with <code>J35S500</code> in ordinal Biclustering example.</li>
+<li>Fix <code>color =</code> to <code>colors =</code> in <code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code> customization example (parameter name mismatch).</li>
+<li>Fix <code>rankdir =</code> to <code>direction =</code> and remove non-existent <code>node_color</code>/<code>edge_color</code> parameters from <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> customization example.</li>
+<li>Set LDLRA, LDB, and BINET <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> examples to <code>eval = FALSE</code> with “coming soon” notes, as DAG visualization currently supports BNM only.</li>
+<li>Fix <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code> usage in vignettes: the function returns a single ggplot object, not a list. Removed incorrect <code>[[1]]</code> indexing and <code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code> calls.</li>
+<li>Set BNM, LDLRA, LDB, and BINET model fitting and all dependent plot chunks to <code>eval = FALSE</code> in both vignettes. BNM requires explicit graph input; LDLRA/LDB/BINET are computationally expensive and have unresolved API issues with current exametrika version.</li>
+<li>Set <code>devtools::install_github()</code> chunks to <code>eval = FALSE</code> in both vignettes. devtools is not available during R CMD check.</li>
+<li>Replace non-existent <code>OrdinalData</code> dataset with <code>J35S500</code> in <code><a href="../reference/plotFCBR_gg.html">plotFCBR_gg()</a></code> and <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code> roxygen examples.</li>
+<li>Fix <code><a href="../reference/plotFCBR_gg.html">plotFCBR_gg()</a></code> example: <code>fields = 1:6</code> exceeded <code>nfld = 5</code>, and <code>colors</code> had 4 values for 5-category data. Changed to <code>fields = 1:5</code> and added 5th color.</li>
+<li>Add missing <code><a href="https://kosugitti.github.io/exametrika/" class="external-link">library(exametrika)</a></code> to <code><a href="../reference/plotFCRP_gg.html">plotFCRP_gg()</a></code> and <code><a href="../reference/plotScoreField_gg.html">plotScoreField_gg()</a></code> roxygen examples.</li>
+<li>Change <code><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg()</a></code> and <code><a href="../reference/plotLDPSR_gg.html">plotLDPSR_gg()</a></code> examples from <code>@examplesIf</code> to <code>@examples</code> with <code>\dontrun{}</code>. LDB and BINET require explicit graph structure input that cannot be created in simple examples.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="github-pages--pkgdown-phase-0-0-33-1">GitHub Pages / pkgdown (Phase 2)<a class="anchor" aria-label="anchor" href="#github-pages--pkgdown-phase-0-0-33-1"></a></h3>
+<ul><li>Change vignettes (getting-started.Rmd, getting-started-ja.Rmd) from <code>eval = FALSE</code> to <code>eval = requireNamespace("exametrika", quietly = TRUE)</code>. Vignette code chunks now execute automatically when exametrika is installed, producing live output on pkgdown site, while still being skipped gracefully when unavailable.</li>
+<li>Add <code>nomBiclust</code> (nominalBiclustering) column to Function-Model Compatibility Matrix in both English and Japanese vignettes.</li>
+<li>Add three new function rows to the compatibility matrix: <code>plotFCRP_gg</code> (v1.9.0), <code>plotScoreField_gg</code> (v1.9.0), <code>plotLDPSR_gg</code> (v0.0.32).</li>
+<li>Fix missing <code>ordBiclust</code> marks in the compatibility matrix for <code>plotFRP_gg</code>, <code>plotLRD_gg</code>, <code>plotCRV_gg</code>, and <code>plotRRV_gg</code>. These functions natively accept ordinalBiclustering in their validation code but were not marked in the matrix.</li>
+<li>Fix missing <code>LDLRA</code> mark for <code>plotTRP_gg</code> in the compatibility matrix. The function accepts LDLRA in its validation code but was not marked.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="github-pages--pkgdown-phase-0-0-33-2">GitHub Pages / pkgdown (Phase 1)<a class="anchor" aria-label="anchor" href="#github-pages--pkgdown-phase-0-0-33-2"></a></h3>
+<ul><li>Migrate <code>@examples</code> + <code>\dontrun{}</code> to <code>@examplesIf requireNamespace("exametrika", quietly = TRUE)</code> for all 28 plot functions. Examples now run automatically when exametrika is installed (improving pkgdown reference pages with live output) while still being skipped gracefully when exametrika is unavailable.</li>
+<li>Three pure utility functions (LogisticModel, ItemInformationFunc, ItemInformationFunc_GRM) retain <code>@examples</code> since they have no exametrika dependency.</li>
+<li>Add <code>plotLDPSR_gg</code> to <code>_pkgdown.yml</code> reference section under “DAG &amp; Network Model Plots”.</li>
+<li>Rename “DAG Visualization” section to “DAG &amp; Network Model Plots” in <code>_pkgdown.yml</code> to better reflect the inclusion of BINET-specific profile plots.</li>
+<li>Add <code>figures</code> section to <code>_pkgdown.yml</code> with explicit dimensions (fig.width=7, fig.height=5, dpi=96, fig.retina=2) for consistent example plot rendering on GitHub Pages.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.32" id="ggexametrika-0032">ggExametrika 0.0.32<a class="anchor" aria-label="anchor" href="#ggexametrika-0032"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-0-32">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-0-32"></a></h3>
+<ul><li>Add <code><a href="../reference/plotLDPSR_gg.html">plotLDPSR_gg()</a></code> for Local Dependence Passing Student Rate (LDPSR) visualization (BINET only). LDPSR shows item-level correct response rate profiles comparing parent and child classes at each DAG edge, visualizing how students improve when transitioning between latent classes via a specific field.</li>
+<li>
+<code><a href="../reference/plotLDPSR_gg.html">plotLDPSR_gg()</a></code> supports common plot options (title, colors, linetype, show_legend, legend_position).</li>
+<li>Returns a list of ggplot objects (one per DAG edge), compatible with <code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="test-infrastructure-0-0-32">Test Infrastructure<a class="anchor" aria-label="anchor" href="#test-infrastructure-0-0-32"></a></h3>
+<ul><li>Add BINET test fixture to <code>helper-setup.R</code> using J35S515 with 3 classes, 5 fields, and a simple chain DAG structure.</li>
+<li>Add <code>test-LDPSR-plots.R</code> with comprehensive tests: basic functionality, common options, input validation, model type rejection, and combinePlots_gg integration.</li>
+<li>Add <code>plotLDPSR_gg</code> validation entry to <code>test-validation.R</code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.31" id="ggexametrika-0031">ggExametrika 0.0.31<a class="anchor" aria-label="anchor" href="#ggexametrika-0031"></a></h2>
 <div class="section level3">

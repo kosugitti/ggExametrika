@@ -142,7 +142,6 @@ edges are drawn as directed arrows rather than standard lines.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(exametrika)
 library(ggExametrika)
 
@@ -157,15 +156,19 @@ result <- BNM(J5S10, g = g)
 plots <- plotGraph_gg(result)
 plots[[1]]
 
+
 # Alternative directions
 plotGraph_gg(result, direction = "TB")[[1]]  # Top-to-Bottom
+
 plotGraph_gg(result, direction = "LR")[[1]]  # Left-to-Right
+
 plotGraph_gg(result, direction = "RL")[[1]]  # Right-to-Left
+
 
 # Force-directed layout (no direction parameter)
 plotGraph_gg(result, layout = "fr")[[1]]
 
+
 # Custom title
 plotGraph_gg(result, title = "My Network Model")[[1]]
-} # }
 ```

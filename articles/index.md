@@ -1,5 +1,10 @@
 # Articles
 
+### Gallery
+
+- [Plot
+  Gallery](https://kosugitti.github.io/ggExametrika/articles/plot-gallery.md):
+
 ### English
 
 - [Getting Started with

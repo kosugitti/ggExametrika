@@ -77,10 +77,8 @@ interpretation where higher ranks indicate higher ability levels.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(exametrika)
 result <- LRA(J15S500, nrank = 5)
 plot <- plotLRD_gg(result)
 plot
-} # }
 ```

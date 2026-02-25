@@ -17,7 +17,7 @@ are calculated from category probabilities."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.33</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,9 @@ are calculated from category probabilities."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/plot-gallery.html">Plot Gallery</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
     <li><a class="dropdown-item" href="../articles/getting-started-ja.html">入門ガイド (日本語)</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -146,18 +148,49 @@ latent classes, use <code><a href="plotCRV_gg.html">plotCRV_gg</a></code> instea
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Binary biclustering</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Binary biclustering</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J15S500</span>, nfld <span class="op">=</span> <span class="fl">3</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Biclustering is chosen.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 1 log_lik -4020.83                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 2 log_lik -3997.76                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 3 log_lik -3992.39                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 4 log_lik -3986.8                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 5 log_lik -3980                                                            </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 6 log_lik -3973.35                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 7 log_lik -3967.73                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 8 log_lik -3963.4                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 9 log_lik -3960.25                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 10 log_lik -3958.04                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 11 log_lik -3956.52                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 12 log_lik -3955.47                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 13 log_lik -3954.72                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 14 log_lik -3954.17                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 15 log_lik -3953.75                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 16 log_lik -3953.39                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Weakly ordinal alignment condition was satisfied.</span>
 <span class="r-in"><span><span class="fu">plotRRV_gg</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plotRRV_gg-1.png" alt="" width="672" height="480"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Ordinal biclustering (polytomous)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">J35S500</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">5</span>, method <span class="op">=</span> <span class="st">"R"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Ranklustering is chosen.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 1 log_lik -22710.5                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 2 log_lik -21311.9                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 3 log_lik -21002.5                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 4 log_lik -20945.8                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 5 log_lik -20932.3                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 6 log_lik -20929.2                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 7 log_lik -20929.8                                                         </span>
 <span class="r-in"><span><span class="fu">plotRRV_gg</span><span class="op">(</span><span class="va">result_ord</span><span class="op">)</span>  <span class="co"># Default: mean</span></span></span>
+<span class="r-plt img"><img src="plotRRV_gg-2.png" alt="" width="672" height="480"></span>
 <span class="r-in"><span><span class="fu">plotRRV_gg</span><span class="op">(</span><span class="va">result_ord</span>, stat <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plotRRV_gg-3.png" alt="" width="672" height="480"></span>
 <span class="r-in"><span><span class="fu">plotRRV_gg</span><span class="op">(</span><span class="va">result_ord</span>, stat <span class="op">=</span> <span class="st">"mode"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plotRRV_gg-4.png" alt="" width="672" height="480"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Custom styling</span></span></span>
 <span class="r-in"><span><span class="fu">plotRRV_gg</span><span class="op">(</span><span class="va">result_ord</span>,</span></span>
@@ -165,8 +198,7 @@ latent classes, use <code><a href="plotCRV_gg.html">plotCRV_gg</a></code> instea
 <span class="r-in"><span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#1b9e77"</span>, <span class="st">"#d95f02"</span>, <span class="st">"#7570b3"</span>, <span class="st">"#e7298a"</span>, <span class="st">"#66a61e"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  legend_position <span class="op">=</span> <span class="st">"bottom"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-plt img"><img src="plotRRV_gg-5.png" alt="" width="672" height="480"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

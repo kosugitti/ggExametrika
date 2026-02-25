@@ -11,7 +11,7 @@ information provided by all items at each ability level."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.33</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,9 @@ information provided by all items at each ability level."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/plot-gallery.html">Plot Gallery</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
     <li><a class="dropdown-item" href="../articles/getting-started-ja.html">入門ガイド (日本語)</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -122,19 +124,37 @@ approximately equal to the squared standard error of measurement.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># IRT example</span></span></span>
 <span class="r-in"><span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 1 LogLik -3960.28                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 2 LogLik -3938.35                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 3 LogLik -3931.82                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 4 LogLik -3928.68                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 5 LogLik -3926.99                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 6 LogLik -3926.05                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 7 LogLik -3925.51                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 8 LogLik -3925.19                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 9 LogLik -3925.01                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 10 LogLik -3924.9                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 11 LogLik -3924.84                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 12 LogLik -3924.8                                                          </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 13 LogLik -3924.77                                                         </span>
 <span class="r-in"><span><span class="va">plot_irt</span> <span class="op">&lt;-</span> <span class="fu">plotTIC_gg</span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">plot_irt</span> <span class="co"># Show Test Information Curve</span></span></span>
+<span class="r-plt img"><img src="plotTIC_gg-1.png" alt="" width="672" height="480"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># GRM example</span></span></span>
 <span class="r-in"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Parameters: 18 | Initial LL: -6252.352 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> initial  value 6252.351598 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iter  10 value 6032.463982</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iter  20 value 6010.861094</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> final  value 6008.297278 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> converged</span>
 <span class="r-in"><span><span class="va">plot_grm</span> <span class="op">&lt;-</span> <span class="fu">plotTIC_gg</span><span class="op">(</span><span class="va">result_grm</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">plot_grm</span> <span class="co"># Show Test Information Curve</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-plt img"><img src="plotTIC_gg-2.png" alt="" width="672" height="480"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

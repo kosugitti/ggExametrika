@@ -92,7 +92,6 @@ indicating lower ability levels.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(exametrika)
 result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 
@@ -100,10 +99,10 @@ result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 plot <- plotICBR_gg(result, items = 1:4)
 plot
 
+
 # Custom colors and title
 plot <- plotICBR_gg(result, items = 1:6,
                     title = "Item Category Boundary Response",
                     colors = c("red", "blue", "green", "purple"))
 plot
-} # }
 ```

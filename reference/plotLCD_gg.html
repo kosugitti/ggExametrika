@@ -13,7 +13,7 @@ distribution."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.33</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,9 @@ distribution."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/plot-gallery.html">Plot Gallery</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started (English)</a></li>
     <li><a class="dropdown-item" href="../articles/getting-started-ja.html">入門ガイド (日本語)</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -126,13 +128,84 @@ class membership distribution.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/exametrika/man/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 1 log_lik -3920.06                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 2 log_lik -3868.38                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 3 log_lik -3856.57                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 4 log_lik -3845.74                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 5 log_lik -3833.37                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 6 log_lik -3820.23                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 7 log_lik -3806.72                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 8 log_lik -3792.97                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 9 log_lik -3779.19                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 10 log_lik -3765.86                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 11 log_lik -3753.64                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 12 log_lik -3743.12                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 13 log_lik -3734.56                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 14 log_lik -3727.88                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 15 log_lik -3722.77                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 16 log_lik -3718.86                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 17 log_lik -3715.8                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 18 log_lik -3713.3                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 19 log_lik -3711.18                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 20 log_lik -3709.29                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 21 log_lik -3707.55                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 22 log_lik -3705.91                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 23 log_lik -3704.34                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 24 log_lik -3702.83                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 25 log_lik -3701.39                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 26 log_lik -3699.99                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 27 log_lik -3698.66                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 28 log_lik -3697.39                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 29 log_lik -3696.18                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 30 log_lik -3695.02                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 31 log_lik -3693.92                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 32 log_lik -3692.86                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 33 log_lik -3691.86                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 34 log_lik -3690.89                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 35 log_lik -3689.96                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 36 log_lik -3689.06                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 37 log_lik -3688.17                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 38 log_lik -3687.31                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 39 log_lik -3686.45                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 40 log_lik -3685.61                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 41 log_lik -3684.76                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 42 log_lik -3683.91                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 43 log_lik -3683.07                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 44 log_lik -3682.22                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 45 log_lik -3681.37                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 46 log_lik -3680.53                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 47 log_lik -3679.69                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 48 log_lik -3678.86                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 49 log_lik -3678.05                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 50 log_lik -3677.25                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 51 log_lik -3676.47                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 52 log_lik -3675.71                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 53 log_lik -3674.97                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 54 log_lik -3674.26                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 55 log_lik -3673.57                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 56 log_lik -3672.9                                                         </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 57 log_lik -3672.24                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 58 log_lik -3671.61                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 59 log_lik -3670.99                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 60 log_lik -3670.38                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 61 log_lik -3669.79                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 62 log_lik -3669.21                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 63 log_lik -3668.64                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 64 log_lik -3668.09                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 65 log_lik -3667.55                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 66 log_lik -3667.03                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 67 log_lik -3666.53                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 68 log_lik -3666.05                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 69 log_lik -3665.59                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 70 log_lik -3665.15                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 71 log_lik -3664.74                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 72 log_lik -3664.35                                                        </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 73 log_lik -3663.99                                                        </span>
 <span class="r-in"><span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu">plotLCD_gg</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">plot</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-plt img"><img src="plotLCD_gg-1.png" alt="" width="672" height="480"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

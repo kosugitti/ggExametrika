@@ -79,16 +79,34 @@ The function supports IRT models (2PL, 3PL, 4PL) and GRM.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(exametrika)
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
+#> iter 1 LogLik -3960.28                                                          
+#> iter 2 LogLik -3938.35                                                          
+#> iter 3 LogLik -3931.82                                                          
+#> iter 4 LogLik -3928.68                                                          
+#> iter 5 LogLik -3926.99                                                          
+#> iter 6 LogLik -3926.05                                                          
+#> iter 7 LogLik -3925.51                                                          
+#> iter 8 LogLik -3925.19                                                          
+#> iter 9 LogLik -3925.01                                                          
+#> iter 10 LogLik -3924.9                                                          
+#> iter 11 LogLik -3924.84                                                         
+#> iter 12 LogLik -3924.8                                                          
+#> iter 13 LogLik -3924.77                                                         
 plot_irt <- plotTIC_gg(result_irt)
 plot_irt # Show Test Information Curve
 
+
 # GRM example
 result_grm <- GRM(J5S1000)
+#> Parameters: 18 | Initial LL: -6252.352 
+#> initial  value 6252.351598 
+#> iter  10 value 6032.463982
+#> iter  20 value 6010.861094
+#> final  value 6008.297278 
+#> converged
 plot_grm <- plotTIC_gg(result_grm)
 plot_grm # Show Test Information Curve
-} # }
 ```

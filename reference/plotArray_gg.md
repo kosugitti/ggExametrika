@@ -98,19 +98,120 @@ difficult items (right columns) correctly.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(exametrika)
 result <- Biclustering(J35S515, nfld = 5, ncls = 6)
+#> Biclustering is chosen.
+#> iter 1 log_lik -7966.66                                                         
+#> iter 2 log_lik -7442.38                                                         
+#> iter 3 log_lik -7266.35                                                         
+#> iter 4 log_lik -7151.01                                                         
+#> iter 5 log_lik -7023.94                                                         
+#> iter 6 log_lik -6984.82                                                         
+#> iter 7 log_lik -6950.27                                                         
+#> iter 8 log_lik -6939.34                                                         
+#> iter 9 log_lik -6930.89                                                         
+#> iter 10 log_lik -6923.5                                                         
+#> iter 11 log_lik -6914.56                                                        
+#> iter 12 log_lik -6908.89                                                        
+#> iter 13 log_lik -6906.84                                                        
+#> iter 14 log_lik -6905.39                                                        
+#> iter 15 log_lik -6904.24                                                        
+#> iter 16 log_lik -6903.28                                                        
+#> iter 17 log_lik -6902.41                                                        
+#> iter 18 log_lik -6901.58                                                        
+#> iter 19 log_lik -6900.74                                                        
+#> iter 20 log_lik -6899.86                                                        
+#> iter 21 log_lik -6898.9                                                         
+#> iter 22 log_lik -6897.84                                                        
+#> iter 23 log_lik -6896.66                                                        
+#> iter 24 log_lik -6895.35                                                        
+#> iter 25 log_lik -6893.92                                                        
+#> iter 26 log_lik -6892.4                                                         
+#> iter 27 log_lik -6890.85                                                        
+#> iter 28 log_lik -6889.32                                                        
+#> iter 29 log_lik -6887.9                                                         
+#> iter 30 log_lik -6886.66                                                        
+#> iter 31 log_lik -6885.67                                                        
+#> iter 32 log_lik -6884.98                                                        
+#> iter 33 log_lik -6884.58                                                        
+#> 
 
 # Basic usage
 plotArray_gg(result)
 
+#> TableGrob (1 x 2) "arrange": 2 grobs
+#>   z     cells    name           grob
+#> 1 1 (1-1,1-1) arrange gtable[layout]
+#> 2 2 (1-1,2-2) arrange gtable[layout]
+
 # Custom boundary line color
 plotArray_gg(result, Clusterd_lines_color = "blue")
+
+#> TableGrob (1 x 2) "arrange": 2 grobs
+#>   z     cells    name           grob
+#> 1 1 (1-1,1-1) arrange gtable[layout]
+#> 2 2 (1-1,2-2) arrange gtable[layout]
 
 # Multi-valued data with custom colors
 synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
 result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
+#> Biclustering is chosen.
+#> iter 1 log_lik -800.36                                                          
+#> iter 2 log_lik -799.55                                                          
+#> iter 3 log_lik -798.595                                                         
+#> iter 4 log_lik -797.694                                                         
+#> iter 5 log_lik -796.856                                                         
+#> iter 6 log_lik -796.056                                                         
+#> iter 7 log_lik -795.258                                                         
+#> iter 8 log_lik -794.433                                                         
+#> iter 9 log_lik -793.566                                                         
+#> iter 10 log_lik -792.662                                                        
+#> iter 11 log_lik -791.744                                                        
+#> iter 12 log_lik -790.843                                                        
+#> iter 13 log_lik -789.983                                                        
+#> iter 14 log_lik -789.177                                                        
+#> iter 15 log_lik -788.424                                                        
+#> iter 16 log_lik -787.716                                                        
+#> iter 17 log_lik -787.038                                                        
+#> iter 18 log_lik -786.378                                                        
+#> iter 19 log_lik -785.719                                                        
+#> iter 20 log_lik -785.047                                                        
+#> iter 21 log_lik -784.344                                                        
+#> iter 22 log_lik -783.592                                                        
+#> iter 23 log_lik -782.768                                                        
+#> iter 24 log_lik -781.844                                                        
+#> iter 25 log_lik -780.789                                                        
+#> iter 26 log_lik -779.566                                                        
+#> iter 27 log_lik -778.143                                                        
+#> iter 28 log_lik -776.505                                                        
+#> iter 29 log_lik -774.677                                                        
+#> iter 30 log_lik -772.747                                                        
+#> iter 31 log_lik -770.834                                                        
+#> iter 32 log_lik -769.041                                                        
+#> iter 33 log_lik -767.412                                                        
+#> iter 34 log_lik -765.95                                                         
+#> iter 35 log_lik -764.626                                                        
+#> iter 36 log_lik -763.372                                                        
+#> iter 37 log_lik -762.074                                                        
+#> iter 38 log_lik -760.635                                                        
+#> iter 39 log_lik -759.063                                                        
+#> iter 40 log_lik -757.437                                                        
+#> iter 41 log_lik -755.651                                                        
+#> iter 42 log_lik -753.322                                                        
+#> iter 43 log_lik -750.186                                                        
+#> iter 44 log_lik -746.668                                                        
+#> iter 45 log_lik -743.695                                                        
+#> iter 46 log_lik -741.702                                                        
+#> iter 47 log_lik -740.511                                                        
+#> iter 48 log_lik -739.835                                                        
+#> iter 49 log_lik -739.478                                                        
+#> iter 50 log_lik -739.321                                                        
+#> iter 51 log_lik -739.287                                                        
+#> iter 52 log_lik -739.319                                                        
 plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
-} # }
+
+#> TableGrob (1 x 2) "arrange": 2 grobs
+#>   z     cells    name           grob
+#> 1 1 (1-1,1-1) arrange gtable[layout]
+#> 2 2 (1-1,2-2) arrange gtable[layout]
 ```

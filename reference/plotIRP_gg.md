@@ -67,10 +67,8 @@ increasing profiles indicate good discrimination between classes/ranks.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(exametrika)
 result <- LRA(J15S500, nrank = 5)
 plots <- plotIRP_gg(result)
 plots[[1]] # Show IRP for the first item
-} # }
 ```
