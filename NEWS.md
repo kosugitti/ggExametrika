@@ -6,7 +6,8 @@
 * Wrap `J35S500` examples in `\dontrun{}` to avoid R CMD check failures when exametrika < 1.9.0 is installed. `J35S500` dataset is only available in exametrika >= 1.9.0 (not yet on CRAN). Affected functions: `plotFCBR_gg()`, `plotFCRP_gg()`, `plotScoreField_gg()`, `plotFRP_gg()`, `plotCRV_gg()`, `plotRRV_gg()`. TODO: revert after exametrika v1.9.0 is released on CRAN.
 * Remove `LazyData: true` from DESCRIPTION (package has no data directory).
 * Remove `VignetteBuilder: knitr` and `knitr`/`rmarkdown` from Suggests (no vignettes after migration to pkgdown articles).
-* Add `utils::globalVariables("value")` in `R/zzz.R` to suppress R CMD check NOTE for NSE variable in `plotArray_gg()`.
+* Comprehensive NSE (Non-Standard Evaluation) global variable declarations in `R/zzz.R` via `utils::globalVariables()`. Covers all ggplot2 `aes()` and tidyr NSE variables across all plot functions (30+ variables). Previously only `value` was declared.
+* Add `@importFrom` for missing function imports: `stats::ave`, `stats::median`, `stats::setNames`, `utils::tail`, `ggplot2::geom_segment`, `ggplot2::sec_axis`, `ggplot2::scale_fill_gradientn`, `ggplot2::scale_x_reverse`, `tidyr::all_of`. Resolves all "no visible global function definition" NOTEs.
 * Add `github::kosugitti/exametrika` to `R-CMD-check.yaml` and `test-coverage.yaml` extra-packages. CRAN version (v1.8.1) lacks v1.9.0 datasets; examples with `@examplesIf` + `\dontrun{}` do not correctly suppress execution due to `withAutoprint` interaction.
 
 ## CI / Infrastructure Fixes
