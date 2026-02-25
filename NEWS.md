@@ -2,7 +2,7 @@
 
 ## CI / Infrastructure Fixes
 
-* Fix `_pkgdown.yml`: quote `plot-gallery` in articles contents to prevent YAML parsing issues.
+* Fix `_pkgdown.yml`: double-quote article names with hyphens (`plot-gallery`, `getting-started`, `getting-started-ja`) in articles contents using `'"name"'` syntax. pkgdown evaluates contents entries as R expressions, so bare `plot-gallery` was parsed as `plot - gallery` (subtraction). YAML single-quotes preserve the inner double-quotes for correct R string literal evaluation.
 * Move `getting-started.Rmd` and `getting-started-ja.Rmd` from `vignettes/` to `vignettes/articles/` as pkgdown-only articles. Remove vignette YAML metadata (`\VignetteIndexEntry`, `\VignetteEngine`, `\VignetteEncoding`) and `output: rmarkdown::html_vignette`. This resolves R CMD check vignette build errors caused by exametrika dependency during check.
 * Add `^vignettes/articles$` to `.Rbuildignore` to exclude pkgdown-only articles from package build.
 * Update `test-coverage.yaml`: upgrade `codecov/codecov-action` from v4 to v5, add `print(cov)` for log output, add testthat output display and failure artifact upload steps, update parameter names for v5 compatibility (`file` to `files`, `plugin` to `plugins`).

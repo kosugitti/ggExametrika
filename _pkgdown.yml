@@ -34,15 +34,15 @@ articles:
 - title: Gallery
   navbar: ~
   contents:
-  - "plot-gallery"
+  - '"plot-gallery"'
 - title: English
   navbar: ~
   contents:
-  - getting-started
+  - '"getting-started"'
 - title: 日本語
   navbar: ~
   contents:
-  - getting-started-ja
+  - '"getting-started-ja"'
 
 reference:
 - title: IRT Plots
