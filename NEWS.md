@@ -6,6 +6,7 @@
 * Move `getting-started.Rmd` and `getting-started-ja.Rmd` from `vignettes/` to `vignettes/articles/` as pkgdown-only articles. Remove vignette YAML metadata (`\VignetteIndexEntry`, `\VignetteEngine`, `\VignetteEncoding`) and `output: rmarkdown::html_vignette`. This resolves R CMD check vignette build errors caused by exametrika dependency during check.
 * Add `^vignettes/articles$` to `.Rbuildignore` to exclude pkgdown-only articles from package build.
 * Update `test-coverage.yaml`: upgrade `codecov/codecov-action` from v4 to v5, add `print(cov)` for log output, add testthat output display and failure artifact upload steps, update parameter names for v5 compatibility (`file` to `files`, `plugin` to `plugins`). Set `fail_ci_if_error: false` for codecov upload to avoid CI failure when `CODECOV_TOKEN` is not configured.
+* Update `pkgdown.yaml`: install exametrika from GitHub (`github::kosugitti/exametrika`) to ensure v1.9.0 datasets (e.g., `J35S500`) are available for article rendering.
 
 ## GitHub Pages / pkgdown (Phase 3)
 
