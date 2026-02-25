@@ -47,11 +47,13 @@ For other layouts (e.g., "fr", "kk"), this parameter is ignored.}
 
 \item{title}{Logical or character. If \code{TRUE} (default), display an
 auto-generated title. If \code{FALSE}, no title. If a character string,
-use it as a custom title.}
+use it as a custom title. For LDLRA, a single string gets " - Rank N"
+appended; a character vector of length equal to the number of ranks
+assigns each element as the title for the corresponding rank.}
 
 \item{colors}{Character vector. Colors for node types.
-For BNM: single color for Item nodes.
-For future models (LDLRA/LDB/BINET): colors for different node types.
+For BNM/LDLRA: single color for Item nodes.
+For future models (LDB/BINET): colors for different node types.
 If \code{NULL} (default), uses the default node type colors
 (Item=purple, Field=green, Class=blue).}
 
@@ -75,7 +77,7 @@ Design based on TDE figures with items as rounded rectangles and fields as diamo
 Design follows TDE figure specifications:
 \itemize{
 \item BNM: Items shown as purple circles with numbers inside
-\item LDLRA: Items as circles per rank/class (to be implemented)
+\item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
 \item LDB: Fields shown as green diamonds (to be implemented)
 \item BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)
 }

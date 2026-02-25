@@ -89,6 +89,9 @@ library(exametrika)
 result <- Biclustering(J15S500, nfld = 3, ncls = 5)
 plotRRV_gg(result)
 
+# TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+# J35S500 dataset requires exametrika >= 1.9.0.
+\dontrun{
 # Ordinal biclustering (polytomous)
 data(J35S500)
 result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -102,6 +105,7 @@ plotRRV_gg(result_ord,
   colors = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e"),
   legend_position = "bottom"
 )
+}
 \dontshow{\}) # examplesIf}
 }
 \seealso{

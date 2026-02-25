@@ -68,7 +68,9 @@ as a horizontal line at the top. Higher classes/ranks (higher ability) typically
 show higher probabilities for higher boundaries.
 }
 \examples{
-\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+# TODO: Revert \dontrun to @examplesIf after exametrika v1.9.0 is on CRAN.
+# J35S500 dataset requires exametrika >= 1.9.0.
+\dontrun{
 library(exametrika)
 # Ordinal biclustering example with polytomous data
 result <- Biclustering(J35S500, ncls = 4, nfld = 5)
@@ -82,7 +84,8 @@ plot <- plotFCBR_gg(result, fields = 1:5,
                     title = "Field Cumulative Boundary Reference",
                     colors = c("red", "blue", "green", "purple", "orange"))
 plot
-\dontshow{\}) # examplesIf}
+}
+
 }
 \seealso{
 \code{\link{plotFCRP_gg}}, \code{\link{plotScoreField_gg}}, \code{\link{plotArray_gg}}

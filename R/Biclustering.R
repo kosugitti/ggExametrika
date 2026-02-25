@@ -85,12 +85,16 @@
 #' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 #' plotCRV_gg(result)
 #'
+#' # TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+#' # J35S500 dataset requires exametrika >= 1.9.0.
+#' \dontrun{
 #' # Ordinal biclustering (polytomous)
 #' data(J35S500)
 #' result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
 #' plotCRV_gg(result_ord)  # Default: mean
 #' plotCRV_gg(result_ord, stat = "median")
 #' plotCRV_gg(result_ord, stat = "mode")
+#' }
 #'
 #' @seealso \code{\link{plotRRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}
 #'
@@ -286,6 +290,9 @@ plotCRV_gg <- function(data,
 #' result <- Biclustering(J15S500, nfld = 3, ncls = 5)
 #' plotRRV_gg(result)
 #'
+#' # TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+#' # J35S500 dataset requires exametrika >= 1.9.0.
+#' \dontrun{
 #' # Ordinal biclustering (polytomous)
 #' data(J35S500)
 #' result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -299,6 +306,7 @@ plotCRV_gg <- function(data,
 #'   colors = c("#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e"),
 #'   legend_position = "bottom"
 #' )
+#' }
 #'
 #' @seealso \code{\link{plotCRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}
 #'

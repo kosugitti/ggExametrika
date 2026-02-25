@@ -1,5 +1,10 @@
 # ggExametrika 0.0.33
 
+## R CMD check Fixes
+
+* Add `LICENSE` file (YEAR/COPYRIGHT HOLDER format) for CRAN compliance. `DESCRIPTION` specifies `License: MIT + file LICENSE`, which requires a `LICENSE` file (not just `LICENSE.md`).
+* Wrap `J35S500` examples in `\dontrun{}` to avoid R CMD check failures when exametrika < 1.9.0 is installed. `J35S500` dataset is only available in exametrika >= 1.9.0 (not yet on CRAN). Affected functions: `plotFCBR_gg()`, `plotFCRP_gg()`, `plotScoreField_gg()`, `plotFRP_gg()`, `plotCRV_gg()`, `plotRRV_gg()`. TODO: revert after exametrika v1.9.0 is released on CRAN.
+
 ## CI / Infrastructure Fixes
 
 * Fix `_pkgdown.yml`: use `'"articles/name"'` syntax for article references in contents. pkgdown evaluates contents entries as R expressions, so bare `plot-gallery` was parsed as `plot - gallery` (subtraction). Additionally, pkgdown prefixes article names with `articles/` for files in `vignettes/articles/`.

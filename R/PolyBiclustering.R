@@ -45,7 +45,10 @@
 #'   \item \code{"bar"}: Shows stacked bar chart with category proportions
 #' }
 #'
-#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
+#' @examples
+#' # TODO: Revert \dontrun to @examplesIf after exametrika v1.9.0 is on CRAN.
+#' # J35S500 dataset requires exametrika >= 1.9.0.
+#' \dontrun{
 #' library(exametrika)
 #' # Ordinal Biclustering with 5 categories
 #' result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -62,6 +65,7 @@
 #'   title = "Category Response Patterns",
 #'   colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#CC79A7")
 #' )
+#' }
 #'
 #' @seealso \code{\link{plotFCBR_gg}}, \code{\link{plotScoreField_gg}}
 #'

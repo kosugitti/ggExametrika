@@ -64,7 +64,9 @@ Higher expected scores indicate that students in that class/rank are expected
 to achieve higher scores in that field.
 }
 \examples{
-\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+# TODO: Revert \dontrun to @examplesIf after exametrika v1.9.0 is on CRAN.
+# J35S500 dataset requires exametrika >= 1.9.0.
+\dontrun{
 library(exametrika)
 # Ordinal Biclustering example
 result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -88,7 +90,8 @@ plotScoreField_gg(result,
 data(J20S600)
 result_nom <- Biclustering(J20S600, ncls = 5, nfld = 4)
 plotScoreField_gg(result_nom)
-\dontshow{\}) # examplesIf}
+}
+
 }
 \seealso{
 \code{\link{plotFCRP_gg}} for field category response profiles,
