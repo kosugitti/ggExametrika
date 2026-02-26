@@ -154,6 +154,7 @@ DAG <- matrix(c("Item01", "Item02", "Item02", "Item03",
                 "Item04", "Item05"), ncol = 2, byrow = TRUE)
 g <- igraph::graph_from_data_frame(DAG)
 result <- BNM(J5S10, g = g)
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 
 # Default: Bottom-to-Top (arrows point upward)
 plots <- plotGraph_gg(result)

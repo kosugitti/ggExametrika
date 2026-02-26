@@ -114,6 +114,7 @@ result_bin <- Biclustering(J35S515, ncls = 4, nfld = 3)
 #> 
 #> 
 #> Strongly ordinal alignment condition was satisfied.
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 plot <- plotFRP_gg(result_bin)
 
 # TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.

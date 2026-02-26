@@ -135,6 +135,7 @@ result <- Biclustering(J15S500, nfld = 3, ncls = 5)
 #> 
 #> 
 #> Weakly ordinal alignment condition was satisfied.
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 plotRRV_gg(result)
 
 

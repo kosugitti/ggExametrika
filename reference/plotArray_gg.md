@@ -135,6 +135,7 @@ result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 #> iter 32 log_lik -6884.98                                                        
 #> iter 33 log_lik -6884.58                                                        
 #> 
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 
 # Basic usage
 plotArray_gg(result)
@@ -155,6 +156,7 @@ plotArray_gg(result, Clusterd_lines_color = "blue")
 # Multi-valued data with custom colors
 synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
 result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 #> Biclustering is chosen.
 #> iter 1 log_lik -800.36                                                          
 #> iter 2 log_lik -799.55                                                          

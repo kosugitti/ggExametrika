@@ -92,6 +92,8 @@ P_k^\*(\theta)\]\$\$
 library(exametrika)
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 #> iter 1 LogLik -3960.28                                                          
 #> iter 2 LogLik -3938.35                                                          
 #> iter 3 LogLik -3931.82                                                          

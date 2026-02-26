@@ -150,6 +150,7 @@ result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 #> iter 32 log_lik -6884.98                                                        
 #> iter 33 log_lik -6884.58                                                        
 #> 
+#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 plotCRV_gg(result)
 
 
