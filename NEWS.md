@@ -1,5 +1,9 @@
 # ggExametrika 0.0.34
 
+## Documentation
+
+* Update CLAUDE.md to reflect v0.0.34 state: fix version (v0.0.33 to v0.0.34), update dependencies (gridExtra moved from Depends to Imports), add CRAN preparation status section, update CRANチェックリスト with completed items, update R CMD check result to 0/0/0.
+
 ## CRAN Submission Preparation
 
 * Fix typo in DESCRIPTION: "pacakge" to "package".

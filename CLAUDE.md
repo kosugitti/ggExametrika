@@ -46,41 +46,86 @@ CRAN公開を目指す。
 - 凡例が不要なプロット（単一曲線のみ等）は `show_legend = FALSE` をデフォルトとする
 - 返り値はggplotオブジェクトなので、ユーザーが `+ theme()` 等で後から変更することも可能
 
-### 依存パッケージ（DESCRIPTION準拠、v0.0.33時点）
-- **Depends**: ggplot2, gridExtra
-- **Imports**: ggraph, ggrepel, igraph, tidyr
+### 依存パッケージ（DESCRIPTION準拠、v0.0.34時点）
+- **Depends**: R (>= 3.5.0), ggplot2
+- **Imports**: ggraph, ggrepel, gridExtra, igraph, tidyr
 - **Suggests**: exametrika, testthat (>= 3.0.0)
 
 補足:
+- gridExtra: v0.0.34でDependsからImportsに移動（CRANではDependsの最小化を推奨）
 - ggrepel: plotCRV_gg/plotRRV_ggのshow_labelsで使用（v0.0.24追加）
 - tidyr: plotICBR_gg/plotICRP_ggのpivot_longerで使用（v0.0.18追加）
 - visNetwork: インタラクティブDAG編集用として予定（未導入）
 - exametrikaはSuggestsに入れる（CRAN対応のため）
 
-### CRANチェックリスト
-- [ ] R CMD check --as-cran でWARNING/ERRORなし
-- [ ] NEWS.mdの更新
-- [ ] DESCRIPTIONのバージョン更新
-- [ ] examplesの動作確認
-- [ ] ドキュメントの整備
+### CRANチェックリスト（v0.0.34時点）
+- [x] R CMD check --as-cran で 0 errors | 0 warnings | 0 notes（v0.0.34で達成）
+- [x] NEWS.mdの更新（v0.0.34まで全バージョン記録済み）
+- [x] DESCRIPTIONのバージョン更新（v0.0.34）
+- [x] Title Case化・Description CRAN準拠化
+- [x] LICENSE ファイル作成（MIT + file LICENSE）
+- [x] cran-comments.md 作成
+- [x] NSE binding NOTEs の解消（zzz.R で globalVariables 宣言）
+- [x] J35S500 examples を \dontrun{} で対応（exametrika v1.9.0 CRAN待ち）
+- [x] vignettes を pkgdown-only articles に移行
+- [x] examplesの動作確認
+- [x] ドキュメントの整備（roxygen2）
+- [ ] exametrika v1.9.0 CRAN公開後に \dontrun{} を解除
 
 ## バージョン1.0.0に向けて
 
-**現在のバージョン: v0.0.33**（2026-02-25時点、mainブランチ）
+**現在のバージョン: v0.0.34**（2026-02-26時点、mainブランチ）
 
 exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とする。
 合宿期間中（2026年2月）に v1.0.0 リリースを目指す。
 3名体制で並行開発を進める。
 
-### 現在の全体ステータス（2026-02-25更新）
+### 現在の全体ステータス（2026-02-26更新）
 
-- **プロット関数**: 27種実装済み + ユーティリティ4種 = 31 export関数
+- **バージョン**: v0.0.34（mainブランチ、origin/mainより2コミット先行）
+- **Rソースファイル**: 15ファイル（R/ディレクトリ）
+- **Export関数**: 31関数（プロット27 + オーバーレイ2 + ユーティリティ4、NAMESPACE準拠）
 - **共通オプション**: 全プロット関数で対応済み（一部DAG等はlinetype除外）
-- **テスト**: 12ファイル、166テストブロック、489アサーション、FAIL 0 / SKIP 0
-- **R CMD check**: WARNING/ERROR なし（v0.0.33で解消済み）
+- **テスト**: 12ファイル、166テストブロック、489アサーション、FAIL 0 / WARN 22 / SKIP 0
+- **R CMD check**: 0 errors | 0 warnings | 0 notes（v0.0.34、`--as-cran`オプション付きで完全クリア）
+- **CRAN準備**: v0.0.34でCRAN投稿準備完了（cran-comments.md作成済み）
 - **pkgdown**: Phase 3完了（Plot Gallery記事作成済み）
 - **CI**: R-CMD-check.yaml + test-coverage.yaml + pkgdown.yaml 稼働中
+- **ブランチ**: main（作業中）、fix/rcmdcheck-remaining（古い、削除可）
 - **残タスク**: DAG可視化（LDB, BINET）、visNetwork版（plotGraph_interactive）
+
+### Export関数一覧（31関数、NAMESPACE準拠）
+
+**プロット関数（27種）:**
+plotICC_gg, plotICRF_gg, plotTRF_gg, plotIIC_gg, plotTIC_gg,
+plotIRP_gg, plotFRP_gg, plotTRP_gg, plotLCD_gg, plotLRD_gg,
+plotCMP_gg, plotRMP_gg, plotCRV_gg, plotRRV_gg, plotArray_gg,
+plotFCRP_gg, plotFCBR_gg, plotScoreField_gg, plotFieldPIRP_gg,
+plotLDPSR_gg, plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg,
+plotICBR_gg, plotGraph_gg
+
+**オーバーレイプロット関数（2種）:**
+plotICC_overlay_gg, plotIIC_overlay_gg
+
+**ユーティリティ関数（4種）:**
+combinePlots_gg, LogisticModel, ItemInformationFunc, ItemInformationFunc_GRM
+
+### CRAN投稿準備の状態（v0.0.34）
+
+v0.0.34でCRAN投稿に必要な以下の作業を完了した：
+
+- DESCRIPTION: typo修正、Title Case化、Description CRAN準拠化（ISBNリファレンス追加）、非標準フィールド除去
+- gridExtra: DependsからImportsに移動（CRAN推奨）
+- R (>= 3.5.0): Dependsに追加（最小R版）
+- LICENSE: MIT + file LICENSE用のLICENSEファイル作成（2023-2026）
+- NSE: zzz.Rに包括的なglobalVariables()宣言（30+変数）。R CMD check NOTEゼロ達成
+- Examples: J35S500を使うexampleを\dontrun{}で保護（exametrika v1.9.0がCRAN未公開のため）
+- Vignettes: pkgdown-only articlesに移行（R CMD checkでのvignetteビルドエラー回避）
+- cran-comments.md: 初回投稿用に作成
+- README: R-CMD-checkバッジとMITライセンスバッジ追加
+- .Rbuildignore: CLAUDE.md大文字小文字不問、cran-comments.md除外
+
+**ブロッカー**: exametrika v1.9.0のCRAN公開が先行する必要がある（J35S500データセットの\dontrun{}を解除するため）
 
 ### exametrikaのプロットタイプ一覧と実装状況（exametrika v1.9.0 準拠）
 
@@ -275,7 +320,7 @@ BINET:  クラスノード + フィールドノードの統合グラフ（最終
 visNetwork(インタラクティブ編集) → 座標取得 → ggraph(静的プロット生成)
 ```
 
-**現在の状態 (2026-02-25更新):**
+**現在の状態 (2026-02-26更新):**
 - `R/plotGraph_gg.R` 実装済み（434行）
 - **BNM**: 実装・テスト済み（test-DAG-plots.R: 5テスト、共通オプション対応済み）
 - **LDLRA**: plotGraph_gg内にLDLRA処理ブロック追加済み（2026-02-18、log.md参照）。全ランク対応、孤立ノード除外、show_prob/prob_digitsパラメータ対応。ただしtestthat正式テストは未整備
