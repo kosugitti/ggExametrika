@@ -3,6 +3,7 @@
 ## Documentation
 
 * Update CLAUDE.md to reflect v0.0.34 state: fix version (v0.0.33 to v0.0.34), update dependencies (gridExtra moved from Depends to Imports), add CRAN preparation status section, update CRANチェックリスト with completed items, update R CMD check result to 0/0/0.
+* Further CLAUDE.md refinement: add complete Export function inventory (31 functions with breakdown), add branch status, add R source file count, add v1.0.0 release roadmap section, reorganize completed vs remaining features for clarity, clean up redundant TODO sections where all items are completed.
 
 ## CRAN Submission Preparation
 
