@@ -4,7 +4,7 @@
 
 ## Test environments
 
-* local macOS (Apple Silicon, darwin25.3.0), R 4.5.2
+* local macOS Tahoe 26.3 (Apple Silicon, aarch64-apple-darwin25.0.0), R 4.5.2
 * GitHub Actions: macOS-latest (release), windows-latest (release), ubuntu-latest (release, devel, oldrel-1)
 
 ## Notes
