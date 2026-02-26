@@ -1,5 +1,39 @@
 # Changelog
 
+## ggExametrika 0.0.34
+
+### Documentation
+
+- Update CLAUDE.md to reflect v0.0.34 state: fix version (v0.0.33 to
+  v0.0.34), update dependencies (gridExtra moved from Depends to
+  Imports), add CRAN preparation status section, update
+  CRANチェックリスト with completed items, update R CMD check result to
+  0/0/0.
+- Further CLAUDE.md refinement: add complete Export function inventory
+  (31 functions with breakdown), add branch status, add R source file
+  count, add v1.0.0 release roadmap section, reorganize completed vs
+  remaining features for clarity, clean up redundant TODO sections where
+  all items are completed.
+
+### CRAN Submission Preparation
+
+- Fix typo in DESCRIPTION: “pacakge” to “package”.
+- Change Title to Title Case with quoted software names: “Visualization
+  of ‘exametrika’ Output Using ‘ggplot2’”.
+- Rewrite Description field to follow CRAN conventions: starts with
+  verb, no markdown links, includes ISBN reference for Shojima (2022).
+- Remove non-standard `Reference` field from DESCRIPTION. Reference
+  information is now included in the Description field.
+- Move `gridExtra` from `Depends` to `Imports` (CRAN recommends
+  minimizing Depends).
+- Add `R (>= 3.5.0)` to Depends for minimum R version requirement.
+- Fix `.Rbuildignore` pattern for CLAUDE.md to be case-insensitive
+  (`^[Cc][Ll][Aa][Uu][Dd][Ee]\.md$`).
+- Add `^cran-comments\.md$` to `.Rbuildignore`.
+- Create `cran-comments.md` for initial CRAN submission.
+- Update LICENSE year from 2023 to 2023-2026.
+- Add R-CMD-check and MIT license badges to README.md.
+
 ## ggExametrika 0.0.33
 
 ### R CMD check Fixes

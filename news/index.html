@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.33</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.34</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,28 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.34" id="ggexametrika-0034">ggExametrika 0.0.34<a class="anchor" aria-label="anchor" href="#ggexametrika-0034"></a></h2>
+<div class="section level3">
+<h3 id="documentation-0-0-34">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-0-34"></a></h3>
+<ul><li>Update CLAUDE.md to reflect v0.0.34 state: fix version (v0.0.33 to v0.0.34), update dependencies (gridExtra moved from Depends to Imports), add CRAN preparation status section, update CRANチェックリスト with completed items, update R CMD check result to 0/0/0.</li>
+<li>Further CLAUDE.md refinement: add complete Export function inventory (31 functions with breakdown), add branch status, add R source file count, add v1.0.0 release roadmap section, reorganize completed vs remaining features for clarity, clean up redundant TODO sections where all items are completed.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="cran-submission-preparation-0-0-34">CRAN Submission Preparation<a class="anchor" aria-label="anchor" href="#cran-submission-preparation-0-0-34"></a></h3>
+<ul><li>Fix typo in DESCRIPTION: “pacakge” to “package”.</li>
+<li>Change Title to Title Case with quoted software names: “Visualization of ‘exametrika’ Output Using ‘ggplot2’”.</li>
+<li>Rewrite Description field to follow CRAN conventions: starts with verb, no markdown links, includes ISBN reference for Shojima (2022).</li>
+<li>Remove non-standard <code>Reference</code> field from DESCRIPTION. Reference information is now included in the Description field.</li>
+<li>Move <code>gridExtra</code> from <code>Depends</code> to <code>Imports</code> (CRAN recommends minimizing Depends).</li>
+<li>Add <code>R (&gt;= 3.5.0)</code> to Depends for minimum R version requirement.</li>
+<li>Fix <code>.Rbuildignore</code> pattern for CLAUDE.md to be case-insensitive (<code>^[Cc][Ll][Aa][Uu][Dd][Ee]\.md$</code>).</li>
+<li>Add <code>^cran-comments\.md$</code> to <code>.Rbuildignore</code>.</li>
+<li>Create <code>cran-comments.md</code> for initial CRAN submission.</li>
+<li>Update LICENSE year from 2023 to 2023-2026.</li>
+<li>Add R-CMD-check and MIT license badges to README.md.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.33" id="ggexametrika-0033">ggExametrika 0.0.33<a class="anchor" aria-label="anchor" href="#ggexametrika-0033"></a></h2>
 <div class="section level3">

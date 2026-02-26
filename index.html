@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Visualization of Exametrika Output using ggplot • ggExametrika</title>
+<title>Visualization of exametrika Output Using ggplot2 • ggExametrika</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Visualization of Exametrika Output using ggplot">
-<meta name="description" content="Exametrika is a powerful tool developed by Shojima(2022) for data analysis, available in Mathematica and an Excel Add-on. It has been developed as an R package at [https://kosugitti.github.io/Exametrika/](https://kosugitti.github.io/Exametrika/). This package, ggExametrika, is built to enhance the visualization capabilities of Exametrika pacakge using ggplot functions. It integrates seamlessly with the Exametrika package, providing beautiful and logically arranged plots for simplified data interpretation in R.">
-<meta property="og:description" content="Exametrika is a powerful tool developed by Shojima(2022) for data analysis, available in Mathematica and an Excel Add-on. It has been developed as an R package at [https://kosugitti.github.io/Exametrika/](https://kosugitti.github.io/Exametrika/). This package, ggExametrika, is built to enhance the visualization capabilities of Exametrika pacakge using ggplot functions. It integrates seamlessly with the Exametrika package, providing beautiful and logically arranged plots for simplified data interpretation in R.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Visualization of exametrika Output Using ggplot2">
+<meta name="description" content="Provides ggplot2-based visualization functions for output objects from the exametrika package, which implements test data engineering methods described in Shojima (2022, ISBN:978-981-16-9547-1). Supports a wide range of psychometric models including Item Response Theory, Latent Class Analysis, Latent Rank Analysis, Biclustering (binary, ordinal, and nominal), Bayesian Network Models, and related network models. All plot functions return ggplot2 objects that can be further customized by the user.">
+<meta property="og:description" content="Provides ggplot2-based visualization functions for output objects from the exametrika package, which implements test data engineering methods described in Shojima (2022, ISBN:978-981-16-9547-1). Supports a wide range of psychometric models including Item Response Theory, Latent Class Analysis, Latent Rank Analysis, Biclustering (binary, ordinal, and nominal), Bayesian Network Models, and related network models. All plot functions return ggplot2 objects that can be further customized by the user.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.33</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.34</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,7 @@
 <div class="page-header"><h1 id="ggexametrika">ggExametrika<a class="anchor" aria-label="anchor" href="#ggexametrika"></a>
 </h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
+
 <p><strong>ggExametrika</strong> provides ggplot2-based visualization for the <a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a> package. It supports a wide range of psychometric models:</p>
 <table class="table">
 <thead><tr class="header">
@@ -751,7 +751,13 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/kosugitti/ggExametrika/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/kosugitti/ggExametrika/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

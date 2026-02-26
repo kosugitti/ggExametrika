@@ -21,7 +21,6 @@ devtools::install_github("kosugitti/ggExametrika")
 library(exametrika)
 library(ggExametrika)
 #> Loading required package: ggplot2
-#> Loading required package: gridExtra
 #> 
 #> Attaching package: 'ggExametrika'
 #> The following objects are masked from 'package:exametrika':

@@ -12,14 +12,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/kosugitti/ggExametrika/blob/main/DESCRIPTION)
 
-Kosugi K, Kamimura D (2026). *ggExametrika: Visualization of Exametrika
-Output using ggplot*. R package version 0.0.33,
+Kosugi K, Kamimura D (2026). *ggExametrika: Visualization of
+'exametrika' Output Using 'ggplot2'*. R package version 0.0.34,
 <https://kosugitti.github.io/ggExametrika/>.
 
     @Manual{,
-      title = {ggExametrika: Visualization of Exametrika Output using ggplot},
+      title = {ggExametrika: Visualization of 'exametrika' Output Using 'ggplot2'},
       author = {Koji Kosugi and Daichi Kamimura},
       year = {2026},
-      note = {R package version 0.0.33},
+      note = {R package version 0.0.34},
       url = {https://kosugitti.github.io/ggExametrika/},
     }
