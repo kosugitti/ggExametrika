@@ -1,20 +1,25 @@
 Package: ggExametrika
 Type: Package
-Title: Visualization of Exametrika Output using ggplot
-Version: 0.0.33
+Title: Visualization of 'exametrika' Output Using 'ggplot2'
+Version: 0.0.34
 Authors@R: c(
     person(given = "Koji", family = "Kosugi", role = c("aut", "cre"), email = "kosugitti@gmail.com", comment = c(ORCID = "0000-0001-5816-0099")),
     person(given = "Daichi", family = "Kamimura", role = c("aut")))
-Description: Exametrika is a powerful tool developed by Shojima(2022) for data analysis, available in Mathematica and an Excel Add-on. It has been developed as an R package at [https://kosugitti.github.io/Exametrika/](https://kosugitti.github.io/Exametrika/). This package, ggExametrika, is built to enhance the visualization capabilities of Exametrika pacakge using ggplot functions. It integrates seamlessly with the Exametrika package, providing beautiful and logically arranged plots for simplified data interpretation in R.
+Description: Provides 'ggplot2'-based visualization functions for output objects
+    from the 'exametrika' package, which implements test data engineering methods
+    described in Shojima (2022, ISBN:978-981-16-9547-1). Supports a wide range of
+    psychometric models including Item Response Theory, Latent Class Analysis,
+    Latent Rank Analysis, Biclustering (binary, ordinal, and nominal),
+    Bayesian Network Models, and related network models. All plot functions
+    return 'ggplot2' objects that can be further customized by the user.
 URL: https://kosugitti.github.io/ggExametrika/, https://github.com/kosugitti/ggExametrika
 BugReports: https://github.com/kosugitti/ggExametrika/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Depends: ggplot2, gridExtra
-Imports: ggraph, ggrepel, igraph, tidyr
+Depends: R (>= 3.5.0), ggplot2
+Imports: ggraph, ggrepel, gridExtra, igraph, tidyr
 RoxygenNote: 7.3.3
-Reference: Shojima, Kojiro (2022) Test Data Engineering: Latent Rank Analysis, Biclustering, andBayesian Network (Behaviormetrics: Quantitative Approaches to Human Behavior, 13), Springer
 Suggests:
     exametrika,
     testthat (>= 3.0.0)

@@ -1,3 +1,19 @@
+# ggExametrika 0.0.34
+
+## CRAN Submission Preparation
+
+* Fix typo in DESCRIPTION: "pacakge" to "package".
+* Change Title to Title Case with quoted software names: "Visualization of 'exametrika' Output Using 'ggplot2'".
+* Rewrite Description field to follow CRAN conventions: starts with verb, no markdown links, includes ISBN reference for Shojima (2022).
+* Remove non-standard `Reference` field from DESCRIPTION. Reference information is now included in the Description field.
+* Move `gridExtra` from `Depends` to `Imports` (CRAN recommends minimizing Depends).
+* Add `R (>= 3.5.0)` to Depends for minimum R version requirement.
+* Fix `.Rbuildignore` pattern for CLAUDE.md to be case-insensitive (`^[Cc][Ll][Aa][Uu][Dd][Ee]\.md$`).
+* Add `^cran-comments\.md$` to `.Rbuildignore`.
+* Create `cran-comments.md` for initial CRAN submission.
+* Update LICENSE year from 2023 to 2023-2026.
+* Add R-CMD-check and MIT license badges to README.md.
+
 # ggExametrika 0.0.33
 
 ## R CMD check Fixes

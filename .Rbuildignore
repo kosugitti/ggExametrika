@@ -3,7 +3,7 @@
 ^LICENSE\.md$
 ^develop\*.R$
 ^develop$
-^claude\.md$
+^[Cc][Ll][Aa][Uu][Dd][Ee]\.md$
 ^log\.md$
 ^README\.Rmd$
 ^_pkgdown\.yml$
@@ -12,3 +12,4 @@
 ^\.github$
 ^\.claude$
 ^vignettes/articles$
+^cran-comments\.md$
