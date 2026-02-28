@@ -1,5 +1,5 @@
 # ============================================================
-# Tests for Polytomous Biclustering plot functions (v1.9.0)
+# Tests for Polytomous Biclustering plot functions (v1.10.0)
 # plotFCRP_gg, plotFCBR_gg, plotScoreField_gg
 # ============================================================
 

@@ -64,7 +64,7 @@ Higher expected scores indicate that students in that class/rank are expected
 to achieve higher scores in that field.
 }
 \examples{
-# TODO: Revert \dontrun to @examplesIf after exametrika v1.9.0 is on CRAN.
+# TODO: Revert \dontrun to @examplesIf after exametrika v1.10.0 is on CRAN.
 # J35S500 dataset requires exametrika >= 1.9.0.
 \dontrun{
 library(exametrika)

@@ -1,3 +1,12 @@
+# ggExametrika 0.0.35
+
+## Documentation
+
+* Update exametrika dependency version references from v1.9.0 to v1.10.0 across CLAUDE.md (13 occurrences), R source TODO comments (6 files), and regenerated man pages. This reflects exametrika's version renumbering: the previously planned v1.9.0 release will now be published as v1.10.0.
+* Move visNetwork/plotGraph_interactive from v1.0.0 scope to v1.1.0+. The v1.0.0 release will focus on completing DAG visualization (LDB, BINET) with ggraph static plots only.
+* Update v1.0.0 release timeline from "February 2026" to "Spring 2026, after exametrika v1.10.0 CRAN publication".
+* Add "v1.1.0 and beyond" section to CLAUDE.md roadmap for visNetwork interactive DAG editing feature.
+
 # ggExametrika 0.0.34
 
 ## Documentation

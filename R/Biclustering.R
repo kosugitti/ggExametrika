@@ -85,7 +85,7 @@
 #' result <- Biclustering(J35S515, nfld = 5, ncls = 6)
 #' plotCRV_gg(result)
 #'
-#' # TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+#' # TODO: Revert \dontrun to normal after exametrika v1.10.0 is on CRAN.
 #' # J35S500 dataset requires exametrika >= 1.9.0.
 #' \dontrun{
 #' # Ordinal biclustering (polytomous)
@@ -290,7 +290,7 @@ plotCRV_gg <- function(data,
 #' result <- Biclustering(J15S500, nfld = 3, ncls = 5)
 #' plotRRV_gg(result)
 #'
-#' # TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+#' # TODO: Revert \dontrun to normal after exametrika v1.10.0 is on CRAN.
 #' # J35S500 dataset requires exametrika >= 1.9.0.
 #' \dontrun{
 #' # Ordinal biclustering (polytomous)

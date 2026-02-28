@@ -75,7 +75,7 @@ library(exametrika)
 result_bin <- Biclustering(J35S515, ncls = 4, nfld = 3)
 plot <- plotFRP_gg(result_bin)
 
-# TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+# TODO: Revert \dontrun to normal after exametrika v1.10.0 is on CRAN.
 # J35S500 dataset requires exametrika >= 1.9.0.
 \dontrun{
 # Ordinal biclustering with mean (default)
