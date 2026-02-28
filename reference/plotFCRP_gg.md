@@ -94,7 +94,7 @@ The `style` parameter allows two visualizations:
 ## Examples
 
 ``` r
-# TODO: Revert \dontrun to @examplesIf after exametrika v1.9.0 is on CRAN.
+# TODO: Revert \dontrun to @examplesIf after exametrika v1.10.0 is on CRAN.
 # J35S500 dataset requires exametrika >= 1.9.0.
 if (FALSE) { # \dontrun{
 library(exametrika)

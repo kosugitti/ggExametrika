@@ -117,7 +117,7 @@ result_bin <- Biclustering(J35S515, ncls = 4, nfld = 3)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 plot <- plotFRP_gg(result_bin)
 
-# TODO: Revert \dontrun to normal after exametrika v1.9.0 is on CRAN.
+# TODO: Revert \dontrun to normal after exametrika v1.10.0 is on CRAN.
 # J35S500 dataset requires exametrika >= 1.9.0.
 if (FALSE) { # \dontrun{
 # Ordinal biclustering with mean (default)
