@@ -73,6 +73,22 @@ test_that("plotTRP_gg returns ggplot for Biclustering", {
   expect_s3_class(result, "gg")
 })
 
+test_that("plotTRP_gg returns ggplot for ordinalBiclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ordBiclust), "ordinal Biclustering fixture not available")
+
+  result <- plotTRP_gg(fixture_ordBiclust)
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotTRP_gg returns ggplot for nominalBiclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_nomBiclust), "nominal Biclustering fixture not available")
+
+  result <- plotTRP_gg(fixture_nomBiclust)
+  expect_s3_class(result, "gg")
+})
+
 test_that("plotTRP_gg Num_Students parameter works", {
   skip_if_not_installed("exametrika")
   skip_if(is.null(fixture_LCA), "LCA fixture not available")

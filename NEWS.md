@@ -1,3 +1,11 @@
+# ggExametrika 0.0.36
+
+## Bug Fixes
+
+* Fix `plotTRP_gg()` to support `nominalBiclustering` and `ordinalBiclustering` model types. Previously these models were rejected with "Invalid input" error due to class validation using exact `all(class(data) %in% ...)` matching. Replaced with `data$msg`-based xlabel determination, consistent with `plotFRP_gg()` and other functions.
+* Update `plotTRP_gg()` roxygen2 documentation to list all supported model types including `nominalBiclustering`, `ordinalBiclustering`, and `LDLRA`.
+* Add tests for `plotTRP_gg()` with `ordinalBiclustering` and `nominalBiclustering` fixtures.
+
 # ggExametrika 0.0.35
 
 ## Documentation

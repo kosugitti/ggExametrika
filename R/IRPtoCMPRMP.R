@@ -363,8 +363,8 @@ plotFRP_gg <- function(data,
 #' number of students in each latent class/rank (bar graph) and the
 #' expected test score for each class/rank (line graph).
 #'
-#' @param data An object from exametrika: LCA, LRA, Biclustering, IRM,
-#'   LDB, or BINET output.
+#' @param data An object from exametrika: LCA, LRA, Biclustering,
+#'   nominalBiclustering, ordinalBiclustering, IRM, LDLRA, LDB, or BINET output.
 #' @param Num_Students Logical. If \code{TRUE} (default), display the
 #'   number of students on each bar.
 #' @param title Logical or character. If \code{TRUE} (default), display the
@@ -418,23 +418,25 @@ plotTRP_gg <- function(data,
                        linetype = "dashed",
                        show_legend = FALSE,
                        legend_position = "right") {
-  if (all(class(data) %in% c("exametrika", "LCA")) ||
-    all(class(data) %in% c("exametrika", "BINET"))) {
-    xlabel <- "Latent Class"
-  } else if (all(class(data) %in% c("exametrika", "LRA")) ||
-    all(class(data) %in% c("exametrika", "Biclustering")) ||
-    all(class(data) %in% c("exametrika", "IRM")) ||
-    all(class(data) %in% c("exametrika", "LDB")) ||
-    all(class(data) %in% c("exametrika", "LDLRA"))) {
-    xlabel <- "Latent Rank"
-  } else {
+  # Class validation
+  valid_classes <- c("LCA", "LRA", "Biclustering", "nominalBiclustering",
+                     "ordinalBiclustering", "IRM", "LDLRA", "LDB", "BINET")
+  data_class <- class(data)[class(data) != "exametrika"]
+
+  if (!inherits(data, "exametrika") || !any(data_class %in% valid_classes)) {
     stop(
-      "Invalid input. The variable must be from exametrika output or from either LCA, LRA, Biclustering, LDLRA, LDB, or BINET."
+      "Invalid input. The variable must be from exametrika output or from either ",
+      "LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, ",
+      "IRM, LDLRA, LDB, or BINET."
     )
   }
 
+  # Get xlabel from msg field (Class or Rank), consistent with plotFRP_gg
+  msg <- if ("msg" %in% names(data)) data$msg else "Class"
+  xlabel <- paste("Latent", msg)
+
   # Student distribution: rank models prefer LRD, class models prefer LCD (with fallback)
-  if (xlabel == "Latent Rank") {
+  if (msg == "Rank") {
     dist_data <- .first_non_null(data$LRD, data$LCD)
   } else {
     dist_data <- .first_non_null(data$LCD, data$LRD)

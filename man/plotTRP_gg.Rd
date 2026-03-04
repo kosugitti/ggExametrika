@@ -15,8 +15,8 @@ plotTRP_gg(
 )
 }
 \arguments{
-\item{data}{An object from exametrika: LCA, LRA, Biclustering, IRM,
-LDB, or BINET output.}
+\item{data}{An object from exametrika: LCA, LRA, Biclustering,
+nominalBiclustering, ordinalBiclustering, IRM, LDLRA, LDB, or BINET output.}
 
 \item{Num_Students}{Logical. If \code{TRUE} (default), display the
 number of students on each bar.}
