@@ -1,3 +1,12 @@
+# ggExametrika 0.0.37
+
+## DAG Visualization
+
+* Refactor `plotGraph_gg()`: extract internal helper functions (`.dag_node_number()`, `.dag_scale_factors()`, `.dag_item_color()`, `.dag_compute_layout()`, `.dag_build_plot()`) to eliminate code duplication between BNM and LDLRA implementations.
+* Add LDLRA test fixture to `tests/testthat/helper-setup.R` using `J12S5000` with a simple 3-rank DAG.
+* Add comprehensive LDLRA test cases to `tests/testthat/test-DAG-plots.R`: basic output, title/colors/legend/direction common options, and node appearance parameters.
+* Fix node clipping in `.dag_build_plot()`: add dynamic `scale_x/y_continuous(expand = expansion(mult = ...))` so nodes are never cut off at plot edges. Padding is proportional to node size (clamped between 0.20 and 0.45).
+
 # ggExametrika 0.0.35
 
 ## Documentation

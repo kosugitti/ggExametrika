@@ -137,41 +137,19 @@ plotGraph_gg <- function(data,
   if (model_class == "BNM") {
     g <- data$g
 
-    # Extract node numbers from names (e.g., "Item01" -> "1", "Item10" -> "10")
-    node_names <- igraph::V(g)$name
-    node_numbers <- gsub("Item0?", "", node_names)
-
     # Add node attributes
-    igraph::V(g)$node_number <- node_numbers
-    igraph::V(g)$node_type <- "Item"  # For future use with legend
+    node_names <- igraph::V(g)$name
+    igraph::V(g)$node_number <- .dag_node_number(node_names)
+    igraph::V(g)$node_type <- "Item"
 
-    # Dynamic scaling based on number of nodes
-    n_nodes <- igraph::vcount(g)
-    n_edges <- igraph::ecount(g)
+    # Compute layout
+    lay <- .dag_compute_layout(g, layout, direction)
 
-    # Adjust sizes based on graph complexity
-    # More nodes = smaller sizes to fit in view
-    if (n_nodes <= 5) {
-      scale_factor <- 1.0
-    } else if (n_nodes <= 10) {
-      scale_factor <- 0.8
-    } else if (n_nodes <= 20) {
-      scale_factor <- 0.6
-    } else {
-      scale_factor <- 0.5
-    }
+    # Apply scaling
+    scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
 
-    # Apply scaling to parameters
-    scaled_node_size <- node_size * scale_factor
-    scaled_arrow_size <- max(arrow_size * scale_factor, 2.0)  # Minimum 2mm for arrows
-    scaled_label_size <- label_size * scale_factor
-
-    # Set node colors
-    if (is.null(colors)) {
-      item_color <- "#A23B72"  # Purple (default)
-    } else {
-      item_color <- colors[1]
-    }
+    # Set node color
+    item_color <- .dag_item_color(colors)
 
     # Set title
     if (is.logical(title) && title) {
@@ -179,88 +157,12 @@ plotGraph_gg <- function(data,
     } else if (is.logical(title) && !title) {
       plot_title <- NULL
     } else {
-      plot_title <- title
+      plot_title <- as.character(title)[1]
     }
 
-    # Compute layout and apply direction transformation
-    if (layout == "sugiyama") {
-      # Use igraph's sugiyama layout
-      lay <- igraph::layout_with_sugiyama(g)$layout
-
-      # Apply direction transformation
-      if (direction == "BT") {
-        # Bottom-to-top: flip y-axis
-        lay[, 2] <- -lay[, 2]
-      } else if (direction == "TB") {
-        # Top-to-bottom: default, no change
-      } else if (direction == "LR") {
-        # Left-to-right: swap x and y, then flip to get left-to-right order
-        lay <- lay[, c(2, 1)]
-        lay[, 1] <- -lay[, 1]  # Flip x-axis so source nodes are on the left
-      } else if (direction == "RL") {
-        # Right-to-left: swap x and y (source on right)
-        lay <- lay[, c(2, 1)]
-      }
-    } else {
-      # For non-hierarchical layouts, use ggraph's default
-      lay <- layout
-    }
-
-    p <- ggraph::ggraph(g, layout = lay) +
-      # Edges with arrows (scaled)
-      ggraph::geom_edge_link(
-        arrow = grid::arrow(length = grid::unit(scaled_arrow_size, "mm"), type = "closed"),
-        end_cap = ggraph::circle(scaled_node_size / 1.5, "mm"),
-        color = "gray30",
-        width = 0.8 * scale_factor
-      ) +
-      # Nodes as circles (items are circles, not rectangles) (scaled)
-      ggraph::geom_node_point(
-        ggplot2::aes(fill = node_type),
-        shape = 21,  # Circle with fill
-        size = scaled_node_size,
-        color = "black",
-        stroke = 1.2 * scale_factor,
-        show.legend = FALSE
-      ) +
-      # Numbers inside nodes (scaled)
-      ggraph::geom_node_text(
-        ggplot2::aes(label = node_number),
-        size = scaled_label_size,
-        color = "black",
-        fontface = "bold"
-      ) +
-      # Color scale for nodes
-      ggplot2::scale_fill_manual(
-        values = c("Item" = item_color),
-        name = "",
-        labels = c("Item" = "Item")
-      ) +
-      # Theme and labels
-      ggplot2::theme_void() +
-      ggplot2::theme(
-        plot.margin = ggplot2::margin(15, 15, 15, 15)  # Add margin to prevent cutoff
-      )
-
-    # Apply title
-    if (!is.null(plot_title)) {
-      p <- p + ggplot2::ggtitle(plot_title) +
-        ggplot2::theme(
-          plot.title = ggplot2::element_text(
-            size = 14,
-            face = "bold",
-            hjust = 0.5,
-            margin = ggplot2::margin(b = 10)
-          )
-        )
-    }
-
-    # Legend control
-    if (!show_legend) {
-      p <- p + ggplot2::theme(legend.position = "none")
-    } else {
-      p <- p + ggplot2::theme(legend.position = legend_position)
-    }
+    p <- .dag_build_plot(
+      g, lay, scales, item_color, plot_title, show_legend, legend_position
+    )
 
     return(list(p))
   }
@@ -269,166 +171,172 @@ plotGraph_gg <- function(data,
   # LDLRA Implementation
   # ===================================================================
   if (model_class == "LDLRA") {
-    # Get number of ranks
     n_ranks <- data$Nclass
+    plot_list <- vector("list", n_ranks)
 
-    # Create list to store plots
-    plot_list <- list()
-
-    # Loop through all ranks
-    for (i in 1:n_ranks) {
-      # Get graph for this rank
+    for (i in seq_len(n_ranks)) {
       g <- data$g_list[[i]]
 
-      # Remove isolated nodes (nodes with no edges)
+      # Remove isolated nodes
       degree <- igraph::degree(g, mode = "all")
       isolated <- names(degree[degree == 0])
-
       if (length(isolated) > 0) {
         message("Rank ", i, ": Removing ", length(isolated), " isolated node(s)")
         g <- igraph::delete_vertices(g, isolated)
       }
 
-      # Check if graph has any nodes left
+      # Skip empty graphs
       if (igraph::vcount(g) == 0) {
         warning("Rank ", i, ": No connected nodes found - skipping")
         next
       }
 
-      # Extract node numbers from names (e.g., "Item01" -> "1", "Item10" -> "10")
-      node_names <- igraph::V(g)$name
-      node_numbers <- gsub("Item0?", "", node_names)
-
       # Add node attributes
-      igraph::V(g)$node_number <- node_numbers
+      node_names <- igraph::V(g)$name
+      igraph::V(g)$node_number <- .dag_node_number(node_names)
       igraph::V(g)$node_type <- "Item"
 
-      # Dynamic scaling based on number of nodes
-      n_nodes <- igraph::vcount(g)
+      # Compute layout and scaling
+      lay <- .dag_compute_layout(g, layout, direction)
+      scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
 
-      # Adjust sizes based on graph complexity
-      if (n_nodes <= 5) {
-        scale_factor <- 1.0
-      } else if (n_nodes <= 10) {
-        scale_factor <- 0.8
-      } else if (n_nodes <= 20) {
-        scale_factor <- 0.6
-      } else {
-        scale_factor <- 0.5
-      }
+      # Set node color
+      item_color <- .dag_item_color(colors)
 
-      # Apply scaling to parameters
-      scaled_node_size <- node_size * scale_factor
-      scaled_arrow_size <- max(arrow_size * scale_factor, 2.0)  # Minimum 2mm for arrows
-      scaled_label_size <- label_size * scale_factor
-
-      # Set node colors
-      if (is.null(colors)) {
-        item_color <- "#A23B72"  # Purple (default)
-      } else {
-        item_color <- colors[1]
-      }
-
-      # Set title (common option: logical or character)
+      # Set title (common option: logical or character vector)
       if (is.logical(title) && title) {
         plot_title <- paste0("LDLRA - Rank ", i)
       } else if (is.logical(title) && !title) {
         plot_title <- NULL
       } else if (is.character(title) && length(title) == 1) {
-        # Single custom title - append rank number
         plot_title <- paste0(title, " - Rank ", i)
       } else if (is.character(title) && length(title) >= i) {
-        # Vector of titles for each rank
         plot_title <- title[i]
       } else {
         plot_title <- paste0("LDLRA - Rank ", i)
       }
 
-      # Compute layout and apply direction transformation
-      if (layout == "sugiyama") {
-        # Use igraph's sugiyama layout
-        lay <- igraph::layout_with_sugiyama(g)$layout
-
-        # Apply direction transformation
-        if (direction == "BT") {
-          # Bottom-to-top: flip y-axis
-          lay[, 2] <- -lay[, 2]
-        } else if (direction == "TB") {
-          # Top-to-bottom: default, no change
-        } else if (direction == "LR") {
-          # Left-to-right: swap x and y, then flip to get left-to-right order
-          lay <- lay[, c(2, 1)]
-          lay[, 1] <- -lay[, 1]  # Flip x-axis so source nodes are on the left
-        } else if (direction == "RL") {
-          # Right-to-left: swap x and y (source on right)
-          lay <- lay[, c(2, 1)]
-        }
-      } else {
-        # For non-hierarchical layouts, use ggraph's default
-        lay <- layout
-      }
-
-      # Build base plot using matrix layout (like BNM)
-      p <- ggraph::ggraph(g, layout = lay) +
-        # Edges with arrows (scaled)
-        ggraph::geom_edge_link(
-          arrow = grid::arrow(length = grid::unit(scaled_arrow_size, "mm"), type = "closed"),
-          end_cap = ggraph::circle(scaled_node_size / 1.5, "mm"),
-          color = "gray30",
-          width = 0.8 * scale_factor
-        ) +
-        # Nodes as circles (scaled)
-        ggraph::geom_node_point(
-          ggplot2::aes(fill = node_type),
-          shape = 21,  # Circle with fill
-          size = scaled_node_size,
-          color = "black",
-          stroke = 1.2 * scale_factor,
-          show.legend = FALSE
-        ) +
-        # Numbers inside nodes (scaled)
-        ggraph::geom_node_text(
-          ggplot2::aes(label = node_number),
-          size = scaled_label_size,
-          color = "black",
-          fontface = "bold"
-        ) +
-        # Color scale for nodes
-        ggplot2::scale_fill_manual(
-          values = c("Item" = item_color),
-          name = "",
-          labels = c("Item" = "Item")
-        ) +
-        # Theme and labels
-        ggplot2::theme_void() +
-        ggplot2::theme(
-          plot.margin = ggplot2::margin(15, 15, 15, 15)
-        )
-
-      # Apply title
-      if (!is.null(plot_title)) {
-        p <- p + ggplot2::ggtitle(plot_title) +
-          ggplot2::theme(
-            plot.title = ggplot2::element_text(
-              size = 14,
-              face = "bold",
-              hjust = 0.5,
-              margin = ggplot2::margin(b = 10)
-            )
-          )
-      }
-
-      # Legend control
-      if (!show_legend) {
-        p <- p + ggplot2::theme(legend.position = "none")
-      } else {
-        p <- p + ggplot2::theme(legend.position = legend_position)
-      }
-
-      # Add to plot list
-      plot_list[[i]] <- p
+      plot_list[[i]] <- .dag_build_plot(
+        g, lay, scales, item_color, plot_title, show_legend, legend_position
+      )
     }
 
     return(plot_list)
   }
+}
+
+# ===================================================================
+# Internal helper functions for DAG visualization
+# ===================================================================
+
+# Extract short node number label from node name (e.g. "Item01" -> "1", "Item10" -> "10")
+.dag_node_number <- function(node_names) {
+  gsub("^.*?0*(\\d+)$", "\\1", node_names)
+}
+
+# Compute scale factors based on node count
+.dag_scale_factors <- function(n_nodes, node_size, arrow_size, label_size) {
+  scale_factor <- if (n_nodes <= 5) {
+    1.0
+  } else if (n_nodes <= 10) {
+    0.8
+  } else if (n_nodes <= 20) {
+    0.6
+  } else {
+    0.5
+  }
+  list(
+    node  = node_size  * scale_factor,
+    arrow = max(arrow_size * scale_factor, 2.0),
+    label = label_size * scale_factor,
+    base  = scale_factor
+  )
+}
+
+# Return item node fill color
+.dag_item_color <- function(colors) {
+  if (is.null(colors)) "#A23B72" else colors[1]
+}
+
+# Compute graph layout matrix
+.dag_compute_layout <- function(g, layout, direction) {
+  if (layout != "sugiyama") {
+    return(layout)
+  }
+  lay <- igraph::layout_with_sugiyama(g)$layout
+  if (direction == "BT") {
+    lay[, 2] <- -lay[, 2]
+  } else if (direction == "TB") {
+    # default, no change
+  } else if (direction == "LR") {
+    lay <- lay[, c(2, 1)]
+    lay[, 1] <- -lay[, 1]
+  } else if (direction == "RL") {
+    lay <- lay[, c(2, 1)]
+  }
+  lay
+}
+
+# Build a single DAG ggplot from a prepared igraph + layout
+.dag_build_plot <- function(g, lay, scales, item_color,
+                             plot_title, show_legend, legend_position) {
+  # Compute expand margin so nodes are never clipped.
+  # node_size (ggplot pt units) / coordinate range determines needed padding.
+  # Larger nodes need proportionally more space; clamp to [0.20, 0.45].
+  expand_mult <- min(max(0.15 + scales$node * 0.012, 0.20), 0.45)
+
+  p <- ggraph::ggraph(g, layout = lay) +
+    ggraph::geom_edge_link(
+      arrow = grid::arrow(length = grid::unit(scales$arrow, "mm"), type = "closed"),
+      end_cap = ggraph::circle(scales$node / 1.5, "mm"),
+      color = "gray30",
+      width = 0.8 * scales$base
+    ) +
+    ggraph::geom_node_point(
+      ggplot2::aes(fill = node_type),
+      shape = 21,
+      size = scales$node,
+      color = "black",
+      stroke = 1.2 * scales$base,
+      show.legend = FALSE
+    ) +
+    ggraph::geom_node_text(
+      ggplot2::aes(label = node_number),
+      size = scales$label,
+      color = "black",
+      fontface = "bold"
+    ) +
+    ggplot2::scale_fill_manual(
+      values = c("Item" = item_color),
+      name = "",
+      labels = c("Item" = "Item")
+    ) +
+    ggplot2::scale_x_continuous(
+      expand = ggplot2::expansion(mult = expand_mult)
+    ) +
+    ggplot2::scale_y_continuous(
+      expand = ggplot2::expansion(mult = expand_mult)
+    ) +
+    ggplot2::theme_void() +
+    ggplot2::theme(plot.margin = ggplot2::margin(15, 15, 15, 15))
+
+  if (!is.null(plot_title)) {
+    p <- p + ggplot2::ggtitle(plot_title) +
+      ggplot2::theme(
+        plot.title = ggplot2::element_text(
+          size = 14,
+          face = "bold",
+          hjust = 0.5,
+          margin = ggplot2::margin(b = 10)
+        )
+      )
+  }
+
+  if (!show_legend) {
+    p <- p + ggplot2::theme(legend.position = "none")
+  } else {
+    p <- p + ggplot2::theme(legend.position = legend_position)
+  }
+
+  p
 }
