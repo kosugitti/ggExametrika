@@ -1,10 +1,22 @@
-# ggExametrika 0.0.36
+# ggExametrika 0.0.37
+
+## DAG Visualization
+
+* Refactor `plotGraph_gg()`: extract internal helper functions (`.dag_node_number()`, `.dag_scale_factors()`, `.dag_item_color()`, `.dag_compute_layout()`, `.dag_build_plot()`) to eliminate code duplication between BNM and LDLRA implementations.
+* Add LDLRA test fixture to `tests/testthat/helper-setup.R` using `J12S5000` with a simple 3-rank DAG.
+* Add comprehensive LDLRA test cases to `tests/testthat/test-DAG-plots.R`: basic output, title/colors/legend/direction common options, and node appearance parameters.
+* Fix node clipping in `.dag_build_plot()`: add dynamic `scale_x/y_continuous(expand = expansion(mult = ...))` so nodes are never cut off at plot edges. Padding is proportional to node size (clamped between 0.20 and 0.45).
 
 ## Bug Fixes
 
 * Fix `plotTRP_gg()` to support `nominalBiclustering` and `ordinalBiclustering` model types. Previously these models were rejected with "Invalid input" error due to class validation using exact `all(class(data) %in% ...)` matching. Replaced with `data$msg`-based xlabel determination, consistent with `plotFRP_gg()` and other functions.
 * Update `plotTRP_gg()` roxygen2 documentation to list all supported model types including `nominalBiclustering`, `ordinalBiclustering`, and `LDLRA`.
 * Add tests for `plotTRP_gg()` with `ordinalBiclustering` and `nominalBiclustering` fixtures.
+
+## Dependencies
+
+* Raise minimum R version from R (>= 3.5.0) to R (>= 4.1.0). The native pipe operator (`|>`) and lambda syntax (`\(x)`) are used in some dependencies. R >= 4.1.0 is the minimum version that supports these features.
+* Remove `oldrel-1` (R 4.4.x) from GitHub Actions CI matrix. The `ggrepel` package now requires R >= 4.5.0 on CRAN, causing dependency resolution failures on older R versions. CI now tests `release` and `devel` only.
 
 # ggExametrika 0.0.35
 

@@ -90,6 +90,18 @@ if (has_exametrika) {
     error = function(e) NULL
   )
 
+  # ---- LDLRA fixture ----
+  # LDLRA requires a DAG list (one igraph per rank)
+  fixture_LDLRA <- tryCatch({
+    ldlra_dag <- data.frame(
+      from = c("Item01", "Item02", "Item03"),
+      to   = c("Item02", "Item03", "Item04")
+    )
+    ldlra_g <- igraph::graph_from_data_frame(ldlra_dag, directed = TRUE)
+    exametrika::LDLRA(exametrika::J12S5000, ncls = 3,
+                      g = list(ldlra_g, ldlra_g, ldlra_g))
+  }, error = function(e) NULL)
+
   # ---- BNM fixture (fast) ----
   # BNM requires a DAG (directed acyclic graph) as input
   fixture_BNM <- tryCatch({
