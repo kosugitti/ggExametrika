@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.36</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.37</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,12 +40,24 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.36" id="ggexametrika-0036">ggExametrika 0.0.36<a class="anchor" aria-label="anchor" href="#ggexametrika-0036"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.0.37" id="ggexametrika-0037">ggExametrika 0.0.37<a class="anchor" aria-label="anchor" href="#ggexametrika-0037"></a></h2>
 <div class="section level3">
-<h3 id="bug-fixes-0-0-36">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-36"></a></h3>
+<h3 id="dag-visualization-0-0-37">DAG Visualization<a class="anchor" aria-label="anchor" href="#dag-visualization-0-0-37"></a></h3>
+<ul><li>Refactor <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code>: extract internal helper functions (<code>.dag_node_number()</code>, <code>.dag_scale_factors()</code>, <code>.dag_item_color()</code>, <code>.dag_compute_layout()</code>, <code>.dag_build_plot()</code>) to eliminate code duplication between BNM and LDLRA implementations.</li>
+<li>Add LDLRA test fixture to <code>tests/testthat/helper-setup.R</code> using <code>J12S5000</code> with a simple 3-rank DAG.</li>
+<li>Add comprehensive LDLRA test cases to <code>tests/testthat/test-DAG-plots.R</code>: basic output, title/colors/legend/direction common options, and node appearance parameters.</li>
+<li>Fix node clipping in <code>.dag_build_plot()</code>: add dynamic <code>scale_x/y_continuous(expand = expansion(mult = ...))</code> so nodes are never cut off at plot edges. Padding is proportional to node size (clamped between 0.20 and 0.45).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-37">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-37"></a></h3>
 <ul><li>Fix <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> to support <code>nominalBiclustering</code> and <code>ordinalBiclustering</code> model types. Previously these models were rejected with “Invalid input” error due to class validation using exact <code>all(class(data) %in% ...)</code> matching. Replaced with <code>data$msg</code>-based xlabel determination, consistent with <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code> and other functions.</li>
 <li>Update <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> roxygen2 documentation to list all supported model types including <code>nominalBiclustering</code>, <code>ordinalBiclustering</code>, and <code>LDLRA</code>.</li>
 <li>Add tests for <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> with <code>ordinalBiclustering</code> and <code>nominalBiclustering</code> fixtures.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="dependencies-0-0-37">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies-0-0-37"></a></h3>
+<ul><li>Raise minimum R version from R (&gt;= 3.5.0) to R (&gt;= 4.1.0). The native pipe operator (<code>|&gt;</code>) and lambda syntax (<code>\(x)</code>) are used in some dependencies. R &gt;= 4.1.0 is the minimum version that supports these features.</li>
+<li>Remove <code>oldrel-1</code> (R 4.4.x) from GitHub Actions CI matrix. The <code>ggrepel</code> package now requires R &gt;= 4.5.0 on CRAN, causing dependency resolution failures on older R versions. CI now tests <code>release</code> and <code>devel</code> only.</li>
 </ul></div>
 </div>
     <div class="section level2">
