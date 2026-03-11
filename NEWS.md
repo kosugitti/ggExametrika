@@ -9,7 +9,8 @@
 
 ## Dependencies
 
-* Raise minimum R version from R (>= 3.5.0) to R (>= 4.5.0). The `ggrepel` package (used in `plotCRV_gg`/`plotRRV_gg`) now requires R >= 4.5.0 as of its latest CRAN release.
+* Raise minimum R version from R (>= 3.5.0) to R (>= 4.1.0). The native pipe operator (`|>`) and lambda syntax (`\(x)`) are used in some dependencies. R >= 4.1.0 is the minimum version that supports these features.
+* Remove `oldrel-1` (R 4.4.x) from GitHub Actions CI matrix. The `ggrepel` package now requires R >= 4.5.0 on CRAN, causing dependency resolution failures on older R versions. CI now tests `release` and `devel` only.
 
 # ggExametrika 0.0.35
 

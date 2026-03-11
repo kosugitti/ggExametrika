@@ -17,7 +17,7 @@ BugReports: https://github.com/kosugitti/ggExametrika/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 4.5.0), ggplot2
+Depends: R (>= 4.1.0), ggplot2
 Imports: ggraph, ggrepel, gridExtra, igraph, tidyr
 RoxygenNote: 7.3.3
 Suggests:
