@@ -7,6 +7,10 @@
 * Add comprehensive LDLRA test cases to `tests/testthat/test-DAG-plots.R`: basic output, title/colors/legend/direction common options, and node appearance parameters.
 * Fix node clipping in `.dag_build_plot()`: add dynamic `scale_x/y_continuous(expand = expansion(mult = ...))` so nodes are never cut off at plot edges. Padding is proportional to node size (clamped between 0.20 and 0.45).
 
+## Dependencies
+
+* Raise minimum R version from R (>= 3.5.0) to R (>= 4.5.0). The `ggrepel` package (used in `plotCRV_gg`/`plotRRV_gg`) now requires R >= 4.5.0 as of its latest CRAN release.
+
 # ggExametrika 0.0.35
 
 ## Documentation
