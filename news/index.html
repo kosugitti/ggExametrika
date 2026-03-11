@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.35</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.36</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,15 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.36" id="ggexametrika-0036">ggExametrika 0.0.36<a class="anchor" aria-label="anchor" href="#ggexametrika-0036"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-0-0-36">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-0-36"></a></h3>
+<ul><li>Fix <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> to support <code>nominalBiclustering</code> and <code>ordinalBiclustering</code> model types. Previously these models were rejected with “Invalid input” error due to class validation using exact <code>all(class(data) %in% ...)</code> matching. Replaced with <code>data$msg</code>-based xlabel determination, consistent with <code><a href="../reference/plotFRP_gg.html">plotFRP_gg()</a></code> and other functions.</li>
+<li>Update <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> roxygen2 documentation to list all supported model types including <code>nominalBiclustering</code>, <code>ordinalBiclustering</code>, and <code>LDLRA</code>.</li>
+<li>Add tests for <code><a href="../reference/plotTRP_gg.html">plotTRP_gg()</a></code> with <code>ordinalBiclustering</code> and <code>nominalBiclustering</code> fixtures.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.35" id="ggexametrika-0035">ggExametrika 0.0.35<a class="anchor" aria-label="anchor" href="#ggexametrika-0035"></a></h2>
 <div class="section level3">

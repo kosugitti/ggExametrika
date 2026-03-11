@@ -23,7 +23,8 @@ plotTRP_gg(
 
 - data:
 
-  An object from exametrika: LCA, LRA, Biclustering, IRM, LDB, or BINET
+  An object from exametrika: LCA, LRA, Biclustering,
+  nominalBiclustering, ordinalBiclustering, IRM, LDLRA, LDB, or BINET
   output.
 
 - Num_Students:

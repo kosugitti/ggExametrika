@@ -100,7 +100,7 @@ result <- IRT(J15S500, model = 3)
 #> iter 8 LogLik -3925.19                                                          
 #> iter 9 LogLik -3925.01                                                          
 #> iter 10 LogLik -3924.9                                                          
-#> iter 11 LogLik -3924.84                                                         
+#> iter 11 LogLik -3924.83                                                         
 #> iter 12 LogLik -3924.8                                                          
 #> iter 13 LogLik -3924.77                                                         
 plots <- plotICC_gg(result)

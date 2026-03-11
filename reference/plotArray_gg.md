@@ -158,58 +158,9 @@ synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol =
 result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 #> Biclustering is chosen.
-#> iter 1 log_lik -800.36                                                          
-#> iter 2 log_lik -799.55                                                          
-#> iter 3 log_lik -798.595                                                         
-#> iter 4 log_lik -797.694                                                         
-#> iter 5 log_lik -796.856                                                         
-#> iter 6 log_lik -796.056                                                         
-#> iter 7 log_lik -795.258                                                         
-#> iter 8 log_lik -794.433                                                         
-#> iter 9 log_lik -793.566                                                         
-#> iter 10 log_lik -792.662                                                        
-#> iter 11 log_lik -791.744                                                        
-#> iter 12 log_lik -790.843                                                        
-#> iter 13 log_lik -789.983                                                        
-#> iter 14 log_lik -789.177                                                        
-#> iter 15 log_lik -788.424                                                        
-#> iter 16 log_lik -787.716                                                        
-#> iter 17 log_lik -787.038                                                        
-#> iter 18 log_lik -786.378                                                        
-#> iter 19 log_lik -785.719                                                        
-#> iter 20 log_lik -785.047                                                        
-#> iter 21 log_lik -784.344                                                        
-#> iter 22 log_lik -783.592                                                        
-#> iter 23 log_lik -782.768                                                        
-#> iter 24 log_lik -781.844                                                        
-#> iter 25 log_lik -780.789                                                        
-#> iter 26 log_lik -779.566                                                        
-#> iter 27 log_lik -778.143                                                        
-#> iter 28 log_lik -776.505                                                        
-#> iter 29 log_lik -774.677                                                        
-#> iter 30 log_lik -772.747                                                        
-#> iter 31 log_lik -770.834                                                        
-#> iter 32 log_lik -769.041                                                        
-#> iter 33 log_lik -767.412                                                        
-#> iter 34 log_lik -765.95                                                         
-#> iter 35 log_lik -764.626                                                        
-#> iter 36 log_lik -763.372                                                        
-#> iter 37 log_lik -762.074                                                        
-#> iter 38 log_lik -760.635                                                        
-#> iter 39 log_lik -759.063                                                        
-#> iter 40 log_lik -757.437                                                        
-#> iter 41 log_lik -755.651                                                        
-#> iter 42 log_lik -753.322                                                        
-#> iter 43 log_lik -750.186                                                        
-#> iter 44 log_lik -746.668                                                        
-#> iter 45 log_lik -743.695                                                        
-#> iter 46 log_lik -741.702                                                        
-#> iter 47 log_lik -740.511                                                        
-#> iter 48 log_lik -739.835                                                        
-#> iter 49 log_lik -739.478                                                        
-#> iter 50 log_lik -739.321                                                        
-#> iter 51 log_lik -739.287                                                        
-#> iter 52 log_lik -739.319                                                        
+#> iter 1 log_lik -805.847                                                         
+#> iter 2 log_lik -805.895                                                         
+#> Strongly ordinal alignment condition was satisfied.
 plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
 
 #> TableGrob (1 x 2) "arrange": 2 grobs
