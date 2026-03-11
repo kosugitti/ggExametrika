@@ -102,6 +102,19 @@ if (has_exametrika) {
                       g = list(ldlra_g, ldlra_g, ldlra_g))
   }, error = function(e) NULL)
 
+  # ---- LDB fixture ----
+  # LDB requires field assignments (conf) and a DAG list (g_list).
+  fixture_LDB <- tryCatch({
+    ldb_conf <- rep(1:3, length.out = 35)
+    ldb_g <- igraph::graph_from_data_frame(
+      data.frame(from = c("Field01", "Field02"),
+                 to   = c("Field02", "Field03")),
+      directed = TRUE
+    )
+    exametrika::LDB(exametrika::J35S515, ncls = 3, conf = ldb_conf,
+                    g_list = list(ldb_g, ldb_g, ldb_g))
+  }, error = function(e) NULL)
+
   # ---- BNM fixture (fast) ----
   # BNM requires a DAG (directed acyclic graph) as input
   fixture_BNM <- tryCatch({

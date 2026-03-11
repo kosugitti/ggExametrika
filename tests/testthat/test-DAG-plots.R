@@ -1,6 +1,6 @@
 # ============================================================
 # Tests for DAG visualization
-# plotGraph_gg: BNM and LDLRA
+# plotGraph_gg: BNM, LDLRA, and LDB
 # ============================================================
 
 test_that("plotGraph_gg returns list of ggplots for BNM", {
@@ -128,4 +128,83 @@ test_that("plotGraph_gg LDLRA: node appearance parameters work", {
     plotGraph_gg(fixture_LDLRA, node_size = 15, label_size = 5, arrow_size = 4)[[1]],
     "gg"
   )
+})
+
+# ============================================================
+# LDB tests
+# ============================================================
+
+test_that("plotGraph_gg returns list of ggplots for LDB", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LDB), "LDB fixture not available")
+
+  n_ranks <- if (!is.null(fixture_LDB$Nrank)) fixture_LDB$Nrank else fixture_LDB$Nclass
+  result <- plotGraph_gg(fixture_LDB)
+  expect_type(result, "list")
+  expect_length(result, n_ranks)
+  for (p in result) {
+    expect_s3_class(p, "gg")
+  }
+})
+
+test_that("plotGraph_gg LDB: title common option works", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LDB), "LDB fixture not available")
+
+  expect_s3_class(plotGraph_gg(fixture_LDB, title = TRUE)[[1]], "gg")
+  expect_s3_class(plotGraph_gg(fixture_LDB, title = FALSE)[[1]], "gg")
+  expect_s3_class(plotGraph_gg(fixture_LDB, title = "Custom LDB")[[1]], "gg")
+})
+
+test_that("plotGraph_gg LDB: colors common option works", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LDB), "LDB fixture not available")
+
+  expect_s3_class(plotGraph_gg(fixture_LDB, colors = NULL)[[1]], "gg")
+  expect_s3_class(plotGraph_gg(fixture_LDB, colors = "#FF5722")[[1]], "gg")
+})
+
+test_that("plotGraph_gg LDB: show_legend and legend_position work", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LDB), "LDB fixture not available")
+
+  expect_s3_class(plotGraph_gg(fixture_LDB, show_legend = TRUE)[[1]], "gg")
+  expect_s3_class(plotGraph_gg(fixture_LDB, show_legend = FALSE)[[1]], "gg")
+  expect_s3_class(
+    plotGraph_gg(fixture_LDB, show_legend = TRUE, legend_position = "bottom")[[1]],
+    "gg"
+  )
+})
+
+test_that("plotGraph_gg LDB: direction parameter works", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LDB), "LDB fixture not available")
+
+  for (dir in c("BT", "TB", "LR", "RL")) {
+    result <- plotGraph_gg(fixture_LDB, direction = dir)
+    expect_true(inherits(result[[1]], "gg"), label = paste("direction =", dir))
+  }
+})
+
+test_that("plotGraph_gg LDB: node appearance parameters work", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LDB), "LDB fixture not available")
+
+  expect_s3_class(
+    plotGraph_gg(fixture_LDB, node_size = 15, label_size = 5, arrow_size = 4)[[1]],
+    "gg"
+  )
+})
+
+test_that("plotGraph_gg LDB: Field nodes use diamond shape", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_LDB), "LDB fixture not available")
+
+  result <- plotGraph_gg(fixture_LDB)
+  p <- result[[1]]
+  # Verify the plot contains shape scale with diamond (23) for Field
+  build <- ggplot2::ggplot_build(p)
+  point_data <- build$data[[2]]  # geom_node_point is the 2nd layer
+  # Shape 23 = diamond
+  expect_true(all(point_data$shape == 23))
 })
