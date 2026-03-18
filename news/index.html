@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.37</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.38</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,20 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.38" id="ggexametrika-0038">ggExametrika 0.0.38<a class="anchor" aria-label="anchor" href="#ggexametrika-0038"></a></h2>
+<div class="section level3">
+<h3 id="dag-visualization-0-0-38">DAG Visualization<a class="anchor" aria-label="anchor" href="#dag-visualization-0-0-38"></a></h3>
+<ul><li>Add LDB (Local Dependence Biclustering) DAG support to <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code>. Field nodes are rendered as green diamonds (shape=23), distinct from Item nodes (purple circles, shape=21). Structure mirrors LDLRA: one plot per rank with isolated node removal.</li>
+<li>Extend <code>.dag_build_plot()</code> to support multiple node types via <code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual()</a></code> + <code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual()</a></code>, preparing for BINET’s mixed-type graphs.</li>
+<li>Add LDB test fixture to <code>helper-setup.R</code> using <code><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">exametrika::LDB()</a></code> with <code>J35S515</code>.</li>
+<li>Add comprehensive LDB test cases (7 tests) in <code>test-DAG-plots.R</code>: basic output, title/colors/legend/direction common options, node appearance, and diamond shape verification.</li>
+<li>Add <code>develop/check_ldb_visual.R</code> for visual comparison of BNM/LDLRA/LDB rendering.</li>
+<li>Fix <code>@param colors</code> roxygen documentation: update “future models (LDB/BINET)” to reflect LDB as implemented.</li>
+<li>Simplify LDB rank count: use <code>data$Nrank</code> directly instead of <code>.first_non_null(data$Nrank, data$Nclass)</code> fallback (LDB always provides <code>Nrank</code>).</li>
+<li>Remove duplicate <code><a href="../reference/dot-first_non_null.html">.first_non_null()</a></code> definition from <code>plotGraph_gg.R</code> (already defined in <code>palette.R</code>).</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.37" id="ggexametrika-0037">ggExametrika 0.0.37<a class="anchor" aria-label="anchor" href="#ggexametrika-0037"></a></h2>
 <div class="section level3">
