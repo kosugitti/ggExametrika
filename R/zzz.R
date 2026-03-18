@@ -16,7 +16,7 @@ utils::globalVariables(c(
   # plotFieldPIRP_gg
   "l", "k",
   # plotGraph_gg
-  "node_type", "node_number",
+  "node_type", "node_number", "node_size_val", "label_size_val",
   # plotICBR_gg / plotICRP_gg
   "Rank", "ItemLabel",
   # plotICC_overlay_gg / plotICRF_gg / plotIIC_gg / plotTIC_gg

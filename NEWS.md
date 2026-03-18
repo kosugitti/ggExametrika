@@ -1,3 +1,16 @@
+# ggExametrika 0.0.39
+
+## DAG Visualization
+
+* Add BINET (Bicluster Network Model) DAG support to `plotGraph_gg()`. This completes the DAG visualization series (BNM → LDLRA → LDB → BINET).
+* BINET renders an integrated graph with two node types: Class nodes (blue squares, shape=22) and Field nodes (green diamonds, shape=23) as intermediates between connected classes.
+* Add `.binet_expand_graph()` helper to transform BINET's class-only graph (`all_g`) into an expanded graph with Field intermediate nodes for TDE-style visualization.
+* Extend `.dag_build_plot()` with optional `node_size_map` and `label_size_map` parameters for variable node/label sizes by type (backward-compatible: NULL defaults preserve existing behavior).
+* Fix `.dag_node_colors()` to support multiple node types with custom colors (positional or named vectors).
+* Update `.dag_build_plot()` `show.legend` from hardcoded `FALSE` to parameter-driven, enabling proper legend display for BINET's multi-type nodes.
+* Add `node_size_val` and `label_size_val` to globalVariables in `zzz.R`.
+* Add comprehensive BINET test cases (7 tests) in `test-DAG-plots.R`: basic output, title/colors/legend/direction common options, dual node types, and node size differentiation.
+
 # ggExametrika 0.0.38
 
 ## DAG Visualization
