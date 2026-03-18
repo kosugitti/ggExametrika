@@ -33,7 +33,8 @@
 #'   assigns each element as the title for the corresponding rank.
 #' @param colors Character vector. Colors for node types.
 #'   For BNM/LDLRA: single color for Item nodes.
-#'   For future models (LDB/BINET): colors for different node types.
+#'   For LDB: single color for Field nodes.
+#'   For future models (BINET): colors for different node types.
 #'   If \code{NULL} (default), uses the default node type colors
 #'   (Item=purple, Field=green, Class=blue).
 #' @param show_legend Logical. If \code{TRUE}, display the node type legend.
@@ -53,7 +54,7 @@
 #' \itemize{
 #'   \item BNM: Items shown as purple circles with numbers inside
 #'   \item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
-#'   \item LDB: Fields shown as green diamonds (to be implemented)
+#'   \item LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes auto-removed
 #'   \item BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)
 #' }
 #'
@@ -125,8 +126,8 @@ plotGraph_gg <- function(data,
     stop("This function supports BNM, LDLRA, LDB, and BINET models only.")
   }
 
-  # Currently BNM and LDLRA are implemented
-  if (!model_class %in% c("BNM", "LDLRA")) {
+  # Currently BNM, LDLRA, and LDB are implemented
+  if (!model_class %in% c("BNM", "LDLRA", "LDB")) {
     stop(paste0(model_class, " is not yet implemented. ",
                 "Development order: BNM -> LDLRA -> LDB -> BINET"))
   }
@@ -148,8 +149,9 @@ plotGraph_gg <- function(data,
     # Apply scaling
     scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
 
-    # Set node color
-    item_color <- .dag_item_color(colors)
+    # Set node colors and shapes
+    node_colors <- .dag_node_colors("Item", colors)
+    node_shapes <- .dag_node_shapes("Item")
 
     # Set title
     if (is.logical(title) && title) {
@@ -161,7 +163,8 @@ plotGraph_gg <- function(data,
     }
 
     p <- .dag_build_plot(
-      g, lay, scales, item_color, plot_title, show_legend, legend_position
+      g, lay, scales, node_colors, node_shapes,
+      plot_title, show_legend, legend_position
     )
 
     return(list(p))
@@ -200,8 +203,9 @@ plotGraph_gg <- function(data,
       lay <- .dag_compute_layout(g, layout, direction)
       scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
 
-      # Set node color
-      item_color <- .dag_item_color(colors)
+      # Set node colors and shapes
+      node_colors <- .dag_node_colors("Item", colors)
+      node_shapes <- .dag_node_shapes("Item")
 
       # Set title (common option: logical or character vector)
       if (is.logical(title) && title) {
@@ -217,7 +221,67 @@ plotGraph_gg <- function(data,
       }
 
       plot_list[[i]] <- .dag_build_plot(
-        g, lay, scales, item_color, plot_title, show_legend, legend_position
+        g, lay, scales, node_colors, node_shapes,
+        plot_title, show_legend, legend_position
+      )
+    }
+
+    return(plot_list)
+  }
+
+  # ===================================================================
+  # LDB Implementation
+  # ===================================================================
+  if (model_class == "LDB") {
+    n_ranks <- data$Nrank
+    plot_list <- vector("list", n_ranks)
+
+    # LDB uses Field nodes (green diamonds) instead of Item nodes (purple circles)
+    node_colors <- .dag_node_colors("Field", colors)
+    node_shapes <- .dag_node_shapes("Field")
+
+    for (i in seq_len(n_ranks)) {
+      g <- data$g_list[[i]]
+
+      # Remove isolated nodes
+      degree <- igraph::degree(g, mode = "all")
+      isolated <- names(degree[degree == 0])
+      if (length(isolated) > 0) {
+        message("Rank ", i, ": Removing ", length(isolated), " isolated node(s)")
+        g <- igraph::delete_vertices(g, isolated)
+      }
+
+      # Skip empty graphs
+      if (igraph::vcount(g) == 0) {
+        warning("Rank ", i, ": No connected nodes found - skipping")
+        next
+      }
+
+      # Add node attributes
+      node_names <- igraph::V(g)$name
+      igraph::V(g)$node_number <- .dag_node_number(node_names)
+      igraph::V(g)$node_type <- "Field"
+
+      # Compute layout and scaling
+      lay <- .dag_compute_layout(g, layout, direction)
+      scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
+
+      # Set title
+      if (is.logical(title) && title) {
+        plot_title <- paste0("LDB - Rank ", i)
+      } else if (is.logical(title) && !title) {
+        plot_title <- NULL
+      } else if (is.character(title) && length(title) == 1) {
+        plot_title <- paste0(title, " - Rank ", i)
+      } else if (is.character(title) && length(title) >= i) {
+        plot_title <- title[i]
+      } else {
+        plot_title <- paste0("LDB - Rank ", i)
+      }
+
+      plot_list[[i]] <- .dag_build_plot(
+        g, lay, scales, node_colors, node_shapes,
+        plot_title, show_legend, legend_position
       )
     }
 
@@ -253,9 +317,20 @@ plotGraph_gg <- function(data,
   )
 }
 
-# Return item node fill color
-.dag_item_color <- function(colors) {
-  if (is.null(colors)) "#A23B72" else colors[1]
+# Return node fill colors as named vector by node type
+.dag_node_colors <- function(node_type, colors) {
+  defaults <- c(Item = "#A23B72", Field = "#4CAF50", Class = "#1976D2")
+  if (is.null(colors)) {
+    defaults[node_type]
+  } else {
+    stats::setNames(colors[1], node_type)
+  }
+}
+
+# Return node shapes as named vector by node type
+.dag_node_shapes <- function(node_type) {
+  shapes <- c(Item = 21, Field = 23, Class = 22)  # circle, diamond, square
+  shapes[node_type]
 }
 
 # Compute graph layout matrix
@@ -278,7 +353,7 @@ plotGraph_gg <- function(data,
 }
 
 # Build a single DAG ggplot from a prepared igraph + layout
-.dag_build_plot <- function(g, lay, scales, item_color,
+.dag_build_plot <- function(g, lay, scales, node_colors, node_shapes,
                              plot_title, show_legend, legend_position) {
   # Compute expand margin so nodes are never clipped.
   # node_size (ggplot pt units) / coordinate range determines needed padding.
@@ -293,8 +368,7 @@ plotGraph_gg <- function(data,
       width = 0.8 * scales$base
     ) +
     ggraph::geom_node_point(
-      ggplot2::aes(fill = node_type),
-      shape = 21,
+      ggplot2::aes(fill = node_type, shape = node_type),
       size = scales$node,
       color = "black",
       stroke = 1.2 * scales$base,
@@ -307,9 +381,12 @@ plotGraph_gg <- function(data,
       fontface = "bold"
     ) +
     ggplot2::scale_fill_manual(
-      values = c("Item" = item_color),
-      name = "",
-      labels = c("Item" = "Item")
+      values = node_colors,
+      name = ""
+    ) +
+    ggplot2::scale_shape_manual(
+      values = node_shapes,
+      name = ""
     ) +
     ggplot2::scale_x_continuous(
       expand = ggplot2::expansion(mult = expand_mult)

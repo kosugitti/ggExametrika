@@ -1,3 +1,16 @@
+# ggExametrika 0.0.38
+
+## DAG Visualization
+
+* Add LDB (Local Dependence Biclustering) DAG support to `plotGraph_gg()`. Field nodes are rendered as green diamonds (shape=23), distinct from Item nodes (purple circles, shape=21). Structure mirrors LDLRA: one plot per rank with isolated node removal.
+* Extend `.dag_build_plot()` to support multiple node types via `scale_shape_manual()` + `scale_fill_manual()`, preparing for BINET's mixed-type graphs.
+* Add LDB test fixture to `helper-setup.R` using `exametrika::LDB()` with `J35S515`.
+* Add comprehensive LDB test cases (7 tests) in `test-DAG-plots.R`: basic output, title/colors/legend/direction common options, node appearance, and diamond shape verification.
+* Add `develop/check_ldb_visual.R` for visual comparison of BNM/LDLRA/LDB rendering.
+* Fix `@param colors` roxygen documentation: update "future models (LDB/BINET)" to reflect LDB as implemented.
+* Simplify LDB rank count: use `data$Nrank` directly instead of `.first_non_null(data$Nrank, data$Nclass)` fallback (LDB always provides `Nrank`).
+* Remove duplicate `.first_non_null()` definition from `plotGraph_gg.R` (already defined in `palette.R`).
+
 # ggExametrika 0.0.37
 
 ## DAG Visualization
