@@ -33,7 +33,8 @@
 #'   assigns each element as the title for the corresponding rank.
 #' @param colors Character vector. Colors for node types.
 #'   For BNM/LDLRA: single color for Item nodes.
-#'   For future models (LDB/BINET): colors for different node types.
+#'   For LDB: single color for Field nodes.
+#'   For future models (BINET): colors for different node types.
 #'   If \code{NULL} (default), uses the default node type colors
 #'   (Item=purple, Field=green, Class=blue).
 #' @param show_legend Logical. If \code{TRUE}, display the node type legend.
@@ -53,7 +54,7 @@
 #' \itemize{
 #'   \item BNM: Items shown as purple circles with numbers inside
 #'   \item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
-#'   \item LDB: Fields shown as green diamonds (to be implemented)
+#'   \item LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes auto-removed
 #'   \item BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)
 #' }
 #'
@@ -232,7 +233,7 @@ plotGraph_gg <- function(data,
   # LDB Implementation
   # ===================================================================
   if (model_class == "LDB") {
-    n_ranks <- .first_non_null(data$Nrank, data$Nclass)
+    n_ranks <- data$Nrank
     plot_list <- vector("list", n_ranks)
 
     # LDB uses Field nodes (green diamonds) instead of Item nodes (purple circles)
@@ -330,14 +331,6 @@ plotGraph_gg <- function(data,
 .dag_node_shapes <- function(node_type) {
   shapes <- c(Item = 21, Field = 23, Class = 22)  # circle, diamond, square
   shapes[node_type]
-}
-
-# Return first non-NULL value
-.first_non_null <- function(...) {
-  for (val in list(...)) {
-    if (!is.null(val)) return(val)
-  }
-  NULL
 }
 
 # Compute graph layout matrix

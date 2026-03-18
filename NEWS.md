@@ -7,6 +7,9 @@
 * Add LDB test fixture to `helper-setup.R` using `exametrika::LDB()` with `J35S515`.
 * Add comprehensive LDB test cases (7 tests) in `test-DAG-plots.R`: basic output, title/colors/legend/direction common options, node appearance, and diamond shape verification.
 * Add `develop/check_ldb_visual.R` for visual comparison of BNM/LDLRA/LDB rendering.
+* Fix `@param colors` roxygen documentation: update "future models (LDB/BINET)" to reflect LDB as implemented.
+* Simplify LDB rank count: use `data$Nrank` directly instead of `.first_non_null(data$Nrank, data$Nclass)` fallback (LDB always provides `Nrank`).
+* Remove duplicate `.first_non_null()` definition from `plotGraph_gg.R` (already defined in `palette.R`).
 
 # ggExametrika 0.0.37
 
