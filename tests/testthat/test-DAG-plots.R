@@ -1,6 +1,6 @@
 # ============================================================
 # Tests for DAG visualization
-# plotGraph_gg: BNM, LDLRA, and LDB
+# plotGraph_gg: BNM, LDLRA, LDB, and BINET
 # ============================================================
 
 test_that("plotGraph_gg returns list of ggplots for BNM", {
@@ -207,4 +207,99 @@ test_that("plotGraph_gg LDB: Field nodes use diamond shape", {
   point_data <- build$data[[2]]  # geom_node_point is the 2nd layer
   # Shape 23 = diamond
   expect_true(all(point_data$shape == 23))
+})
+
+# ============================================================
+# BINET tests
+# ============================================================
+
+test_that("plotGraph_gg returns single-element list for BINET", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BINET), "BINET fixture not available")
+
+  result <- plotGraph_gg(fixture_BINET)
+  expect_type(result, "list")
+  expect_length(result, 1)
+  expect_s3_class(result[[1]], "gg")
+})
+
+test_that("plotGraph_gg BINET: title common option works", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BINET), "BINET fixture not available")
+
+  expect_s3_class(plotGraph_gg(fixture_BINET, title = TRUE)[[1]], "gg")
+  expect_s3_class(plotGraph_gg(fixture_BINET, title = FALSE)[[1]], "gg")
+  expect_s3_class(plotGraph_gg(fixture_BINET, title = "Custom BINET")[[1]], "gg")
+})
+
+test_that("plotGraph_gg BINET: colors common option works", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BINET), "BINET fixture not available")
+
+  # Default colors
+  expect_s3_class(plotGraph_gg(fixture_BINET, colors = NULL)[[1]], "gg")
+
+  # Custom colors (positional: Class, Field)
+  expect_s3_class(
+    plotGraph_gg(fixture_BINET, colors = c("#FF0000", "#00FF00"))[[1]], "gg"
+  )
+
+  # Named colors
+  expect_s3_class(
+    plotGraph_gg(fixture_BINET,
+                 colors = c(Class = "#FF0000", Field = "#00FF00"))[[1]], "gg"
+  )
+})
+
+test_that("plotGraph_gg BINET: show_legend and legend_position work", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BINET), "BINET fixture not available")
+
+  expect_s3_class(plotGraph_gg(fixture_BINET, show_legend = TRUE)[[1]], "gg")
+  expect_s3_class(plotGraph_gg(fixture_BINET, show_legend = FALSE)[[1]], "gg")
+  expect_s3_class(
+    plotGraph_gg(fixture_BINET, show_legend = TRUE,
+                 legend_position = "bottom")[[1]], "gg"
+  )
+})
+
+test_that("plotGraph_gg BINET: direction parameter works", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BINET), "BINET fixture not available")
+
+  for (dir in c("BT", "TB", "LR", "RL")) {
+    result <- plotGraph_gg(fixture_BINET, direction = dir)
+    expect_true(inherits(result[[1]], "gg"), label = paste("direction =", dir))
+  }
+})
+
+test_that("plotGraph_gg BINET: both node types present", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BINET), "BINET fixture not available")
+
+  result <- plotGraph_gg(fixture_BINET)
+  p <- result[[1]]
+  build <- ggplot2::ggplot_build(p)
+  point_data <- build$data[[2]]  # geom_node_point is the 2nd layer
+
+  # Must contain both Class (square=22) and Field (diamond=23) shapes
+  shapes_present <- unique(point_data$shape)
+  expect_true(22 %in% shapes_present, label = "Class squares present")
+  expect_true(23 %in% shapes_present, label = "Field diamonds present")
+})
+
+test_that("plotGraph_gg BINET: node sizes differ by type", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BINET), "BINET fixture not available")
+
+  result <- plotGraph_gg(fixture_BINET)
+  p <- result[[1]]
+  build <- ggplot2::ggplot_build(p)
+  point_data <- build$data[[2]]
+
+  # Class nodes (shape 22) should be larger than Field nodes (shape 23)
+  class_sizes <- point_data$size[point_data$shape == 22]
+  field_sizes <- point_data$size[point_data$shape == 23]
+  expect_true(all(class_sizes > field_sizes),
+              label = "Class nodes larger than Field nodes")
 })

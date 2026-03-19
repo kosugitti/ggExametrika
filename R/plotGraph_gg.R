@@ -34,7 +34,7 @@
 #' @param colors Character vector. Colors for node types.
 #'   For BNM/LDLRA: single color for Item nodes.
 #'   For LDB: single color for Field nodes.
-#'   For future models (BINET): colors for different node types.
+#'   For BINET: two colors for Class and Field nodes (positional or named).
 #'   If \code{NULL} (default), uses the default node type colors
 #'   (Item=purple, Field=green, Class=blue).
 #' @param show_legend Logical. If \code{TRUE}, display the node type legend.
@@ -55,7 +55,9 @@
 #'   \item BNM: Items shown as purple circles with numbers inside
 #'   \item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
 #'   \item LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes auto-removed
-#'   \item BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)
+#'   \item BINET: Integrated graph with Class nodes (blue squares) and Field nodes
+#'         (green diamonds) as intermediates. Field nodes are smaller and placed between
+#'         the Class nodes they connect
 #' }
 #'
 #' \strong{Direction Guidelines:}
@@ -126,11 +128,8 @@ plotGraph_gg <- function(data,
     stop("This function supports BNM, LDLRA, LDB, and BINET models only.")
   }
 
-  # Currently BNM, LDLRA, and LDB are implemented
-  if (!model_class %in% c("BNM", "LDLRA", "LDB")) {
-    stop(paste0(model_class, " is not yet implemented. ",
-                "Development order: BNM -> LDLRA -> LDB -> BINET"))
-  }
+  # All four DAG models are implemented
+  # Development order was: BNM -> LDLRA -> LDB -> BINET
 
   # ===================================================================
   # BNM Implementation
@@ -287,6 +286,45 @@ plotGraph_gg <- function(data,
 
     return(plot_list)
   }
+
+  # ===================================================================
+  # BINET Implementation
+  # ===================================================================
+  if (model_class == "BINET") {
+    # Expand graph: insert Field nodes as intermediates between Class nodes
+    g <- .binet_expand_graph(data$all_g)
+
+    # Compute layout and scaling
+    lay <- .dag_compute_layout(g, layout, direction)
+    scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
+
+    # Set node colors and shapes (two types: Class + Field)
+    node_types <- c("Class", "Field")
+    node_colors <- .dag_node_colors(node_types, colors)
+    node_shapes <- .dag_node_shapes(node_types)
+
+    # Size maps: Class nodes larger, Field nodes smaller (60%)
+    node_size_map <- c(Class = scales$node, Field = scales$node * 0.6)
+    label_size_map <- c(Class = scales$label, Field = scales$label * 0.75)
+
+    # Set title
+    if (is.logical(title) && title) {
+      plot_title <- "Bicluster Network Model"
+    } else if (is.logical(title) && !title) {
+      plot_title <- NULL
+    } else {
+      plot_title <- as.character(title)[1]
+    }
+
+    p <- .dag_build_plot(
+      g, lay, scales, node_colors, node_shapes,
+      plot_title, show_legend, legend_position,
+      node_size_map = node_size_map,
+      label_size_map = label_size_map
+    )
+
+    return(list(p))
+  }
 }
 
 # ===================================================================
@@ -322,8 +360,10 @@ plotGraph_gg <- function(data,
   defaults <- c(Item = "#A23B72", Field = "#4CAF50", Class = "#1976D2")
   if (is.null(colors)) {
     defaults[node_type]
+  } else if (!is.null(names(colors))) {
+    colors[node_type]
   } else {
-    stats::setNames(colors[1], node_type)
+    stats::setNames(colors[seq_along(node_type)], node_type)
   }
 }
 
@@ -331,6 +371,46 @@ plotGraph_gg <- function(data,
 .dag_node_shapes <- function(node_type) {
   shapes <- c(Item = 21, Field = 23, Class = 22)  # circle, diamond, square
   shapes[node_type]
+}
+
+# Expand BINET graph: insert Field nodes as intermediates between Class nodes
+# Input: all_g with Class vertices and edges with $Field attribute
+# Output: igraph with Class + Field vertices, edges Class->Field->Class
+.binet_expand_graph <- function(all_g) {
+  edges <- igraph::as_data_frame(all_g, what = "edges")
+  class_names <- igraph::V(all_g)$name
+
+  # Build new node and edge lists
+  new_nodes <- data.frame(
+    name = class_names,
+    node_type = "Class",
+    node_number = .dag_node_number(class_names),
+    stringsAsFactors = FALSE
+  )
+  new_edges <- data.frame(from = character(0), to = character(0),
+                          stringsAsFactors = FALSE)
+
+  for (k in seq_len(nrow(edges))) {
+    from_cls <- edges$from[k]
+    to_cls <- edges$to[k]
+    field_label <- edges$Field[k]
+    # Unique intermediate node name per edge
+    field_id <- paste0(field_label, "_", from_cls, "_", to_cls)
+    field_num <- .dag_node_number(field_label)
+
+    new_nodes <- rbind(new_nodes, data.frame(
+      name = field_id, node_type = "Field", node_number = field_num,
+      stringsAsFactors = FALSE
+    ))
+    new_edges <- rbind(new_edges,
+      data.frame(from = from_cls, to = field_id, stringsAsFactors = FALSE),
+      data.frame(from = field_id, to = to_cls, stringsAsFactors = FALSE)
+    )
+  }
+
+  g <- igraph::graph_from_data_frame(new_edges, directed = TRUE,
+                                     vertices = new_nodes)
+  g
 }
 
 # Compute graph layout matrix
@@ -353,12 +433,24 @@ plotGraph_gg <- function(data,
 }
 
 # Build a single DAG ggplot from a prepared igraph + layout
+# node_size_map / label_size_map: optional named vectors (e.g. c(Class=12, Field=7))
+#   When NULL (default), all nodes use uniform scales$node / scales$label.
+#   When provided, node sizes vary by node_type (used for BINET).
 .dag_build_plot <- function(g, lay, scales, node_colors, node_shapes,
-                             plot_title, show_legend, legend_position) {
+                             plot_title, show_legend, legend_position,
+                             node_size_map = NULL, label_size_map = NULL) {
   # Compute expand margin so nodes are never clipped.
   # node_size (ggplot pt units) / coordinate range determines needed padding.
   # Larger nodes need proportionally more space; clamp to [0.20, 0.45].
   expand_mult <- min(max(0.15 + scales$node * 0.012, 0.20), 0.45)
+
+  # Variable node sizes: set vertex attributes when size map is provided
+  if (!is.null(node_size_map)) {
+    igraph::V(g)$node_size_val <- node_size_map[igraph::V(g)$node_type]
+  }
+  if (!is.null(label_size_map)) {
+    igraph::V(g)$label_size_val <- label_size_map[igraph::V(g)$node_type]
+  }
 
   p <- ggraph::ggraph(g, layout = lay) +
     ggraph::geom_edge_link(
@@ -366,20 +458,50 @@ plotGraph_gg <- function(data,
       end_cap = ggraph::circle(scales$node / 1.5, "mm"),
       color = "gray30",
       width = 0.8 * scales$base
-    ) +
-    ggraph::geom_node_point(
+    )
+
+  # Node points: variable or uniform size
+  use_size_identity <- !is.null(node_size_map) || !is.null(label_size_map)
+  if (!is.null(node_size_map)) {
+    p <- p + ggraph::geom_node_point(
+      ggplot2::aes(fill = node_type, shape = node_type, size = node_size_val),
+      color = "black",
+      stroke = 1.2 * scales$base,
+      show.legend = show_legend
+    )
+  } else {
+    p <- p + ggraph::geom_node_point(
       ggplot2::aes(fill = node_type, shape = node_type),
       size = scales$node,
       color = "black",
       stroke = 1.2 * scales$base,
+      show.legend = show_legend
+    )
+  }
+
+  # Node labels: variable or uniform size
+  if (!is.null(label_size_map)) {
+    p <- p + ggraph::geom_node_text(
+      ggplot2::aes(label = node_number, size = label_size_val),
+      color = "black",
+      fontface = "bold",
       show.legend = FALSE
-    ) +
-    ggraph::geom_node_text(
+    )
+  } else {
+    p <- p + ggraph::geom_node_text(
       ggplot2::aes(label = node_number),
       size = scales$label,
       color = "black",
       fontface = "bold"
-    ) +
+    )
+  }
+
+  # Add identity scale once if any size mapping is used
+  if (use_size_identity) {
+    p <- p + ggplot2::scale_size_identity()
+  }
+
+  p <- p +
     ggplot2::scale_fill_manual(
       values = node_colors,
       name = ""

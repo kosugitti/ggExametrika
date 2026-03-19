@@ -53,7 +53,8 @@ assigns each element as the title for the corresponding rank.}
 
 \item{colors}{Character vector. Colors for node types.
 For BNM/LDLRA: single color for Item nodes.
-For future models (LDB/BINET): colors for different node types.
+For LDB: single color for Field nodes.
+For BINET: two colors for Class and Field nodes (positional or named).
 If \code{NULL} (default), uses the default node type colors
 (Item=purple, Field=green, Class=blue).}
 
@@ -78,8 +79,10 @@ Design follows TDE figure specifications:
 \itemize{
 \item BNM: Items shown as purple circles with numbers inside
 \item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
-\item LDB: Fields shown as green diamonds (to be implemented)
-\item BINET: Classes (blue rectangles) + Fields (green diamonds) (to be implemented)
+\item LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes auto-removed
+\item BINET: Integrated graph with Class nodes (blue squares) and Field nodes
+(green diamonds) as intermediates. Field nodes are smaller and placed between
+the Class nodes they connect
 }
 
 \strong{Direction Guidelines:}
