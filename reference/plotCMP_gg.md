@@ -70,6 +70,7 @@ probabilities across classes may be ambiguous cases.
 
 ``` r
 library(exametrika)
+# \donttest{
 result <- LCA(J15S500, ncls = 5)
 #> iter 1 log_lik -3920.06                                                         
 #> iter 2 log_lik -3868.38                                                         
@@ -146,4 +147,6 @@ result <- LCA(J15S500, ncls = 5)
 #> iter 73 log_lik -3663.99                                                        
 plots <- plotCMP_gg(result)
 plots[[1]] # Show CMP for the first student
+
+# }
 ```

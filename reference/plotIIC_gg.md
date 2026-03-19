@@ -90,6 +90,7 @@ P_k^\*(\theta)\]\$\$
 
 ``` r
 library(exametrika)
+# \donttest{
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
@@ -121,4 +122,6 @@ result_grm <- GRM(J5S1000)
 #> converged
 plots_grm <- plotIIC_gg(result_grm)
 plots_grm[[1]] # Show IIC for the first item
+
+# }
 ```

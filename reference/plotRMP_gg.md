@@ -71,7 +71,10 @@ single rank are well-classified.
 
 ``` r
 library(exametrika)
+# \donttest{
 result <- LRA(J15S500, nrank = 5)
 plots <- plotRMP_gg(result)
 plots[[1]] # Show RMP for the first student
+
+# }
 ```

@@ -80,6 +80,7 @@ The function supports IRT models (2PL, 3PL, 4PL) and GRM.
 
 ``` r
 library(exametrika)
+# \donttest{
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
@@ -111,4 +112,6 @@ result_grm <- GRM(J5S1000)
 #> converged
 plot_grm <- plotTIC_gg(result_grm)
 plot_grm # Show Test Information Curve
+
+# }
 ```

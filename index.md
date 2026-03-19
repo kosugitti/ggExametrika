@@ -25,7 +25,7 @@ supports a wide range of psychometric models:
 
 Shojima, Kojiro (2022) *Test Data Engineering: Latent Rank Analysis,
 Biclustering, and Bayesian Network* (Behaviormetrics: Quantitative
-Approaches to Human Behavior, 13), Springer, <https://amzn.to/42eNArd>
+Approaches to Human Behavior, 13), Springer, ISBN 978-981-16-9985-6
 
 ## Installation
 

@@ -89,6 +89,7 @@ information curve occurs near the item's difficulty parameter.
 
 ``` r
 library(exametrika)
+# \donttest{
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
@@ -120,4 +121,6 @@ result_grm <- GRM(J5S1000)
 #> final  value 6008.297278 
 #> converged
 plotIIC_overlay_gg(result_grm, show_legend = TRUE)
+
+# }
 ```

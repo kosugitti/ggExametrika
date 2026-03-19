@@ -93,6 +93,7 @@ indicating lower ability levels.
 
 ``` r
 library(exametrika)
+# \donttest{
 result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 
 # Plot first 4 items
@@ -107,4 +108,6 @@ plot <- plotICBR_gg(result,
   colors = c("red", "blue", "green", "purple")
 )
 plot
+
+# }
 ```
