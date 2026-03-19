@@ -110,20 +110,45 @@ etc.</p>
 <span><span class="co"># --- Biclustering: nominal (20 items, 600 students, 4 categories) ---</span></span>
 <span><span class="va">result_nom_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J20S600</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p>Network models (BNM, LDLRA, LDB, BINET) require explicit graph
-structure input. The code below is shown for reference but not executed.
-DAG visualization support is under active development.</p>
+structure input (an igraph DAG or edge CSV file).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># --- BNM (requires adjacency matrix or igraph object) ---</span></span>
-<span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J15S500</span>, adj_matrix <span class="op">=</span> <span class="va">adj_mat</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># --- BNM (5 items, 10 students, simple DAG) ---</span></span>
+<span><span class="va">bnm_dag</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/make_empty_graph.html" class="external-link">make_empty_graph</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, directed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">bnm_dag</span><span class="op">)</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="va">J5S10</span><span class="op">$</span><span class="va">ItemLabel</span></span>
+<span><span class="va">bnm_dag</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/add_edges.html" class="external-link">add_edges</a></span><span class="op">(</span><span class="va">bnm_dag</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">result_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BNM.html" class="external-link">BNM</a></span><span class="op">(</span><span class="va">J5S10</span>, g <span class="op">=</span> <span class="va">bnm_dag</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># --- LDLRA (requires graph list, one per rank) ---</span></span>
-<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span>
+<span><span class="co"># --- LDLRA (12 items, 5000 students, 3 ranks, same DAG per rank) ---</span></span>
+<span><span class="va">ldlra_g</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html" class="external-link">graph_from_data_frame</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Item01"</span>, <span class="st">"Item02"</span>, <span class="st">"Item03"</span><span class="op">)</span>,</span>
+<span>             to   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Item02"</span>, <span class="st">"Item03"</span>, <span class="st">"Item04"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  directed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J12S5000</span>, ncls <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                      g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ldlra_g</span>, <span class="va">ldlra_g</span>, <span class="va">ldlra_g</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># --- LDB (requires graph list and field configuration) ---</span></span>
-<span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span>
+<span><span class="co"># --- LDB (35 items, 515 students, 3 fields, 3 ranks) ---</span></span>
+<span><span class="va">ldb_conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, length.out <span class="op">=</span> <span class="fl">35</span><span class="op">)</span></span>
+<span><span class="va">ldb_g</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html" class="external-link">graph_from_data_frame</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field01"</span>, <span class="st">"Field02"</span><span class="op">)</span>,</span>
+<span>             to   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field02"</span>, <span class="st">"Field03"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  directed <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">3</span>, conf <span class="op">=</span> <span class="va">ldb_conf</span>,</span>
+<span>                  g_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ldb_g</span>, <span class="va">ldb_g</span>, <span class="va">ldb_g</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># --- BINET (requires graph list and field configuration) ---</span></span>
-<span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">6</span>, nfld <span class="op">=</span> <span class="fl">5</span>, g_list <span class="op">=</span> <span class="va">graph_list</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># --- BINET (35 items, 515 students, 3 classes, 3 fields) ---</span></span>
+<span><span class="va">binet_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  From  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  To    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  Field <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">binet_edge_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">binet_edges</span>, <span class="va">binet_edge_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">3</span>, nfld <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                      conf <span class="op">=</span> <span class="va">ldb_conf</span>, adj_file <span class="op">=</span> <span class="va">binet_edge_file</span>,</span>
+<span>                      verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">binet_edge_file</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -475,15 +500,10 @@ for each category boundary. LRAordinal only.</p>
 <div class="section level2">
 <h2 id="network-models-dag">6. Network Models (DAG)<a class="anchor" aria-label="anchor" href="#network-models-dag"></a>
 </h2>
-<p>Directed Acyclic Graph and network model visualizations.</p>
-<blockquote>
-<p><strong>Note:</strong> Network models (BNM, LDLRA, LDB, BINET)
-require explicit graph structure input (adjacency matrix or igraph
-object). The code below is shown for reference but not executed. DAG
-visualization support via <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> is under active
-development — currently BNM is supported, with LDLRA, LDB, and BINET
-coming soon.</p>
-</blockquote>
+<p>Directed Acyclic Graph and network model visualizations. All four DAG
+models are supported by <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code>: BNM (items), LDLRA
+(items per rank), LDB (fields per rank), and BINET (classes + fields
+integrated).</p>
 <div class="section level3">
 <h3 id="plotgraph_gg-dag-visualization">plotGraph_gg — DAG Visualization<a class="anchor" aria-label="anchor" href="#plotgraph_gg-dag-visualization"></a>
 </h3>
@@ -491,62 +511,93 @@ coming soon.</p>
 <h4 id="bnm-bayesian-network-model">BNM (Bayesian Network Model)<a class="anchor" aria-label="anchor" href="#bnm-bayesian-network-model"></a>
 </h4>
 <p>The simplest DAG: item-to-item dependency structure. Data:
-<strong>J15S500</strong>.</p>
+<strong>J5S10</strong> (5 items, 10 students).</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span><span class="op">)</span></span>
 <span><span class="va">dag_bnm</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/dag-bnm-1.png" class="r-plt" alt="" width="672"></p>
+<p>Different layout directions:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bnm_dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BT"</span>, <span class="st">"TB"</span>, <span class="st">"LR"</span>, <span class="st">"RL"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span>, direction <span class="op">=</span> <span class="va">d</span>, title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"BNM -"</span>, <span class="va">d</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">bnm_dirs</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/dag-bnm-directions-1.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level4">
 <h4 id="ldlra-locally-dependent-latent-rank-analysis">LDLRA (Locally Dependent Latent Rank Analysis)<a class="anchor" aria-label="anchor" href="#ldlra-locally-dependent-latent-rank-analysis"></a>
 </h4>
 <p>One DAG per rank, showing how item dependencies change across ranks.
-<em>(DAG visualization for LDLRA is coming soon.)</em></p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+Data: <strong>J12S5000</strong> (12 items, 5000 students, 3 ranks).</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">dag_ldlra</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/dag-ldlra-1.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level4">
 <h4 id="ldb-locally-dependent-biclustering">LDB (Locally Dependent Biclustering)<a class="anchor" aria-label="anchor" href="#ldb-locally-dependent-biclustering"></a>
 </h4>
-<p>One DAG per rank with field-level nodes. <em>(DAG visualization for
-LDB is coming soon.)</em></p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<p>One DAG per rank with field-level nodes (green diamonds). Data:
+<strong>J35S515</strong> (35 items, 515 students, 3 fields, 3
+ranks).</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">dag_ldb</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/dag-ldb-1.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level4">
-<h4 id="binet-bayesian-network-and-test">BINET (Bayesian Network and Test)<a class="anchor" aria-label="anchor" href="#binet-bayesian-network-and-test"></a>
+<h4 id="binet-bicluster-network-model">BINET (Bicluster Network Model)<a class="anchor" aria-label="anchor" href="#binet-bicluster-network-model"></a>
 </h4>
-<p>Integrated network combining latent classes and fields. <em>(DAG
-visualization for BINET is coming soon.)</em></p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<p>Integrated network with two node types: Class nodes (blue squares)
+and Field nodes (green diamonds) as intermediates. Data:
+<strong>J35S515</strong> (35 items, 515 students, 3 classes, 3
+fields).</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
 <span><span class="va">dag_binet</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/dag-binet-1.png" class="r-plt" alt="" width="672"></p>
+<p>With legend showing node types:</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>, show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>            legend_position <span class="op">=</span> <span class="st">"right"</span>, title <span class="op">=</span> <span class="st">"BINET with Legend"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/dag-binet-legend-1.png" class="r-plt" alt="" width="672"></p>
+</div>
+<div class="section level4">
+<h4 id="comparing-all-four-dag-models">Comparing all four DAG models<a class="anchor" aria-label="anchor" href="#comparing-all-four-dag-models"></a>
+</h4>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p_bnm</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span>, title <span class="op">=</span> <span class="st">"BNM (Items)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">p_ldlra</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span>, title <span class="op">=</span> <span class="st">"LDLRA (Items)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">p_ldb</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldb</span>, title <span class="op">=</span> <span class="st">"LDB (Fields)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">p_binet</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>, title <span class="op">=</span> <span class="st">"BINET (Class+Field)"</span>,</span>
+<span>                         show_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p_bnm</span>, <span class="va">p_ldlra</span>, <span class="va">p_ldb</span>, <span class="va">p_binet</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/dag-compare-1.png" class="r-plt" alt="" width="960"></p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="plotfieldpirp_gg-field-parent-item-reference-profile">plotFieldPIRP_gg — Field Parent Item Reference Profile<a class="anchor" aria-label="anchor" href="#plotfieldpirp_gg-field-parent-item-reference-profile"></a>
 </h3>
 <p>Shows how field performance varies based on parent field scores, for
-each rank. LDB only. Returns a list of plots (one per rank).
-<em>(Requires LDB result with graph input; shown for
-reference.)</em></p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+each rank. LDB only. Returns a list of plots (one per rank).</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fpirp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg</a></span><span class="op">(</span><span class="va">result_ldb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">fpirp_plots</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/fpirp-1.png" class="r-plt" alt="" width="960"></p>
 </div>
 <div class="section level3">
 <h3 id="plotldpsr_gg-latent-dependence-passing-student-rate">plotLDPSR_gg — Latent Dependence Passing Student Rate<a class="anchor" aria-label="anchor" href="#plotldpsr_gg-latent-dependence-passing-student-rate"></a>
 </h3>
 <p>Item-level correct response rate comparing parent and child classes
-at each DAG edge. BINET only. Returns a list of plots (one per edge).
-<em>(Requires BINET result with graph input; shown for
-reference.)</em></p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+at each DAG edge. BINET only. Returns a list of plots (one per
+edge).</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ldpsr_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLDPSR_gg.html">plotLDPSR_gg</a></span><span class="op">(</span><span class="va">result_binet</span><span class="op">)</span></span>
 <span><span class="va">ldpsr_plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<p><img src="plot-gallery_files/figure-html/ldpsr-1.png" class="r-plt" alt="" width="672"></p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">ldpsr_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ldpsr_plots</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="plot-gallery_files/figure-html/ldpsr-combine-1.png" class="r-plt" alt="" width="960"></p>
 <hr>
 </div>
 </div>
@@ -614,7 +665,7 @@ etc.</td>
 <div class="section level3">
 <h3 id="title">title<a class="anchor" aria-label="anchor" href="#title"></a>
 </h3>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, title <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, title <span class="op">=</span> <span class="st">"My Custom Title"</span><span class="op">)</span></span>
@@ -624,14 +675,14 @@ etc.</td>
 <div class="section level3">
 <h3 id="colors">colors<a class="anchor" aria-label="anchor" href="#colors"></a>
 </h3>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span>,</span>
 <span>  items <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#D81B60"</span>, <span class="st">"#1E88E5"</span>, <span class="st">"#FFC107"</span>, <span class="st">"#004D40"</span>, <span class="st">"#7B1FA2"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span></code></pre></div>
 <p><img src="plot-gallery_files/figure-html/opt-colors-1.png" class="r-plt" alt="" width="672"></p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span>,</span>
 <span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"coral"</span>, <span class="st">"forestgreen"</span>,</span>
 <span>             <span class="st">"mediumpurple"</span>, <span class="st">"goldenrod"</span>, <span class="st">"hotpink"</span><span class="op">)</span></span>
@@ -641,7 +692,7 @@ etc.</td>
 <div class="section level3">
 <h3 id="linetype">linetype<a class="anchor" aria-label="anchor" href="#linetype"></a>
 </h3>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, linetype <span class="op">=</span> <span class="st">"solid"</span>, title <span class="op">=</span> <span class="st">"solid"</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, title <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></span>
 <span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, linetype <span class="op">=</span> <span class="st">"dotdash"</span>, title <span class="op">=</span> <span class="st">"dotdash"</span><span class="op">)</span></span>
@@ -651,7 +702,7 @@ etc.</td>
 <div class="section level3">
 <h3 id="show_legend-and-legend_position">show_legend and legend_position<a class="anchor" aria-label="anchor" href="#show_legend-and-legend_position"></a>
 </h3>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>, legend_position <span class="op">=</span> <span class="st">"right"</span>, title <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
@@ -666,7 +717,7 @@ etc.</td>
 <div class="section level3">
 <h3 id="combining-options">Combining options<a class="anchor" aria-label="anchor" href="#combining-options"></a>
 </h3>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotICRF_gg.html">plotICRF_gg</a></span><span class="op">(</span><span class="va">result_grm</span>,</span>
 <span>  items <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"Fully Customized ICRF"</span>,</span>
@@ -683,7 +734,7 @@ etc.</td>
 </h3>
 <p>Since all functions return ggplot objects, you can add any ggplot2
 layer:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTIC_gg.html">plotTIC_gg</a></span><span class="op">(</span><span class="va">result_irt</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>

@@ -44,21 +44,46 @@ result_nom_bic <- Biclustering(J20S600, ncls = 5, nfld = 4)
 ```
 
 Network models (BNM, LDLRA, LDB, BINET) require explicit graph structure
-input. The code below is shown for reference but not executed. DAG
-visualization support is under active development.
+input (an igraph DAG or edge CSV file).
 
 ``` r
-# --- BNM (requires adjacency matrix or igraph object) ---
-result_bnm <- BNM(J15S500, adj_matrix = adj_mat)
+# --- BNM (5 items, 10 students, simple DAG) ---
+bnm_dag <- igraph::make_empty_graph(n = 5, directed = TRUE)
+igraph::V(bnm_dag)$name <- J5S10$ItemLabel
+bnm_dag <- igraph::add_edges(bnm_dag, c(1, 3, 2, 4, 3, 5))
+result_bnm <- BNM(J5S10, g = bnm_dag)
 
-# --- LDLRA (requires graph list, one per rank) ---
-result_ldlra <- LDLRA(J15S500, ncls = 5, g_list = graph_list)
+# --- LDLRA (12 items, 5000 students, 3 ranks, same DAG per rank) ---
+ldlra_g <- igraph::graph_from_data_frame(
+  data.frame(from = c("Item01", "Item02", "Item03"),
+             to   = c("Item02", "Item03", "Item04")),
+  directed = TRUE
+)
+result_ldlra <- LDLRA(J12S5000, ncls = 3,
+                      g = list(ldlra_g, ldlra_g, ldlra_g))
 
-# --- LDB (requires graph list and field configuration) ---
-result_ldb <- LDB(J35S515, ncls = 6, nfld = 5, g_list = graph_list)
+# --- LDB (35 items, 515 students, 3 fields, 3 ranks) ---
+ldb_conf <- rep(1:3, length.out = 35)
+ldb_g <- igraph::graph_from_data_frame(
+  data.frame(from = c("Field01", "Field02"),
+             to   = c("Field02", "Field03")),
+  directed = TRUE
+)
+result_ldb <- LDB(J35S515, ncls = 3, conf = ldb_conf,
+                  g_list = list(ldb_g, ldb_g, ldb_g))
 
-# --- BINET (requires graph list and field configuration) ---
-result_binet <- BINET(J35S515, ncls = 6, nfld = 5, g_list = graph_list)
+# --- BINET (35 items, 515 students, 3 classes, 3 fields) ---
+binet_edges <- data.frame(
+  From  = c(1, 2, 1, 2, 1, 2),
+  To    = c(2, 3, 2, 3, 2, 3),
+  Field = c(1, 1, 2, 2, 3, 3)
+)
+binet_edge_file <- tempfile(fileext = ".csv")
+write.csv(binet_edges, binet_edge_file, row.names = FALSE)
+result_binet <- BINET(J35S515, ncls = 3, nfld = 3,
+                      conf = ldb_conf, adj_file = binet_edge_file,
+                      verbose = FALSE)
+unlink(binet_edge_file)
 ```
 
 ------------------------------------------------------------------------
@@ -488,82 +513,125 @@ plotICBR_gg(result_lra_ord, items = 1:4)
 
 ## 6. Network Models (DAG)
 
-Directed Acyclic Graph and network model visualizations.
-
-> **Note:** Network models (BNM, LDLRA, LDB, BINET) require explicit
-> graph structure input (adjacency matrix or igraph object). The code
-> below is shown for reference but not executed. DAG visualization
-> support via
-> [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md)
-> is under active development — currently BNM is supported, with LDLRA,
-> LDB, and BINET coming soon.
+Directed Acyclic Graph and network model visualizations. All four DAG
+models are supported by
+[`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md):
+BNM (items), LDLRA (items per rank), LDB (fields per rank), and BINET
+(classes + fields integrated).
 
 ### plotGraph_gg — DAG Visualization
 
 #### BNM (Bayesian Network Model)
 
-The simplest DAG: item-to-item dependency structure. Data: **J15S500**.
+The simplest DAG: item-to-item dependency structure. Data: **J5S10** (5
+items, 10 students).
 
 ``` r
 dag_bnm <- plotGraph_gg(result_bnm)
 dag_bnm[[1]]
 ```
 
+![](plot-gallery_files/figure-html/dag-bnm-1.png)
+
+Different layout directions:
+
+``` r
+bnm_dirs <- lapply(c("BT", "TB", "LR", "RL"), function(d) {
+  plotGraph_gg(result_bnm, direction = d, title = paste("BNM -", d))[[1]]
+})
+gridExtra::grid.arrange(grobs = bnm_dirs, ncol = 2)
+```
+
+![](plot-gallery_files/figure-html/dag-bnm-directions-1.png)
+
 #### LDLRA (Locally Dependent Latent Rank Analysis)
 
 One DAG per rank, showing how item dependencies change across ranks.
-*(DAG visualization for LDLRA is coming soon.)*
+Data: **J12S5000** (12 items, 5000 students, 3 ranks).
 
 ``` r
 dag_ldlra <- plotGraph_gg(result_ldlra)
 combinePlots_gg(dag_ldlra)
 ```
 
+![](plot-gallery_files/figure-html/dag-ldlra-1.png)
+
 #### LDB (Locally Dependent Biclustering)
 
-One DAG per rank with field-level nodes. *(DAG visualization for LDB is
-coming soon.)*
+One DAG per rank with field-level nodes (green diamonds). Data:
+**J35S515** (35 items, 515 students, 3 fields, 3 ranks).
 
 ``` r
 dag_ldb <- plotGraph_gg(result_ldb)
 combinePlots_gg(dag_ldb)
 ```
 
-#### BINET (Bayesian Network and Test)
+![](plot-gallery_files/figure-html/dag-ldb-1.png)
 
-Integrated network combining latent classes and fields. *(DAG
-visualization for BINET is coming soon.)*
+#### BINET (Bicluster Network Model)
+
+Integrated network with two node types: Class nodes (blue squares) and
+Field nodes (green diamonds) as intermediates. Data: **J35S515** (35
+items, 515 students, 3 classes, 3 fields).
 
 ``` r
 dag_binet <- plotGraph_gg(result_binet)
 dag_binet[[1]]
 ```
 
+![](plot-gallery_files/figure-html/dag-binet-1.png)
+
+With legend showing node types:
+
+``` r
+plotGraph_gg(result_binet, show_legend = TRUE,
+            legend_position = "right", title = "BINET with Legend")[[1]]
+```
+
+![](plot-gallery_files/figure-html/dag-binet-legend-1.png)
+
+#### Comparing all four DAG models
+
+``` r
+p_bnm    <- plotGraph_gg(result_bnm, title = "BNM (Items)")[[1]]
+p_ldlra  <- plotGraph_gg(result_ldlra, title = "LDLRA (Items)")[[1]]
+p_ldb    <- plotGraph_gg(result_ldb, title = "LDB (Fields)")[[1]]
+p_binet  <- plotGraph_gg(result_binet, title = "BINET (Class+Field)",
+                         show_legend = TRUE)[[1]]
+gridExtra::grid.arrange(p_bnm, p_ldlra, p_ldb, p_binet, ncol = 2)
+```
+
+![](plot-gallery_files/figure-html/dag-compare-1.png)
+
 ### plotFieldPIRP_gg — Field Parent Item Reference Profile
 
 Shows how field performance varies based on parent field scores, for
-each rank. LDB only. Returns a list of plots (one per rank). *(Requires
-LDB result with graph input; shown for reference.)*
+each rank. LDB only. Returns a list of plots (one per rank).
 
 ``` r
 fpirp_plots <- plotFieldPIRP_gg(result_ldb)
 combinePlots_gg(fpirp_plots)
 ```
 
+![](plot-gallery_files/figure-html/fpirp-1.png)
+
 ### plotLDPSR_gg — Latent Dependence Passing Student Rate
 
 Item-level correct response rate comparing parent and child classes at
 each DAG edge. BINET only. Returns a list of plots (one per edge).
-*(Requires BINET result with graph input; shown for reference.)*
 
 ``` r
 ldpsr_plots <- plotLDPSR_gg(result_binet)
 ldpsr_plots[[1]]
 ```
 
+![](plot-gallery_files/figure-html/ldpsr-1.png)
+
 ``` r
 combinePlots_gg(ldpsr_plots, selectPlots = 1:min(6, length(ldpsr_plots)))
 ```
+
+![](plot-gallery_files/figure-html/ldpsr-combine-1.png)
 
 ------------------------------------------------------------------------
 
