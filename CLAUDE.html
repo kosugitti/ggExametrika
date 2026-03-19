@@ -43,13 +43,25 @@
 
 <div class="section level2">
 <h2 id="プロジェクト概要">プロジェクト概要<a class="anchor" aria-label="anchor" href="#%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%A6%82%E8%A6%81"></a></h2>
-<p>exametrikaパッケージの出力をggplot2で可視化するためのパッケージ。 CRAN公開を目指す。</p>
+<p>exametrikaパッケージの出力をggplot2で可視化するためのパッケージ。</p>
 </div>
+<div class="section level2">
+<h2 id="現在のバージョン">現在のバージョン<a class="anchor" aria-label="anchor" href="#%E7%8F%BE%E5%9C%A8%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3"></a></h2>
+<p><strong>v1.0.0（CRAN初回投稿 2026-03-20、審査待ち）</strong></p>
+<ul><li>
+<strong>親パッケージ</strong>: exametrika v1.10.1（CRAN受理済み 2026-03-19）</li>
+<li>
+<strong>GitHub</strong>: <a href="https://github.com/kosugitti/ggExametrika" class="external-link uri">https://github.com/kosugitti/ggExametrika</a>
+</li>
+<li>
+<strong>pkgdownサイト</strong>: <a href="https://kosugitti.github.io/ggExametrika/" class="uri">https://kosugitti.github.io/ggExametrika/</a>
+</li>
+</ul></div>
 <div class="section level2">
 <h2 id="親パッケージ">親パッケージ<a class="anchor" aria-label="anchor" href="#%E8%A6%AA%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8"></a></h2>
 <ul><li>場所: <code>../exametrika/</code>
 </li>
-<li>参照: <a href="https://kosugitti.github.io/Exametrika/" class="external-link uri">https://kosugitti.github.io/Exametrika/</a>
+<li>参照: <a href="https://kosugitti.github.io/exametrika/" class="external-link uri">https://kosugitti.github.io/exametrika/</a>
 </li>
 </ul></div>
 <div class="section level2">
@@ -67,12 +79,12 @@
 </ul></div>
 <div class="section level3">
 <h3 id="関数命名規則">関数命名規則<a class="anchor" aria-label="anchor" href="#%E9%96%A2%E6%95%B0%E5%91%BD%E5%90%8D%E8%A6%8F%E5%89%87"></a></h3>
-<ul><li>plot関数: <code>plot_*()</code> または <code>gg*()</code> 形式を検討</li>
+<ul><li>plot関数: <code>plot*_gg()</code> 形式</li>
 <li>内部関数: <code>.</code> prefix</li>
 </ul></div>
 <div class="section level3">
 <h3 id="共通オプション全plot関数に適用">共通オプション（全plot関数に適用）<a class="anchor" aria-label="anchor" href="#%E5%85%B1%E9%80%9A%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E5%85%A8plot%E9%96%A2%E6%95%B0%E3%81%AB%E9%81%A9%E7%94%A8"></a></h3>
-<p>全てのplot関数は以下の共通引数を持つこと。新規実装時は必ず含める。既存関数は段階的に対応する。</p>
+<p>全てのplot関数は以下の共通引数を持つ。</p>
 <table style="width:100%;" class="table"><colgroup><col width="22%"><col width="14%"><col width="40%"><col width="22%"></colgroup><thead><tr class="header"><th>引数</th>
 <th>型</th>
 <th>デフォルト</th>
@@ -97,340 +109,67 @@
 <td>character</td>
 <td><code>"right"</code></td>
 <td>“top”, “bottom”, “left”, “right”, “none”</td>
-</tr></tbody></table><p><strong>注意:</strong> - <code>colors</code> が <code>NULL</code> の場合、カラーバリアフリーに配慮したデフォルトパレットを使用する - 凡例が不要なプロット（単一曲線のみ等）は <code>show_legend = FALSE</code> をデフォルトとする - 返り値はggplotオブジェクトなので、ユーザーが <code>+ theme()</code> 等で後から変更することも可能</p>
-</div>
+</tr></tbody></table></div>
 <div class="section level3">
-<h3 id="依存パッケージdescription準拠v0035時点">依存パッケージ（DESCRIPTION準拠、v0.0.35時点）<a class="anchor" aria-label="anchor" href="#%E4%BE%9D%E5%AD%98%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8description%E6%BA%96%E6%8B%A0v0035%E6%99%82%E7%82%B9"></a></h3>
+<h3 id="依存パッケージdescription準拠">依存パッケージ（DESCRIPTION準拠）<a class="anchor" aria-label="anchor" href="#%E4%BE%9D%E5%AD%98%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8description%E6%BA%96%E6%8B%A0"></a></h3>
 <ul><li>
-<strong>Depends</strong>: R (&gt;= 3.5.0), ggplot2</li>
+<strong>Depends</strong>: R (&gt;= 4.1.0), ggplot2</li>
 <li>
 <strong>Imports</strong>: ggraph, ggrepel, gridExtra, igraph, tidyr</li>
 <li>
 <strong>Suggests</strong>: exametrika, testthat (&gt;= 3.0.0)</li>
-</ul><p>補足: - gridExtra: v0.0.35でDependsからImportsに移動（CRANではDependsの最小化を推奨） - ggrepel: plotCRV_gg/plotRRV_ggのshow_labelsで使用（v0.0.24追加） - tidyr: plotICBR_gg/plotICRP_ggのpivot_longerで使用（v0.0.18追加） - exametrikaはSuggestsに入れる（CRAN対応のため） - visNetwork: v1.1.0以降で導入予定（インタラクティブDAG編集用）</p>
-</div>
-<div class="section level3">
-<h3 id="cranチェックリストv0035時点">CRANチェックリスト（v0.0.35時点）<a class="anchor" aria-label="anchor" href="#cran%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF%E3%83%AA%E3%82%B9%E3%83%88v0035%E6%99%82%E7%82%B9"></a></h3>
-<ul class="task-list"><li><label><input type="checkbox" checked>R CMD check –as-cran で 0 errors | 0 warnings | 0 notes（v0.0.35で達成）</label></li>
-<li><label><input type="checkbox" checked>NEWS.mdの更新（v0.0.35まで全バージョン記録済み）</label></li>
-<li><label><input type="checkbox" checked>DESCRIPTIONのバージョン更新（v0.0.35）</label></li>
-<li><label><input type="checkbox" checked>Title Case化・Description CRAN準拠化</label></li>
-<li><label><input type="checkbox" checked>LICENSE ファイル作成（MIT + file LICENSE）</label></li>
-<li><label><input type="checkbox" checked>cran-comments.md 作成</label></li>
-<li><label><input type="checkbox" checked>NSE binding NOTEs の解消（zzz.R で globalVariables 宣言）</label></li>
-<li><label><input type="checkbox" checked>J35S500 examples を  で対応（exametrika v1.10.0 CRAN待ち）</label></li>
-<li><label><input type="checkbox" checked>vignettes を pkgdown-only articles に移行</label></li>
-<li><label><input type="checkbox" checked>examplesの動作確認</label></li>
-<li><label><input type="checkbox" checked>ドキュメントの整備（roxygen2）</label></li>
-<li><label><input type="checkbox">exametrika v1.10.0 CRAN公開後に  を解除</label></li>
 </ul></div>
 </div>
 <div class="section level2">
-<h2 id="バージョン100に向けて">バージョン1.0.0に向けて<a class="anchor" aria-label="anchor" href="#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3100%E3%81%AB%E5%90%91%E3%81%91%E3%81%A6"></a></h2>
-<p><strong>現在のバージョン: v0.0.35</strong>（2026-02-28時点、mainブランチ）</p>
-<p>exametrikaの全プロット機能をggplot2で実装完了したらv1.0.0とする。 exametrika v1.10.0 CRAN公開後、2026年春にリリース予定。 3名体制で並行開発を進める。</p>
-<div class="section level3">
-<h3 id="現在の全体ステータス2026-02-28更新">現在の全体ステータス（2026-02-28更新）<a class="anchor" aria-label="anchor" href="#%E7%8F%BE%E5%9C%A8%E3%81%AE%E5%85%A8%E4%BD%93%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B92026-02-28%E6%9B%B4%E6%96%B0"></a></h3>
+<h2 id="現在の全体ステータス2026-03-20更新">現在の全体ステータス（2026-03-20更新）<a class="anchor" aria-label="anchor" href="#%E7%8F%BE%E5%9C%A8%E3%81%AE%E5%85%A8%E4%BD%93%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B92026-03-20%E6%9B%B4%E6%96%B0"></a></h2>
 <ul><li>
-<strong>バージョン</strong>: v0.0.35（mainブランチ、origin/mainより2コミット先行）</li>
+<strong>バージョン</strong>: v1.0.0（CRAN初回投稿、審査待ち）</li>
 <li>
 <strong>Rソースファイル</strong>: 15ファイル（R/ディレクトリ）</li>
 <li>
-<strong>Export関数</strong>: 31関数（プロット27 + オーバーレイ2 + ユーティリティ4、NAMESPACE準拠）</li>
+<strong>Export関数</strong>: 31関数（プロット27 + オーバーレイ2 + ユーティリティ4）</li>
 <li>
-<strong>共通オプション</strong>: 全プロット関数で対応済み（一部DAG等はlinetype除外）</li>
+<strong>共通オプション</strong>: 全プロット関数で対応済み</li>
 <li>
-<strong>テスト</strong>: 12ファイル、166テストブロック、489アサーション、FAIL 0 / WARN 22 / SKIP 0</li>
+<strong>テスト</strong>: 12ファイル、FAIL 0 / WARN 22（ggplot2 deprecation） / SKIP 0</li>
 <li>
-<strong>R CMD check</strong>: 0 errors | 0 warnings | 0 notes（v0.0.35、<code>--as-cran</code>オプション付きで完全クリア）</li>
+<strong>R CMD check</strong>: 0 errors | 0 warnings | 0 notes</li>
 <li>
-<strong>CRAN準備</strong>: v0.0.35でCRAN投稿準備完了（cran-comments.md作成済み）</li>
+<strong>win-builder</strong>: 1 NOTE（New submission + スペルチェックのみ）</li>
 <li>
-<strong>pkgdown</strong>: Phase 3完了（Plot Gallery記事作成済み）</li>
+<strong>rhub</strong>: linux / macos-arm64 / windows チェック実行済み</li>
 <li>
-<strong>CI</strong>: R-CMD-check.yaml + test-coverage.yaml + pkgdown.yaml 稼働中</li>
+<strong>pkgdown</strong>: GitHub Pages デプロイ済み、Plot Gallery記事あり</li>
 <li>
-<strong>ブランチ</strong>: main（作業中）、fix/rcmdcheck-remaining（古い、削除可）</li>
+<strong>CI</strong>: R-CMD-check.yaml + test-coverage.yaml + pkgdown.yaml + rhub.yaml 稼働中</li>
 <li>
-<strong>残タスク</strong>: DAG可視化（LDB, BINET）</li>
-</ul></div>
-<div class="section level3">
-<h3 id="export関数一覧31関数namespace準拠">Export関数一覧（31関数、NAMESPACE準拠）<a class="anchor" aria-label="anchor" href="#export%E9%96%A2%E6%95%B0%E4%B8%80%E8%A6%A731%E9%96%A2%E6%95%B0namespace%E6%BA%96%E6%8B%A0"></a></h3>
+<strong>DAG可視化</strong>: BNM / LDLRA / LDB / BINET 全て実装・テスト済み</li>
+</ul><div class="section level3">
+<h3 id="export関数一覧31関数">Export関数一覧（31関数）<a class="anchor" aria-label="anchor" href="#export%E9%96%A2%E6%95%B0%E4%B8%80%E8%A6%A731%E9%96%A2%E6%95%B0"></a></h3>
 <p><strong>プロット関数（25種）:</strong> plotICC_gg, plotICRF_gg, plotTRF_gg, plotIIC_gg, plotTIC_gg, plotIRP_gg, plotFRP_gg, plotTRP_gg, plotLCD_gg, plotLRD_gg, plotCMP_gg, plotRMP_gg, plotCRV_gg, plotRRV_gg, plotArray_gg, plotFCRP_gg, plotFCBR_gg, plotScoreField_gg, plotFieldPIRP_gg, plotLDPSR_gg, plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg, plotICBR_gg, plotGraph_gg</p>
 <p><strong>オーバーレイプロット関数（2種）:</strong> plotICC_overlay_gg, plotIIC_overlay_gg</p>
-<p>（合計27種のプロット関数 = 25 + 2オーバーレイ）</p>
 <p><strong>ユーティリティ関数（4種）:</strong> combinePlots_gg, LogisticModel, ItemInformationFunc, ItemInformationFunc_GRM</p>
 </div>
-<div class="section level3">
-<h3 id="cran投稿準備の状態v0035">CRAN投稿準備の状態（v0.0.35）<a class="anchor" aria-label="anchor" href="#cran%E6%8A%95%E7%A8%BF%E6%BA%96%E5%82%99%E3%81%AE%E7%8A%B6%E6%85%8Bv0035"></a></h3>
-<p>v0.0.35でCRAN投稿に必要な以下の作業を完了した：</p>
-<ul><li>DESCRIPTION: typo修正、Title Case化、Description CRAN準拠化（ISBNリファレンス追加）、非標準フィールド除去</li>
-<li>gridExtra: DependsからImportsに移動（CRAN推奨）</li>
-<li>R (&gt;= 3.5.0): Dependsに追加（最小R版）</li>
-<li>LICENSE: MIT + file LICENSE用のLICENSEファイル作成（2023-2026）</li>
-<li>NSE: zzz.Rに包括的なglobalVariables()宣言（30+変数）。R CMD check NOTEゼロ達成</li>
-<li>Examples: J35S500を使うexampleをで保護（exametrika v1.10.0がCRAN未公開のため）</li>
-<li>Vignettes: pkgdown-only articlesに移行（R CMD checkでのvignetteビルドエラー回避）</li>
-<li>cran-comments.md: 初回投稿用に作成</li>
-<li>README: R-CMD-checkバッジとMITライセンスバッジ追加</li>
-<li>.Rbuildignore: CLAUDE.md大文字小文字不問、cran-comments.md除外</li>
-</ul><p><strong>ブロッカー</strong>: exametrika v1.10.0のCRAN公開が先行する必要がある（J35S500データセットのを解除するため）</p>
 </div>
+<div class="section level2">
+<h2 id="cran投稿履歴">CRAN投稿履歴<a class="anchor" aria-label="anchor" href="#cran%E6%8A%95%E7%A8%BF%E5%B1%A5%E6%AD%B4"></a></h2>
 <div class="section level3">
-<h3 id="exametrikaのプロットタイプ一覧と実装状況exametrika-v1100-準拠">exametrikaのプロットタイプ一覧と実装状況（exametrika v1.10.0 準拠）<a class="anchor" aria-label="anchor" href="#exametrika%E3%81%AE%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E3%82%BF%E3%82%A4%E3%83%97%E4%B8%80%E8%A6%A7%E3%81%A8%E5%AE%9F%E8%A3%85%E7%8A%B6%E6%B3%81exametrika-v1100-%E6%BA%96%E6%8B%A0"></a></h3>
-<p>※ 対応モデル欄はexametrikaのplot.exametrika内valid_typesに基づく（注: 一部不正確な宣言あり、下記注釈参照）</p>
-<table class="table"><colgroup><col width="30%"><col width="22%"><col width="34%"><col width="12%"></colgroup><thead><tr class="header"><th>プロットタイプ</th>
-<th>対応モデル</th>
-<th>ggExametrika関数</th>
-<th>状況</th>
-</tr></thead><tbody><tr class="odd"><td>IRF/ICC (IRT)</td>
-<td>IRT</td>
-<td>plotICC_gg</td>
-<td>実装済</td>
-</tr><tr class="even"><td>ICRF (GRM)</td>
-<td>GRM</td>
-<td>plotICRF_gg</td>
-<td>実装済</td>
-</tr><tr class="odd"><td>TRF</td>
-<td>IRT</td>
-<td>plotTRF_gg</td>
-<td>実装済(IRT)</td>
-</tr><tr class="even"><td>IIF/IIC</td>
-<td>IRT, GRM</td>
-<td>plotIIC_gg</td>
-<td>実装済</td>
-</tr><tr class="odd"><td>TIF/TIC</td>
-<td>IRT, GRM</td>
-<td>plotTIC_gg</td>
-<td>実装済</td>
-</tr><tr class="even"><td>IRP</td>
-<td>LCA, LRA, LDLRA</td>
-<td>plotIRP_gg</td>
-<td>実装済</td>
-</tr><tr class="odd"><td>FRP</td>
-<td>
-<del>LCA, LRA</del>(*1), Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET</td>
-<td>plotFRP_gg</td>
-<td><strong>実装済（2値・多値対応、stat対応、共通オプション対応済み）</strong></td>
-</tr><tr class="even"><td>TRP</td>
-<td>LCA, LRA, Biclustering, IRM, LDLRA, LDB, BINET</td>
-<td>plotTRP_gg</td>
-<td>実装済</td>
-</tr><tr class="odd"><td>LCD</td>
-<td>LCA, Biclustering, nominalBiclustering, ordinalBiclustering</td>
-<td>plotLCD_gg</td>
-<td>実装済（多値対応確認済み）</td>
-</tr><tr class="even"><td>LRD</td>
-<td>LRA, Biclustering, nominalBiclustering, ordinalBiclustering, LDLRA, LDB, BINET</td>
-<td>plotLRD_gg</td>
-<td>実装済（多値対応確認済み）</td>
-</tr><tr class="odd"><td>CMP</td>
-<td>LCA, Biclustering, nominalBiclustering, ordinalBiclustering, BINET</td>
-<td>plotCMP_gg</td>
-<td>実装済（多値対応確認済み）</td>
-</tr><tr class="even"><td>RMP</td>
-<td>LRA, Biclustering, ordinalBiclustering, LDLRA, LDB, BINET, LRAordinal, LRArated</td>
-<td>plotRMP_gg</td>
-<td>実装済（多値対応確認済み）</td>
-</tr><tr class="odd"><td>CRV</td>
-<td>Biclustering, nominalBiclustering, ordinalBiclustering</td>
-<td>plotCRV_gg</td>
-<td>実装済（多値対応済み、stat対応済み、共通オプション対応済み）</td>
-</tr><tr class="even"><td>RRV</td>
-<td>Biclustering, nominalBiclustering, ordinalBiclustering</td>
-<td>plotRRV_gg</td>
-<td>実装済（多値対応済み、stat対応済み、共通オプション対応済み）</td>
-</tr><tr class="odd"><td>Array</td>
-<td>Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, BINET</td>
-<td>plotArray_gg</td>
-<td>実装済（多値対応済み、共通オプション対応済み）</td>
-</tr><tr class="even"><td><strong>FCRP</strong></td>
-<td>nominalBiclustering, ordinalBiclustering</td>
-<td>plotFCRP_gg</td>
-<td><strong>実装済（v1.10.0新規、style対応、共通オプション対応済み）</strong></td>
-</tr><tr class="odd"><td><strong>FCBR</strong></td>
-<td>ordinalBiclustering</td>
-<td>plotFCBR_gg</td>
-<td><strong>実装済（v1.10.0新規、ordinal専用、共通オプション対応済み）</strong></td>
-</tr><tr class="even"><td><strong>ScoreField</strong></td>
-<td>nominalBiclustering, ordinalBiclustering</td>
-<td>plotScoreField_gg</td>
-<td><strong>実装済（v1.10.0新規、共通オプション対応済み）</strong></td>
-</tr><tr class="odd"><td>FieldPIRP</td>
-<td>LDB</td>
-<td>plotFieldPIRP_gg</td>
-<td>実装済</td>
-</tr><tr class="even"><td>LDPSR</td>
-<td>BINET</td>
-<td>plotLDPSR_gg</td>
-<td><strong>実装済（共通オプション対応済み）</strong></td>
-</tr><tr class="odd"><td>ScoreFreq</td>
-<td>LRAordinal, LRArated</td>
-<td>plotScoreFreq_gg</td>
-<td>実装済（共通オプション対応済み）</td>
-</tr><tr class="even"><td>ScoreRank</td>
-<td>LRAordinal, LRArated</td>
-<td>plotScoreRank_gg</td>
-<td>実装済（共通オプション対応済み）</td>
-</tr><tr class="odd"><td>ICRP</td>
-<td>LRAordinal, LRArated</td>
-<td>plotICRP_gg</td>
-<td>実装済（共通オプション対応済み）</td>
-</tr><tr class="even"><td>ICBR</td>
-<td>LRAordinal</td>
-<td>plotICBR_gg</td>
-<td>実装済（共通オプション対応済み）</td>
-</tr></tbody></table></div>
-<div class="section level3">
-<h3 id="exametrikaのモデル一覧とプロット対応plotexametrika-valid_types準拠v1100">exametrikaのモデル一覧とプロット対応（plot.exametrika valid_types準拠、v1.10.0）<a class="anchor" aria-label="anchor" href="#exametrika%E3%81%AE%E3%83%A2%E3%83%87%E3%83%AB%E4%B8%80%E8%A6%A7%E3%81%A8%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E5%AF%BE%E5%BF%9Cplotexametrika-valid_types%E6%BA%96%E6%8B%A0v1100"></a></h3>
-<table class="table"><colgroup><col width="29%"><col width="70%"></colgroup><thead><tr class="header"><th>モデル</th>
-<th>対応プロットタイプ</th>
-</tr></thead><tbody><tr class="odd"><td>IRT</td>
-<td>IRF/ICC, TRF, IIF/IIC, TIF/TIC</td>
-</tr><tr class="even"><td>GRM</td>
-<td>IRF/ICC, IIF/IIC, TIF/TIC</td>
-</tr><tr class="odd"><td>LCA</td>
-<td>IRP, <del>FRP</del>(*1), TRP, LCD, CMP</td>
-</tr><tr class="even"><td>LRA</td>
-<td>IRP, <del>FRP</del>(*1), TRP, LRD, RMP</td>
-</tr><tr class="odd"><td>LRAordinal</td>
-<td>ScoreFreq, ScoreRank, ICRP, ICBR, RMP</td>
-</tr><tr class="even"><td>LRArated</td>
-<td>ScoreFreq, ScoreRank, ICRP, RMP</td>
-</tr><tr class="odd"><td>Biclustering</td>
-<td>FRP, TRP, LCD, LRD, CMP, RMP, CRV, RRV, Array</td>
-</tr><tr class="even"><td><strong>nominalBiclustering</strong></td>
-<td>FRP, <strong>FCRP</strong>, LCD, LRD, CMP, Array, <strong>ScoreField</strong>, CRV, RRV</td>
-</tr><tr class="odd"><td><strong>ordinalBiclustering</strong></td>
-<td>FRP, <strong>FCRP</strong>, <strong>FCBR</strong>, LCD, LRD, CMP, RMP, Array, <strong>ScoreField</strong>, CRV, RRV</td>
-</tr><tr class="even"><td>IRM (Biclustering_IRM)</td>
-<td>FRP, TRP, Array</td>
-</tr><tr class="odd"><td>LDLRA</td>
-<td>IRP, TRP, LRD, RMP</td>
-</tr><tr class="even"><td>LDB</td>
-<td>FRP, TRP, LRD, RMP, Array, FieldPIRP</td>
-</tr><tr class="odd"><td>BINET</td>
-<td>FRP, TRP, LRD, RMP, Array, LDPSR</td>
-</tr></tbody></table><p><strong>太字</strong> = v1.10.0で追加された多値バイクラスタリング向けプロット</p>
-<p><strong>注釈:</strong> - (*1) <strong>FRPのLCA/LRA対応について（2026-02-23調査）</strong>: exametrikaのplot.exametrika valid_typesではLCA/LRAに対しFRPが有効と宣言されているが、実際にはLCA()もLRA()も出力に<span class="math inline">$FRPフィールドを含まない。exametrikaのplot関数は`x$</span>FRP`に直接アクセスするため、LCA/LRAでFRPを描画しようとするとエラーになる。これはexametrika側のvalid_types宣言の誤りであり、ggExametrikaでは正しくLCA/LRAを拒否している。長男（exametrika）への修正提案事項。</p>
-</div>
-<div class="section level3">
-<h3 id="dag可視化printexametrikaでigraph使用">DAG可視化（print.exametrikaでigraph使用）<a class="anchor" aria-label="anchor" href="#dag%E5%8F%AF%E8%A6%96%E5%8C%96printexametrika%E3%81%A7igraph%E4%BD%BF%E7%94%A8"></a></h3>
-<table class="table"><thead><tr class="header"><th>モデル</th>
-<th>内容</th>
-</tr></thead><tbody><tr class="odd"><td>BNM</td>
-<td>DAGの可視化</td>
-</tr><tr class="even"><td>LDLRA</td>
-<td>ランク/クラスごとのDAG</td>
-</tr><tr class="odd"><td>LDB</td>
-<td>ランクごとのDAG</td>
-</tr><tr class="even"><td>BINET</td>
-<td>統合グラフ（edge label付き）</td>
-</tr></tbody></table></div>
-<div class="section level3">
-<h3 id="追加機能exametrikaにはないggexametrika独自の機能">追加機能（exametrikaにはないggExametrika独自の機能）<a class="anchor" aria-label="anchor" href="#%E8%BF%BD%E5%8A%A0%E6%A9%9F%E8%83%BDexametrika%E3%81%AB%E3%81%AF%E3%81%AA%E3%81%84ggexametrika%E7%8B%AC%E8%87%AA%E3%81%AE%E6%A9%9F%E8%83%BD"></a></h3>
-<div class="section level4">
-<h4 id="オーバーレイプロット関数">オーバーレイプロット関数<a class="anchor" aria-label="anchor" href="#%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AC%E3%82%A4%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E9%96%A2%E6%95%B0"></a></h4>
-<p>exametrikaでは<code>overlay = TRUE</code>パラメータで複数の曲線を1つのグラフに重ねて表示できるが、 ggExametrikaでは別関数として実装し、より明示的に使い分けられるようにした。</p>
-<ul class="task-list"><li><label><input type="checkbox" checked><code><a href="reference/plotICC_overlay_gg.html">plotICC_overlay_gg()</a></code> — IRT全アイテムのICCを1枚のグラフに重ねて表示（実装済み）</label></li>
-<li><label><input type="checkbox" checked><code><a href="reference/plotIIC_overlay_gg.html">plotIIC_overlay_gg()</a></code> — IRT/GRM全アイテムのIICを1枚のグラフに重ねて表示（実装済み）</label></li>
+<h3 id="v1002026-03-20-初回投稿審査待ち">v1.0.0（2026-03-20 初回投稿、審査待ち）<a class="anchor" aria-label="anchor" href="#v1002026-03-20-%E5%88%9D%E5%9B%9E%E6%8A%95%E7%A8%BF%E5%AF%A9%E6%9F%BB%E5%BE%85%E3%81%A1"></a></h3>
+<ul><li>exametrika v1.10.1 CRAN受理を受けて投稿</li>
+<li>win-builder: 1 NOTE（New submission + Biclustering/Shojima スペルチェック）→ 問題なし</li>
+<li>非ASCII文字（×）をASCII（x）に置換</li>
+<li>遅い examples に <code>\donttest{}</code> 追加（plotIIC_gg, plotTIC_gg, plotIIC_overlay_gg, plotICRF_gg, plotCMP_gg, plotRMP_gg, plotICBR_gg, plotICRP_gg）</li>
+<li>Amazon短縮URL（amzn.to）をISBNに置換</li>
 </ul></div>
 </div>
+<div class="section level2">
+<h2 id="今後の予定">今後の予定<a class="anchor" aria-label="anchor" href="#%E4%BB%8A%E5%BE%8C%E3%81%AE%E4%BA%88%E5%AE%9A"></a></h2>
 <div class="section level3">
-<h3 id="実装完了済み機能">実装完了済み機能<a class="anchor" aria-label="anchor" href="#%E5%AE%9F%E8%A3%85%E5%AE%8C%E4%BA%86%E6%B8%88%E3%81%BF%E6%A9%9F%E8%83%BD"></a></h3>
-<div class="section level4">
-<h4 id="v1100-多値バイクラスタリングプロット全完了">v1.10.0 多値バイクラスタリングプロット（全完了）<a class="anchor" aria-label="anchor" href="#v1100-%E5%A4%9A%E5%80%A4%E3%83%90%E3%82%A4%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E5%85%A8%E5%AE%8C%E4%BA%86"></a></h4>
-<ul class="task-list"><li><label><input type="checkbox" checked>plotFCRP_gg — カテゴリ確率プロット、style パラメータ（line/bar）対応</label></li>
-<li><label><input type="checkbox" checked>plotFCBR_gg — 境界確率プロット（ordinal専用）</label></li>
-<li><label><input type="checkbox" checked>plotScoreField_gg — 期待得点ヒートマップ（フィールド×クラス/ランク）</label></li>
-</ul></div>
-<div class="section level4">
-<h4 id="多値版対応全完了">多値版対応（全完了）<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E5%80%A4%E7%89%88%E5%AF%BE%E5%BF%9C%E5%85%A8%E5%AE%8C%E4%BA%86"></a></h4>
-<ul class="task-list"><li><label><input type="checkbox" checked>plotFRP_gg — 2値・多値両対応、stat パラメータ（mean/median/mode）</label></li>
-<li><label><input type="checkbox" checked>plotRRV_gg / plotCRV_gg — 2値・多値両対応、stat パラメータ、show_labels</label></li>
-</ul></div>
-<div class="section level4">
-<h4 id="その他全完了">その他（全完了）<a class="anchor" aria-label="anchor" href="#%E3%81%9D%E3%81%AE%E4%BB%96%E5%85%A8%E5%AE%8C%E4%BA%86"></a></h4>
-<ul class="task-list"><li><label><input type="checkbox" checked>plotLDPSR_gg — BINET専用（v0.0.32で実装）</label></li>
-</ul></div>
-<div class="section level4">
-<h4 id="共通オプション対応全27プロット関数--2オーバーレイ関数--全完了">共通オプション対応（全27プロット関数 + 2オーバーレイ関数 = 全完了）<a class="anchor" aria-label="anchor" href="#%E5%85%B1%E9%80%9A%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3%E5%AF%BE%E5%BF%9C%E5%85%A827%E3%83%97%E3%83%AD%E3%83%83%E3%83%88%E9%96%A2%E6%95%B0--2%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AC%E3%82%A4%E9%96%A2%E6%95%B0--%E5%85%A8%E5%AE%8C%E4%BA%86"></a></h4>
-<p>全プロット関数で title, colors, linetype, show_legend, legend_position に対応済み。 （plotGraph_gg のみ linetype 除外：DAGには不適合のため）</p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="未実装機能v100までに実装予定">未実装機能（v1.0.0までに実装予定）<a class="anchor" aria-label="anchor" href="#%E6%9C%AA%E5%AE%9F%E8%A3%85%E6%A9%9F%E8%83%BDv100%E3%81%BE%E3%81%A7%E3%81%AB%E5%AE%9F%E8%A3%85%E4%BA%88%E5%AE%9A"></a></h3>
-<div class="section level4">
-<h4 id="dag可視化printexametrikaでigraph使用--ggraph化">DAG可視化（print.exametrikaでigraph使用 → ggraph化）<a class="anchor" aria-label="anchor" href="#dag%E5%8F%AF%E8%A6%96%E5%8C%96printexametrika%E3%81%A7igraph%E4%BD%BF%E7%94%A8--ggraph%E5%8C%96"></a></h4>
-<p><strong>開発順序は厳守すること。BNM → LDLRA → LDB → BINET の順に実装する。</strong> 前のモデルが完成するまで次のモデルに着手してはならない。 各モデルは前段の構造を土台にしており、順番を飛ばすと設計が破綻する。</p>
-<ol style="list-style-type: decimal"><li>
-<del><strong>BNM（Bayesian Network Model）</strong></del> — 項目同士のベイジアンネットワーク → <strong>実装済み・テスト済み</strong> ✅
-<ul><li>項目（Item）ノード間の有向グラフ（DAG）を描画する</li>
-<li>最も基本的なDAG可視化であり、他の全モデルの土台となる</li>
-<li>sugiyamaレイアウト、direction=“LR”対応、共通オプション対応済み</li>
-</ul></li>
-<li>
-<strong>LDLRA（Latent Rank Analysis with Local Dependence）</strong> — ランクごとの項目DAG → <strong>基本実装済み（テスト未整備）</strong>
-<ul><li>BNMの拡張：同じ項目ノード間のDAGが、ランクごとに異なる構造を持つ</li>
-<li>実装済み機能: 全ランク対応、孤立ノード除外、show_prob/prob_digitsパラメータ</li>
-<li>残課題: testthatテストの正式整備</li>
-<li>参考図: <code>develop/TDE_figures/LDLRA_TDE02.png</code>
-</li>
-</ul></li>
-<li>
-<strong>LDB（Local Dependence Biclustering）</strong> — ランクごとのフィールドDAG → <strong>未実装</strong>
-<ul><li>LDLRAとの違い：ノードが項目ではなくフィールド（Latent Field、緑ダイヤ）</li>
-<li>ランクごとにフィールドの依存構造が異なる</li>
-<li>参考図: <code>develop/TDE_figures/LDB_TDE01.png</code>, <code>LDB_TDE02.png</code>
-</li>
-</ul></li>
-<li>
-<strong>BINET（Bicluster Network Model）</strong> — 統合ネットワーク（最も複雑） → <strong>未実装</strong>
-<ul><li>Latent Class（青四角）とLatent Field（緑ダイヤ）の2種類のノードの統合グラフ</li>
-<li><strong>あるランクの人間が次のランクに行くために、どのフィールドを経由するかを表現するモデル</strong></li>
-<li>参考図: <code>develop/TDE_figures/BINET_TDE01.png</code>, <code>BINET_TDE02.png</code>, <code>BINET_CMP_TDE.png</code>
-</li>
-<li>BNM, LDLRA, LDBの全てを理解した上で初めて実装できる。絶対に先にやるな</li>
-</ul></li>
-</ol></div>
-</div>
-<div class="section level3">
-<h3 id="v100リリースに向けたロードマップ">v1.0.0リリースに向けたロードマップ<a class="anchor" aria-label="anchor" href="#v100%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E3%81%AB%E5%90%91%E3%81%91%E3%81%9F%E3%83%AD%E3%83%BC%E3%83%89%E3%83%9E%E3%83%83%E3%83%97"></a></h3>
-<p><strong>前提</strong>: exametrika v1.10.0 がCRANに公開されている必要がある（ggExametrikaの一部exampleで使用するJ35S500データセットのため）</p>
-<ol style="list-style-type: decimal"><li>
-<strong>LDLRAテスト整備</strong> — testthatテストの正式整備（基本実装済み）</li>
-<li>
-<strong>LDB DAG実装</strong> — ランクごとのフィールドDAG（LDLRA完了後に着手）</li>
-<li>
-<strong>BINET DAG実装</strong> — 統合ネットワーク（LDB完了後に着手）</li>
-<li>
-<strong>exametrika v1.10.0 CRAN公開後</strong>: <code>\dontrun{}</code> を <code>@examplesIf</code> に戻す</li>
-<li>
-<strong>最終R CMD check</strong> → <strong>CRAN投稿（v1.0.0）</strong>
-</li>
-</ol><p><strong>現時点でCRAN投稿可能な状態</strong>: v0.0.35はR CMD check完全クリア、cran-comments.md作成済み。DAG可視化が完了前でもCRAN初回投稿は可能（BNM/LDLRAのみ対応状態で投稿し、後のバージョンでLDB/BINETを追加する方針も検討可）。</p>
-</div>
-<div class="section level3">
-<h3 id="v110以降の予定">v1.1.0以降の予定<a class="anchor" aria-label="anchor" href="#v110%E4%BB%A5%E9%99%8D%E3%81%AE%E4%BA%88%E5%AE%9A"></a></h3>
+<h3 id="v110以降">v1.1.0以降<a class="anchor" aria-label="anchor" href="#v110%E4%BB%A5%E9%99%8D"></a></h3>
 <ul><li>
-<strong>visNetwork版（plotGraph_interactive）</strong> — インタラクティブDAG編集。ノードドラッグ → 座標取得 → ggraph清書のワークフロー用</li>
+<strong>visNetwork版（plotGraph_interactive）</strong> — インタラクティブDAG編集</li>
+<li>exametrika v1.11.0（Biclustering.rated + Rated IRM）対応のプロット追加</li>
 </ul></div>
-<div class="section level3">
-<h3 id="dag可視化の開発方針">DAG可視化の開発方針<a class="anchor" aria-label="anchor" href="#dag%E5%8F%AF%E8%A6%96%E5%8C%96%E3%81%AE%E9%96%8B%E7%99%BA%E6%96%B9%E9%87%9D"></a></h3>
-<p><strong>開発順序（厳守）: BNM → LDLRA → LDB → BINET</strong></p>
-<p>各モデルの構造的な積み上げ関係：</p>
-<pre><code>BNM:    項目ノード間の単純DAG（基礎）
-  ↓
-LDLRA:  BNMをランクごとに分割（項目ノード × ランク区切り）
-  ↓
-LDB:    ノードがフィールドに変わる（フィールドノード × ランク区切り）
-  ↓
-BINET:  クラスノード + フィールドノードの統合グラフ（最終形）</code></pre>
-<p><strong>参考画像</strong>: <code>develop/TDE_figures/</code> にTest Data Engineeringからの出力例がある。 これらの図に近づけることが目的。</p>
-<p><strong>plotGraph_gg()</strong> - ggraphで静的ggplotオブジェクト版 - 論文・レポート用の清書版 - カスタム座標を引数で渡すことも可能</p>
-<p><strong>現在の状態 (2026-02-28更新):</strong> - <code>R/plotGraph_gg.R</code> 実装済み（434行） - <strong>BNM</strong>: 実装・テスト済み（test-DAG-plots.R: 5テスト、共通オプション対応済み） - <strong>LDLRA</strong>: plotGraph_gg内にLDLRA処理ブロック追加済み（2026-02-18、log.md参照）。全ランク対応、孤立ノード除外、show_prob/prob_digitsパラメータ対応。ただしtestthat正式テストは未整備 - <strong>LDB</strong>: 未実装 - <strong>BINET</strong>: 未実装 - 次回: LDLRAのtestthatテスト整備 → LDB実装 → BINET実装</p>
-<p><strong>v1.1.0以降</strong>: visNetworkによるインタラクティブ版（plotGraph_interactive）を追加予定。ノードドラッグで位置調整 → 座標取得 → ggraph清書のワークフローを実現する。</p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="共同開発ルール3名体制">共同開発ルール（3名体制）<a class="anchor" aria-label="anchor" href="#%E5%85%B1%E5%90%8C%E9%96%8B%E7%99%BA%E3%83%AB%E3%83%BC%E3%83%AB3%E5%90%8D%E4%BD%93%E5%88%B6"></a></h2>
@@ -438,61 +177,34 @@ BINET:  クラスノード + フィールドノードの統合グラフ（最終
 <h3 id="git運用推奨ワークフロー">Git運用（推奨ワークフロー）<a class="anchor" aria-label="anchor" href="#git%E9%81%8B%E7%94%A8%E6%8E%A8%E5%A5%A8%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC"></a></h3>
 <div class="section level4">
 <h4 id="基本フロー">基本フロー<a class="anchor" aria-label="anchor" href="#%E5%9F%BA%E6%9C%AC%E3%83%95%E3%83%AD%E3%83%BC"></a></h4>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># 1. 作業前に最新を取得</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">git</span> pull origin main</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># 2. featureブランチを作成（機能ごと）</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/機能名</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># 例: feature/score-freq, feature/dag-viz, fix/legend-bug</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># 3. 開発・コミット（1機能1コミット）</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">git</span> add .</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add plotScoreFreq_gg for score frequency"</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># 4. リモートにpush</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">git</span> push origin feature/機能名</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># 5. 作業完了後、mainにマージ</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="fu">git</span> merge feature/機能名</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="fu">git</span> push origin main</span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># 6. 不要なブランチを削除</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-d</span> feature/機能名</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># 1. 作業前に最新を取得</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">git</span> pull origin main</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># 2. featureブランチを作成（機能ごと）</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/機能名</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># 3. 開発・コミット（1機能1コミット）</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add plotScoreFreq_gg for score frequency"</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># 4. リモートにpush</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="fu">git</span> push origin feature/機能名</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># 5. 作業完了後、mainにマージ</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="fu">git</span> merge feature/機能名</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">git</span> push origin main</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co"># 6. 不要なブランチを削除</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-d</span> feature/機能名</span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="ブランチ命名規則">ブランチ命名規則<a class="anchor" aria-label="anchor" href="#%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E5%91%BD%E5%90%8D%E8%A6%8F%E5%89%87"></a></h4>
-<ul><li>
-<strong>feature/機能名</strong>: 新機能開発（例: <code>feature/score-freq</code>, <code>feature/icrp</code>）</li>
-<li>
-<strong>fix/修正内容</strong>: バグ修正（例: <code>fix/legend-position</code>, <code>fix/sort-order</code>）</li>
-<li>
-<strong>refactor/対象</strong>: リファクタリング（例: <code>refactor/common-options</code>）</li>
-</ul></div>
-<div class="section level4">
-<h4 id="重要なポイント">重要なポイント<a class="anchor" aria-label="anchor" href="#%E9%87%8D%E8%A6%81%E3%81%AA%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88"></a></h4>
-<ul><li>作業前に必ず <code>git pull</code> で最新を取得する</li>
-<li>機能単位でこまめにコミットする（1機能1コミット）</li>
-<li>コミットメッセージは変更内容がわかるように書く（例: <code>Add plotTRF_gg for TRF visualization</code>）</li>
-<li>作業が一段落したら <code>git push</code> して他のメンバーと共有する</li>
-<li>同じファイルの同時編集はなるべく避ける。担当を分けること</li>
-<li>mainブランチへの直接commitは避け、featureブランチ経由でマージする</li>
-</ul></div>
 </div>
 <div class="section level3">
 <h3 id="作業ログlogmd">作業ログ（log.md）<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E6%A5%AD%E3%83%AD%E3%82%B0logmd"></a></h3>
 <ul><li>作業開始時に日付と担当者名を記録する</li>
 <li>何を実装/修正したか、判断の理由を簡潔に書く</li>
 <li>次回の課題・残作業を明記する</li>
-<li>他のメンバーが読んでも状況がわかるように書く</li>
-</ul></div>
-<div class="section level3">
-<h3 id="作業の進め方">作業の進め方<a class="anchor" aria-label="anchor" href="#%E4%BD%9C%E6%A5%AD%E3%81%AE%E9%80%B2%E3%82%81%E6%96%B9"></a></h3>
-<ul><li>実装前にCLAUDE.mdの未実装リストで担当を確認する</li>
-<li>実装後は <code>devtools::document()</code> でドキュメント更新する</li>
-<li>実装状況表（上記）を更新する</li>
-<li>NEWS.md に変更を追記する</li>
 </ul></div>
 </div>
 </div>
