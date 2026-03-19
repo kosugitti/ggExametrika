@@ -368,6 +368,7 @@ plotICBR_gg <- function(data,
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #'
 #' # Plot first 4 items
@@ -381,6 +382,7 @@ plotICBR_gg <- function(data,
 #'   colors = c("red", "blue", "green", "purple")
 #' )
 #' plot
+#' }
 #'
 #' @seealso \code{\link{plotICBR_gg}}, \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}
 #'

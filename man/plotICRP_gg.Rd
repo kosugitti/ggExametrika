@@ -68,6 +68,7 @@ higher categories and lower probabilities for lower categories.
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
+\donttest{
 result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 
 # Plot first 4 items
@@ -81,6 +82,7 @@ plot <- plotICRP_gg(result,
   colors = c("red", "blue", "green", "purple")
 )
 plot
+}
 \dontshow{\}) # examplesIf}
 }
 \seealso{
