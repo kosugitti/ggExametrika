@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.38</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.39</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,20 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.39" id="ggexametrika-0039">ggExametrika 0.0.39<a class="anchor" aria-label="anchor" href="#ggexametrika-0039"></a></h2>
+<div class="section level3">
+<h3 id="dag-visualization-0-0-39">DAG Visualization<a class="anchor" aria-label="anchor" href="#dag-visualization-0-0-39"></a></h3>
+<ul><li>Add BINET (Bicluster Network Model) DAG support to <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code>. This completes the DAG visualization series (BNM → LDLRA → LDB → BINET).</li>
+<li>BINET renders an integrated graph with two node types: Class nodes (blue squares, shape=22) and Field nodes (green diamonds, shape=23) as intermediates between connected classes.</li>
+<li>Add <code>.binet_expand_graph()</code> helper to transform BINET’s class-only graph (<code>all_g</code>) into an expanded graph with Field intermediate nodes for TDE-style visualization.</li>
+<li>Extend <code>.dag_build_plot()</code> with optional <code>node_size_map</code> and <code>label_size_map</code> parameters for variable node/label sizes by type (backward-compatible: NULL defaults preserve existing behavior).</li>
+<li>Fix <code>.dag_node_colors()</code> to support multiple node types with custom colors (positional or named vectors).</li>
+<li>Update <code>.dag_build_plot()</code> <code>show.legend</code> from hardcoded <code>FALSE</code> to parameter-driven, enabling proper legend display for BINET’s multi-type nodes.</li>
+<li>Add <code>node_size_val</code> and <code>label_size_val</code> to globalVariables in <code>zzz.R</code>.</li>
+<li>Add comprehensive BINET test cases (7 tests) in <code>test-DAG-plots.R</code>: basic output, title/colors/legend/direction common options, dual node types, and node size differentiation.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.38" id="ggexametrika-0038">ggExametrika 0.0.38<a class="anchor" aria-label="anchor" href="#ggexametrika-0038"></a></h2>
 <div class="section level3">

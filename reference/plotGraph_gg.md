@@ -79,9 +79,10 @@ plotGraph_gg(
 - colors:
 
   Character vector. Colors for node types. For BNM/LDLRA: single color
-  for Item nodes. For future models (LDB/BINET): colors for different
-  node types. If `NULL` (default), uses the default node type colors
-  (Item=purple, Field=green, Class=blue).
+  for Item nodes. For LDB: single color for Field nodes. For BINET: two
+  colors for Class and Field nodes (positional or named). If `NULL`
+  (default), uses the default node type colors (Item=purple,
+  Field=green, Class=blue).
 
 - show_legend:
 
@@ -106,10 +107,12 @@ Design follows TDE figure specifications:
 - LDLRA: Items as circles per rank/class, one plot per rank. Isolated
   nodes auto-removed
 
-- LDB: Fields shown as green diamonds (to be implemented)
+- LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes
+  auto-removed
 
-- BINET: Classes (blue rectangles) + Fields (green diamonds) (to be
-  implemented)
+- BINET: Integrated graph with Class nodes (blue squares) and Field
+  nodes (green diamonds) as intermediates. Field nodes are smaller and
+  placed between the Class nodes they connect
 
 **Direction Guidelines:**
 
