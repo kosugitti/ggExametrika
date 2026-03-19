@@ -53,7 +53,7 @@ Shows the probability of a correct response as a function of ability
 ``` r
 # Returns a list of plots (one per item)
 icc_plots <- plotICC_gg(result_irt)
-icc_plots[[1]]  # Show first item
+icc_plots[[1]] # Show first item
 ```
 
 ![](getting-started_files/figure-html/unnamed-chunk-5-1.png)
@@ -345,7 +345,7 @@ classes.
 ``` r
 # Returns a list of plots (one per student)
 cmp_plots <- plotCMP_gg(result_lca)
-cmp_plots[[1]]  # First student
+cmp_plots[[1]] # First student
 ```
 
 ![](getting-started_files/figure-html/unnamed-chunk-28-1.png)
@@ -754,7 +754,7 @@ Returns one DAG per rank, showing how dependencies change across ranks.
 
 ``` r
 dag_plots <- plotGraph_gg(result_ldlra)
-dag_plots[[1]]  # Rank 1 DAG
+dag_plots[[1]] # Rank 1 DAG
 combinePlots_gg(dag_plots)
 ```
 
@@ -810,7 +810,7 @@ each rank.
 
 ``` r
 fpirp_plots <- plotFieldPIRP_gg(result_ldb)
-fpirp_plots[[1]]  # Rank 1
+fpirp_plots[[1]] # Rank 1
 combinePlots_gg(fpirp_plots)
 ```
 

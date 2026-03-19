@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.39</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,22 +120,30 @@ structure input (an igraph DAG or edge CSV file).</p>
 <span></span>
 <span><span class="co"># --- LDLRA (12 items, 5000 students, 3 ranks, same DAG per rank) ---</span></span>
 <span><span class="va">ldlra_g</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html" class="external-link">graph_from_data_frame</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Item01"</span>, <span class="st">"Item02"</span>, <span class="st">"Item03"</span><span class="op">)</span>,</span>
-<span>             to   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Item02"</span>, <span class="st">"Item03"</span>, <span class="st">"Item04"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Item01"</span>, <span class="st">"Item02"</span>, <span class="st">"Item03"</span><span class="op">)</span>,</span>
+<span>    to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Item02"</span>, <span class="st">"Item03"</span>, <span class="st">"Item04"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
 <span>  directed <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J12S5000</span>, ncls <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>                      g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ldlra_g</span>, <span class="va">ldlra_g</span>, <span class="va">ldlra_g</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">result_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDLRA.html" class="external-link">LDLRA</a></span><span class="op">(</span><span class="va">J12S5000</span>,</span>
+<span>  ncls <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ldlra_g</span>, <span class="va">ldlra_g</span>, <span class="va">ldlra_g</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- LDB (35 items, 515 students, 3 fields, 3 ranks) ---</span></span>
 <span><span class="va">ldb_conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, length.out <span class="op">=</span> <span class="fl">35</span><span class="op">)</span></span>
 <span><span class="va">ldb_g</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html" class="external-link">graph_from_data_frame</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field01"</span>, <span class="st">"Field02"</span><span class="op">)</span>,</span>
-<span>             to   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field02"</span>, <span class="st">"Field03"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field01"</span>, <span class="st">"Field02"</span><span class="op">)</span>,</span>
+<span>    to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field02"</span>, <span class="st">"Field03"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
 <span>  directed <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">3</span>, conf <span class="op">=</span> <span class="va">ldb_conf</span>,</span>
-<span>                  g_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ldb_g</span>, <span class="va">ldb_g</span>, <span class="va">ldb_g</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">result_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LDB.html" class="external-link">LDB</a></span><span class="op">(</span><span class="va">J35S515</span>,</span>
+<span>  ncls <span class="op">=</span> <span class="fl">3</span>, conf <span class="op">=</span> <span class="va">ldb_conf</span>,</span>
+<span>  g_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ldb_g</span>, <span class="va">ldb_g</span>, <span class="va">ldb_g</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># --- BINET (35 items, 515 students, 3 classes, 3 fields) ---</span></span>
 <span><span class="va">binet_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -145,9 +153,11 @@ structure input (an igraph DAG or edge CSV file).</p>
 <span><span class="op">)</span></span>
 <span><span class="va">binet_edge_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">binet_edges</span>, <span class="va">binet_edge_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">3</span>, nfld <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>                      conf <span class="op">=</span> <span class="va">ldb_conf</span>, adj_file <span class="op">=</span> <span class="va">binet_edge_file</span>,</span>
-<span>                      verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">result_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>,</span>
+<span>  ncls <span class="op">=</span> <span class="fl">3</span>, nfld <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  conf <span class="op">=</span> <span class="va">ldb_conf</span>, adj_file <span class="op">=</span> <span class="va">binet_edge_file</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">binet_edge_file</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -558,19 +568,23 @@ fields).</p>
 <p><img src="plot-gallery_files/figure-html/dag-binet-1.png" class="r-plt" alt="" width="672"></p>
 <p>With legend showing node types:</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>, show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>            legend_position <span class="op">=</span> <span class="st">"right"</span>, title <span class="op">=</span> <span class="st">"BINET with Legend"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"right"</span>, title <span class="op">=</span> <span class="st">"BINET with Legend"</span></span>
+<span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <p><img src="plot-gallery_files/figure-html/dag-binet-legend-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level4">
 <h4 id="comparing-all-four-dag-models">Comparing all four DAG models<a class="anchor" aria-label="anchor" href="#comparing-all-four-dag-models"></a>
 </h4>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p_bnm</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span>, title <span class="op">=</span> <span class="st">"BNM (Items)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">p_ldlra</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span>, title <span class="op">=</span> <span class="st">"LDLRA (Items)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">p_ldb</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldb</span>, title <span class="op">=</span> <span class="st">"LDB (Fields)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">p_binet</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>, title <span class="op">=</span> <span class="st">"BINET (Class+Field)"</span>,</span>
-<span>                         show_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">p_bnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_bnm</span>, title <span class="op">=</span> <span class="st">"BNM (Items)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">p_ldlra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldlra</span>, title <span class="op">=</span> <span class="st">"LDLRA (Items)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">p_ldb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_ldb</span>, title <span class="op">=</span> <span class="st">"LDB (Fields)"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">p_binet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotGraph_gg.html">plotGraph_gg</a></span><span class="op">(</span><span class="va">result_binet</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"BINET (Class+Field)"</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p_bnm</span>, <span class="va">p_ldlra</span>, <span class="va">p_ldb</span>, <span class="va">p_binet</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot-gallery_files/figure-html/dag-compare-1.png" class="r-plt" alt="" width="960"></p>
 </div>
@@ -684,8 +698,10 @@ etc.</td>
 <p><img src="plot-gallery_files/figure-html/opt-colors-1.png" class="r-plt" alt="" width="672"></p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotCRV_gg.html">plotCRV_gg</a></span><span class="op">(</span><span class="va">result_bic</span>,</span>
-<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"coral"</span>, <span class="st">"forestgreen"</span>,</span>
-<span>             <span class="st">"mediumpurple"</span>, <span class="st">"goldenrod"</span>, <span class="st">"hotpink"</span><span class="op">)</span></span>
+<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"steelblue"</span>, <span class="st">"coral"</span>, <span class="st">"forestgreen"</span>,</span>
+<span>    <span class="st">"mediumpurple"</span>, <span class="st">"goldenrod"</span>, <span class="st">"hotpink"</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot-gallery_files/figure-html/opt-colors-crv-1.png" class="r-plt" alt="" width="672"></p>
 </div>
@@ -703,14 +719,22 @@ etc.</td>
 <h3 id="show_legend-and-legend_position">show_legend and legend_position<a class="anchor" aria-label="anchor" href="#show_legend-and-legend_position"></a>
 </h3>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>, legend_position <span class="op">=</span> <span class="st">"right"</span>, title <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>, legend_position <span class="op">=</span> <span class="st">"bottom"</span>, title <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
-<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>, legend_position <span class="op">=</span> <span class="st">"top"</span>, title <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span>
-<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>, title <span class="op">=</span> <span class="st">"show_legend = FALSE"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>,</span>
+<span>  items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>, legend_position <span class="op">=</span> <span class="st">"right"</span>, title <span class="op">=</span> <span class="st">"right"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>,</span>
+<span>  items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>, legend_position <span class="op">=</span> <span class="st">"bottom"</span>, title <span class="op">=</span> <span class="st">"bottom"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>,</span>
+<span>  items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>, legend_position <span class="op">=</span> <span class="st">"top"</span>, title <span class="op">=</span> <span class="st">"top"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotICC_overlay_gg.html">plotICC_overlay_gg</a></span><span class="op">(</span><span class="va">result_irt</span>,</span>
+<span>  items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>, title <span class="op">=</span> <span class="st">"show_legend = FALSE"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot-gallery_files/figure-html/opt-legend-1.png" class="r-plt" alt="" width="960"></p>
 </div>

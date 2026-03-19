@@ -1,5 +1,20 @@
 # Changelog
 
+## ggExametrika 1.0.0
+
+### First CRAN Release
+
+- Initial CRAN submission. All features from v0.0.1–v0.0.39 are
+  included.
+- 31 exported visualization functions covering IRT, GRM, LCA, LRA,
+  Biclustering (binary/ordinal/nominal), BNM, LDLRA, LDB, and BINET
+  models.
+- All plot functions return ggplot2 objects for easy customization.
+- Common plot options (title, colors, linetype, show_legend,
+  legend_position) across all functions.
+- Replace non-ASCII multiplication sign (x) with ASCII ‘x’ in comments
+  and documentation for CRAN compliance.
+
 ## ggExametrika 0.0.39
 
 ### DAG Visualization

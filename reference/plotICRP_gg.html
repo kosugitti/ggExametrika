@@ -13,7 +13,7 @@ For each item, multiple lines represent the probability of selecting each respon
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.39</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,9 +140,11 @@ higher categories and lower probabilities for lower categories.</p>
 <span class="r-plt img"><img src="plotICRP_gg-1.png" alt="" width="672" height="480"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Custom colors and title</span></span></span>
-<span class="r-in"><span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu">plotICRP_gg</span><span class="op">(</span><span class="va">result</span>, items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>,</span></span>
-<span class="r-in"><span>                    title <span class="op">=</span> <span class="st">"Item Category Reference Profile"</span>,</span></span>
-<span class="r-in"><span>                    colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"purple"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu">plotICRP_gg</span><span class="op">(</span><span class="va">result</span>,</span></span>
+<span class="r-in"><span>  items <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>,</span></span>
+<span class="r-in"><span>  title <span class="op">=</span> <span class="st">"Item Category Reference Profile"</span>,</span></span>
+<span class="r-in"><span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"purple"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">plot</span></span></span>
 <span class="r-plt img"><img src="plotICRP_gg-2.png" alt="" width="672" height="480"></span>
 </code></pre></div>

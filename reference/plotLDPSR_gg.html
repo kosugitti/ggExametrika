@@ -21,7 +21,7 @@ through a specific field."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.39</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,8 +145,8 @@ via the specified field.</p>
 <span class="r-in"><span><span class="co"># BINET requires graph structure input (g_list or adj_file)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/BINET.html" class="external-link">BINET</a></span><span class="op">(</span><span class="va">J35S515</span>, ncls <span class="op">=</span> <span class="fl">13</span>, nfld <span class="op">=</span> <span class="fl">12</span>, conf <span class="op">=</span> <span class="va">conf</span>, adj_file <span class="op">=</span> <span class="va">edges</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu">plotLDPSR_gg</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="co"># Show LDPSR for the first edge</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>  <span class="co"># Show first 6 edges</span></span></span>
+<span class="r-in"><span><span class="va">plots</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># Show LDPSR for the first edge</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span> <span class="co"># Show first 6 edges</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

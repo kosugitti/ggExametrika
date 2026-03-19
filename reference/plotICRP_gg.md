@@ -103,8 +103,10 @@ plot
 
 
 # Custom colors and title
-plot <- plotICRP_gg(result, items = 1:6,
-                    title = "Item Category Reference Profile",
-                    colors = c("red", "blue", "green", "purple"))
+plot <- plotICRP_gg(result,
+  items = 1:6,
+  title = "Item Category Reference Profile",
+  colors = c("red", "blue", "green", "purple")
+)
 plot
 ```

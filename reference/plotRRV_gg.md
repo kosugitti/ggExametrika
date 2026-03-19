@@ -61,7 +61,7 @@ plotRRV_gg(
   Character. Statistic for polytomous data: `"mean"` (default),
   `"median"`, or `"mode"`. For binary data, this parameter is ignored.
 
-  - `"mean"`: Expected score (sum of category × probability)
+  - `"mean"`: Expected score (sum of category x probability)
 
   - `"median"`: Median category (cumulative probability \>= 0.5)
 

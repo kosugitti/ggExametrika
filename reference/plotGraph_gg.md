@@ -152,9 +152,11 @@ library(exametrika)
 library(ggExametrika)
 
 # BNM example
-DAG <- matrix(c("Item01", "Item02", "Item02", "Item03",
-                "Item02", "Item04", "Item03", "Item05",
-                "Item04", "Item05"), ncol = 2, byrow = TRUE)
+DAG <- matrix(c(
+  "Item01", "Item02", "Item02", "Item03",
+  "Item02", "Item04", "Item03", "Item05",
+  "Item04", "Item05"
+), ncol = 2, byrow = TRUE)
 g <- igraph::graph_from_data_frame(DAG)
 result <- BNM(J5S10, g = g)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
@@ -165,11 +167,11 @@ plots[[1]]
 
 
 # Alternative directions
-plotGraph_gg(result, direction = "TB")[[1]]  # Top-to-Bottom
+plotGraph_gg(result, direction = "TB")[[1]] # Top-to-Bottom
 
-plotGraph_gg(result, direction = "LR")[[1]]  # Left-to-Right
+plotGraph_gg(result, direction = "LR")[[1]] # Left-to-Right
 
-plotGraph_gg(result, direction = "RL")[[1]]  # Right-to-Left
+plotGraph_gg(result, direction = "RL")[[1]] # Right-to-Left
 
 
 # Force-directed layout (no direction parameter)
