@@ -269,6 +269,7 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' # IRT example
 #' result_irt <- IRT(J15S500, model = 3)
 #' plots_irt <- plotIIC_gg(result_irt)
@@ -278,6 +279,7 @@ ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
 #' result_grm <- GRM(J5S1000)
 #' plots_grm <- plotIIC_gg(result_grm)
 #' plots_grm[[1]] # Show IIC for the first item
+#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}, \code{\link{plotTIC_gg}}, \code{\link{plotICRF_gg}}
 #'
@@ -484,6 +486,7 @@ plotIIC_gg <- function(data,
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' # IRT example
 #' result_irt <- IRT(J15S500, model = 3)
 #' plot_irt <- plotTIC_gg(result_irt)
@@ -493,6 +496,7 @@ plotIIC_gg <- function(data,
 #' result_grm <- GRM(J5S1000)
 #' plot_grm <- plotTIC_gg(result_grm)
 #' plot_grm # Show Test Information Curve
+#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}, \code{\link{plotIIC_gg}}, \code{\link{plotICRF_gg}}
 #'
@@ -937,6 +941,7 @@ plotICC_overlay_gg <- function(data,
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' # IRT example
 #' result_irt <- IRT(J15S500, model = 3)
 #' plotIIC_overlay_gg(result_irt) # All items
@@ -945,6 +950,7 @@ plotICC_overlay_gg <- function(data,
 #' # GRM example
 #' result_grm <- GRM(J5S1000)
 #' plotIIC_overlay_gg(result_grm, show_legend = TRUE)
+#' }
 #'
 #' @seealso \code{\link{plotIIC_gg}}, \code{\link{plotICC_gg}}
 #'

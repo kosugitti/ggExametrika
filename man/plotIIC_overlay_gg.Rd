@@ -65,6 +65,7 @@ occurs near the item's difficulty parameter.
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
+\donttest{
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
 plotIIC_overlay_gg(result_irt) # All items
@@ -73,6 +74,7 @@ plotIIC_overlay_gg(result_irt, items = 1:5) # First 5 items only
 # GRM example
 result_grm <- GRM(J5S1000)
 plotIIC_overlay_gg(result_grm, show_legend = TRUE)
+}
 \dontshow{\}) # examplesIf}
 }
 \seealso{

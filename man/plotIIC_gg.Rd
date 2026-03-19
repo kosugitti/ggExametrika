@@ -65,6 +65,7 @@ information function. For GRM, the information is computed as:
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
+\donttest{
 # IRT example
 result_irt <- IRT(J15S500, model = 3)
 plots_irt <- plotIIC_gg(result_irt)
@@ -74,6 +75,7 @@ plots_irt[[1]] # Show IIC for the first item
 result_grm <- GRM(J5S1000)
 plots_grm <- plotIIC_gg(result_grm)
 plots_grm[[1]] # Show IIC for the first item
+}
 \dontshow{\}) # examplesIf}
 }
 \seealso{

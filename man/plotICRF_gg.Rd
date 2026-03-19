@@ -64,10 +64,12 @@ The category probabilities are derived from cumulative probabilities:
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
+\donttest{
 result <- GRM(J5S1000)
 plots <- plotICRF_gg(result)
 plots[[1]] # Show ICRF for the first item
 combinePlots_gg(plots, selectPlots = 1:5)
+}
 \dontshow{\}) # examplesIf}
 }
 \seealso{

@@ -54,9 +54,11 @@ centered on a single rank are well-classified.
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
+\donttest{
 result <- LRA(J15S500, nrank = 5)
 plots <- plotRMP_gg(result)
 plots[[1]] # Show RMP for the first student
+}
 \dontshow{\}) # examplesIf}
 }
 \seealso{

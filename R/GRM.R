@@ -39,10 +39,12 @@
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' result <- GRM(J5S1000)
 #' plots <- plotICRF_gg(result)
 #' plots[[1]] # Show ICRF for the first item
 #' combinePlots_gg(plots, selectPlots = 1:5)
+#' }
 #'
 #' @seealso \code{\link{plotICC_gg}}
 #'

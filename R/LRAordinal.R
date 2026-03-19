@@ -176,6 +176,7 @@ plotScoreFreq_gg <- function(data,
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #'
 #' # Plot first 4 items
@@ -189,6 +190,7 @@ plotScoreFreq_gg <- function(data,
 #'   colors = c("red", "blue", "green", "purple")
 #' )
 #' plot
+#' }
 #'
 #' @seealso \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}
 #'

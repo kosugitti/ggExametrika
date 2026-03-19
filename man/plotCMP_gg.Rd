@@ -53,9 +53,11 @@ probabilities across classes may be ambiguous cases.
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
+\donttest{
 result <- LCA(J15S500, ncls = 5)
 plots <- plotCMP_gg(result)
 plots[[1]] # Show CMP for the first student
+}
 \dontshow{\}) # examplesIf}
 }
 \seealso{

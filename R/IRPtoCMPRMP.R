@@ -958,9 +958,11 @@ plotLRD_gg <- function(data,
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' result <- LCA(J15S500, ncls = 5)
 #' plots <- plotCMP_gg(result)
 #' plots[[1]] # Show CMP for the first student
+#' }
 #'
 #' @seealso \code{\link{plotRMP_gg}}, \code{\link{plotLCD_gg}}
 #'
@@ -1111,9 +1113,11 @@ plotCMP_gg <- function(data,
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
+#' \donttest{
 #' result <- LRA(J15S500, nrank = 5)
 #' plots <- plotRMP_gg(result)
 #' plots[[1]] # Show RMP for the first student
+#' }
 #'
 #' @seealso \code{\link{plotCMP_gg}}, \code{\link{plotLRD_gg}}
 #'
