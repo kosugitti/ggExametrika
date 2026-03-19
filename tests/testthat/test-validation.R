@@ -17,21 +17,24 @@ invalid_inputs <- list(
 test_that("plotICC_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotICC_gg(invalid_inputs[[nm]]),
-      info = paste("plotICC_gg should reject", nm))
+      info = paste("plotICC_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotTRF_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotTRF_gg(invalid_inputs[[nm]]),
-      info = paste("plotTRF_gg should reject", nm))
+      info = paste("plotTRF_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotICC_overlay_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotICC_overlay_gg(invalid_inputs[[nm]]),
-      info = paste("plotICC_overlay_gg should reject", nm))
+      info = paste("plotICC_overlay_gg should reject", nm)
+    )
   }
 })
 
@@ -40,21 +43,24 @@ test_that("plotICC_overlay_gg rejects all invalid input types", {
 test_that("plotIIC_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotIIC_gg(invalid_inputs[[nm]]),
-      info = paste("plotIIC_gg should reject", nm))
+      info = paste("plotIIC_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotTIC_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotTIC_gg(invalid_inputs[[nm]]),
-      info = paste("plotTIC_gg should reject", nm))
+      info = paste("plotTIC_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotIIC_overlay_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotIIC_overlay_gg(invalid_inputs[[nm]]),
-      info = paste("plotIIC_overlay_gg should reject", nm))
+      info = paste("plotIIC_overlay_gg should reject", nm)
+    )
   }
 })
 
@@ -63,7 +69,8 @@ test_that("plotIIC_overlay_gg rejects all invalid input types", {
 test_that("plotICRF_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotICRF_gg(invalid_inputs[[nm]]),
-      info = paste("plotICRF_gg should reject", nm))
+      info = paste("plotICRF_gg should reject", nm)
+    )
   }
 })
 
@@ -72,42 +79,48 @@ test_that("plotICRF_gg rejects all invalid input types", {
 test_that("plotIRP_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotIRP_gg(invalid_inputs[[nm]]),
-      info = paste("plotIRP_gg should reject", nm))
+      info = paste("plotIRP_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotTRP_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotTRP_gg(invalid_inputs[[nm]]),
-      info = paste("plotTRP_gg should reject", nm))
+      info = paste("plotTRP_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotLCD_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotLCD_gg(invalid_inputs[[nm]]),
-      info = paste("plotLCD_gg should reject", nm))
+      info = paste("plotLCD_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotLRD_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotLRD_gg(invalid_inputs[[nm]]),
-      info = paste("plotLRD_gg should reject", nm))
+      info = paste("plotLRD_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotCMP_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotCMP_gg(invalid_inputs[[nm]]),
-      info = paste("plotCMP_gg should reject", nm))
+      info = paste("plotCMP_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotRMP_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotRMP_gg(invalid_inputs[[nm]]),
-      info = paste("plotRMP_gg should reject", nm))
+      info = paste("plotRMP_gg should reject", nm)
+    )
   }
 })
 
@@ -116,28 +129,32 @@ test_that("plotRMP_gg rejects all invalid input types", {
 test_that("plotFRP_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotFRP_gg(invalid_inputs[[nm]]),
-      info = paste("plotFRP_gg should reject", nm))
+      info = paste("plotFRP_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotCRV_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotCRV_gg(invalid_inputs[[nm]]),
-      info = paste("plotCRV_gg should reject", nm))
+      info = paste("plotCRV_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotRRV_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotRRV_gg(invalid_inputs[[nm]]),
-      info = paste("plotRRV_gg should reject", nm))
+      info = paste("plotRRV_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotArray_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotArray_gg(invalid_inputs[[nm]]),
-      info = paste("plotArray_gg should reject", nm))
+      info = paste("plotArray_gg should reject", nm)
+    )
   }
 })
 
@@ -146,21 +163,24 @@ test_that("plotArray_gg rejects all invalid input types", {
 test_that("plotFCRP_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotFCRP_gg(invalid_inputs[[nm]]),
-      info = paste("plotFCRP_gg should reject", nm))
+      info = paste("plotFCRP_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotFCBR_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotFCBR_gg(invalid_inputs[[nm]]),
-      info = paste("plotFCBR_gg should reject", nm))
+      info = paste("plotFCBR_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotScoreField_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotScoreField_gg(invalid_inputs[[nm]]),
-      info = paste("plotScoreField_gg should reject", nm))
+      info = paste("plotScoreField_gg should reject", nm)
+    )
   }
 })
 
@@ -169,28 +189,32 @@ test_that("plotScoreField_gg rejects all invalid input types", {
 test_that("plotScoreFreq_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotScoreFreq_gg(invalid_inputs[[nm]]),
-      info = paste("plotScoreFreq_gg should reject", nm))
+      info = paste("plotScoreFreq_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotScoreRank_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotScoreRank_gg(invalid_inputs[[nm]]),
-      info = paste("plotScoreRank_gg should reject", nm))
+      info = paste("plotScoreRank_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotICRP_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotICRP_gg(invalid_inputs[[nm]]),
-      info = paste("plotICRP_gg should reject", nm))
+      info = paste("plotICRP_gg should reject", nm)
+    )
   }
 })
 
 test_that("plotICBR_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotICBR_gg(invalid_inputs[[nm]]),
-      info = paste("plotICBR_gg should reject", nm))
+      info = paste("plotICBR_gg should reject", nm)
+    )
   }
 })
 
@@ -199,7 +223,8 @@ test_that("plotICBR_gg rejects all invalid input types", {
 test_that("plotGraph_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotGraph_gg(invalid_inputs[[nm]]),
-      info = paste("plotGraph_gg should reject", nm))
+      info = paste("plotGraph_gg should reject", nm)
+    )
   }
 })
 
@@ -208,7 +233,8 @@ test_that("plotGraph_gg rejects all invalid input types", {
 test_that("plotLDPSR_gg rejects all invalid input types", {
   for (nm in names(invalid_inputs)) {
     expect_error(plotLDPSR_gg(invalid_inputs[[nm]]),
-      info = paste("plotLDPSR_gg should reject", nm))
+      info = paste("plotLDPSR_gg should reject", nm)
+    )
   }
 })
 

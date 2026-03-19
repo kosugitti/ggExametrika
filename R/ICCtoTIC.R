@@ -116,8 +116,10 @@ plotICC_gg <- function(data,
     p <- ggplot(data = data.frame(x = xvariable)) +
       xlim(xvariable[1], xvariable[2]) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      stat_function(fun = Item_Characteristic_function, args = args,
-                    color = use_color, linetype = linetype) +
+      stat_function(
+        fun = Item_Characteristic_function, args = args,
+        color = use_color, linetype = linetype
+      ) +
       labs(
         title = plot_title,
         x = "ability",
@@ -791,13 +793,13 @@ plotTRF_gg <- function(data,
 #' @importFrom ggplot2 labs theme scale_color_manual
 #' @export
 plotICC_overlay_gg <- function(data,
-                                items = NULL,
-                                xvariable = c(-4, 4),
-                                title = TRUE,
-                                colors = NULL,
-                                linetype = "solid",
-                                show_legend = TRUE,
-                                legend_position = "right") {
+                               items = NULL,
+                               xvariable = c(-4, 4),
+                               title = TRUE,
+                               colors = NULL,
+                               linetype = "solid",
+                               show_legend = TRUE,
+                               legend_position = "right") {
   if (!all(class(data) %in% c("exametrika", "IRT"))) {
     stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
   }
@@ -950,13 +952,13 @@ plotICC_overlay_gg <- function(data,
 #' @importFrom ggplot2 labs theme scale_color_manual
 #' @export
 plotIIC_overlay_gg <- function(data,
-                                items = NULL,
-                                xvariable = c(-4, 4),
-                                title = TRUE,
-                                colors = NULL,
-                                linetype = "solid",
-                                show_legend = TRUE,
-                                legend_position = "right") {
+                               items = NULL,
+                               xvariable = c(-4, 4),
+                               title = TRUE,
+                               colors = NULL,
+                               linetype = "solid",
+                               show_legend = TRUE,
+                               legend_position = "right") {
   # Check model type
   is_IRT <- all(class(data) %in% c("exametrika", "IRT"))
   is_GRM <- all(class(data) %in% c("exametrika", "GRM"))

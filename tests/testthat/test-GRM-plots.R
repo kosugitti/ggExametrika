@@ -40,10 +40,14 @@ test_that("plotICRF_gg common options work", {
   expect_s3_class(plotICRF_gg(fixture_GRM, items = 1, title = FALSE)[[1]], "gg")
   expect_s3_class(plotICRF_gg(fixture_GRM, items = 1, title = "Custom ICRF")[[1]], "gg")
   expect_s3_class(plotICRF_gg(fixture_GRM, items = 1, linetype = "dashed")[[1]], "gg")
-  expect_s3_class(plotICRF_gg(fixture_GRM, items = 1,
-    show_legend = FALSE)[[1]], "gg")
-  expect_s3_class(plotICRF_gg(fixture_GRM, items = 1,
-    legend_position = "bottom")[[1]], "gg")
+  expect_s3_class(plotICRF_gg(fixture_GRM,
+    items = 1,
+    show_legend = FALSE
+  )[[1]], "gg")
+  expect_s3_class(plotICRF_gg(fixture_GRM,
+    items = 1,
+    legend_position = "bottom"
+  )[[1]], "gg")
 })
 
 test_that("plotICRF_gg rejects invalid input", {

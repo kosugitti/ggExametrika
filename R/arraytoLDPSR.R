@@ -141,7 +141,7 @@ plotArray_gg <- function(data,
     use_colors <- character(n_categories)
     for (i in seq_along(all_values)) {
       if (all_values[i] == -1) {
-        use_colors[i] <- "#000000"  # Black for missing
+        use_colors[i] <- "#000000" # Black for missing
       } else {
         # Find position in valid_values
         valid_idx <- which(valid_values == all_values[i])
@@ -381,11 +381,11 @@ plotArray_gg <- function(data,
 #' @export
 
 plotFieldPIRP_gg <- function(data,
-                              title = TRUE,
-                              colors = NULL,
-                              linetype = "solid",
-                              show_legend = FALSE,
-                              legend_position = "right") {
+                             title = TRUE,
+                             colors = NULL,
+                             linetype = "solid",
+                             show_legend = FALSE,
+                             legend_position = "right") {
   if (all(class(data) %in% c("exametrika", "LDB"))) {} else {
     stop("Invalid input. The variable must be from exametrika output or from LDB.")
   }
@@ -443,7 +443,8 @@ plotFieldPIRP_gg <- function(data,
       scale_x_continuous(breaks = seq(0, max(plot_data$l), 1)) +
       geom_line(linetype = linetype) +
       geom_text(aes(x = l, y = k - 0.02, label = substr(field, 7, 8)),
-                show.legend = FALSE) +
+        show.legend = FALSE
+      ) +
       scale_color_manual(values = use_colors) +
       labs(
         title = plot_title,

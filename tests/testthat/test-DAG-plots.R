@@ -35,7 +35,8 @@ test_that("plotGraph_gg node appearance parameters work", {
   skip_if(is.null(fixture_BNM), "BNM fixture not available")
 
   expect_s3_class(plotGraph_gg(fixture_BNM,
-    node_size = 15, label_size = 5, arrow_size = 4)[[1]], "gg")
+    node_size = 15, label_size = 5, arrow_size = 4
+  )[[1]], "gg")
 })
 
 test_that("plotGraph_gg rejects invalid input", {
@@ -204,7 +205,7 @@ test_that("plotGraph_gg LDB: Field nodes use diamond shape", {
   p <- result[[1]]
   # Verify the plot contains shape scale with diamond (23) for Field
   build <- ggplot2::ggplot_build(p)
-  point_data <- build$data[[2]]  # geom_node_point is the 2nd layer
+  point_data <- build$data[[2]] # geom_node_point is the 2nd layer
   # Shape 23 = diamond
   expect_true(all(point_data$shape == 23))
 })
@@ -247,7 +248,8 @@ test_that("plotGraph_gg BINET: colors common option works", {
   # Named colors
   expect_s3_class(
     plotGraph_gg(fixture_BINET,
-                 colors = c(Class = "#FF0000", Field = "#00FF00"))[[1]], "gg"
+      colors = c(Class = "#FF0000", Field = "#00FF00")
+    )[[1]], "gg"
   )
 })
 
@@ -258,8 +260,10 @@ test_that("plotGraph_gg BINET: show_legend and legend_position work", {
   expect_s3_class(plotGraph_gg(fixture_BINET, show_legend = TRUE)[[1]], "gg")
   expect_s3_class(plotGraph_gg(fixture_BINET, show_legend = FALSE)[[1]], "gg")
   expect_s3_class(
-    plotGraph_gg(fixture_BINET, show_legend = TRUE,
-                 legend_position = "bottom")[[1]], "gg"
+    plotGraph_gg(fixture_BINET,
+      show_legend = TRUE,
+      legend_position = "bottom"
+    )[[1]], "gg"
   )
 })
 
@@ -280,7 +284,7 @@ test_that("plotGraph_gg BINET: both node types present", {
   result <- plotGraph_gg(fixture_BINET)
   p <- result[[1]]
   build <- ggplot2::ggplot_build(p)
-  point_data <- build$data[[2]]  # geom_node_point is the 2nd layer
+  point_data <- build$data[[2]] # geom_node_point is the 2nd layer
 
   # Must contain both Class (square=22) and Field (diamond=23) shapes
   shapes_present <- unique(point_data$shape)
@@ -301,5 +305,6 @@ test_that("plotGraph_gg BINET: node sizes differ by type", {
   class_sizes <- point_data$size[point_data$shape == 22]
   field_sizes <- point_data$size[point_data$shape == 23]
   expect_true(all(class_sizes > field_sizes),
-              label = "Class nodes larger than Field nodes")
+    label = "Class nodes larger than Field nodes"
+  )
 })

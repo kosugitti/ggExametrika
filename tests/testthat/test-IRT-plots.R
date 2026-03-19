@@ -48,8 +48,10 @@ test_that("plotICC_gg common options work", {
   expect_s3_class(plotICC_gg(fixture_IRT_2PL, items = 1, linetype = "dashed")[[1]], "gg")
 
   # legend
-  expect_s3_class(plotICC_gg(fixture_IRT_2PL, items = 1,
-    show_legend = TRUE, legend_position = "bottom")[[1]], "gg")
+  expect_s3_class(plotICC_gg(fixture_IRT_2PL,
+    items = 1,
+    show_legend = TRUE, legend_position = "bottom"
+  )[[1]], "gg")
 })
 
 test_that("plotICC_gg rejects invalid input", {

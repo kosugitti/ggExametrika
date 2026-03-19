@@ -85,9 +85,11 @@
 #' library(ggExametrika)
 #'
 #' # BNM example
-#' DAG <- matrix(c("Item01", "Item02", "Item02", "Item03",
-#'                 "Item02", "Item04", "Item03", "Item05",
-#'                 "Item04", "Item05"), ncol = 2, byrow = TRUE)
+#' DAG <- matrix(c(
+#'   "Item01", "Item02", "Item02", "Item03",
+#'   "Item02", "Item04", "Item03", "Item05",
+#'   "Item04", "Item05"
+#' ), ncol = 2, byrow = TRUE)
 #' g <- igraph::graph_from_data_frame(DAG)
 #' result <- BNM(J5S10, g = g)
 #'
@@ -96,9 +98,9 @@
 #' plots[[1]]
 #'
 #' # Alternative directions
-#' plotGraph_gg(result, direction = "TB")[[1]]  # Top-to-Bottom
-#' plotGraph_gg(result, direction = "LR")[[1]]  # Left-to-Right
-#' plotGraph_gg(result, direction = "RL")[[1]]  # Right-to-Left
+#' plotGraph_gg(result, direction = "TB")[[1]] # Top-to-Bottom
+#' plotGraph_gg(result, direction = "LR")[[1]] # Left-to-Right
+#' plotGraph_gg(result, direction = "RL")[[1]] # Right-to-Left
 #'
 #' # Force-directed layout (no direction parameter)
 #' plotGraph_gg(result, layout = "fr")[[1]]
@@ -121,7 +123,6 @@ plotGraph_gg <- function(data,
                          colors = NULL,
                          show_legend = FALSE,
                          legend_position = "right") {
-
   # Check class
   model_class <- class(data)[2]
   if (!model_class %in% c("BNM", "LDLRA", "LDB", "BINET")) {
@@ -348,7 +349,7 @@ plotGraph_gg <- function(data,
     0.5
   }
   list(
-    node  = node_size  * scale_factor,
+    node  = node_size * scale_factor,
     arrow = max(arrow_size * scale_factor, 2.0),
     label = label_size * scale_factor,
     base  = scale_factor
@@ -369,7 +370,7 @@ plotGraph_gg <- function(data,
 
 # Return node shapes as named vector by node type
 .dag_node_shapes <- function(node_type) {
-  shapes <- c(Item = 21, Field = 23, Class = 22)  # circle, diamond, square
+  shapes <- c(Item = 21, Field = 23, Class = 22) # circle, diamond, square
   shapes[node_type]
 }
 
@@ -387,8 +388,10 @@ plotGraph_gg <- function(data,
     node_number = .dag_node_number(class_names),
     stringsAsFactors = FALSE
   )
-  new_edges <- data.frame(from = character(0), to = character(0),
-                          stringsAsFactors = FALSE)
+  new_edges <- data.frame(
+    from = character(0), to = character(0),
+    stringsAsFactors = FALSE
+  )
 
   for (k in seq_len(nrow(edges))) {
     from_cls <- edges$from[k]
@@ -402,14 +405,17 @@ plotGraph_gg <- function(data,
       name = field_id, node_type = "Field", node_number = field_num,
       stringsAsFactors = FALSE
     ))
-    new_edges <- rbind(new_edges,
+    new_edges <- rbind(
+      new_edges,
       data.frame(from = from_cls, to = field_id, stringsAsFactors = FALSE),
       data.frame(from = field_id, to = to_cls, stringsAsFactors = FALSE)
     )
   }
 
-  g <- igraph::graph_from_data_frame(new_edges, directed = TRUE,
-                                     vertices = new_nodes)
+  g <- igraph::graph_from_data_frame(new_edges,
+    directed = TRUE,
+    vertices = new_nodes
+  )
   g
 }
 
@@ -437,8 +443,8 @@ plotGraph_gg <- function(data,
 #   When NULL (default), all nodes use uniform scales$node / scales$label.
 #   When provided, node sizes vary by node_type (used for BINET).
 .dag_build_plot <- function(g, lay, scales, node_colors, node_shapes,
-                             plot_title, show_legend, legend_position,
-                             node_size_map = NULL, label_size_map = NULL) {
+                            plot_title, show_legend, legend_position,
+                            node_size_map = NULL, label_size_map = NULL) {
   # Compute expand margin so nodes are never clipped.
   # node_size (ggplot pt units) / coordinate range determines needed padding.
   # Larger nodes need proportionally more space; clamp to [0.20, 0.45].

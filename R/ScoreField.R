@@ -6,7 +6,7 @@
 #' (nominalBiclustering, ordinalBiclustering).
 #'
 #' The expected score for each field-class/rank combination is calculated as
-#' the sum of (category × probability) across all categories.
+#' the sum of (category x probability) across all categories.
 #'
 #' @param data An exametrika model object from nominalBiclustering or ordinalBiclustering.
 #' @param title Logical or character. If TRUE (default), displays an automatic title.
@@ -103,13 +103,13 @@ plotScoreField_gg <- function(data,
   }
 
   # Extract data
-  BCRM <- data$FRP # Field × Class/Rank × Category
+  BCRM <- data$FRP # Field x Class/Rank x Category
   nfld <- dim(BCRM)[1]
   ncls <- dim(BCRM)[2]
   maxQ <- dim(BCRM)[3]
   msg <- data$msg # "Class" or "Rank"
 
-  # Calculate expected scores for each field × class/rank
+  # Calculate expected scores for each field x class/rank
   score_mat <- matrix(0, nrow = nfld, ncol = ncls)
   for (f in 1:nfld) {
     for (cc in 1:ncls) {

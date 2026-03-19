@@ -69,8 +69,8 @@ library(exametrika)
 # BINET requires graph structure input (g_list or adj_file)
 result <- BINET(J35S515, ncls = 13, nfld = 12, conf = conf, adj_file = edges)
 plots <- plotLDPSR_gg(result)
-plots[[1]]  # Show LDPSR for the first edge
-combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 edges
+plots[[1]] # Show LDPSR for the first edge
+combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 edges
 }
 
 }

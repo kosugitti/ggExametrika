@@ -39,7 +39,7 @@ One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
 \item{stat}{Character. Statistic for polytomous data: \code{"mean"} (default),
 \code{"median"}, or \code{"mode"}. For binary data, this parameter is ignored.
 \itemize{
-\item \code{"mean"}: Expected score (sum of category × probability)
+\item \code{"mean"}: Expected score (sum of category x probability)
 \item \code{"median"}: Median category (cumulative probability >= 0.5)
 \item \code{"mode"}: Most probable category
 }}

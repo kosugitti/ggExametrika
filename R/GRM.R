@@ -194,7 +194,7 @@ ItemInformationFunc_GRM <- function(theta, a, b) {
     1 / (1 + exp(-a * (theta - b)))
   }
 
-  K <- length(b) + 1  # number of categories
+  K <- length(b) + 1 # number of categories
   info <- 0
 
   for (k in seq_along(b)) {

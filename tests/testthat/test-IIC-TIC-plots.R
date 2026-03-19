@@ -55,8 +55,10 @@ test_that("plotIIC_gg common options work", {
   expect_s3_class(plotIIC_gg(fixture_IRT_2PL, items = 1, title = "Custom IIC")[[1]], "gg")
   expect_s3_class(plotIIC_gg(fixture_IRT_2PL, items = 1, colors = "red")[[1]], "gg")
   expect_s3_class(plotIIC_gg(fixture_IRT_2PL, items = 1, linetype = "dashed")[[1]], "gg")
-  expect_s3_class(plotIIC_gg(fixture_IRT_2PL, items = 1,
-    show_legend = TRUE, legend_position = "bottom")[[1]], "gg")
+  expect_s3_class(plotIIC_gg(fixture_IRT_2PL,
+    items = 1,
+    show_legend = TRUE, legend_position = "bottom"
+  )[[1]], "gg")
 })
 
 test_that("plotIIC_gg rejects invalid input", {
@@ -95,7 +97,8 @@ test_that("plotTIC_gg common options work", {
   expect_s3_class(plotTIC_gg(fixture_IRT_2PL, colors = "blue"), "gg")
   expect_s3_class(plotTIC_gg(fixture_IRT_2PL, linetype = "dotted"), "gg")
   expect_s3_class(plotTIC_gg(fixture_IRT_2PL,
-    show_legend = TRUE, legend_position = "top"), "gg")
+    show_legend = TRUE, legend_position = "top"
+  ), "gg")
 })
 
 test_that("plotTIC_gg rejects invalid input", {

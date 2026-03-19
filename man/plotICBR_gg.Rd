@@ -75,9 +75,11 @@ plot <- plotICBR_gg(result, items = 1:4)
 plot
 
 # Custom colors and title
-plot <- plotICBR_gg(result, items = 1:6,
-                    title = "Item Category Boundary Response",
-                    colors = c("red", "blue", "green", "purple"))
+plot <- plotICBR_gg(result,
+  items = 1:6,
+  title = "Item Category Boundary Response",
+  colors = c("red", "blue", "green", "purple")
+)
 plot
 \dontshow{\}) # examplesIf}
 }

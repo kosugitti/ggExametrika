@@ -69,22 +69,30 @@ result_bnm <- BNM(J5S10, g = bnm_dag)
 
 # --- LDLRA (12 items, 5000 students, 3 ranks, same DAG per rank) ---
 ldlra_g <- igraph::graph_from_data_frame(
-  data.frame(from = c("Item01", "Item02", "Item03"),
-             to   = c("Item02", "Item03", "Item04")),
+  data.frame(
+    from = c("Item01", "Item02", "Item03"),
+    to = c("Item02", "Item03", "Item04")
+  ),
   directed = TRUE
 )
-result_ldlra <- LDLRA(J12S5000, ncls = 3,
-                      g = list(ldlra_g, ldlra_g, ldlra_g))
+result_ldlra <- LDLRA(J12S5000,
+  ncls = 3,
+  g = list(ldlra_g, ldlra_g, ldlra_g)
+)
 
 # --- LDB (35 items, 515 students, 3 fields, 3 ranks) ---
 ldb_conf <- rep(1:3, length.out = 35)
 ldb_g <- igraph::graph_from_data_frame(
-  data.frame(from = c("Field01", "Field02"),
-             to   = c("Field02", "Field03")),
+  data.frame(
+    from = c("Field01", "Field02"),
+    to = c("Field02", "Field03")
+  ),
   directed = TRUE
 )
-result_ldb <- LDB(J35S515, ncls = 3, conf = ldb_conf,
-                  g_list = list(ldb_g, ldb_g, ldb_g))
+result_ldb <- LDB(J35S515,
+  ncls = 3, conf = ldb_conf,
+  g_list = list(ldb_g, ldb_g, ldb_g)
+)
 
 # --- BINET (35 items, 515 students, 3 classes, 3 fields) ---
 binet_edges <- data.frame(
@@ -94,9 +102,11 @@ binet_edges <- data.frame(
 )
 binet_edge_file <- tempfile(fileext = ".csv")
 write.csv(binet_edges, binet_edge_file, row.names = FALSE)
-result_binet <- BINET(J35S515, ncls = 3, nfld = 3,
-                      conf = ldb_conf, adj_file = binet_edge_file,
-                      verbose = FALSE)
+result_binet <- BINET(J35S515,
+  ncls = 3, nfld = 3,
+  conf = ldb_conf, adj_file = binet_edge_file,
+  verbose = FALSE
+)
 unlink(binet_edge_file)
 ```
 
@@ -495,18 +505,22 @@ dag_binet[[1]]
 With legend showing node types:
 
 ```{r dag-binet-legend}
-plotGraph_gg(result_binet, show_legend = TRUE,
-            legend_position = "right", title = "BINET with Legend")[[1]]
+plotGraph_gg(result_binet,
+  show_legend = TRUE,
+  legend_position = "right", title = "BINET with Legend"
+)[[1]]
 ```
 
 #### Comparing all four DAG models
 
 ```{r dag-compare, fig.width = 10, fig.height = 8}
-p_bnm    <- plotGraph_gg(result_bnm, title = "BNM (Items)")[[1]]
-p_ldlra  <- plotGraph_gg(result_ldlra, title = "LDLRA (Items)")[[1]]
-p_ldb    <- plotGraph_gg(result_ldb, title = "LDB (Fields)")[[1]]
-p_binet  <- plotGraph_gg(result_binet, title = "BINET (Class+Field)",
-                         show_legend = TRUE)[[1]]
+p_bnm <- plotGraph_gg(result_bnm, title = "BNM (Items)")[[1]]
+p_ldlra <- plotGraph_gg(result_ldlra, title = "LDLRA (Items)")[[1]]
+p_ldb <- plotGraph_gg(result_ldb, title = "LDB (Fields)")[[1]]
+p_binet <- plotGraph_gg(result_binet,
+  title = "BINET (Class+Field)",
+  show_legend = TRUE
+)[[1]]
 gridExtra::grid.arrange(p_bnm, p_ldlra, p_ldb, p_binet, ncol = 2)
 ```
 
@@ -570,8 +584,10 @@ plotICRF_gg(result_grm,
 
 ```{r opt-colors-crv}
 plotCRV_gg(result_bic,
-  colors = c("steelblue", "coral", "forestgreen",
-             "mediumpurple", "goldenrod", "hotpink")
+  colors = c(
+    "steelblue", "coral", "forestgreen",
+    "mediumpurple", "goldenrod", "hotpink"
+  )
 )
 ```
 
@@ -587,14 +603,22 @@ gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 ### show_legend and legend_position
 
 ```{r opt-legend, fig.width = 10, fig.height = 8}
-p1 <- plotICC_overlay_gg(result_irt, items = 1:5,
-  show_legend = TRUE, legend_position = "right", title = "right")
-p2 <- plotICC_overlay_gg(result_irt, items = 1:5,
-  show_legend = TRUE, legend_position = "bottom", title = "bottom")
-p3 <- plotICC_overlay_gg(result_irt, items = 1:5,
-  show_legend = TRUE, legend_position = "top", title = "top")
-p4 <- plotICC_overlay_gg(result_irt, items = 1:5,
-  show_legend = FALSE, title = "show_legend = FALSE")
+p1 <- plotICC_overlay_gg(result_irt,
+  items = 1:5,
+  show_legend = TRUE, legend_position = "right", title = "right"
+)
+p2 <- plotICC_overlay_gg(result_irt,
+  items = 1:5,
+  show_legend = TRUE, legend_position = "bottom", title = "bottom"
+)
+p3 <- plotICC_overlay_gg(result_irt,
+  items = 1:5,
+  show_legend = TRUE, legend_position = "top", title = "top"
+)
+p4 <- plotICC_overlay_gg(result_irt,
+  items = 1:5,
+  show_legend = FALSE, title = "show_legend = FALSE"
+)
 gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
 ```
 

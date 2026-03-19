@@ -34,7 +34,8 @@ test_that("plotIRP_gg common options work", {
   expect_s3_class(plotIRP_gg(fixture_LCA, colors = "red")[[1]], "gg")
   expect_s3_class(plotIRP_gg(fixture_LCA, linetype = "solid")[[1]], "gg")
   expect_s3_class(plotIRP_gg(fixture_LCA,
-    show_legend = TRUE, legend_position = "bottom")[[1]], "gg")
+    show_legend = TRUE, legend_position = "bottom"
+  )[[1]], "gg")
 })
 
 test_that("plotIRP_gg rejects invalid input", {

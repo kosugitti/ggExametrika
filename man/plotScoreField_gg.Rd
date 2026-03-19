@@ -44,7 +44,7 @@ across latent classes or ranks in polytomous biclustering models
 (nominalBiclustering, ordinalBiclustering).
 
 The expected score for each field-class/rank combination is calculated as
-the sum of (category × probability) across all categories.
+the sum of (category x probability) across all categories.
 }
 \details{
 This function is designed for polytomous (multi-valued) biclustering models

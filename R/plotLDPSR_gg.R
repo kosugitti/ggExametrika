@@ -49,8 +49,8 @@
 #' # BINET requires graph structure input (g_list or adj_file)
 #' result <- BINET(J35S515, ncls = 13, nfld = 12, conf = conf, adj_file = edges)
 #' plots <- plotLDPSR_gg(result)
-#' plots[[1]]  # Show LDPSR for the first edge
-#' combinePlots_gg(plots, selectPlots = 1:6)  # Show first 6 edges
+#' plots[[1]] # Show LDPSR for the first edge
+#' combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 edges
 #' }
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}},
@@ -62,11 +62,11 @@
 #' @export
 
 plotLDPSR_gg <- function(data,
-                          title = TRUE,
-                          colors = NULL,
-                          linetype = "solid",
-                          show_legend = TRUE,
-                          legend_position = "right") {
+                         title = TRUE,
+                         colors = NULL,
+                         linetype = "solid",
+                         show_legend = TRUE,
+                         legend_position = "right") {
   # Input validation: BINET only
   if (!inherits(data, "exametrika") || !any(class(data) %in% "BINET")) {
     stop("Invalid input. The variable must be from exametrika BINET output.")

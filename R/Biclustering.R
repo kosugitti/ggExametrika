@@ -256,7 +256,7 @@ plotCRV_gg <- function(data,
 #' @param stat Character. Statistic for polytomous data: \code{"mean"} (default),
 #'   \code{"median"}, or \code{"mode"}. For binary data, this parameter is ignored.
 #'   \itemize{
-#'     \item \code{"mean"}: Expected score (sum of category × probability)
+#'     \item \code{"mean"}: Expected score (sum of category x probability)
 #'     \item \code{"median"}: Median category (cumulative probability >= 0.5)
 #'     \item \code{"mode"}: Most probable category
 #'   }
@@ -344,13 +344,13 @@ plotRRV_gg <- function(data,
   is_polytomous <- (frp_dims == 3)
 
   if (is_polytomous) {
-    # Polytomous (3D): Field × Class/Rank × Category
+    # Polytomous (3D): Field x Class/Rank x Category
     BCRM <- data$FRP
     maxQ <- dim(BCRM)[3]
 
     # Calculate expected scores
     FRP_mat <- .calc_expected_scores(BCRM, stat)
-    RRV <- t(FRP_mat)  # Transpose to Rank × Field
+    RRV <- t(FRP_mat)  # Transpose to Rank x Field
 
     n_rank <- nrow(RRV)
     n_fld <- ncol(RRV)
@@ -358,7 +358,7 @@ plotRRV_gg <- function(data,
     y_limits <- c(1, maxQ)
     y_breaks <- 1:maxQ
   } else {
-    # Binary (2D): Field × Class/Rank
+    # Binary (2D): Field x Class/Rank
     RRV <- t(data$FRP)
     n_rank <- nrow(RRV)
     n_fld <- ncol(RRV)

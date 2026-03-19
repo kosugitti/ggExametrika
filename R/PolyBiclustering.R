@@ -104,7 +104,7 @@ plotFCRP_gg <- function(data,
     linetype <- "solid"
   }
 
-  # Extract FCRP data (3D array: field × class × category)
+  # Extract FCRP data (3D array: field x class x category)
   BCRM <- data$FRP
   nfld <- dim(BCRM)[1]
   ncls <- dim(BCRM)[2]

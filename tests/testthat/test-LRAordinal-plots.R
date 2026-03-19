@@ -30,7 +30,8 @@ test_that("plotScoreFreq_gg common options work", {
   expect_s3_class(plotScoreFreq_gg(fixture_LRAord, colors = c("red", "blue")), "gg")
   expect_s3_class(plotScoreFreq_gg(fixture_LRAord, linetype = c("solid", "solid")), "gg")
   expect_s3_class(plotScoreFreq_gg(fixture_LRAord,
-    show_legend = TRUE, legend_position = "bottom"), "gg")
+    show_legend = TRUE, legend_position = "bottom"
+  ), "gg")
 })
 
 test_that("plotScoreFreq_gg rejects invalid input", {

@@ -50,7 +50,7 @@ result_irt <- IRT(J15S500, model = 2)
 ```{r}
 # 項目ごとにプロットのリストを返す
 icc_plots <- plotICC_gg(result_irt)
-icc_plots[[1]]  # 1番目の項目を表示
+icc_plots[[1]] # 1番目の項目を表示
 ```
 
 `combinePlots_gg()` で複数項目を一度に表示:
@@ -258,7 +258,7 @@ lcd_plot
 ```{r}
 # 学生ごとにプロットのリストを返す
 cmp_plots <- plotCMP_gg(result_lca)
-cmp_plots[[1]]  # 1人目の学生
+cmp_plots[[1]] # 1人目の学生
 combinePlots_gg(cmp_plots, selectPlots = 1:6)
 ```
 
@@ -576,7 +576,7 @@ combinePlots_gg(rmp_plots, selectPlots = 1:6)
 
 ```{r, eval = FALSE}
 dag_plots <- plotGraph_gg(result_ldlra)
-dag_plots[[1]]  # ランク1のDAG
+dag_plots[[1]] # ランク1のDAG
 combinePlots_gg(dag_plots)
 ```
 
@@ -631,7 +631,7 @@ array_plot
 
 ```{r, eval = FALSE}
 fpirp_plots <- plotFieldPIRP_gg(result_ldb)
-fpirp_plots[[1]]  # ランク1
+fpirp_plots[[1]] # ランク1
 combinePlots_gg(fpirp_plots)
 ```
 

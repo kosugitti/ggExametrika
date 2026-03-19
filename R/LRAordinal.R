@@ -183,9 +183,11 @@ plotScoreFreq_gg <- function(data,
 #' plot
 #'
 #' # Custom colors and title
-#' plot <- plotICBR_gg(result, items = 1:6,
-#'                     title = "Item Category Boundary Response",
-#'                     colors = c("red", "blue", "green", "purple"))
+#' plot <- plotICBR_gg(result,
+#'   items = 1:6,
+#'   title = "Item Category Boundary Response",
+#'   colors = c("red", "blue", "green", "purple")
+#' )
 #' plot
 #'
 #' @seealso \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}
@@ -202,7 +204,6 @@ plotICBR_gg <- function(data,
                         linetype = NULL,
                         show_legend = TRUE,
                         legend_position = "right") {
-
   # Class validation
   if (!all(c("exametrika", "LRAordinal") %in% class(data))) {
     stop("Invalid input. The data must be from exametrika LRAordinal output (dataType = 'ordinal').")
@@ -268,12 +269,14 @@ plotICBR_gg <- function(data,
   }
 
   # Build plot
-  p <- ggplot(long_data, aes(x = Rank, y = Probability,
-                             color = Category,
-                             linetype = Category,
-                             group = interaction(ItemLabel, Category))) +
+  p <- ggplot(long_data, aes(
+    x = Rank, y = Probability,
+    color = Category,
+    linetype = Category,
+    group = interaction(ItemLabel, Category)
+  )) +
     geom_line(linewidth = 0.8) +
-    facet_wrap(~ ItemLabel) +
+    facet_wrap(~ItemLabel) +
     scale_y_continuous(breaks = seq(0, 1, 0.25)) +
     labs(
       x = "Rank",
@@ -370,9 +373,11 @@ plotICBR_gg <- function(data,
 #' plot
 #'
 #' # Custom colors and title
-#' plot <- plotICRP_gg(result, items = 1:6,
-#'                     title = "Item Category Reference Profile",
-#'                     colors = c("red", "blue", "green", "purple"))
+#' plot <- plotICRP_gg(result,
+#'   items = 1:6,
+#'   title = "Item Category Reference Profile",
+#'   colors = c("red", "blue", "green", "purple")
+#' )
 #' plot
 #'
 #' @seealso \code{\link{plotICBR_gg}}, \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}
@@ -389,7 +394,6 @@ plotICRP_gg <- function(data,
                         linetype = NULL,
                         show_legend = TRUE,
                         legend_position = "right") {
-
   # Class validation
   is_LRAordinal <- all(c("exametrika", "LRAordinal") %in% class(data))
   is_LRArated <- all(c("exametrika", "LRArated") %in% class(data))
@@ -458,12 +462,14 @@ plotICRP_gg <- function(data,
   }
 
   # Build plot
-  p <- ggplot(long_data, aes(x = Rank, y = Probability,
-                             color = Category,
-                             linetype = Category,
-                             group = interaction(ItemLabel, Category))) +
+  p <- ggplot(long_data, aes(
+    x = Rank, y = Probability,
+    color = Category,
+    linetype = Category,
+    group = interaction(ItemLabel, Category)
+  )) +
     geom_line(linewidth = 0.8) +
-    facet_wrap(~ ItemLabel) +
+    facet_wrap(~ItemLabel) +
     scale_y_continuous(breaks = seq(0, 1, 0.25)) +
     labs(
       x = "Rank",

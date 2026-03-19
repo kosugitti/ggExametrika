@@ -9,7 +9,9 @@
 .first_non_null <- function(...) {
   args <- list(...)
   for (x in args) {
-    if (!is.null(x)) return(x)
+    if (!is.null(x)) {
+      return(x)
+    }
   }
   return(NULL)
 }
@@ -33,7 +35,7 @@
     "#66A61E", # green
     "#E6AB02", # gold
     "#A6761D", # brown
-    "#666666"  # gray
+    "#666666" # gray
   )
   rep_len(palette, n)
 }
