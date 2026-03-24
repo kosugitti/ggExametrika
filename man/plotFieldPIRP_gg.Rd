@@ -54,14 +54,27 @@ Note: Warning messages about NA values may appear during plotting
 but the behavior is normal.
 }
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\donttest{
 library(exametrika)
-# LDB requires graph structure input (g_list or adj_file)
-result <- LDB(J35S515, ncls = 6, g_list = graph_list)
+# LDB requires field configuration and edge structure
+conf <- c(
+  1, 6, 6, 8, 9, 9, 4, 7, 7, 7, 5, 8, 9, 10, 10, 9, 9,
+  10, 10, 10, 2, 2, 3, 3, 5, 5, 6, 9, 9, 10, 1, 1, 7, 9, 10
+)
+edges_data <- data.frame(
+  "From Field (Parent) >>>" = c(6,4,5,1,1,4, 3,4,6,2,4,4, 3,6,4,1, 7,9,6,7),
+  ">>> To Field (Child)" = c(8,7,8,7,2,5, 5,8,8,4,6,7, 5,8,5,8, 10,10,8,9),
+  "At Class/Rank (Locus)" = c(2,2,2,2,2,2, 3,3,3,3,3,3, 4,4,4,4, 5,5,5,5)
+)
+tmp_file <- tempfile(fileext = ".csv")
+write.csv(edges_data, file = tmp_file, row.names = FALSE)
+result <- LDB(J35S515, ncls = 5, conf = conf, adj_file = tmp_file)
+unlink(tmp_file)
 plots <- plotFieldPIRP_gg(result)
 plots[[1]] # Show Field PIRP for rank 1
 }
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}}

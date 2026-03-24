@@ -1,10 +1,19 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note (New submission)
+
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Replaced all `\dontrun{}` with `\donttest{}` in examples as requested
+  by the CRAN reviewer.
+* Made LDB/BINET examples self-contained with proper configuration
+  vectors and edge data.
 
 ## Test environments
 
-* local macOS Tahoe 26.3 (Apple Silicon, aarch64-apple-darwin25.0.0), R 4.5.2
+* local macOS Tahoe 26.3.1 (Apple Silicon, aarch64-apple-darwin25.3.0), R 4.5.3
 * GitHub Actions: macOS-latest (release), windows-latest (release), ubuntu-latest (release, devel)
 
 ## Notes

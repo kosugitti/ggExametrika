@@ -68,9 +68,8 @@ The \code{style} parameter allows two visualizations:
 }
 }
 \examples{
-# TODO: Revert \dontrun to @examplesIf after exametrika v1.10.0 is on CRAN.
-# J35S500 dataset requires exametrika >= 1.9.0.
-\dontrun{
+\dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\donttest{
 library(exametrika)
 # Ordinal Biclustering with 5 categories
 result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
@@ -88,7 +87,7 @@ plotFCRP_gg(result,
   colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#CC79A7")
 )
 }
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{plotFCBR_gg}}, \code{\link{plotScoreField_gg}}

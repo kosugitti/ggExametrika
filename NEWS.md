@@ -10,6 +10,8 @@
   across all functions.
 * Replace non-ASCII multiplication sign (x) with ASCII 'x' in comments and
   documentation for CRAN compliance.
+* Replace all `\dontrun{}` with `\donttest{}` in examples per CRAN review.
+* Make LDB/BINET examples self-contained with proper conf/edges setup.
 
 # ggExametrika 0.0.39
 

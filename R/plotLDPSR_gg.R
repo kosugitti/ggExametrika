@@ -43,14 +43,25 @@
 #' each item when transitioning from the parent class to the child class
 #' via the specified field.
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
+#' \donttest{
 #' library(exametrika)
-#' # BINET requires graph structure input (g_list or adj_file)
-#' result <- BINET(J35S515, ncls = 13, nfld = 12, conf = conf, adj_file = edges)
+#' # BINET requires field configuration and edge structure
+#' conf <- c(
+#'   1, 5, 5, 5, 9, 9, 6, 6, 6, 6, 2, 7, 7, 11, 11, 7, 7,
+#'   12, 12, 12, 2, 2, 3, 3, 4, 4, 4, 8, 8, 12, 1, 1, 6, 10, 10
+#' )
+#' edges_data <- data.frame(
+#'   "From Class (Parent) >>>" = c(1,2,3,4,5,7,2,4,6,8,10,6,6,11,8,9,12),
+#'   ">>> To Class (Child)" = c(2,4,5,5,6,11,3,7,9,12,12,10,8,12,12,11,13),
+#'   "At Field (Locus)" = c(1,2,2,3,4,4,5,5,5,5,5,7,8,8,9,9,12)
+#' )
+#' tmp_file <- tempfile(fileext = ".csv")
+#' write.csv(edges_data, file = tmp_file, row.names = FALSE)
+#' result <- BINET(J35S515, ncls = 13, nfld = 12, conf = conf, adj_file = tmp_file)
+#' unlink(tmp_file)
 #' plots <- plotLDPSR_gg(result)
 #' plots[[1]] # Show LDPSR for the first edge
-#' combinePlots_gg(plots, selectPlots = 1:6) # Show first 6 edges
 #' }
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}},

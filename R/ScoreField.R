@@ -39,10 +39,8 @@
 #' Higher expected scores indicate that students in that class/rank are expected
 #' to achieve higher scores in that field.
 #'
-#' @examples
-#' # TODO: Revert \dontrun to @examplesIf after exametrika v1.10.0 is on CRAN.
-#' # J35S500 dataset requires exametrika >= 1.9.0.
-#' \dontrun{
+#' @examplesIf requireNamespace("exametrika", quietly = TRUE)
+#' \donttest{
 #' library(exametrika)
 #' # Ordinal Biclustering example
 #' result <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")

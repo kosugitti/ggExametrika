@@ -166,9 +166,7 @@ plotIRP_gg <- function(data,
 #' result_bin <- Biclustering(J35S515, ncls = 4, nfld = 3)
 #' plot <- plotFRP_gg(result_bin)
 #'
-#' # TODO: Revert \dontrun to normal after exametrika v1.10.0 is on CRAN.
-#' # J35S500 dataset requires exametrika >= 1.9.0.
-#' \dontrun{
+#' \donttest{
 #' # Ordinal biclustering with mean (default)
 #' result_ord <- Biclustering(J35S500, ncls = 4, nfld = 3)
 #' plot_mean <- plotFRP_gg(result_ord, stat = "mean")
