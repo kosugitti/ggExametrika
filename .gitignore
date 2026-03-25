@@ -10,3 +10,6 @@ Rplots.pdf
 .claude/settings.local.json
 .DS_Store
 vignettes/articles/*_cache/
+*.Rcheck/
+*.tar.gz
+CRAN-SUBMISSION

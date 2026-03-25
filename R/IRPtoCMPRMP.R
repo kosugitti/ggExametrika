@@ -172,9 +172,11 @@ plotIRP_gg <- function(data,
 #' plot_mean <- plotFRP_gg(result_ord, stat = "mean")
 #'
 #' # Using mode for polytomous data
-#' plot_mode <- plotFRP_gg(result_ord, stat = "mode",
-#'                         title = "Field Reference Profile (Mode)",
-#'                         colors = c("red", "blue", "green"))
+#' plot_mode <- plotFRP_gg(result_ord,
+#'   stat = "mode",
+#'   title = "Field Reference Profile (Mode)",
+#'   colors = c("red", "blue", "green")
+#' )
 #' }
 #'
 #' @seealso \code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}},
@@ -192,15 +194,18 @@ plotFRP_gg <- function(data,
                        linetype = "solid",
                        show_legend = TRUE,
                        legend_position = "right") {
-
   # Class validation
-  valid_classes <- c("Biclustering", "nominalBiclustering", "ordinalBiclustering",
-                     "IRM", "LDB", "BINET")
+  valid_classes <- c(
+    "Biclustering", "nominalBiclustering", "ordinalBiclustering",
+    "IRM", "LDB", "BINET"
+  )
   data_class <- class(data)[class(data) != "exametrika"]
 
   if (!"exametrika" %in% class(data) || !any(data_class %in% valid_classes)) {
-    stop("Invalid input. The data must be from exametrika output: ",
-         "Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, or BINET.")
+    stop(
+      "Invalid input. The data must be from exametrika output: ",
+      "Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, or BINET."
+    )
   }
 
   # Validate stat parameter
@@ -218,7 +223,7 @@ plotFRP_gg <- function(data,
 
   if (is_polytomous) {
     # === Polytomous data (nominalBiclustering, ordinalBiclustering) ===
-    BCRM <- data$FRP  # [field, class, category]
+    BCRM <- data$FRP # [field, class, category]
     nfld <- dim(BCRM)[1]
     ncls <- dim(BCRM)[2]
     maxQ <- dim(BCRM)[3]
@@ -240,7 +245,7 @@ plotFRP_gg <- function(data,
     for (idx in seq_along(selected_fields)) {
       f <- selected_fields[idx]
       for (cc in 1:ncls) {
-        probs <- BCRM[f, cc, ]  # Category probability vector
+        probs <- BCRM[f, cc, ] # Category probability vector
         categories <- 1:maxQ
 
         if (stat == "mean") {
@@ -260,13 +265,13 @@ plotFRP_gg <- function(data,
     }
 
     y_label <- switch(stat,
-                      "mean" = "Expected Score (Mean)",
-                      "median" = "Expected Score (Median)",
-                      "mode" = "Expected Score (Mode)")
-
+      "mean" = "Expected Score (Mean)",
+      "median" = "Expected Score (Median)",
+      "mode" = "Expected Score (Mode)"
+    )
   } else {
     # === Binary data (Biclustering, IRM, LDB, BINET) ===
-    FRP_matrix <- data$FRP  # [field, class]
+    FRP_matrix <- data$FRP # [field, class]
     nfld <- nrow(FRP_matrix)
     ncls <- ncol(FRP_matrix)
 
@@ -331,9 +336,11 @@ plotFRP_gg <- function(data,
   if (is.logical(title)) {
     if (title) {
       if (is_polytomous) {
-        title_text <- paste0("Field Reference Profile (",
-                             toupper(substring(stat, 1, 1)),
-                             substring(stat, 2), ")")
+        title_text <- paste0(
+          "Field Reference Profile (",
+          toupper(substring(stat, 1, 1)),
+          substring(stat, 2), ")"
+        )
       } else {
         title_text <- "Field Reference Profile"
       }
@@ -417,8 +424,10 @@ plotTRP_gg <- function(data,
                        show_legend = FALSE,
                        legend_position = "right") {
   # Class validation
-  valid_classes <- c("LCA", "LRA", "Biclustering", "nominalBiclustering",
-                     "ordinalBiclustering", "IRM", "LDLRA", "LDB", "BINET")
+  valid_classes <- c(
+    "LCA", "LRA", "Biclustering", "nominalBiclustering",
+    "ordinalBiclustering", "IRM", "LDLRA", "LDB", "BINET"
+  )
   data_class <- class(data)[class(data) != "exametrika"]
 
   if (!inherits(data, "exametrika") || !any(data_class %in% valid_classes)) {
@@ -503,9 +512,11 @@ plotTRP_gg <- function(data,
       colour = "black"
     ) +
     geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)),
-               size = 2.1, color = line_color) +
+      size = 2.1, color = line_color
+    ) +
     geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)),
-              linetype = linetype, color = line_color) +
+      linetype = linetype, color = line_color
+    ) +
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
@@ -698,9 +709,11 @@ plotLCD_gg <- function(data,
       colour = "black"
     ) +
     geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-               size = 2.1, color = line_color) +
+      size = 2.1, color = line_color
+    ) +
     geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-              linetype = linetype, color = line_color) +
+      linetype = linetype, color = line_color
+    ) +
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
@@ -889,9 +902,11 @@ plotLRD_gg <- function(data,
       colour = "black"
     ) +
     geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-               size = 2.1, color = line_color) +
+      size = 2.1, color = line_color
+    ) +
     geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-              linetype = linetype, color = line_color) +
+      linetype = linetype, color = line_color
+    ) +
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",

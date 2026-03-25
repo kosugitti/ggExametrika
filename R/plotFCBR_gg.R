@@ -56,9 +56,11 @@
 #' plot
 #'
 #' # Custom colors and title (5 colors needed for 5-category ordinal data)
-#' plot <- plotFCBR_gg(result, fields = 1:5,
-#'                     title = "Field Cumulative Boundary Reference",
-#'                     colors = c("red", "blue", "green", "purple", "orange"))
+#' plot <- plotFCBR_gg(result,
+#'   fields = 1:5,
+#'   title = "Field Cumulative Boundary Reference",
+#'   colors = c("red", "blue", "green", "purple", "orange")
+#' )
 #' plot
 #' }
 #'
@@ -75,7 +77,6 @@ plotFCBR_gg <- function(data,
                         linetype = NULL,
                         show_legend = TRUE,
                         legend_position = "right") {
-
   # Class check - ordinalBiclustering only
   if (!all(c("exametrika", "ordinalBiclustering") %in% class(data))) {
     stop("Invalid input. The data must be from exametrika ordinalBiclustering output (dataType = 'ordinal').")
@@ -86,11 +87,11 @@ plotFCBR_gg <- function(data,
     stop("FRP (BCRM) data not found in the input object.")
   }
 
-  BCRM <- data$FRP  # 3D array: [field, class/rank, category]
+  BCRM <- data$FRP # 3D array: [field, class/rank, category]
   nfld <- dim(BCRM)[1]
   ncls <- dim(BCRM)[2]
   maxQ <- dim(BCRM)[3]
-  msg <- data$msg  # "Class" or "Rank"
+  msg <- data$msg # "Class" or "Rank"
 
   # Field selection
   if (is.null(fields)) {
@@ -144,13 +145,15 @@ plotFCBR_gg <- function(data,
   }
 
   # Create plot
-  p <- ggplot(long_data, aes(x = ClassRank, y = Probability,
-                             color = Boundary,
-                             linetype = Boundary,
-                             group = interaction(Field, Boundary))) +
+  p <- ggplot(long_data, aes(
+    x = ClassRank, y = Probability,
+    color = Boundary,
+    linetype = Boundary,
+    group = interaction(Field, Boundary)
+  )) +
     geom_line(linewidth = 0.8) +
     geom_point(size = 2) +
-    facet_wrap(~ Field) +
+    facet_wrap(~Field) +
     scale_y_continuous(breaks = seq(0, 1, 0.25), limits = c(0, 1)) +
     scale_x_continuous(breaks = 1:ncls) +
     labs(

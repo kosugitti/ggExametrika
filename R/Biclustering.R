@@ -89,7 +89,7 @@
 #' # Ordinal biclustering (polytomous)
 #' data(J35S500)
 #' result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
-#' plotCRV_gg(result_ord)  # Default: mean
+#' plotCRV_gg(result_ord) # Default: mean
 #' plotCRV_gg(result_ord, stat = "median")
 #' plotCRV_gg(result_ord, stat = "mode")
 #' }
@@ -136,7 +136,7 @@ plotCRV_gg <- function(data,
 
     # Calculate expected scores
     FRP_mat <- .calc_expected_scores(BCRM, stat)
-    CRV <- t(FRP_mat)  # Transpose to Class x Field
+    CRV <- t(FRP_mat) # Transpose to Class x Field
 
     n_cls <- nrow(CRV)
     n_fld <- ncol(CRV)
@@ -292,7 +292,7 @@ plotCRV_gg <- function(data,
 #' # Ordinal biclustering (polytomous)
 #' data(J35S500)
 #' result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
-#' plotRRV_gg(result_ord)  # Default: mean
+#' plotRRV_gg(result_ord) # Default: mean
 #' plotRRV_gg(result_ord, stat = "median")
 #' plotRRV_gg(result_ord, stat = "mode")
 #'
@@ -346,7 +346,7 @@ plotRRV_gg <- function(data,
 
     # Calculate expected scores
     FRP_mat <- .calc_expected_scores(BCRM, stat)
-    RRV <- t(FRP_mat)  # Transpose to Rank x Field
+    RRV <- t(FRP_mat) # Transpose to Rank x Field
 
     n_rank <- nrow(RRV)
     n_fld <- ncol(RRV)
@@ -369,12 +369,12 @@ plotRRV_gg <- function(data,
     field_label = rep(paste0("F", 1:n_fld), each = n_rank),
     value = as.vector(t(RRV)),
     rank = factor(rep(paste0("R", 1:n_rank), times = n_fld), levels = paste0("R", 1:n_rank)),
-    rank_num = rep(1:n_rank, times = n_fld)  # For label display
+    rank_num = rep(1:n_rank, times = n_fld) # For label display
   )
 
   # Set default for show_labels
   if (is.null(show_labels)) {
-    show_labels <- FALSE  # Default to FALSE since legend provides rank information
+    show_labels <- FALSE # Default to FALSE since legend provides rank information
   }
 
   # Color setup

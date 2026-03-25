@@ -93,7 +93,7 @@ plotRRV_gg(result)
 # Ordinal biclustering (polytomous)
 data(J35S500)
 result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
-plotRRV_gg(result_ord)  # Default: mean
+plotRRV_gg(result_ord) # Default: mean
 plotRRV_gg(result_ord, stat = "median")
 plotRRV_gg(result_ord, stat = "mode")
 

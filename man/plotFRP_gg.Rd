@@ -81,9 +81,11 @@ result_ord <- Biclustering(J35S500, ncls = 4, nfld = 3)
 plot_mean <- plotFRP_gg(result_ord, stat = "mean")
 
 # Using mode for polytomous data
-plot_mode <- plotFRP_gg(result_ord, stat = "mode",
-                        title = "Field Reference Profile (Mode)",
-                        colors = c("red", "blue", "green"))
+plot_mode <- plotFRP_gg(result_ord,
+  stat = "mode",
+  title = "Field Reference Profile (Mode)",
+  colors = c("red", "blue", "green")
+)
 }
 \dontshow{\}) # examplesIf}
 }

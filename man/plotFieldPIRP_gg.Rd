@@ -63,9 +63,9 @@ conf <- c(
   10, 10, 10, 2, 2, 3, 3, 5, 5, 6, 9, 9, 10, 1, 1, 7, 9, 10
 )
 edges_data <- data.frame(
-  "From Field (Parent) >>>" = c(6,4,5,1,1,4, 3,4,6,2,4,4, 3,6,4,1, 7,9,6,7),
-  ">>> To Field (Child)" = c(8,7,8,7,2,5, 5,8,8,4,6,7, 5,8,5,8, 10,10,8,9),
-  "At Class/Rank (Locus)" = c(2,2,2,2,2,2, 3,3,3,3,3,3, 4,4,4,4, 5,5,5,5)
+  "From Field (Parent) >>>" = c(6, 4, 5, 1, 1, 4, 3, 4, 6, 2, 4, 4, 3, 6, 4, 1, 7, 9, 6, 7),
+  ">>> To Field (Child)" = c(8, 7, 8, 7, 2, 5, 5, 8, 8, 4, 6, 7, 5, 8, 5, 8, 10, 10, 8, 9),
+  "At Class/Rank (Locus)" = c(2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5)
 )
 tmp_file <- tempfile(fileext = ".csv")
 write.csv(edges_data, file = tmp_file, row.names = FALSE)

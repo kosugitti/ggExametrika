@@ -151,8 +151,10 @@ plotScoreField_gg <- function(data,
   # Set color palette
   if (is.null(colors)) {
     # Default: YlOrRd palette (yellow-orange-red, colorblind-friendly)
-    colors <- c("#FFFFCC", "#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C",
-                "#FC4E2A", "#E31A1C", "#BD0026", "#800026")
+    colors <- c(
+      "#FFFFCC", "#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C",
+      "#FC4E2A", "#E31A1C", "#BD0026", "#800026"
+    )
   }
 
   # Create base plot

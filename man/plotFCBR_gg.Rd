@@ -79,9 +79,11 @@ plot <- plotFCBR_gg(result, fields = 1:4)
 plot
 
 # Custom colors and title (5 colors needed for 5-category ordinal data)
-plot <- plotFCBR_gg(result, fields = 1:5,
-                    title = "Field Cumulative Boundary Reference",
-                    colors = c("red", "blue", "green", "purple", "orange"))
+plot <- plotFCBR_gg(result,
+  fields = 1:5,
+  title = "Field Cumulative Boundary Reference",
+  colors = c("red", "blue", "green", "purple", "orange")
+)
 plot
 }
 \dontshow{\}) # examplesIf}
