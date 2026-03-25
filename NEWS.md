@@ -1,3 +1,21 @@
+# ggExametrika 1.0.0.9000
+
+## ratedBiclustering Support
+
+* Add support for `ratedBiclustering` class from exametrika v1.11.0 (Biclustering
+  with `dataType = "rated"`).
+  - Update class validation in 11 plot functions across 5 files:
+    `plotFRP_gg`, `plotTRP_gg`, `plotLCD_gg`, `plotLRD_gg`, `plotCMP_gg`,
+    `plotRMP_gg` (IRPtoCMPRMP.R), `plotFCRP_gg` (PolyBiclustering.R),
+    `plotArray_gg` (arraytoLDPSR.R), `plotScoreField_gg` (ScoreField.R),
+    `plotCRV_gg`, `plotRRV_gg` (Biclustering.R).
+  - Update roxygen2 `@param data` and `@details` documentation to mention
+    `ratedBiclustering`.
+* Add `fixture_ratedBiclust` test fixture in `helper-setup.R`.
+* Add 10 test cases for `ratedBiclustering` in `test-PolyBiclustering-plots.R`
+  covering `plotFCRP_gg`, `plotScoreField_gg`, `plotFRP_gg`, `plotTRP_gg`,
+  `plotRRV_gg`, `plotCRV_gg`, `plotArray_gg`, `plotRMP_gg`, `plotLRD_gg`.
+
 # ggExametrika 1.0.0
 
 ## First CRAN Release

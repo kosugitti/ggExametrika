@@ -123,7 +123,7 @@ plotIRP_gg <- function(data,
 #' expected scores calculated using the specified statistic.
 #'
 #' @param data An object from exametrika: Biclustering, nominalBiclustering,
-#'   ordinalBiclustering, IRM, LDB, or BINET output.
+#'   ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET output.
 #' @param stat Character. Statistic to use for polytomous data:
 #'   \code{"mean"} (default), \code{"median"}, or \code{"mode"}.
 #'   Ignored for binary data.
@@ -151,7 +151,7 @@ plotIRP_gg <- function(data,
 #'   \item Each line represents one field
 #' }
 #'
-#' For **polytomous data** (nominalBiclustering, ordinalBiclustering):
+#' For **polytomous data** (nominalBiclustering, ordinalBiclustering, ratedBiclustering):
 #' \itemize{
 #'   \item Y-axis: Expected Score (calculated using \code{stat} parameter)
 #'   \item \code{stat = "mean"}: Weighted average across categories (default)
@@ -197,14 +197,14 @@ plotFRP_gg <- function(data,
   # Class validation
   valid_classes <- c(
     "Biclustering", "nominalBiclustering", "ordinalBiclustering",
-    "IRM", "LDB", "BINET"
+    "ratedBiclustering", "IRM", "LDB", "BINET"
   )
   data_class <- class(data)[class(data) != "exametrika"]
 
   if (!"exametrika" %in% class(data) || !any(data_class %in% valid_classes)) {
     stop(
       "Invalid input. The data must be from exametrika output: ",
-      "Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, or BINET."
+      "Biclustering, nominalBiclustering, ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET."
     )
   }
 
@@ -369,7 +369,8 @@ plotFRP_gg <- function(data,
 #' expected test score for each class/rank (line graph).
 #'
 #' @param data An object from exametrika: LCA, LRA, Biclustering,
-#'   nominalBiclustering, ordinalBiclustering, IRM, LDLRA, LDB, or BINET output.
+#'   nominalBiclustering, ordinalBiclustering, ratedBiclustering,
+#'   IRM, LDLRA, LDB, or BINET output.
 #' @param Num_Students Logical. If \code{TRUE} (default), display the
 #'   number of students on each bar.
 #' @param title Logical or character. If \code{TRUE} (default), display the
@@ -426,7 +427,7 @@ plotTRP_gg <- function(data,
   # Class validation
   valid_classes <- c(
     "LCA", "LRA", "Biclustering", "nominalBiclustering",
-    "ordinalBiclustering", "IRM", "LDLRA", "LDB", "BINET"
+    "ordinalBiclustering", "ratedBiclustering", "IRM", "LDLRA", "LDB", "BINET"
   )
   data_class <- class(data)[class(data) != "exametrika"]
 
@@ -434,7 +435,7 @@ plotTRP_gg <- function(data,
     stop(
       "Invalid input. The variable must be from exametrika output or from either ",
       "LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, ",
-      "IRM, LDLRA, LDB, or BINET."
+      "ratedBiclustering, IRM, LDLRA, LDB, or BINET."
     )
   }
 
@@ -618,7 +619,7 @@ plotLCD_gg <- function(data,
   if (any(class(data) %in% c("LCA", "BINET"))) {
     xlabel <- "Latent Class"
     mode <- TRUE
-  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
     warning(
@@ -817,7 +818,7 @@ plotLRD_gg <- function(data,
     warning(
       "The input data was supposed to be visualized with The Latent Class Distribution, so I will plot the LCD."
     )
-  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering"))) {
     xlabel <- "Latent Rank"
     mode <- FALSE
   } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
@@ -1014,7 +1015,7 @@ plotCMP_gg <- function(data,
     rownames(data$Students) <- change_rowname
   } else if (any(class(data) %in% c("BINET"))) {
     xlabel <- "Class"
-  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
+  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "LDB", "LDLRA"))) {
     xlabel <- "Rank"
     warning(
       "The input data was supposed to be visualized with The Rank Membership Profile, so I will plot the RMP."
@@ -1174,7 +1175,7 @@ plotRMP_gg <- function(data,
     warning(
       "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
     )
-  } else if (any(class(data) %in% c("LRA", "LRAordinal", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "LDB", "LDLRA"))) {
+  } else if (any(class(data) %in% c("LRA", "LRAordinal", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "LDB", "LDLRA"))) {
     xlabel <- "Rank"
   } else {
     stop(

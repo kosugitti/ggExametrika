@@ -115,9 +115,9 @@ plotCRV_gg <- function(data,
   }
 
   # Check if it's a Biclustering-related model
-  valid_classes <- c("Biclustering", "ordinalBiclustering", "nominalBiclustering", "Biclustering_IRM")
+  valid_classes <- c("Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "Biclustering_IRM")
   if (!any(class(data) %in% valid_classes)) {
-    stop("Invalid input. The variable must be from Biclustering, ordinalBiclustering, or nominalBiclustering.")
+    stop("Invalid input. The variable must be from Biclustering, ordinalBiclustering, nominalBiclustering, or ratedBiclustering.")
   }
 
   # Validate stat parameter
@@ -325,9 +325,9 @@ plotRRV_gg <- function(data,
   }
 
   # Check if it's a Biclustering-related model
-  valid_classes <- c("Biclustering", "ordinalBiclustering", "nominalBiclustering", "Biclustering_IRM")
+  valid_classes <- c("Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "Biclustering_IRM")
   if (!any(class(data) %in% valid_classes)) {
-    stop("Invalid input. The variable must be from Biclustering, ordinalBiclustering, or nominalBiclustering.")
+    stop("Invalid input. The variable must be from Biclustering, ordinalBiclustering, nominalBiclustering, or ratedBiclustering.")
   }
 
   # Validate stat parameter

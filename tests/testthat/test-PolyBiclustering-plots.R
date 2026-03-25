@@ -1,6 +1,7 @@
 # ============================================================
-# Tests for Polytomous Biclustering plot functions (v1.10.0)
+# Tests for Polytomous Biclustering plot functions (v1.10.0+)
 # plotFCRP_gg, plotFCBR_gg, plotScoreField_gg
+# ratedBiclustering support added for v1.1.0
 # ============================================================
 
 # --- plotFCRP_gg ---
@@ -127,4 +128,89 @@ test_that("plotScoreField_gg rejects invalid input", {
   skip_if_not_installed("exametrika")
   skip_if(is.null(fixture_Biclust), "Biclustering fixture not available")
   expect_error(plotScoreField_gg(fixture_Biclust))
+})
+
+# ============================================================
+# --- ratedBiclustering support tests ---
+# ============================================================
+
+test_that("plotFCRP_gg returns ggplot for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotFCRP_gg(fixture_ratedBiclust)
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotFCRP_gg bar style works for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotFCRP_gg(fixture_ratedBiclust, style = "bar")
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotScoreField_gg returns ggplot for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotScoreField_gg(fixture_ratedBiclust)
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotFRP_gg returns ggplot for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotFRP_gg(fixture_ratedBiclust)
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotTRP_gg returns ggplot for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotTRP_gg(fixture_ratedBiclust)
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotRRV_gg returns ggplot for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotRRV_gg(fixture_ratedBiclust)
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotCRV_gg returns ggplot for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotCRV_gg(fixture_ratedBiclust)
+  expect_s3_class(result, "gg")
+})
+
+test_that("plotArray_gg returns output for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotArray_gg(fixture_ratedBiclust)
+  expect_true(!is.null(result))
+})
+
+test_that("plotRMP_gg returns list of ggplots for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotRMP_gg(fixture_ratedBiclust)
+  expect_type(result, "list")
+  expect_s3_class(result[[1]], "gg")
+})
+
+test_that("plotLRD_gg returns ggplot for rated Biclustering", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
+
+  result <- plotLRD_gg(fixture_ratedBiclust)
+  expect_s3_class(result, "gg")
 })

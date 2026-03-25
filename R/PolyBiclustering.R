@@ -5,8 +5,9 @@
 #' (ordinal or nominal) Biclustering results. FCRP displays the probability
 #' of each response category for each latent class/rank within each field.
 #'
-#' @param data An object of class \code{c("exametrika", "ordinalBiclustering")}
-#'   or \code{c("exametrika", "nominalBiclustering")} from
+#' @param data An object of class \code{c("exametrika", "ordinalBiclustering")},
+#'   \code{c("exametrika", "nominalBiclustering")}, or
+#'   \code{c("exametrika", "ratedBiclustering")} from
 #'   \code{exametrika::Biclustering()}.
 #' @param style Character string specifying the plot style. One of:
 #'   \describe{
@@ -36,8 +37,8 @@
 #' all categories k. Probabilities sum to 1.0 for each class/rank.
 #'
 #' This plot is only available for polytomous Biclustering models
-#' (\code{ordinalBiclustering} or \code{nominalBiclustering}) that have
-#' 3 or more response categories.
+#' (\code{ordinalBiclustering}, \code{nominalBiclustering}, or
+#' \code{ratedBiclustering}) that have 3 or more response categories.
 #'
 #' The \code{style} parameter allows two visualizations:
 #' \itemize{
@@ -86,8 +87,8 @@ plotFCRP_gg <- function(data,
   }
 
   model_class <- tail(class(data), 1)
-  if (!model_class %in% c("ordinalBiclustering", "nominalBiclustering")) {
-    stop("FCRP is only available for ordinalBiclustering or nominalBiclustering models")
+  if (!model_class %in% c("ordinalBiclustering", "nominalBiclustering", "ratedBiclustering")) {
+    stop("FCRP is only available for ordinalBiclustering, nominalBiclustering, or ratedBiclustering models")
   }
 
   if (is.null(data$FRP)) {

@@ -20,6 +20,7 @@ plotArray_gg(
 \item{data}{An object of class \code{c("exametrika", "Biclustering")},
 \code{c("exametrika", "nominalBiclustering")},
 \code{c("exametrika", "ordinalBiclustering")},
+\code{c("exametrika", "ratedBiclustering")},
 \code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
 \code{c("exametrika", "BINET")}.}
 

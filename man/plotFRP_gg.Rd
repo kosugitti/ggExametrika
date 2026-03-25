@@ -17,7 +17,7 @@ plotFRP_gg(
 }
 \arguments{
 \item{data}{An object from exametrika: Biclustering, nominalBiclustering,
-ordinalBiclustering, IRM, LDB, or BINET output.}
+ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET output.}
 
 \item{stat}{Character. Statistic to use for polytomous data:
 \code{"mean"} (default), \code{"median"}, or \code{"mode"}.
@@ -59,7 +59,7 @@ For \strong{binary data} (Biclustering, IRM, LDB, BINET):
 \item Each line represents one field
 }
 
-For \strong{polytomous data} (nominalBiclustering, ordinalBiclustering):
+For \strong{polytomous data} (nominalBiclustering, ordinalBiclustering, ratedBiclustering):
 \itemize{
 \item Y-axis: Expected Score (calculated using \code{stat} parameter)
 \item \code{stat = "mean"}: Weighted average across categories (default)

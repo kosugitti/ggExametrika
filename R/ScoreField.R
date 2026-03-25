@@ -3,12 +3,13 @@
 #' @description
 #' Creates a heatmap visualization showing the expected scores for each field
 #' across latent classes or ranks in polytomous biclustering models
-#' (nominalBiclustering, ordinalBiclustering).
+#' (nominalBiclustering, ordinalBiclustering, ratedBiclustering).
 #'
 #' The expected score for each field-class/rank combination is calculated as
 #' the sum of (category x probability) across all categories.
 #'
-#' @param data An exametrika model object from nominalBiclustering or ordinalBiclustering.
+#' @param data An exametrika model object from nominalBiclustering, ordinalBiclustering,
+#'   or ratedBiclustering.
 #' @param title Logical or character. If TRUE (default), displays an automatic title.
 #'   If FALSE, no title is displayed. If a character string, uses it as the title.
 #' @param colors Character vector of colors for the gradient, or NULL (default) to use
@@ -86,9 +87,9 @@ plotScoreField_gg <- function(data,
   }
 
   # Check if this is a polytomous biclustering model
-  valid_models <- c("nominalBiclustering", "ordinalBiclustering")
+  valid_models <- c("nominalBiclustering", "ordinalBiclustering", "ratedBiclustering")
   if (!any(class(data) %in% valid_models)) {
-    stop("ScoreField plot is only available for nominalBiclustering and ordinalBiclustering models")
+    stop("ScoreField plot is only available for nominalBiclustering, ordinalBiclustering, and ratedBiclustering models")
   }
 
   # Check if FRP exists and has 3 dimensions (polytomous data)

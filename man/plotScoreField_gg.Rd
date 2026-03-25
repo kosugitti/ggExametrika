@@ -15,7 +15,8 @@ plotScoreField_gg(
 )
 }
 \arguments{
-\item{data}{An exametrika model object from nominalBiclustering or ordinalBiclustering.}
+\item{data}{An exametrika model object from nominalBiclustering, ordinalBiclustering,
+or ratedBiclustering.}
 
 \item{title}{Logical or character. If TRUE (default), displays an automatic title.
 If FALSE, no title is displayed. If a character string, uses it as the title.}
@@ -41,7 +42,7 @@ A ggplot2 object representing the Score-Field heatmap.
 \description{
 Creates a heatmap visualization showing the expected scores for each field
 across latent classes or ranks in polytomous biclustering models
-(nominalBiclustering, ordinalBiclustering).
+(nominalBiclustering, ordinalBiclustering, ratedBiclustering).
 
 The expected score for each field-class/rank combination is calculated as
 the sum of (category x probability) across all categories.

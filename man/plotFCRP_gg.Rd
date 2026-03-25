@@ -15,8 +15,9 @@ plotFCRP_gg(
 )
 }
 \arguments{
-\item{data}{An object of class \code{c("exametrika", "ordinalBiclustering")}
-or \code{c("exametrika", "nominalBiclustering")} from
+\item{data}{An object of class \code{c("exametrika", "ordinalBiclustering")},
+\code{c("exametrika", "nominalBiclustering")}, or
+\code{c("exametrika", "ratedBiclustering")} from
 \code{exametrika::Biclustering()}.}
 
 \item{style}{Character string specifying the plot style. One of:
@@ -58,8 +59,8 @@ For each field, the plot shows \eqn{P(response = k | class/rank)} for
 all categories k. Probabilities sum to 1.0 for each class/rank.
 
 This plot is only available for polytomous Biclustering models
-(\code{ordinalBiclustering} or \code{nominalBiclustering}) that have
-3 or more response categories.
+(\code{ordinalBiclustering}, \code{nominalBiclustering}, or
+\code{ratedBiclustering}) that have 3 or more response categories.
 
 The \code{style} parameter allows two visualizations:
 \itemize{

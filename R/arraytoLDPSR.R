@@ -11,6 +11,7 @@
 #' @param data An object of class \code{c("exametrika", "Biclustering")},
 #'   \code{c("exametrika", "nominalBiclustering")},
 #'   \code{c("exametrika", "ordinalBiclustering")},
+#'   \code{c("exametrika", "ratedBiclustering")},
 #'   \code{c("exametrika", "IRM")}, \code{c("exametrika", "LDB")}, or
 #'   \code{c("exametrika", "BINET")}.
 #' @param Original Logical. If \code{TRUE} (default), plot the original
@@ -82,12 +83,12 @@ plotArray_gg <- function(data,
   # Check input class
   valid_classes <- c(
     "Biclustering", "nominalBiclustering", "ordinalBiclustering",
-    "IRM", "LDB", "BINET"
+    "ratedBiclustering", "IRM", "LDB", "BINET"
   )
   if (!any(sapply(valid_classes, function(cls) all(class(data) %in% c("exametrika", cls))))) {
     stop(
       "Invalid input. The variable must be from exametrika output: ",
-      "Biclustering, nominalBiclustering, ordinalBiclustering, IRM, LDB, or BINET."
+      "Biclustering, nominalBiclustering, ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET."
     )
   }
 
