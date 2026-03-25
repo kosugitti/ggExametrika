@@ -73,7 +73,7 @@ expected scores calculated using the specified statistic.</p>
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>An object from exametrika: Biclustering, nominalBiclustering,
-ordinalBiclustering, IRM, LDB, or BINET output.</p></dd>
+ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET output.</p></dd>
 
 
 <dt id="arg-stat">stat<a class="anchor" aria-label="anchor" href="#arg-stat"></a></dt>
@@ -121,7 +121,7 @@ Default is <code>"solid"</code>.</p></dd>
 latent classes/ranks for each field (cluster of items).</p>
 <p>For <strong>binary data</strong> (Biclustering, IRM, LDB, BINET):</p><ul><li><p>Y-axis: Correct Response Rate (0-1)</p></li>
 <li><p>Each line represents one field</p></li>
-</ul><p>For <strong>polytomous data</strong> (nominalBiclustering, ordinalBiclustering):</p><ul><li><p>Y-axis: Expected Score (calculated using <code>stat</code> parameter)</p></li>
+</ul><p>For <strong>polytomous data</strong> (nominalBiclustering, ordinalBiclustering, ratedBiclustering):</p><ul><li><p>Y-axis: Expected Score (calculated using <code>stat</code> parameter)</p></li>
 <li><p><code>stat = "mean"</code>: Weighted average across categories (default)</p></li>
 <li><p><code>stat = "median"</code>: Median category value</p></li>
 <li><p><code>stat = "mode"</code>: Most probable category</p></li>

@@ -2,7 +2,7 @@
 
 Creates a heatmap visualization showing the expected scores for each
 field across latent classes or ranks in polytomous biclustering models
-(nominalBiclustering, ordinalBiclustering).
+(nominalBiclustering, ordinalBiclustering, ratedBiclustering).
 
 The expected score for each field-class/rank combination is calculated
 as the sum of (category x probability) across all categories.
@@ -25,8 +25,8 @@ plotScoreField_gg(
 
 - data:
 
-  An exametrika model object from nominalBiclustering or
-  ordinalBiclustering.
+  An exametrika model object from nominalBiclustering,
+  ordinalBiclustering, or ratedBiclustering.
 
 - title:
 

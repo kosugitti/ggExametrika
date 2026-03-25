@@ -29,7 +29,8 @@ plotArray_gg(
 
   An object of class `c("exametrika", "Biclustering")`,
   `c("exametrika", "nominalBiclustering")`,
-  `c("exametrika", "ordinalBiclustering")`, `c("exametrika", "IRM")`,
+  `c("exametrika", "ordinalBiclustering")`,
+  `c("exametrika", "ratedBiclustering")`, `c("exametrika", "IRM")`,
   `c("exametrika", "LDB")`, or `c("exametrika", "BINET")`.
 
 - Original:

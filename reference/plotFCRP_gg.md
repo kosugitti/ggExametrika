@@ -22,8 +22,9 @@ plotFCRP_gg(
 
 - data:
 
-  An object of class `c("exametrika", "ordinalBiclustering")` or
-  `c("exametrika", "nominalBiclustering")` from
+  An object of class `c("exametrika", "ordinalBiclustering")`,
+  `c("exametrika", "nominalBiclustering")`, or
+  `c("exametrika", "ratedBiclustering")` from
   [`exametrika::Biclustering()`](https://kosugitti.github.io/exametrika/reference/Biclustering.html).
 
 - style:
@@ -77,8 +78,8 @@ For each field, the plot shows \\P(response = k \| class/rank)\\ for all
 categories k. Probabilities sum to 1.0 for each class/rank.
 
 This plot is only available for polytomous Biclustering models
-(`ordinalBiclustering` or `nominalBiclustering`) that have 3 or more
-response categories.
+(`ordinalBiclustering`, `nominalBiclustering`, or `ratedBiclustering`)
+that have 3 or more response categories.
 
 The `style` parameter allows two visualizations:
 

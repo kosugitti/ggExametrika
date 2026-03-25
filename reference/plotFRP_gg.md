@@ -25,7 +25,7 @@ plotFRP_gg(
 - data:
 
   An object from exametrika: Biclustering, nominalBiclustering,
-  ordinalBiclustering, IRM, LDB, or BINET output.
+  ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET output.
 
 - stat:
 
@@ -74,7 +74,8 @@ For **binary data** (Biclustering, IRM, LDB, BINET):
 
 - Each line represents one field
 
-For **polytomous data** (nominalBiclustering, ordinalBiclustering):
+For **polytomous data** (nominalBiclustering, ordinalBiclustering,
+ratedBiclustering):
 
 - Y-axis: Expected Score (calculated using `stat` parameter)
 
