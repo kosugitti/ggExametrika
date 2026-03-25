@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/kosugitti/ggExametrika/blob/v1.0.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/kosugitti/ggExametrika/blob/main/DESCRIPTION)
 
 Kosugi K, Kamimura D (2026). *ggExametrika: Visualization of
 'exametrika' Output Using 'ggplot2'*. R package version 1.0.0,

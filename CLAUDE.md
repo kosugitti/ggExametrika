@@ -6,7 +6,8 @@ exametrikaパッケージの出力をggplot2で可視化するためのパッケ
 
 ## 現在のバージョン
 
-**v1.0.0（CRAN初回投稿 2026-03-20、審査待ち）**
+**v1.0.0（CRAN初回投稿 2026-03-20、レビュー対応後再投稿
+2026-03-25、審査待ち）**
 
 - **親パッケージ**: exametrika v1.10.1（CRAN受理済み 2026-03-19）
 - **GitHub**: <https://github.com/kosugitti/ggExametrika>
@@ -56,9 +57,10 @@ exametrikaパッケージの出力をggplot2で可視化するためのパッケ
 - **Imports**: ggraph, ggrepel, gridExtra, igraph, tidyr
 - **Suggests**: exametrika, testthat (\>= 3.0.0)
 
-## 現在の全体ステータス（2026-03-20更新）
+## 現在の全体ステータス（2026-03-25更新）
 
-- **バージョン**: v1.0.0（CRAN初回投稿、審査待ち）
+- **バージョン**: v1.0.0（CRAN再投稿済み 2026-03-25、審査待ち）
+- **GitHubリリース**: v1.0.0 タグ作成・リリース公開済み
 - **Rソースファイル**: 15ファイル（R/ディレクトリ）
 - **Export関数**: 31関数（プロット27 + オーバーレイ2 + ユーティリティ4）
 - **共通オプション**: 全プロット関数で対応済み
@@ -89,7 +91,7 @@ ItemInformationFunc, ItemInformationFunc_GRM
 
 ## CRAN投稿履歴
 
-### v1.0.0（2026-03-20 初回投稿、審査待ち）
+### v1.0.0（2026-03-20 初回投稿 → 2026-03-25 再投稿、審査待ち）
 
 - exametrika v1.10.1 CRAN受理を受けて投稿
 - win-builder: 1 NOTE（New submission + Biclustering/Shojima
@@ -99,6 +101,10 @@ ItemInformationFunc, ItemInformationFunc_GRM
   plotIIC_overlay_gg, plotICRF_gg, plotCMP_gg, plotRMP_gg, plotICBR_gg,
   plotICRP_gg）
 - Amazon短縮URL（amzn.to）をISBNに置換
+- **2026-03-25 再投稿**: CRANレビュー（Konstanze Lauseker）対応 —
+  `\dontrun{}` を全て `\donttest{}` に置換、LDB/BINET例を自己完結化
+- GitHubリリース v1.0.0 公開、Discussions
+  にアナウンス投稿（英語・日本語）
 
 ## 今後の予定
 

@@ -36,7 +36,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>ggExametrika 開発方針</h1>
-      <small class="dont-index">Source: <a href="https://github.com/kosugitti/ggExametrika/blob/v1.0.0/CLAUDE.md" class="external-link"><code>CLAUDE.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/CLAUDE.md" class="external-link"><code>CLAUDE.md</code></a></small>
     </div>
 
 <div id="ggexametrika-開発方針" class="section level1">
@@ -47,7 +47,7 @@
 </div>
 <div class="section level2">
 <h2 id="現在のバージョン">現在のバージョン<a class="anchor" aria-label="anchor" href="#%E7%8F%BE%E5%9C%A8%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3"></a></h2>
-<p><strong>v1.0.0（CRAN初回投稿 2026-03-20、審査待ち）</strong></p>
+<p><strong>v1.0.0（CRAN初回投稿 2026-03-20、レビュー対応後再投稿 2026-03-25、審査待ち）</strong></p>
 <ul><li>
 <strong>親パッケージ</strong>: exametrika v1.10.1（CRAN受理済み 2026-03-19）</li>
 <li>
@@ -121,9 +121,11 @@
 </ul></div>
 </div>
 <div class="section level2">
-<h2 id="現在の全体ステータス2026-03-20更新">現在の全体ステータス（2026-03-20更新）<a class="anchor" aria-label="anchor" href="#%E7%8F%BE%E5%9C%A8%E3%81%AE%E5%85%A8%E4%BD%93%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B92026-03-20%E6%9B%B4%E6%96%B0"></a></h2>
+<h2 id="現在の全体ステータス2026-03-25更新">現在の全体ステータス（2026-03-25更新）<a class="anchor" aria-label="anchor" href="#%E7%8F%BE%E5%9C%A8%E3%81%AE%E5%85%A8%E4%BD%93%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B92026-03-25%E6%9B%B4%E6%96%B0"></a></h2>
 <ul><li>
-<strong>バージョン</strong>: v1.0.0（CRAN初回投稿、審査待ち）</li>
+<strong>バージョン</strong>: v1.0.0（CRAN再投稿済み 2026-03-25、審査待ち）</li>
+<li>
+<strong>GitHubリリース</strong>: v1.0.0 タグ作成・リリース公開済み</li>
 <li>
 <strong>Rソースファイル</strong>: 15ファイル（R/ディレクトリ）</li>
 <li>
@@ -154,12 +156,15 @@
 <div class="section level2">
 <h2 id="cran投稿履歴">CRAN投稿履歴<a class="anchor" aria-label="anchor" href="#cran%E6%8A%95%E7%A8%BF%E5%B1%A5%E6%AD%B4"></a></h2>
 <div class="section level3">
-<h3 id="v1002026-03-20-初回投稿審査待ち">v1.0.0（2026-03-20 初回投稿、審査待ち）<a class="anchor" aria-label="anchor" href="#v1002026-03-20-%E5%88%9D%E5%9B%9E%E6%8A%95%E7%A8%BF%E5%AF%A9%E6%9F%BB%E5%BE%85%E3%81%A1"></a></h3>
+<h3 id="v1002026-03-20-初回投稿--2026-03-25-再投稿審査待ち">v1.0.0（2026-03-20 初回投稿 → 2026-03-25 再投稿、審査待ち）<a class="anchor" aria-label="anchor" href="#v1002026-03-20-%E5%88%9D%E5%9B%9E%E6%8A%95%E7%A8%BF--2026-03-25-%E5%86%8D%E6%8A%95%E7%A8%BF%E5%AF%A9%E6%9F%BB%E5%BE%85%E3%81%A1"></a></h3>
 <ul><li>exametrika v1.10.1 CRAN受理を受けて投稿</li>
 <li>win-builder: 1 NOTE（New submission + Biclustering/Shojima スペルチェック）→ 問題なし</li>
 <li>非ASCII文字（×）をASCII（x）に置換</li>
 <li>遅い examples に <code>\donttest{}</code> 追加（plotIIC_gg, plotTIC_gg, plotIIC_overlay_gg, plotICRF_gg, plotCMP_gg, plotRMP_gg, plotICBR_gg, plotICRP_gg）</li>
 <li>Amazon短縮URL（amzn.to）をISBNに置換</li>
+<li>
+<strong>2026-03-25 再投稿</strong>: CRANレビュー（Konstanze Lauseker）対応 — <code>\dontrun{}</code> を全て <code>\donttest{}</code> に置換、LDB/BINET例を自己完結化</li>
+<li>GitHubリリース v1.0.0 公開、Discussions にアナウンス投稿（英語・日本語）</li>
 </ul></div>
 </div>
 <div class="section level2">
