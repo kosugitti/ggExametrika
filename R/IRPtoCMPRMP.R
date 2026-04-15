@@ -521,7 +521,7 @@ plotTRP_gg <- function(data,
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
-      sec.axis = sec_axis(trans = ~ (axis_scaler(
+      sec.axis = sec_axis(transform = ~ (axis_scaler(
         ., yaxis1, yaxis2
       )), name = "Expected Score")
     ) +
@@ -718,7 +718,7 @@ plotLCD_gg <- function(data,
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
-      sec.axis = sec_axis(trans = ~ (axis_scaler(
+      sec.axis = sec_axis(transform = ~ (axis_scaler(
         ., yaxis1, yaxis2
       )), name = "Frequency")
     ) +
@@ -911,7 +911,7 @@ plotLRD_gg <- function(data,
     scale_x_continuous(breaks = c(1:length(data$TRP))) +
     scale_y_continuous(
       name = "Number of Students",
-      sec.axis = sec_axis(trans = ~ (axis_scaler(
+      sec.axis = sec_axis(transform = ~ (axis_scaler(
         ., yaxis1, yaxis2
       )), name = "Frequency")
     ) +

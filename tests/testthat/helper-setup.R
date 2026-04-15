@@ -181,6 +181,26 @@ if (has_exametrika) {
     error = function(e) NULL
   )
 
+  # ---- DistractorAnalysis fixtures (from LRA.rated) ----
+  fixture_DA_lra <- tryCatch(
+    {
+      lra_rated <- exametrika::LRA(exametrika::J21S300, nrank = 5, mic = TRUE)
+      exametrika::DistractorAnalysis(lra_rated)
+    },
+    error = function(e) NULL
+  )
+
+  # ---- DistractorAnalysis fixtures (from ratedBiclustering) ----
+  fixture_DA_biclust <- tryCatch(
+    {
+      bic_rated <- exametrika::Biclustering(exametrika::J21S300,
+        ncls = 5, nfld = 3, method = "R", maxiter = 100
+      )
+      exametrika::DistractorAnalysis(bic_rated)
+    },
+    error = function(e) NULL
+  )
+
   # Clean up temporary variables
   rm(.synth_ordinal, .synth_nominal, .synth_rated)
 }

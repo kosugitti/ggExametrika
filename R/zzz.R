@@ -33,7 +33,9 @@ utils::globalVariables(c(
   # plotScoreField_gg
   "LatentLabel", "ExpectedScore",
   # plotScoreFreq_gg / plotScoreRank_gg
-  "score", "count"
+  "score", "count",
+  # plotDistractor_gg
+  "RankLabel", "Proportion"
 ))
 
 #' @importFrom stats ave median setNames

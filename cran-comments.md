@@ -1,29 +1,26 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note (New submission)
+0 errors | 0 warnings | 1 note
 
-## Resubmission
+The NOTE is about a non-standard top-level file (`WORKLOG.md`), which is
+listed in `.Rbuildignore` and will not be included in the package tarball.
 
-This is a resubmission. In this version I have:
+## Update (v1.0.0 -> v1.1.0)
 
-* Replaced all `\dontrun{}` with `\donttest{}` in examples as requested
-  by the CRAN reviewer.
-* Made LDB/BINET examples self-contained with proper configuration
-  vectors and edge data.
+This is an update to the CRAN-published v1.0.0. Changes in this version:
+
+* New exported function `plotDistractor_gg()` for Distractor Analysis
+  visualization, corresponding to exametrika v1.11.0's
+  `DistractorAnalysis()` output. Creates stacked bar charts showing
+  response category proportions by rank/class, with the correct answer
+  highlighted.
+* Add support for `ratedBiclustering` class (exametrika v1.11.0) in 11
+  existing plot functions.
 
 ## Test environments
 
-* local macOS Tahoe 26.3.1 (Apple Silicon, aarch64-apple-darwin25.3.0), R 4.5.3
+* local macOS Tahoe 26.4.0 (Apple Silicon, aarch64-apple-darwin25.4.0), R 4.5.3
 * GitHub Actions: macOS-latest (release), windows-latest (release), ubuntu-latest (release, devel)
-
-## Notes
-
-This is the first submission of ggExametrika to CRAN.
-
-ggExametrika provides ggplot2-based visualization functions for the
-exametrika package (available on CRAN as of v1.10.1). All plot functions
-return ggplot2 objects for easy customization. 31 exported functions cover
-IRT, GRM, LCA, LRA, Biclustering, BNM, LDLRA, LDB, and BINET models.
 
 ## Dependencies
 

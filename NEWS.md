@@ -1,4 +1,18 @@
-# ggExametrika 1.0.0.9000
+# ggExametrika 1.1.0
+
+## New Features
+
+* Add `plotDistractor_gg()` for Distractor Analysis visualization
+  (exametrika v1.11.0). Creates stacked bar charts showing response category
+  proportions by rank/class, with the correct answer highlighted. Supports
+  both `LRA` (rated) and `Biclustering` (rated) DistractorAnalysis results.
+* Add `fixture_DA_lra` and `fixture_DA_biclust` test fixtures and 9 test
+  cases in `test-distractor-plots.R`.
+
+## Bug Fixes
+
+* Replace deprecated `sec_axis(trans = ...)` with `sec_axis(transform = ...)`
+  in `plotTRP_gg`, `plotLCD_gg`, `plotLRD_gg` (ggplot2 >= 3.5.0).
 
 ## ratedBiclustering Support
 
