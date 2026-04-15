@@ -93,6 +93,11 @@ reference:
   - plotScoreField_gg
   - plotFieldPIRP_gg
 
+- title: Distractor Analysis Plots
+  desc: Distractor Analysis visualization for rated (multiple-choice) models
+  contents:
+  - plotDistractor_gg
+
 - title: DAG & Network Model Plots
   desc: Directed Acyclic Graph and network model visualization (BNM, LDLRA, LDB, BINET)
   contents:
