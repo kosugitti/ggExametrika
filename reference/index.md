@@ -82,6 +82,13 @@ Biclustering, IRM, and related model visualization
 - [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md)
   : Plot Field PIRP (Parent Item Reference Profile) from exametrika
 
+## Distractor Analysis Plots
+
+Distractor Analysis visualization for rated (multiple-choice) models
+
+- [`plotDistractor_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotDistractor_gg.md)
+  : Plot Distractor Analysis for Rated Models
+
 ## DAG & Network Model Plots
 
 Directed Acyclic Graph and network model visualization (BNM, LDLRA, LDB,

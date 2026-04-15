@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,9 +40,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9000" id="ggexametrika-1009000">ggExametrika 1.0.0.9000<a class="anchor" aria-label="anchor" href="#ggexametrika-1009000"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.0" id="ggexametrika-110">ggExametrika 1.1.0<a class="anchor" aria-label="anchor" href="#ggexametrika-110"></a></h2>
 <div class="section level3">
-<h3 id="ratedbiclustering-support-1-0-0-9000">ratedBiclustering Support<a class="anchor" aria-label="anchor" href="#ratedbiclustering-support-1-0-0-9000"></a></h3>
+<h3 id="new-features-1-1-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
+<ul><li>Add <code><a href="../reference/plotDistractor_gg.html">plotDistractor_gg()</a></code> for Distractor Analysis visualization (exametrika v1.11.0). Creates stacked bar charts showing response category proportions by rank/class, with the correct answer highlighted. Supports both <code>LRA</code> (rated) and <code>Biclustering</code> (rated) DistractorAnalysis results.</li>
+<li>Add <code>fixture_DA_lra</code> and <code>fixture_DA_biclust</code> test fixtures and 9 test cases in <code>test-distractor-plots.R</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
+<ul><li>Replace deprecated <code>sec_axis(trans = ...)</code> with <code>sec_axis(transform = ...)</code> in <code>plotTRP_gg</code>, <code>plotLCD_gg</code>, <code>plotLRD_gg</code> (ggplot2 &gt;= 3.5.0).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="ratedbiclustering-support-1-1-0">ratedBiclustering Support<a class="anchor" aria-label="anchor" href="#ratedbiclustering-support-1-1-0"></a></h3>
 <ul><li>Add support for <code>ratedBiclustering</code> class from exametrika v1.11.0 (Biclustering with <code>dataType = "rated"</code>).
 <ul><li>Update class validation in 11 plot functions across 5 files: <code>plotFRP_gg</code>, <code>plotTRP_gg</code>, <code>plotLCD_gg</code>, <code>plotLRD_gg</code>, <code>plotCMP_gg</code>, <code>plotRMP_gg</code> (IRPtoCMPRMP.R), <code>plotFCRP_gg</code> (PolyBiclustering.R), <code>plotArray_gg</code> (arraytoLDPSR.R), <code>plotScoreField_gg</code> (ScoreField.R), <code>plotCRV_gg</code>, <code>plotRRV_gg</code> (Biclustering.R).</li>
 <li>Update roxygen2 <code>@param data</code> and <code>@details</code> documentation to mention <code>ratedBiclustering</code>.</li>
@@ -52,7 +61,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0" id="ggexametrika-100">ggExametrika 1.0.0<a class="anchor" aria-label="anchor" href="#ggexametrika-100"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0.0" id="ggexametrika-100">ggExametrika 1.0.0<a class="anchor" aria-label="anchor" href="#ggexametrika-100"></a></h2><p class="text-muted">CRAN release: 2026-03-29</p>
 <div class="section level3">
 <h3 id="first-cran-release-1-0-0">First CRAN Release<a class="anchor" aria-label="anchor" href="#first-cran-release-1-0-0"></a></h3>
 <ul><li>Initial CRAN submission. All features from v0.0.1–v0.0.39 are included.</li>
