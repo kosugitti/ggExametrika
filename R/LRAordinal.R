@@ -37,10 +37,12 @@
 #' observed score ranges.
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
+#' \donttest{
 #' library(exametrika)
 #' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #' plot <- plotScoreFreq_gg(result)
 #' plot
+#' }
 #'
 #' @seealso \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}
 #'

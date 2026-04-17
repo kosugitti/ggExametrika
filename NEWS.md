@@ -13,6 +13,8 @@
 
 * Replace deprecated `sec_axis(trans = ...)` with `sec_axis(transform = ...)`
   in `plotTRP_gg`, `plotLCD_gg`, `plotLRD_gg` (ggplot2 >= 3.5.0).
+* Add `\donttest{}` to `plotScoreFreq_gg` example to avoid CRAN time limit
+  NOTE on Windows.
 
 ## ratedBiclustering Support
 
