@@ -77,8 +77,11 @@ observed score ranges.
 ## Examples
 
 ``` r
+# \donttest{
 library(exametrika)
 result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 plot <- plotScoreFreq_gg(result)
 plot
+
+# }
 ```
