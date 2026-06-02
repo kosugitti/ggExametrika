@@ -471,13 +471,13 @@ array_plot
 クラスタリング済みデータのみ表示:
 
 ```{r}
-plotArray_gg(result_bic, Original = FALSE, Clusterd = TRUE)
+plotArray_gg(result_bic, Original = FALSE, Clustered = TRUE)
 ```
 
 クラスタ境界線を非表示:
 
 ```{r}
-plotArray_gg(result_bic, Clusterd_lines = FALSE)
+plotArray_gg(result_bic, Clustered_lines = FALSE)
 ```
 
 ### 順序尺度バイクラスタリング: plotFCBR_gg

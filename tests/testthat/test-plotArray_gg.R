@@ -9,12 +9,12 @@ test_that("plotArray_gg works with binary Biclustering data", {
   expect_true(inherits(plot, c("gtable", "gTree", "grob", "gDesc")))
 
   # Test with only Original
-  plot_orig <- plotArray_gg(result, Clusterd = FALSE)
+  plot_orig <- plotArray_gg(result, Clustered = FALSE)
   expect_true(inherits(plot_orig, "list"))
   expect_length(plot_orig, 1)
   expect_s3_class(plot_orig[[1]], "gg")
 
-  # Test with only Clusterd
+  # Test with only Clustered
   plot_clust <- plotArray_gg(result, Original = FALSE)
   expect_true(inherits(plot_clust, "list"))
   expect_length(plot_clust, 1)
@@ -114,8 +114,8 @@ test_that("plotArray_gg handles edge cases", {
   plot_5cat <- plotArray_gg(result_5cat, Original = FALSE, show_legend = TRUE)
   expect_s3_class(plot_5cat[[1]], "gg")
 
-  # Test with Clusterd_lines = FALSE
-  plot_no_lines <- plotArray_gg(result_5cat, Original = FALSE, Clusterd_lines = FALSE)
+  # Test with Clustered_lines = FALSE
+  plot_no_lines <- plotArray_gg(result_5cat, Original = FALSE, Clustered_lines = FALSE)
   expect_s3_class(plot_no_lines[[1]], "gg")
 })
 

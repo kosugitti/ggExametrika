@@ -473,13 +473,13 @@ array_plot
 Show only the clustered array:
 
 ```{r}
-plotArray_gg(result_bic, Original = FALSE, Clusterd = TRUE)
+plotArray_gg(result_bic, Original = FALSE, Clustered = TRUE)
 ```
 
 Hide cluster boundary lines:
 
 ```{r}
-plotArray_gg(result_bic, Clusterd_lines = FALSE)
+plotArray_gg(result_bic, Clustered_lines = FALSE)
 ```
 
 ### Ordinal Biclustering: plotFCBR_gg

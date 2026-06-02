@@ -318,7 +318,7 @@ plotArray_gg(result_bic)
 Clustered array only:
 
 ```{r array-clustered}
-plotArray_gg(result_bic, Original = FALSE, Clusterd = TRUE)
+plotArray_gg(result_bic, Original = FALSE, Clustered = TRUE)
 ```
 
 ### Ordinal Biclustering

@@ -6,11 +6,16 @@ exametrikaパッケージの出力をggplot2で可視化するためのパッケ
 
 ## 現在のバージョン
 
-**v1.0.0（CRAN初回投稿 2026-03-20、レビュー対応後再投稿 2026-03-25、審査待ち）**
+**v1.1.1（開発中・CRAN未提出）** / 直前のCRAN: v1.1.0（受理 2026-04-17）
 
-- **親パッケージ**: exametrika v1.10.1（CRAN受理済み 2026-03-19）
+- **親パッケージ**: exametrika v1.13.1（CRAN）/ 開発中 v1.14.0
 - **GitHub**: https://github.com/kosugitti/ggExametrika
 - **pkgdownサイト**: https://kosugitti.github.io/ggExametrika/
+
+### v1.1.1 で予定している変更
+
+- **2026-06-02 plotArray_gg のtypo修正（破壊的変更）**: 引数 `Clusterd` / `Clusterd_lines` / `Clusterd_lines_color` を `Clustered*` にリネーム。タイトル `"Clusterd Data"` も `"Clustered Data"` に。本家 exametrika 内部の `00_plot_biclustering.R` (コメント・main・clusterd_data 変数) も同時修正。ggExametrika 側の vignettes 3本・test-plotArray_gg.R も更新済み。man/ は次回 roxygen2 再生成で反映予定。shinyExametrika はデフォルト引数呼び出しのみで影響なし
+- リリースは本家 exametrika v1.14.0 と同時に行う方針
 
 ## 親パッケージ
 
@@ -53,30 +58,29 @@ exametrikaパッケージの出力をggplot2で可視化するためのパッケ
 - **Imports**: ggraph, ggrepel, gridExtra, igraph, tidyr
 - **Suggests**: exametrika, testthat (>= 3.0.0)
 
-## 現在の全体ステータス（2026-03-25更新）
+## 現在の全体ステータス（2026-04-17更新）
 
-- **バージョン**: v1.0.0（CRAN再投稿済み 2026-03-25、審査待ち）
+- **バージョン**: v1.1.0（CRAN受理 2026-04-17）
 - **GitHubリリース**: v1.0.0 タグ作成・リリース公開済み
-- **Rソースファイル**: 15ファイル（R/ディレクトリ）
-- **Export関数**: 31関数（プロット27 + オーバーレイ2 + ユーティリティ4）
+- **Rソースファイル**: 16ファイル（R/ディレクトリ）
+- **Export関数**: 32関数（プロット26 + オーバーレイ2 + ユーティリティ4）
 - **共通オプション**: 全プロット関数で対応済み
-- **テスト**: 12ファイル、FAIL 0 / WARN 22（ggplot2 deprecation） / SKIP 0
+- **テスト**: 13ファイル、FAIL 0 / WARN 1（exametrika側stanine） / PASS 581
 - **R CMD check**: 0 errors | 0 warnings | 0 notes
-- **win-builder**: 1 NOTE（New submission + スペルチェックのみ）
-- **rhub**: linux / macos-arm64 / windows チェック実行済み
+- **rhub**: linux・macos-arm64通過 / windowsはR-devel用バイナリ未反映のため失敗（rhub固有の問題）
 - **pkgdown**: GitHub Pages デプロイ済み、Plot Gallery記事あり
 - **CI**: R-CMD-check.yaml + test-coverage.yaml + pkgdown.yaml + rhub.yaml 稼働中
 - **DAG可視化**: BNM / LDLRA / LDB / BINET 全て実装・テスト済み
 
-### Export関数一覧（31関数）
+### Export関数一覧（32関数）
 
-**プロット関数（25種）:**
+**プロット関数（26種）:**
 plotICC_gg, plotICRF_gg, plotTRF_gg, plotIIC_gg, plotTIC_gg,
 plotIRP_gg, plotFRP_gg, plotTRP_gg, plotLCD_gg, plotLRD_gg,
 plotCMP_gg, plotRMP_gg, plotCRV_gg, plotRRV_gg, plotArray_gg,
 plotFCRP_gg, plotFCBR_gg, plotScoreField_gg, plotFieldPIRP_gg,
 plotLDPSR_gg, plotScoreFreq_gg, plotScoreRank_gg, plotICRP_gg,
-plotICBR_gg, plotGraph_gg
+plotICBR_gg, plotGraph_gg, plotDistractor_gg
 
 **オーバーレイプロット関数（2種）:**
 plotICC_overlay_gg, plotIIC_overlay_gg

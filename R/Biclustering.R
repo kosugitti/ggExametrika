@@ -157,7 +157,7 @@ plotCRV_gg <- function(data,
   plot_data <- data.frame(
     field = rep(1:n_fld, each = n_cls),
     field_label = rep(paste0("F", 1:n_fld), each = n_cls),
-    value = as.vector(t(CRV)),
+    value = as.vector(CRV),
     class = factor(rep(paste0("C", 1:n_cls), times = n_fld), levels = paste0("C", 1:n_cls)),
     class_num = rep(1:n_cls, times = n_fld)
   )
@@ -367,7 +367,7 @@ plotRRV_gg <- function(data,
   plot_data <- data.frame(
     field = rep(1:n_fld, each = n_rank),
     field_label = rep(paste0("F", 1:n_fld), each = n_rank),
-    value = as.vector(t(RRV)),
+    value = as.vector(RRV),
     rank = factor(rep(paste0("R", 1:n_rank), times = n_fld), levels = paste0("R", 1:n_rank)),
     rank_num = rep(1:n_rank, times = n_fld) # For label display
   )

@@ -168,3 +168,58 @@ test_that("plotRRV_gg rejects invalid input", {
   skip_if(is.null(fixture_IRT_2PL), "IRT 2PL fixture not available")
   expect_error(plotRRV_gg(fixture_IRT_2PL))
 })
+
+# --- Value-correctness regression tests (issue: long-form index mismatch) ---
+
+test_that("plotCRV_gg / plotRRV_gg map binary FRP values to (field, rank) correctly", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_Biclust), "Biclustering fixture not available")
+
+  FRP <- fixture_Biclust$FRP # field x class matrix
+  n_fld <- nrow(FRP)
+  n_cls <- ncol(FRP)
+
+  pdat_C <- plotCRV_gg(fixture_Biclust)$data
+  pdat_R <- plotRRV_gg(fixture_Biclust)$data
+
+  for (f in seq_len(n_fld)) {
+    for (k in seq_len(n_cls)) {
+      expected <- FRP[f, k]
+      got_C <- pdat_C$value[pdat_C$field == f & pdat_C$class == paste0("C", k)]
+      got_R <- pdat_R$value[pdat_R$field == f & pdat_R$rank == paste0("R", k)]
+      expect_equal(got_C, expected,
+        info = sprintf("CRV mismatch at field=%d, class=%d", f, k)
+      )
+      expect_equal(got_R, expected,
+        info = sprintf("RRV mismatch at field=%d, rank=%d", f, k)
+      )
+    }
+  }
+})
+
+test_that("plotRRV_gg maps polytomous expected scores to (field, rank) correctly", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_ordBiclust), "ordinal Biclustering fixture not available")
+
+  BCRM <- fixture_ordBiclust$FRP # field x class x category
+  n_fld <- dim(BCRM)[1]
+  n_cls <- dim(BCRM)[2]
+  maxQ <- dim(BCRM)[3]
+
+  expected_mean <- matrix(0, n_fld, n_cls)
+  for (f in seq_len(n_fld)) {
+    for (k in seq_len(n_cls)) {
+      expected_mean[f, k] <- sum(seq_len(maxQ) * BCRM[f, k, ])
+    }
+  }
+
+  pdat <- plotRRV_gg(fixture_ordBiclust, stat = "mean")$data
+  for (f in seq_len(n_fld)) {
+    for (k in seq_len(n_cls)) {
+      got <- pdat$value[pdat$field == f & pdat$rank == paste0("R", k)]
+      expect_equal(got, expected_mean[f, k],
+        info = sprintf("polytomous RRV mismatch at field=%d, rank=%d", f, k)
+      )
+    }
+  }
+})
