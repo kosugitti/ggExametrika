@@ -1,6 +1,52 @@
 # Changelog
 
+## ggExametrika 1.1.1
+
+### New Features
+
+- [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  gains `border` and `border_linewidth` arguments (opt-in). When
+  `border = TRUE`, a rectangular `panel.border` is drawn around each of
+  the original and clustered panels so that the two panels are visually
+  distinguishable when shown side-by-side. Passing a character string to
+  `border` sets the border colour directly (e.g. `border = "gray40"`).
+  The default is `FALSE`, so the v1.1.0 unbordered look is preserved
+  unless the user opts in.
+
+### Breaking Changes
+
+- Rename misspelled `Clusterd*` arguments and labels in
+  [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
+  to the correct `Clustered*` spelling. Affects the function arguments
+  `Clusterd` -\> `Clustered`, `Clusterd_lines` -\> `Clustered_lines`,
+  `Clusterd_lines_color` -\> `Clustered_lines_color`, the auto-generated
+  panel title `"Clusterd Data"` -\> `"Clustered Data"`, and the internal
+  `clusterd_plot` object. Vignettes (`getting-started.Rmd`,
+  `getting-started-ja.Rmd`, `plot-gallery.Rmd`) and the test file
+  `test-plotArray_gg.R` are updated accordingly. User code that passes
+  the old argument names by position is unaffected, but code that names
+  them (e.g. `Clusterd_lines_color = "blue"`) must be updated.
+
+### Bug Fixes
+
+- Fix value/label ordering bug in
+  [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)
+  and
+  [`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md).
+  The long-form `plot_data` was built with `as.vector(t(M))` while the
+  accompanying `field` and `class`/`rank` index vectors assumed
+  `as.vector(M)` (column-major) ordering. As a result, the value at each
+  (field, class) or (field, rank) point was scrambled and lines no
+  longer matched the underlying `FRP` matrix or expected scores. Affects
+  both binary and polytomous biclustering output. Output now matches the
+  base-R `exametrika::plot(., type = "CRV"/"RRV")` numerically.
+- Add regression tests in `test-Biclustering-plots.R` that verify
+  `plot_data$value` matches `FRP[field, class]` (binary) and the
+  expected-score matrix (polytomous) at every (field, class/rank) cell.
+
 ## ggExametrika 1.1.0
+
+CRAN release: 2026-04-17
 
 ### New Features
 

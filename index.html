@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Visualization of exametrika Output Using ggplot2 • ggExametrika</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Visualization of exametrika Output Using ggplot2">
 <meta name="description" content="Provides ggplot2-based visualization functions for output objects from the exametrika package, which implements test data engineering methods described in Shojima (2022, ISBN:978-981-16-9547-1). Supports a wide range of psychometric models including Item Response Theory, Latent Class Analysis, Latent Rank Analysis, Biclustering (binary, ordinal, and nominal), Bayesian Network Models, and related network models. All plot functions return ggplot2 objects that can be further customized by the user.">
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,64 +62,64 @@
 
 <p><strong>ggExametrika</strong> provides ggplot2-based visualization for the <a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a> package. It supports a wide range of psychometric models:</p>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Model</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><strong>IRT</strong></td>
 <td>Item Response Theory (2PL, 3PL, 4PL)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>GRM</strong></td>
 <td>Graded Response Model</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>LCA</strong></td>
 <td>Latent Class Analysis</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>LRA</strong></td>
 <td>Latent Rank Analysis</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>LRAordinal</strong></td>
 <td>Latent Rank Analysis for ordinal data</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>LRArated</strong></td>
 <td>Latent Rank Analysis for rated data</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Biclustering</strong></td>
 <td>Simultaneous item/student clustering (binary)</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>nominalBiclustering</strong></td>
 <td>Biclustering for nominal data</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>ordinalBiclustering</strong></td>
 <td>Biclustering for ordinal data</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>IRM</strong></td>
 <td>Infinite Relational Model</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>LDLRA</strong></td>
 <td>Locally Dependent Latent Rank Analysis</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>LDB</strong></td>
 <td>Locally Dependent Biclustering</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>BINET</strong></td>
 <td>Bayesian Network and Test</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>BNM</strong></td>
 <td>Bayesian Network Model</td>
 </tr>
@@ -308,43 +308,43 @@
 <h3 id="irt--grm">IRT / GRM<a class="anchor" aria-label="anchor" href="#irt--grm"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th align="center">IRT</th>
 <th align="center">GRM</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>plotICC_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotICC_overlay_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotIIC_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotIIC_overlay_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotTIC_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotTRF_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotICRF_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
@@ -356,7 +356,7 @@
 <h3 id="lca--lra--lraordinal--lrarated">LCA / LRA / LRAordinal / LRArated<a class="anchor" aria-label="anchor" href="#lca--lra--lraordinal--lrarated"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th align="center">LCA</th>
 <th align="center">LRA</th>
@@ -364,77 +364,77 @@
 <th align="center">LRArated</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>plotIRP_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotFRP_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotTRP_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotLCD_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotLRD_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotCMP_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotRMP_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotScoreFreq_gg</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotScoreRank_gg</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotICRP_gg</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotICBR_gg</td>
 <td align="center"></td>
 <td align="center"></td>
@@ -448,7 +448,7 @@
 <h3 id="biclustering--irm">Biclustering / IRM<a class="anchor" aria-label="anchor" href="#biclustering--irm"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th align="center">Bic.</th>
 <th align="center">nomBic.</th>
@@ -456,84 +456,84 @@
 <th align="center">IRM</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>plotFRP_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotTRP_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotLCD_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotLRD_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotCMP_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotRMP_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotCRV_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotRRV_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotArray_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotFCRP_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotFCBR_gg</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotScoreField_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
@@ -547,7 +547,7 @@
 <h3 id="network-models-ldlra--ldb--binet--bnm">Network Models (LDLRA / LDB / BINET / BNM)<a class="anchor" aria-label="anchor" href="#network-models-ldlra--ldb--binet--bnm"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th align="center">LDLRA</th>
 <th align="center">LDB</th>
@@ -555,56 +555,56 @@
 <th align="center">BNM</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>plotIRP_gg</td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotFRP_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotTRP_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotLRD_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotRMP_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotArray_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center">x</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>plotFieldPIRP_gg</td>
 <td align="center"></td>
 <td align="center">x</td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
-<tr class="even">
+<tr>
 <td>plotGraph_gg</td>
 <td align="center">x</td>
 <td align="center">x</td>
@@ -618,11 +618,11 @@
 <h3 id="utility">Utility<a class="anchor" aria-label="anchor" href="#utility"></a>
 </h3>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th>Description</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody><tr>
 <td>combinePlots_gg</td>
 <td>Arrange multiple plots in a grid</td>
 </tr></tbody>
@@ -639,35 +639,35 @@
 <col width="39%">
 <col width="27%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Parameter</th>
 <th>Description</th>
 <th>Default</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>title</code></td>
 <td>
 <code>TRUE</code> (auto), <code>FALSE</code> (none), or character string</td>
 <td><code>TRUE</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>colors</code></td>
 <td>Color vector (colorblind-friendly default)</td>
 <td>auto</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>linetype</code></td>
 <td>
 <code>"solid"</code>, <code>"dashed"</code>, <code>"dotted"</code>, etc.</td>
 <td><code>"solid"</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>show_legend</code></td>
 <td>Show/hide legend</td>
 <td><code>TRUE</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>legend_position</code></td>
 <td>
 <code>"right"</code>, <code>"top"</code>, <code>"bottom"</code>, <code>"left"</code>
@@ -683,26 +683,26 @@
 <col width="31%">
 <col width="37%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Parameter</th>
 <th>Functions</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>stat</code></td>
 <td>plotFRP_gg, plotCRV_gg, plotRRV_gg</td>
 <td>
 <code>"mean"</code>, <code>"median"</code>, or <code>"mode"</code> for polytomous data</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>style</code></td>
 <td>plotFCRP_gg</td>
 <td>
 <code>"line"</code> or <code>"bar"</code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>show_labels</code></td>
 <td>plotRRV_gg</td>
 <td>Show value labels (uses ggrepel)</td>

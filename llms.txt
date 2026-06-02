@@ -30,6 +30,7 @@ Approaches to Human Behavior, 13), Springer, ISBN 978-981-16-9985-6
 ## Installation
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("kosugitti/ggExametrika")
 ```
@@ -42,6 +43,7 @@ objects. Functions are named `plotXXX_gg()`.
 ### IRT: Item Characteristic Curve (plotICC_gg)
 
 ``` r
+
 library(exametrika)
 library(ggExametrika)
 
@@ -53,6 +55,7 @@ plots[[5]]
 ![](reference/figures/README-unnamed-chunk-4-1.png)
 
 ``` r
+
 combinePlots_gg(plots)
 ```
 
@@ -61,6 +64,7 @@ combinePlots_gg(plots)
 ### IRT: Overlay Plots (plotICC_overlay_gg, plotIIC_overlay_gg)
 
 ``` r
+
 # All ICCs on a single plot
 plotICC_overlay_gg(result_irt, show_legend = TRUE)
 
@@ -71,6 +75,7 @@ plotIIC_overlay_gg(result_irt, items = c(1, 3, 5), show_legend = TRUE)
 ### IRT: Item Information Curve (plotIIC_gg)
 
 ``` r
+
 plots <- plotIIC_gg(result_irt)
 combinePlots_gg(plots, selectPlots = 8:11)
 ```
@@ -80,6 +85,7 @@ combinePlots_gg(plots, selectPlots = 8:11)
 ### IRT: Test Information Curve / Test Response Function (plotTIC_gg, plotTRF_gg)
 
 ``` r
+
 plotTIC_gg(result_irt)
 plotTRF_gg(result_irt)
 ```
@@ -87,6 +93,7 @@ plotTRF_gg(result_irt)
 ### GRM: Item Category Response Function (plotICRF_gg)
 
 ``` r
+
 result_grm <- GRM(J5S1000)
 plots <- plotICRF_gg(result_grm)
 plots[[1]]
@@ -100,6 +107,7 @@ plotTIC_gg(result_grm)
 ### LCA: Latent Class Analysis
 
 ``` r
+
 result_lca <- LCA(J15S500, ncls = 3)
 
 plotIRP_gg(result_lca)         # Item Reference Profile
@@ -112,6 +120,7 @@ plotCMP_gg(result_lca)         # Class Membership Profile
 ### LRA: Latent Rank Analysis
 
 ``` r
+
 result_lra <- LRA(J15S500, nrank = 4)
 
 plotIRP_gg(result_lra)         # Item Reference Profile
@@ -124,6 +133,7 @@ plotRMP_gg(result_lra)         # Rank Membership Profile
 ### LRAordinal / LRArated
 
 ``` r
+
 result_lra_ord <- LRA(J5S1000, nrank = 4)  # ordinal data
 
 plotScoreFreq_gg(result_lra_ord)   # Score Frequency Distribution
@@ -136,6 +146,7 @@ plotRMP_gg(result_lra_ord)         # Rank Membership Profile
 ### Biclustering (binary)
 
 ``` r
+
 result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
 
 plotFRP_gg(result_bic)         # Field Reference Profile
@@ -152,6 +163,7 @@ plotArray_gg(result_bic)       # Array Plot (heatmap)
 ### Biclustering (nominal / ordinal)
 
 ``` r
+
 # Nominal Biclustering
 result_nom <- Biclustering(data, ncls = 3, nfld = 4)
 
@@ -169,6 +181,7 @@ plotFCBR_gg(result_ord)                 # Field Cumulative Boundary Reference (o
 ### LDB: Locally Dependent Biclustering
 
 ``` r
+
 result_ldb <- LDB(J35S515, ncls = 6, nfld = 5)
 
 plotFRP_gg(result_ldb)         # Field Reference Profile
@@ -183,6 +196,7 @@ plotGraph_gg(result_ldb)       # DAG per rank
 ### BINET: Bayesian Network and Test
 
 ``` r
+
 result_binet <- BINET(J35S515, ncls = 6, nfld = 5)
 
 plotFRP_gg(result_binet)       # Field Reference Profile
@@ -196,6 +210,7 @@ plotGraph_gg(result_binet, show_edge_label = TRUE)  # DAG with edge labels
 ### BNM / LDLRA: DAG Visualization (plotGraph_gg)
 
 ``` r
+
 result_bnm <- BNM(J15S500)
 plotGraph_gg(result_bnm)
 
@@ -273,21 +288,21 @@ plotGraph_gg(result_ldlra)     # One DAG per rank
 
 All plot functions support these customization options:
 
-| Parameter         | Description                                        | Default   |
-|-------------------|----------------------------------------------------|-----------|
-| `title`           | `TRUE` (auto), `FALSE` (none), or character string | `TRUE`    |
-| `colors`          | Color vector (colorblind-friendly default)         | auto      |
-| `linetype`        | `"solid"`, `"dashed"`, `"dotted"`, etc.            | `"solid"` |
-| `show_legend`     | Show/hide legend                                   | `TRUE`    |
-| `legend_position` | `"right"`, `"top"`, `"bottom"`, `"left"`           | `"right"` |
+| Parameter | Description | Default |
+|----|----|----|
+| `title` | `TRUE` (auto), `FALSE` (none), or character string | `TRUE` |
+| `colors` | Color vector (colorblind-friendly default) | auto |
+| `linetype` | `"solid"`, `"dashed"`, `"dotted"`, etc. | `"solid"` |
+| `show_legend` | Show/hide legend | `TRUE` |
+| `legend_position` | `"right"`, `"top"`, `"bottom"`, `"left"` | `"right"` |
 
 Some functions have additional parameters:
 
-| Parameter     | Functions                          | Description                                           |
-|---------------|------------------------------------|-------------------------------------------------------|
-| `stat`        | plotFRP_gg, plotCRV_gg, plotRRV_gg | `"mean"`, `"median"`, or `"mode"` for polytomous data |
-| `style`       | plotFCRP_gg                        | `"line"` or `"bar"`                                   |
-| `show_labels` | plotRRV_gg                         | Show value labels (uses ggrepel)                      |
+| Parameter | Functions | Description |
+|----|----|----|
+| `stat` | plotFRP_gg, plotCRV_gg, plotRRV_gg | `"mean"`, `"median"`, or `"mode"` for polytomous data |
+| `style` | plotFCRP_gg | `"line"` or `"bar"` |
+| `show_labels` | plotRRV_gg | Show value labels (uses ggrepel) |
 
 ## Documentation
 

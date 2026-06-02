@@ -13,13 +13,15 @@ Supports both binary (0/1) and multi-valued (ordinal/nominal) data.
 plotArray_gg(
   data,
   Original = TRUE,
-  Clusterd = TRUE,
-  Clusterd_lines = TRUE,
-  Clusterd_lines_color = NULL,
+  Clustered = TRUE,
+  Clustered_lines = TRUE,
+  Clustered_lines_color = NULL,
   title = TRUE,
   colors = NULL,
   show_legend = NULL,
-  legend_position = "right"
+  legend_position = "right",
+  border = FALSE,
+  border_linewidth = 0.5
 )
 ```
 
@@ -38,17 +40,17 @@ plotArray_gg(
   Logical. If `TRUE` (default), plot the original (unsorted) response
   data.
 
-- Clusterd:
+- Clustered:
 
   Logical. If `TRUE` (default), plot the clustered (sorted by class and
   field) response data.
 
-- Clusterd_lines:
+- Clustered_lines:
 
   Logical. If `TRUE` (default), draw lines on the clustered plot to
   indicate class and field boundaries.
 
-- Clusterd_lines_color:
+- Clustered_lines_color:
 
   Character. Color of the boundary lines. If `NULL` (default), uses
   `"red"` for binary data or `"white"` for multi-valued data.
@@ -74,6 +76,18 @@ plotArray_gg(
 
   Character. Position of the legend. One of `"right"` (default),
   `"top"`, `"bottom"`, `"left"`, `"none"`.
+
+- border:
+
+  Logical or character. If `TRUE`, draw a rectangular border around each
+  panel so that the original and clustered panels are visually
+  separated. If `FALSE` (default), no border is drawn (the v1.1.0
+  behavior). A character string is used as the border color (default
+  color is `"black"`).
+
+- border_linewidth:
+
+  Numeric. Line width of the panel border. Default is `0.5`.
 
 ## Value
 
@@ -147,7 +161,7 @@ plotArray_gg(result)
 #> 2 2 (1-1,2-2) arrange gtable[layout]
 
 # Custom boundary line color
-plotArray_gg(result, Clusterd_lines_color = "blue")
+plotArray_gg(result, Clustered_lines_color = "blue")
 
 #> TableGrob (1 x 2) "arrange": 2 grobs
 #>   z     cells    name           grob
@@ -162,7 +176,7 @@ result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
 #> iter 1 log_lik -805.847                                                         
 #> iter 2 log_lik -805.895                                                         
 #> Strongly ordinal alignment condition was satisfied.
-plotArray_gg(result_multi, show_legend = TRUE, Clusterd_lines_color = "darkgreen")
+plotArray_gg(result_multi, show_legend = TRUE, Clustered_lines_color = "darkgreen")
 
 #> TableGrob (1 x 2) "arrange": 2 grobs
 #>   z     cells    name           grob

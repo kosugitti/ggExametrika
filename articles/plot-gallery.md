@@ -9,6 +9,7 @@ them with `+ theme()`, `+ labs()`, etc.
 ## Setup
 
 ``` r
+
 library(exametrika)
 library(ggExametrika)
 ```
@@ -18,6 +19,7 @@ library(ggExametrika)
 We fit all models up front.
 
 ``` r
+
 # --- IRT (binary, 15 items, 500 students) ---
 result_irt <- IRT(J15S500, model = 2)
 
@@ -47,6 +49,7 @@ Network models (BNM, LDLRA, LDB, BINET) require explicit graph structure
 input (an igraph DAG or edge CSV file).
 
 ``` r
+
 # --- BNM (5 items, 10 students, simple DAG) ---
 bnm_dag <- igraph::make_empty_graph(n = 5, directed = TRUE)
 igraph::V(bnm_dag)$name <- J5S10$ItemLabel
@@ -105,10 +108,11 @@ data. Data: **J15S500** (15 items, 500 students).
 
 ### plotICC_gg — Item Characteristic Curve
 
-Probability of a correct response as a function of ability ($\theta$).
+Probability of a correct response as a function of ability ($`\theta`$).
 Returns a list of plots (one per item).
 
 ``` r
+
 icc_plots <- plotICC_gg(result_irt)
 icc_plots[[1]]
 ```
@@ -116,6 +120,7 @@ icc_plots[[1]]
 ![](plot-gallery_files/figure-html/icc-single-1.png)
 
 ``` r
+
 combinePlots_gg(icc_plots, selectPlots = 1:6)
 ```
 
@@ -126,6 +131,7 @@ combinePlots_gg(icc_plots, selectPlots = 1:6)
 All item curves overlaid on a single plot for easy comparison.
 
 ``` r
+
 plotICC_overlay_gg(result_irt)
 ```
 
@@ -133,9 +139,10 @@ plotICC_overlay_gg(result_irt)
 
 ### plotIIC_gg — Item Information Curve
 
-How precisely each item measures ability at different $\theta$ levels.
+How precisely each item measures ability at different $`\theta`$ levels.
 
 ``` r
+
 iic_plots <- plotIIC_gg(result_irt)
 iic_plots[[1]]
 ```
@@ -143,6 +150,7 @@ iic_plots[[1]]
 ![](plot-gallery_files/figure-html/iic-single-1.png)
 
 ``` r
+
 combinePlots_gg(iic_plots, selectPlots = 1:6)
 ```
 
@@ -153,6 +161,7 @@ combinePlots_gg(iic_plots, selectPlots = 1:6)
 All item information curves on a single plot.
 
 ``` r
+
 plotIIC_overlay_gg(result_irt)
 ```
 
@@ -163,6 +172,7 @@ plotIIC_overlay_gg(result_irt)
 Total test information (sum of all item information functions).
 
 ``` r
+
 plotTIC_gg(result_irt)
 ```
 
@@ -173,6 +183,7 @@ plotTIC_gg(result_irt)
 Expected total score as a function of ability.
 
 ``` r
+
 plotTRF_gg(result_irt)
 ```
 
@@ -191,6 +202,7 @@ Probability of each response category as a function of ability. Returns
 a list of plots (one per item).
 
 ``` r
+
 icrf_plots <- plotICRF_gg(result_grm)
 icrf_plots[[1]]
 ```
@@ -198,6 +210,7 @@ icrf_plots[[1]]
 ![](plot-gallery_files/figure-html/icrf-single-1.png)
 
 ``` r
+
 combinePlots_gg(icrf_plots, selectPlots = 1:5)
 ```
 
@@ -224,6 +237,7 @@ Probability of a correct response for each item within each latent class
 or rank. Returns a list of plots (one per item).
 
 ``` r
+
 irp_plots <- plotIRP_gg(result_lca)
 irp_plots[[1]]
 ```
@@ -231,6 +245,7 @@ irp_plots[[1]]
 ![](plot-gallery_files/figure-html/irp-single-1.png)
 
 ``` r
+
 combinePlots_gg(irp_plots, selectPlots = 1:6)
 ```
 
@@ -248,6 +263,7 @@ plots (one per field).
 > ranks).
 
 ``` r
+
 plotFRP_gg(result_bic)
 ```
 
@@ -258,6 +274,7 @@ plotFRP_gg(result_bic)
 Number of students and expected test score per class/rank.
 
 ``` r
+
 plotTRP_gg(result_lca)
 ```
 
@@ -268,6 +285,7 @@ plotTRP_gg(result_lca)
 Class membership distribution (LCA).
 
 ``` r
+
 plotLCD_gg(result_lca)
 ```
 
@@ -278,6 +296,7 @@ plotLCD_gg(result_lca)
 Rank membership distribution (LRA).
 
 ``` r
+
 plotLRD_gg(result_lra)
 ```
 
@@ -289,6 +308,7 @@ Membership probability profile for each student across all classes.
 Returns a list of plots (one per student).
 
 ``` r
+
 cmp_plots <- plotCMP_gg(result_lca)
 combinePlots_gg(cmp_plots, selectPlots = 1:6)
 ```
@@ -301,6 +321,7 @@ Membership probability profile for each student across all ranks.
 Returns a list of plots (one per student).
 
 ``` r
+
 rmp_plots <- plotRMP_gg(result_lra)
 combinePlots_gg(rmp_plots, selectPlots = 1:6)
 ```
@@ -324,6 +345,7 @@ Data: **J35S515** (35 items, 515 students, 5 fields, 6 ranks).
 All class profiles in a single plot with one line per class.
 
 ``` r
+
 plotCRV_gg(result_bic)
 ```
 
@@ -334,6 +356,7 @@ plotCRV_gg(result_bic)
 All rank profiles in a single plot with one line per rank.
 
 ``` r
+
 plotRRV_gg(result_bic)
 ```
 
@@ -345,6 +368,7 @@ Visualizes the data matrix as a heatmap showing the block-diagonal
 structure after biclustering.
 
 ``` r
+
 plotArray_gg(result_bic)
 ```
 
@@ -358,7 +382,8 @@ plotArray_gg(result_bic)
 Clustered array only:
 
 ``` r
-plotArray_gg(result_bic, Original = FALSE, Clusterd = TRUE)
+
+plotArray_gg(result_bic, Original = FALSE, Clustered = TRUE)
 #> [[1]]
 ```
 
@@ -376,6 +401,7 @@ Category probability plot with two display styles.
 Line style (default):
 
 ``` r
+
 plotFCRP_gg(result_ord_bic, style = "line")
 ```
 
@@ -384,6 +410,7 @@ plotFCRP_gg(result_ord_bic, style = "line")
 Bar style:
 
 ``` r
+
 plotFCRP_gg(result_ord_bic, style = "bar")
 ```
 
@@ -391,10 +418,11 @@ plotFCRP_gg(result_ord_bic, style = "bar")
 
 #### plotFCBR_gg — Field Cumulative Boundary Reference
 
-Boundary probabilities $P(Q \geq k)$ for each field across latent
+Boundary probabilities $`P(Q \geq k)`$ for each field across latent
 classes. Ordinal Biclustering only.
 
 ``` r
+
 plotFCBR_gg(result_ord_bic)
 ```
 
@@ -403,6 +431,7 @@ plotFCBR_gg(result_ord_bic)
 Select specific fields:
 
 ``` r
+
 plotFCBR_gg(result_ord_bic, fields = 1:3)
 ```
 
@@ -414,6 +443,7 @@ Expected score for each field at each class/rank, displayed as a
 heatmap.
 
 ``` r
+
 plotScoreField_gg(result_ord_bic)
 ```
 
@@ -427,6 +457,7 @@ classes).
 #### plotFCRP_gg (nominal)
 
 ``` r
+
 plotFCRP_gg(result_nom_bic, style = "line")
 ```
 
@@ -435,6 +466,7 @@ plotFCRP_gg(result_nom_bic, style = "line")
 #### plotScoreField_gg (nominal)
 
 ``` r
+
 plotScoreField_gg(result_nom_bic)
 ```
 
@@ -450,6 +482,7 @@ accept a `stat` parameter for polytomous data: `"mean"` (default),
 `"median"`, or `"mode"`.
 
 ``` r
+
 p_mean <- plotFRP_gg(result_ord_bic, stat = "mean") +
   ggplot2::ggtitle("stat = 'mean'")
 p_median <- plotFRP_gg(result_ord_bic, stat = "median") +
@@ -475,6 +508,7 @@ Density distribution of scores with vertical lines at rank boundary
 thresholds.
 
 ``` r
+
 plotScoreFreq_gg(result_lra_ord)
 ```
 
@@ -486,6 +520,7 @@ Joint distribution of observed scores and estimated ranks. Darker cells
 indicate higher frequency.
 
 ``` r
+
 plotScoreRank_gg(result_lra_ord)
 ```
 
@@ -497,12 +532,14 @@ Probability of selecting each response category across latent ranks.
 Probabilities at each rank sum to 1.0.
 
 ``` r
+
 plotICRP_gg(result_lra_ord, items = 1:4)
 ```
 
 ![](plot-gallery_files/figure-html/icrp-1.png)
 
 ``` r
+
 plotICRP_gg(result_lra_ord, items = 5:8)
 ```
 
@@ -510,10 +547,11 @@ plotICRP_gg(result_lra_ord, items = 5:8)
 
 ### plotICBR_gg — Item Category Boundary Response
 
-Cumulative probability curves $P\left( \text{response} \geq k \right)$
-for each category boundary. LRAordinal only.
+Cumulative probability curves $`P(\text{response} \geq k)`$ for each
+category boundary. LRAordinal only.
 
 ``` r
+
 plotICBR_gg(result_lra_ord, items = 1:4)
 ```
 
@@ -537,6 +575,7 @@ The simplest DAG: item-to-item dependency structure. Data: **J5S10** (5
 items, 10 students).
 
 ``` r
+
 dag_bnm <- plotGraph_gg(result_bnm)
 dag_bnm[[1]]
 ```
@@ -546,6 +585,7 @@ dag_bnm[[1]]
 Different layout directions:
 
 ``` r
+
 bnm_dirs <- lapply(c("BT", "TB", "LR", "RL"), function(d) {
   plotGraph_gg(result_bnm, direction = d, title = paste("BNM -", d))[[1]]
 })
@@ -560,6 +600,7 @@ One DAG per rank, showing how item dependencies change across ranks.
 Data: **J12S5000** (12 items, 5000 students, 3 ranks).
 
 ``` r
+
 dag_ldlra <- plotGraph_gg(result_ldlra)
 combinePlots_gg(dag_ldlra)
 ```
@@ -572,6 +613,7 @@ One DAG per rank with field-level nodes (green diamonds). Data:
 **J35S515** (35 items, 515 students, 3 fields, 3 ranks).
 
 ``` r
+
 dag_ldb <- plotGraph_gg(result_ldb)
 combinePlots_gg(dag_ldb)
 ```
@@ -585,6 +627,7 @@ Field nodes (green diamonds) as intermediates. Data: **J35S515** (35
 items, 515 students, 3 classes, 3 fields).
 
 ``` r
+
 dag_binet <- plotGraph_gg(result_binet)
 dag_binet[[1]]
 ```
@@ -594,6 +637,7 @@ dag_binet[[1]]
 With legend showing node types:
 
 ``` r
+
 plotGraph_gg(result_binet,
   show_legend = TRUE,
   legend_position = "right", title = "BINET with Legend"
@@ -605,6 +649,7 @@ plotGraph_gg(result_binet,
 #### Comparing all four DAG models
 
 ``` r
+
 p_bnm <- plotGraph_gg(result_bnm, title = "BNM (Items)")[[1]]
 p_ldlra <- plotGraph_gg(result_ldlra, title = "LDLRA (Items)")[[1]]
 p_ldb <- plotGraph_gg(result_ldb, title = "LDB (Fields)")[[1]]
@@ -623,6 +668,7 @@ Shows how field performance varies based on parent field scores, for
 each rank. LDB only. Returns a list of plots (one per rank).
 
 ``` r
+
 fpirp_plots <- plotFieldPIRP_gg(result_ldb)
 combinePlots_gg(fpirp_plots)
 ```
@@ -635,6 +681,7 @@ Item-level correct response rate comparing parent and child classes at
 each DAG edge. BINET only. Returns a list of plots (one per edge).
 
 ``` r
+
 ldpsr_plots <- plotLDPSR_gg(result_binet)
 ldpsr_plots[[1]]
 ```
@@ -642,6 +689,7 @@ ldpsr_plots[[1]]
 ![](plot-gallery_files/figure-html/ldpsr-1.png)
 
 ``` r
+
 combinePlots_gg(ldpsr_plots, selectPlots = 1:min(6, length(ldpsr_plots)))
 ```
 
@@ -655,17 +703,18 @@ All plot functions share a consistent set of customization options.
 Every function returns a ggplot object, so you can add further layers
 with standard ggplot2 syntax.
 
-| Parameter         | Type                 | Default   | Description                                               |
-|-------------------|----------------------|-----------|-----------------------------------------------------------|
-| `title`           | logical or character | `TRUE`    | `TRUE` = auto title, `FALSE` = hidden, character = custom |
-| `colors`          | character vector     | `NULL`    | `NULL` = colorblind-friendly palette, or custom colors    |
-| `linetype`        | character or numeric | varies    | `"solid"`, `"dashed"`, `"dotted"`, etc.                   |
-| `show_legend`     | logical              | varies    | Show or hide the legend                                   |
-| `legend_position` | character            | `"right"` | `"right"`, `"top"`, `"bottom"`, `"left"`, `"none"`        |
+| Parameter | Type | Default | Description |
+|----|----|----|----|
+| `title` | logical or character | `TRUE` | `TRUE` = auto title, `FALSE` = hidden, character = custom |
+| `colors` | character vector | `NULL` | `NULL` = colorblind-friendly palette, or custom colors |
+| `linetype` | character or numeric | varies | `"solid"`, `"dashed"`, `"dotted"`, etc. |
+| `show_legend` | logical | varies | Show or hide the legend |
+| `legend_position` | character | `"right"` | `"right"`, `"top"`, `"bottom"`, `"left"`, `"none"` |
 
 ### title
 
 ``` r
+
 p1 <- plotICC_overlay_gg(result_irt, items = 1:5, title = TRUE)
 p2 <- plotICC_overlay_gg(result_irt, items = 1:5, title = FALSE)
 p3 <- plotICC_overlay_gg(result_irt, items = 1:5, title = "My Custom Title")
@@ -677,6 +726,7 @@ gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 ### colors
 
 ``` r
+
 plotICRF_gg(result_grm,
   items = 1,
   colors = c("#D81B60", "#1E88E5", "#FFC107", "#004D40", "#7B1FA2")
@@ -687,6 +737,7 @@ plotICRF_gg(result_grm,
 ![](plot-gallery_files/figure-html/opt-colors-1.png)
 
 ``` r
+
 plotCRV_gg(result_bic,
   colors = c(
     "steelblue", "coral", "forestgreen",
@@ -700,6 +751,7 @@ plotCRV_gg(result_bic,
 ### linetype
 
 ``` r
+
 p1 <- plotTIC_gg(result_irt, linetype = "solid", title = "solid")
 p2 <- plotTIC_gg(result_irt, linetype = "dashed", title = "dashed")
 p3 <- plotTIC_gg(result_irt, linetype = "dotdash", title = "dotdash")
@@ -711,6 +763,7 @@ gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 ### show_legend and legend_position
 
 ``` r
+
 p1 <- plotICC_overlay_gg(result_irt,
   items = 1:5,
   show_legend = TRUE, legend_position = "right", title = "right"
@@ -735,6 +788,7 @@ gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
 ### Combining options
 
 ``` r
+
 plotICRF_gg(result_grm,
   items = 1,
   title = "Fully Customized ICRF",
@@ -754,6 +808,7 @@ Since all functions return ggplot objects, you can add any ggplot2
 layer:
 
 ``` r
+
 plotTIC_gg(result_irt) +
   ggplot2::theme_minimal() +
   ggplot2::labs(

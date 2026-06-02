@@ -1,4 +1,90 @@
+# WORKLOG
+
 # ggExametrika 開発ログ
+
+## 2026-06-02
+
+### plotArray_gg のtypo修正（Clusterd → Clustered）
+
+**経緯:**
+殿（プロジェクトオーナー）から「ggArrayプロットにtypo発見。Clustered
+DataとすべきところがClusterd
+Dataになっている」との指摘。本家exametrikaから引数化された際にtypoが伝染していた（本家にはコメント
+`## Clusterd Plot` と `main = "Clusterd Data"`，内部変数 `clusterd_data`
+のみtypoが存在し，引数名にはClusterdなし）。
+
+**実施内容:**
+
+- `R/arraytoLDPSR.R`: 引数 `Clusterd` / `Clusterd_lines` /
+  `Clusterd_lines_color`，タイトル文字列 `"Clusterd Data"`，内部変数
+  `clusterd_plot` をすべて `Clustered*` / `clustered_plot` にリネーム
+- `vignettes/articles/getting-started.Rmd`，`getting-started-ja.Rmd`，`plot-gallery.Rmd`：引数名を更新
+- `tests/testthat/test-plotArray_gg.R`：テスト中の `Clusterd` /
+  `Clusterd_lines` を更新
+- `NEWS.md`：v1.1.1 の Breaking Changes として記載
+- `man/plotArray_gg.Rd` は次回の roxygen2 再生成で自動更新
+
+**影響:**
+
+- shinyExametrika は `plotArray_gg(r)`
+  のデフォルト引数呼び出しのみで影響なし
+- CRAN利用者で旧引数名を明示指定しているコードは要更新（破壊的変更）
+- 派生ファイル（docs/, man/）は次回ビルド時に再生成
+
+**残作業（次のリリース準備時）:**
+
+- `roxygen2::roxygenise()` で man/ 再生成
+- pkgdown 再ビルド（docs/ 再生成）
+- R CMD check
+- CRAN提出（exametrika v1.14.0 と連動）
+
+## 2026-04-15
+
+### v1.1.0 開発・CRAN申請準備
+
+**実施内容:**
+
+- [`plotDistractor_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotDistractor_gg.md)
+  を新規実装（R/plotDistractor_gg.R）
+  - exametrika v1.11.0の`DistractorAnalysis`出力に対応
+  - 積み上げ棒グラフで各ランク/クラスの回答カテゴリ割合を表示
+  - 正答カテゴリをsteelblueで強調、ディストラクタはgray70
+  - LRA.rated / Biclustering.rated / Biclustering_IRM.rated に対応
+  - 共通オプション（title, colors, show_legend, legend_position）対応
+- `sec_axis(trans =)` → `sec_axis(transform =)` の修正（R/IRPtoCMPRMP.R
+  3箇所）
+  - ggplot2 \>= 3.5.0のdeprecation警告25件を解消
+- バージョンを1.1.0に更新（DESCRIPTION, NEWS.md）
+- `_pkgdown.yml` にDistractor Analysisセクション追加
+- `.Rbuildignore` にWORKLOG.md追加（R CMD check NOTE解消）
+- テストフィクスチャ追加（helper-setup.R: fixture_DA_lra,
+  fixture_DA_biclust）
+- テスト追加（test-distractor-plots.R: 9テストケース）
+- 目視確認用スクリプト作成（develop/test_Distractor.R）
+- cran-comments.md 更新
+- R CMD check: 0 errors / 0 warnings / 0 notes
+- テスト: FAIL 0 / WARN 1（exametrika側stanine警告）/ PASS 581
+- exametrika v1.11.0 Discussions
+  にリリースアナウンス投稿（英語・日本語）
+
+**rhub状況:** - linux (R-devel): 通過 - macos-arm64 (R-devel): 通過 -
+windows (R-devel): exametrika v1.11.0のR 4.7用バイナリがPosit Package
+Managerに未反映のため失敗 -
+`pak`が`cran.rstudio.com/bin/windows/contrib/4.7/`から1.10.1をインストールしてしまう -
+ワークフローのenv上書き（RENV_CONFIG_REPOS_OVERRIDE）も`pak`内部で再設定されるため無効 -
+rhub固有の問題であり、ローカル・GitHub
+Actions・他プラットフォームでは問題なし
+
+## 2026-04-17
+
+### v1.1.0 CRAN申請
+
+- rhubのワークフロー変更を元に戻し（.github/workflows/rhub.yaml）
+- cran-comments.md にrhub windows状況の説明を追記
+- `devtools::release()` でCRAN申請完了
+- CRAN incoming checkでplotScoreFreq_ggのexampleが10秒超のNOTE →
+  `\donttest{}`追加で再申請
+- CRAN受理（4/17）
 
 ## 2026-02-23
 
