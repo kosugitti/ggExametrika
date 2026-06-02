@@ -2,13 +2,13 @@
 
 ## New Features
 
-* `plotArray_gg()` gains `border` and `border_linewidth` arguments.
-  When `border = TRUE` (the default), a rectangular `panel.border` is
+* `plotArray_gg()` gains `border` and `border_linewidth` arguments
+  (opt-in). When `border = TRUE`, a rectangular `panel.border` is
   drawn around each of the original and clustered panels so that the
   two panels are visually distinguishable when shown side-by-side.
   Passing a character string to `border` sets the border colour
-  directly (e.g. `border = "gray40"`); `border = FALSE` restores the
-  previous unbordered look.
+  directly (e.g. `border = "gray40"`). The default is `FALSE`, so the
+  v1.1.0 unbordered look is preserved unless the user opts in.
 
 ## Breaking Changes
 

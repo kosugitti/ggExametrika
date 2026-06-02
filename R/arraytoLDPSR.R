@@ -34,10 +34,11 @@
 #' @param legend_position Character. Position of the legend.
 #'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
 #'   \code{"left"}, \code{"none"}.
-#' @param border Logical or character. If \code{TRUE} (default), draw a
-#'   rectangular border around each panel. If \code{FALSE}, no border.
-#'   A character string is used as the border color (default color is
-#'   \code{"black"}).
+#' @param border Logical or character. If \code{TRUE}, draw a rectangular
+#'   border around each panel so that the original and clustered panels
+#'   are visually separated. If \code{FALSE} (default), no border is
+#'   drawn (the v1.1.0 behavior). A character string is used as the
+#'   border color (default color is \code{"black"}).
 #' @param border_linewidth Numeric. Line width of the panel border.
 #'   Default is \code{0.5}.
 #'
@@ -86,7 +87,7 @@ plotArray_gg <- function(data,
                          colors = NULL,
                          show_legend = NULL,
                          legend_position = "right",
-                         border = TRUE,
+                         border = FALSE,
                          border_linewidth = 0.5) {
   # Border color resolution
   if (is.logical(border)) {
@@ -311,7 +312,7 @@ plotArray_gg <- function(data,
 
     # Panel border
     if (draw_border) {
-      clusterd_plot <- clusterd_plot + theme(
+      clustered_plot <- clustered_plot + theme(
         panel.border = element_rect(
           color = border_color, fill = NA, linewidth = border_linewidth
         )

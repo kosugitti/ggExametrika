@@ -13,7 +13,9 @@ plotArray_gg(
   title = TRUE,
   colors = NULL,
   show_legend = NULL,
-  legend_position = "right"
+  legend_position = "right",
+  border = FALSE,
+  border_linewidth = 0.5
 )
 }
 \arguments{
@@ -51,6 +53,15 @@ Default is \code{FALSE} for binary data, \code{TRUE} for multi-valued.}
 \item{legend_position}{Character. Position of the legend.
 One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
 \code{"left"}, \code{"none"}.}
+
+\item{border}{Logical or character. If \code{TRUE}, draw a rectangular
+border around each panel so that the original and clustered panels
+are visually separated. If \code{FALSE} (default), no border is
+drawn (the v1.1.0 behavior). A character string is used as the
+border color (default color is \code{"black"}).}
+
+\item{border_linewidth}{Numeric. Line width of the panel border.
+Default is \code{0.5}.}
 }
 \value{
 A ggplot object or a grid arrangement of two ggplot objects
