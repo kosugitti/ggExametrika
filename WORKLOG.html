@@ -46,6 +46,23 @@
 <div class="section level1">
 <h1 id="ggexametrika-開発ログ">ggExametrika 開発ログ<a class="anchor" aria-label="anchor" href="#ggexametrika-%E9%96%8B%E7%99%BA%E3%83%AD%E3%82%B0"></a></h1>
 <div class="section level2">
+<h2 id="id_2026-06-15">2026-06-15<a class="anchor" aria-label="anchor" href="#id_2026-06-15"></a></h2>
+<div class="section level3">
+<h3 id="v111-cran-提出準備">v1.1.1 CRAN 提出準備<a class="anchor" aria-label="anchor" href="#v111-cran-%E6%8F%90%E5%87%BA%E6%BA%96%E5%82%99"></a></h3>
+<p><strong>経緯:</strong> exametrika v1.14.0 が 2026-06-14 に CRAN 受理・公開されたため，連動して保留していた ggExametrika v1.1.1 を提出可能になった。</p>
+<p><strong>実施内容:</strong></p>
+<ul><li>
+<code>cran-comments.md</code> を v1.1.1 用に更新（border 引数追加 / Clusterd→Clustered リネーム / CRV・RRV ordering 修正の3点 + exametrika が CRAN 着地済みである旨）。</li>
+<li>exametrika 1.14.0 系（CRAN ミラー未同期のためローカルソース 1.14.0.9000 を install）に対して <code>R CMD check --as-cran</code> 実行 → Status: 1 NOTE（ローカル HTML Tidy が古いという環境依存 NOTE のみ，CRAN マシンでは出ない）。examples / donttest / tests 581 passes すべて OK。</li>
+<li>未コミットだった NAMESPACE（<code>importFrom(ggplot2,element_rect)</code>）/ <code>.Rbuildignore</code> / <code>.gitignore</code>（<code>.positai</code> 除外）をコミット。</li>
+</ul></div>
+<div class="section level3">
+<h3 id="次回引き継ぎ">次回引き継ぎ<a class="anchor" aria-label="anchor" href="#%E6%AC%A1%E5%9B%9E%E5%BC%95%E3%81%8D%E7%B6%99%E3%81%8E"></a></h3>
+<ul><li>win-builder(devel) の結果確認 → <code>devtools::release()</code> で CRAN 提出。</li>
+<li>提出後 CRAN-SUBMISSION 更新分をコミット。</li>
+</ul></div>
+</div>
+<div class="section level2">
 <h2 id="id_2026-06-02">2026-06-02<a class="anchor" aria-label="anchor" href="#id_2026-06-02"></a></h2>
 <div class="section level3">
 <h3 id="plotarray_gg-のtypo修正clusterd--clustered">plotArray_gg のtypo修正（Clusterd → Clustered）<a class="anchor" aria-label="anchor" href="#plotarray_gg-%E3%81%AEtypo%E4%BF%AE%E6%AD%A3clusterd--clustered"></a></h3>
@@ -71,6 +88,26 @@
 <li>pkgdown 再ビルド（docs/ 再生成）</li>
 <li>R CMD check</li>
 <li>CRAN提出（exametrika v1.14.0 と連動）</li>
+</ul></div>
+<div class="section level3">
+<h3 id="plotcrv_gg--plotrrv_gg-の-value-vs-index-ordering-bug-修正-commit-bcabf7c">plotCRV_gg / plotRRV_gg の value-vs-index ordering bug 修正 (commit <code>bcabf7c</code>)<a class="anchor" aria-label="anchor" href="#plotcrv_gg--plotrrv_gg-%E3%81%AE-value-vs-index-ordering-bug-%E4%BF%AE%E6%AD%A3-commit-bcabf7c"></a></h3>
+<p><strong>経緯:</strong> plotArray_gg typo修正と同コミットで，CRV/RRV プロットで値とインデックスの対応が崩れる不具合を発見・修正。</p>
+<p><strong>実施内容:</strong></p>
+<ul><li>
+<code>R/arraytoLDPSR.R</code>: <code>plotCRV_gg</code> / <code>plotRRV_gg</code> の value-vs-index ordering ロジックを修正</li>
+<li>
+<code>NEWS.md</code>：v1.1.1 の Bug Fix として記載</li>
+</ul></div>
+<div class="section level3">
+<h3 id="plotarray_gg-への-border-引数追加-commit-a565e9e">plotArray_gg への border 引数追加 (commit <code>a565e9e</code>)<a class="anchor" aria-label="anchor" href="#plotarray_gg-%E3%81%B8%E3%81%AE-border-%E5%BC%95%E6%95%B0%E8%BF%BD%E5%8A%A0-commit-a565e9e"></a></h3>
+<p><strong>経緯:</strong> AdvansedPsyStat ch12 のバイクラスタリング図で各パネルに枠線が必要となり，opt-in の引数として追加。</p>
+<p><strong>実施内容:</strong></p>
+<ul><li>
+<code>R/arraytoLDPSR.R</code>: <code>border</code>（デフォルト <code>FALSE</code>）と <code>border_linewidth</code>（デフォルト 0.5）引数を追加。<code>TRUE</code> 指定時に各パネルへ <code>panel.border</code> を描画</li>
+<li>
+<code>NEWS.md</code>：v1.1.1 の New Features として記載</li>
+<li>既存挙動は <code>border = FALSE</code> のデフォルトで完全維持（非破壊的変更）</li>
+<li>shinyExametrika はデフォルト引数呼び出しのみのため影響なし</li>
 </ul></div>
 </div>
 <div class="section level2">

@@ -2,6 +2,32 @@
 
 # ggExametrika 開発ログ
 
+## 2026-06-15
+
+### v1.1.1 CRAN 提出準備
+
+**経緯:** exametrika v1.14.0 が 2026-06-14 に CRAN
+受理・公開されたため，連動して保留していた ggExametrika v1.1.1
+を提出可能になった。
+
+**実施内容:**
+
+- `cran-comments.md` を v1.1.1 用に更新（border 引数追加 /
+  Clusterd→Clustered リネーム / CRV・RRV ordering 修正の3点 + exametrika
+  が CRAN 着地済みである旨）。
+- exametrika 1.14.0 系（CRAN ミラー未同期のためローカルソース
+  1.14.0.9000 を install）に対して `R CMD check --as-cran` 実行 →
+  Status: 1 NOTE（ローカル HTML Tidy が古いという環境依存 NOTE
+  のみ，CRAN マシンでは出ない）。examples / donttest / tests 581 passes
+  すべて OK。
+- 未コミットだった NAMESPACE（`importFrom(ggplot2,element_rect)`）/
+  `.Rbuildignore` / `.gitignore`（`.positai` 除外）をコミット。
+
+### 次回引き継ぎ
+
+- win-builder(devel) の結果確認 → `devtools::release()` で CRAN 提出。
+- 提出後 CRAN-SUBMISSION 更新分をコミット。
+
 ## 2026-06-02
 
 ### plotArray_gg のtypo修正（Clusterd → Clustered）
@@ -37,6 +63,32 @@ Dataになっている」との指摘。本家exametrikaから引数化された
 - pkgdown 再ビルド（docs/ 再生成）
 - R CMD check
 - CRAN提出（exametrika v1.14.0 と連動）
+
+### plotCRV_gg / plotRRV_gg の value-vs-index ordering bug 修正 (commit `bcabf7c`)
+
+**経緯:** plotArray_gg typo修正と同コミットで，CRV/RRV
+プロットで値とインデックスの対応が崩れる不具合を発見・修正。
+
+**実施内容:**
+
+- `R/arraytoLDPSR.R`: `plotCRV_gg` / `plotRRV_gg` の value-vs-index
+  ordering ロジックを修正
+- `NEWS.md`：v1.1.1 の Bug Fix として記載
+
+### plotArray_gg への border 引数追加 (commit `a565e9e`)
+
+**経緯:** AdvansedPsyStat ch12
+のバイクラスタリング図で各パネルに枠線が必要となり，opt-in
+の引数として追加。
+
+**実施内容:**
+
+- `R/arraytoLDPSR.R`: `border`（デフォルト `FALSE`）と
+  `border_linewidth`（デフォルト 0.5）引数を追加。`TRUE`
+  指定時に各パネルへ `panel.border` を描画
+- `NEWS.md`：v1.1.1 の New Features として記載
+- 既存挙動は `border = FALSE` のデフォルトで完全維持（非破壊的変更）
+- shinyExametrika はデフォルト引数呼び出しのみのため影響なし
 
 ## 2026-04-15
 
