@@ -4,6 +4,28 @@
 
 ## 2026-06-15
 
+### roxygen2 8.0.0 対応（@importFrom の1行化）
+
+**経緯:** Pythagoras（roxygen2 8.0.0）で `devtools::document()`
+を実行すると，複数行に折り返された `@importFrom` が
+`@importFrom must be only 1 line long` で13箇所エラー。CRAN 現行の
+roxygen2 は 8.0.0 で，Newton 側が 7.3.3
+と古かったため気づいていなかった（Newton は site-library の roxygen2 が
+root 所有で更新できず取り残されていた）。
+
+**実施内容:**
+
+- R/ 全体の複数行 `@importFrom` を1行に統合（10ファイル: Biclustering,
+  GRM, IRPtoCMPRMP, LRAordinal, PolyBiclustering, ScoreRank,
+  arraytoLDPSR, plotDistractor_gg, plotFCBR_gg, plotLDPSR_gg）。roxygen2
+  7.x / 8.0.0 双方で通る形。
+- Newton の roxygen2 をユーザライブラリ経由で 8.0.0 に更新し，8.0.0 で
+  `devtools::document()` 実行 → **NAMESPACE / man / DESCRIPTION
+  すべて差分なし**（生成物は不変，ソースの roxygen コメント整形のみ）。
+- 再度 `R CMD check --as-cran` → Status: 1 NOTE（ローカル HTML Tidy
+  環境依存のみ）。win-builder(devel) Status OK（check 615s）。rhub
+  windows(R-devel) success（v1.1.0 で落ちた windows が解消）。
+
 ### v1.1.1 CRAN 提出準備
 
 **経緯:** exametrika v1.14.0 が 2026-06-14 に CRAN
