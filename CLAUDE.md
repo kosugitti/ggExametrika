@@ -6,9 +6,9 @@ exametrikaパッケージの出力をggplot2で可視化するためのパッケ
 
 ## 現在のバージョン
 
-**v1.1.1（開発中・CRAN未提出）** / 直前のCRAN: v1.1.0（受理 2026-04-17）
+**v1.1.1（2026-06-15 CRAN提出済・確認クリック完了→レビュー待ち）** / 直前のCRAN: v1.1.0（受理 2026-04-17）
 
-- **親パッケージ**: exametrika v1.13.1（CRAN）/ 開発中 v1.14.0
+- **親パッケージ**: exametrika v1.14.0（CRAN, 2026-06-14受理）
 - **GitHub**: https://github.com/kosugitti/ggExametrika
 - **pkgdownサイト**: https://kosugitti.github.io/ggExametrika/
 
