@@ -9,31 +9,28 @@
 The 1 warning is from exametrika's internal `stanine()` function when
 processing small synthetic test data, not from ggExametrika code.
 
-## Update (v1.0.0 -> v1.1.0)
+## Update (v1.1.0 -> v1.1.1)
 
-This is an update to the CRAN-published v1.0.0. Changes in this version:
+This is an update to the CRAN-published v1.1.0. Changes in this version:
 
-* New exported function `plotDistractor_gg()` for Distractor Analysis
-  visualization, corresponding to exametrika v1.11.0's
-  `DistractorAnalysis()` output. Creates stacked bar charts showing
-  response category proportions by rank/class, with the correct answer
-  highlighted.
-* Add support for `ratedBiclustering` class (exametrika v1.11.0) in 11
-  existing plot functions.
-* Fix deprecated `sec_axis(trans = ...)` to `sec_axis(transform = ...)`
-  for ggplot2 >= 3.5.0.
+* `plotArray_gg()` gains opt-in `border` and `border_linewidth` arguments
+  to draw a rectangular panel border around the original and clustered
+  panels. The default (`border = FALSE`) preserves the v1.1.0 appearance.
+* Rename the misspelled `Clusterd*` arguments and labels in
+  `plotArray_gg()` to the correct `Clustered*` spelling
+  (`Clusterd` -> `Clustered`, etc.). Code passing these by position is
+  unaffected; code naming them must be updated.
+* Fix a value/label ordering bug in `plotCRV_gg()` and `plotRRV_gg()`.
 
 ## Test environments
 
 * local macOS Tahoe 26.4.0 (Apple Silicon, aarch64-apple-darwin25.4.0), R 4.5.3
 * GitHub Actions: macOS-latest (release), windows-latest (release), ubuntu-latest (release, devel)
-* R-hub: linux (R-devel) OK, macos-arm64 (R-devel) OK
-* R-hub windows (R-devel): exametrika v1.11.0 binary for R 4.7 not yet
-  available on CRAN mirror (R 4.5 binary is available). The example using
-  `J21S300` (new dataset in exametrika v1.11.0) fails only in this
-  environment. All other platforms pass.
+* R-hub: linux (R-devel), macos-arm64 (R-devel), windows (R-devel)
 
 ## Dependencies
 
-* exametrika (>= 1.11.0) is listed in Suggests (not required for installation)
-* All Imports packages are available on CRAN
+* exametrika (in Suggests) is now published on CRAN at v1.14.0, so its
+  binary is available on all R-hub / win-builder platforms. This resolves
+  the Windows binary-availability note seen during the v1.1.0 submission.
+* All Imports packages are available on CRAN.

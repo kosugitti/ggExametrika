@@ -13,3 +13,4 @@ vignettes/articles/*_cache/
 *.Rcheck/
 *.tar.gz
 CRAN-SUBMISSION
+.positai
