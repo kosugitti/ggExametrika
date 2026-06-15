@@ -182,8 +182,7 @@ plotIRP_gg <- function(data,
 #' @seealso \code{\link{plotIRP_gg}}, \code{\link{plotTRP_gg}},
 #'   \code{\link{plotCRV_gg}}, \code{\link{plotRRV_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_point geom_line scale_x_continuous
-#'   scale_y_continuous labs theme scale_color_manual scale_linetype_manual
+#' @importFrom ggplot2 ggplot aes geom_point geom_line scale_x_continuous scale_y_continuous labs theme scale_color_manual scale_linetype_manual
 #' @export
 
 plotFRP_gg <- function(data,

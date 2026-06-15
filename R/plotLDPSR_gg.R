@@ -67,9 +67,7 @@
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotArray_gg}},
 #'   \code{\link{plotGraph_gg}}, \code{\link{combinePlots_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line geom_point geom_text
-#'   scale_x_continuous scale_y_continuous scale_color_manual
-#'   labs theme
+#' @importFrom ggplot2 ggplot aes geom_line geom_point geom_text scale_x_continuous scale_y_continuous scale_color_manual labs theme
 #' @export
 
 plotLDPSR_gg <- function(data,

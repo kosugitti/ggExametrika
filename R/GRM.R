@@ -48,8 +48,7 @@
 #'
 #' @seealso \code{\link{plotICC_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line labs theme element_text
-#'   scale_color_manual guides guide_legend
+#' @importFrom ggplot2 ggplot aes geom_line labs theme element_text scale_color_manual guides guide_legend
 #' @export
 
 

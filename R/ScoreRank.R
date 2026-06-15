@@ -39,8 +39,7 @@
 #'
 #' @seealso \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_tile labs theme
-#'   scale_fill_gradient scale_x_continuous
+#' @importFrom ggplot2 ggplot aes geom_tile labs theme scale_fill_gradient scale_x_continuous
 #' @export
 
 plotScoreRank_gg <- function(data,

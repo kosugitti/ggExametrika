@@ -68,8 +68,7 @@
 #' @seealso \code{\link{plotIRP_gg}}, \code{\link{plotFCRP_gg}},
 #'   \code{\link{combinePlots_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_col labs scale_fill_manual
-#'   scale_y_continuous theme element_text
+#' @importFrom ggplot2 ggplot aes geom_col labs scale_fill_manual scale_y_continuous theme element_text
 #'
 #' @export
 plotDistractor_gg <- function(data,

@@ -96,8 +96,7 @@
 #'
 #' @seealso \code{\link{plotRRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line geom_point labs theme
-#'   scale_color_manual scale_x_continuous scale_y_continuous
+#' @importFrom ggplot2 ggplot aes geom_line geom_point labs theme scale_color_manual scale_x_continuous scale_y_continuous
 #' @importFrom ggrepel geom_text_repel
 #' @export
 
@@ -306,8 +305,7 @@ plotCRV_gg <- function(data,
 #'
 #' @seealso \code{\link{plotCRV_gg}}, \code{\link{plotFRP_gg}}, \code{\link{plotScoreField_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line geom_point labs theme
-#'   scale_color_manual scale_x_continuous scale_y_continuous
+#' @importFrom ggplot2 ggplot aes geom_line geom_point labs theme scale_color_manual scale_x_continuous scale_y_continuous
 #' @importFrom ggrepel geom_text_repel
 #' @export
 

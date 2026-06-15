@@ -72,9 +72,7 @@
 #'
 #' @seealso \code{\link{plotFRP_gg}}, \code{\link{plotTRP_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual
-#'   labs theme element_text element_blank element_rect geom_hline geom_vline
-#'   margin scale_x_continuous scale_y_continuous
+#' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual labs theme element_text element_blank element_rect geom_hline geom_vline margin scale_x_continuous scale_y_continuous
 #' @importFrom gridExtra grid.arrange
 #' @export
 

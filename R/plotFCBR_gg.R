@@ -66,8 +66,7 @@
 #'
 #' @seealso \code{\link{plotFCRP_gg}}, \code{\link{plotScoreField_gg}}, \code{\link{plotArray_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line facet_wrap labs theme element_text
-#'   scale_color_manual scale_linetype_manual scale_y_continuous
+#' @importFrom ggplot2 ggplot aes geom_line facet_wrap labs theme element_text scale_color_manual scale_linetype_manual scale_y_continuous
 #' @export
 
 plotFCBR_gg <- function(data,

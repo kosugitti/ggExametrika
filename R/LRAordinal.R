@@ -46,8 +46,7 @@
 #'
 #' @seealso \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_density geom_vline labs theme
-#'   scale_color_manual
+#' @importFrom ggplot2 ggplot aes geom_density geom_vline labs theme scale_color_manual
 #' @export
 
 plotScoreFreq_gg <- function(data,
@@ -196,8 +195,7 @@ plotScoreFreq_gg <- function(data,
 #'
 #' @seealso \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}, \code{\link{plotRMP_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line facet_wrap labs theme element_text
-#'   scale_color_manual scale_linetype_manual scale_y_continuous
+#' @importFrom ggplot2 ggplot aes geom_line facet_wrap labs theme element_text scale_color_manual scale_linetype_manual scale_y_continuous
 #' @importFrom tidyr pivot_longer
 #' @export
 
@@ -388,8 +386,7 @@ plotICBR_gg <- function(data,
 #'
 #' @seealso \code{\link{plotICBR_gg}}, \code{\link{plotScoreFreq_gg}}, \code{\link{plotLRD_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line facet_wrap labs theme element_text
-#'   scale_color_manual scale_linetype_manual scale_y_continuous
+#' @importFrom ggplot2 ggplot aes geom_line facet_wrap labs theme element_text scale_color_manual scale_linetype_manual scale_y_continuous
 #' @importFrom tidyr pivot_longer
 #' @export
 

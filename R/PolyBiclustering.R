@@ -68,9 +68,7 @@
 #'
 #' @seealso \code{\link{plotFCBR_gg}}, \code{\link{plotScoreField_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line geom_point geom_bar facet_wrap
-#'   labs theme_minimal scale_color_manual scale_fill_manual scale_linetype_manual
-#'   scale_y_continuous theme element_text guide_legend guides
+#' @importFrom ggplot2 ggplot aes geom_line geom_point geom_bar facet_wrap labs theme_minimal scale_color_manual scale_fill_manual scale_linetype_manual scale_y_continuous theme element_text guide_legend guides
 #' @importFrom tidyr pivot_longer
 #'
 #' @export
