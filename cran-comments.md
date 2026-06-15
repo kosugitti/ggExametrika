@@ -24,7 +24,7 @@ This is an update to the CRAN-published v1.1.0. Changes in this version:
 
 ## Test environments
 
-* local macOS Tahoe 26.4.0 (Apple Silicon, aarch64-apple-darwin25.4.0), R 4.5.3
+* local macOS Tahoe 26 (Apple Silicon, aarch64-apple-darwin25), R 4.6.0
 * GitHub Actions: macOS-latest (release), windows-latest (release), ubuntu-latest (release, devel)
 * R-hub: linux (R-devel), macos-arm64 (R-devel), windows (R-devel)
 
