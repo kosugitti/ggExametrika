@@ -48,6 +48,13 @@
 <div class="section level2">
 <h2 id="id_2026-06-15">2026-06-15<a class="anchor" aria-label="anchor" href="#id_2026-06-15"></a></h2>
 <div class="section level3">
+<h3 id="v111-cran-提出完了">v1.1.1 CRAN 提出完了<a class="anchor" aria-label="anchor" href="#v111-cran-%E6%8F%90%E5%87%BA%E5%AE%8C%E4%BA%86"></a></h3>
+<ul><li>全チェック緑（win-builder Status OK / rhub linux・windows・macos-arm64 全 success / ローカル <code>R CMD check --as-cran</code> は HTML Tidy 環境依存 NOTE のみ）を確認のうえ，Pythagoras で <code>devtools::release()</code> 実行 → CRAN アップロード成功（Packaged on pythagoras）。</li>
+<li>CRAN 確認メールの承認リンクもクリック完了 → <strong>レビュー待ち</strong>。</li>
+<li>CRAN-SUBMISSION（Version 1.1.1 / SHA c9e6f4f）をコミット <code>48017ee</code> で記録・push 済み。</li>
+<li>提出 commit は <code>c9e6f4f</code>（@importFrom 1行化）。提出 SHA と一致。</li>
+</ul></div>
+<div class="section level3">
 <h3 id="roxygen2-800-対応importfrom-の1行化">roxygen2 8.0.0 対応（@importFrom の1行化）<a class="anchor" aria-label="anchor" href="#roxygen2-800-%E5%AF%BE%E5%BF%9Cimportfrom-%E3%81%AE1%E8%A1%8C%E5%8C%96"></a></h3>
 <p><strong>経緯:</strong> Pythagoras（roxygen2 8.0.0）で <code>devtools::document()</code> を実行すると，複数行に折り返された <code>@importFrom</code> が <code>@importFrom must be only 1 line long</code> で13箇所エラー。CRAN 現行の roxygen2 は 8.0.0 で，Newton 側が 7.3.3 と古かったため気づいていなかった（Newton は site-library の roxygen2 が root 所有で更新できず取り残されていた）。</p>
 <p><strong>実施内容:</strong></p>

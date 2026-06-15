@@ -4,6 +4,17 @@
 
 ## 2026-06-15
 
+### v1.1.1 CRAN 提出完了
+
+- 全チェック緑（win-builder Status OK / rhub linux・windows・macos-arm64
+  全 success / ローカル `R CMD check --as-cran` は HTML Tidy 環境依存
+  NOTE のみ）を確認のうえ，Pythagoras で `devtools::release()` 実行 →
+  CRAN アップロード成功（Packaged on pythagoras）。
+- CRAN 確認メールの承認リンクもクリック完了 → **レビュー待ち**。
+- CRAN-SUBMISSION（Version 1.1.1 / SHA c9e6f4f）をコミット `48017ee`
+  で記録・push 済み。
+- 提出 commit は `c9e6f4f`（@importFrom 1行化）。提出 SHA と一致。
+
 ### roxygen2 8.0.0 対応（@importFrom の1行化）
 
 **経緯:** Pythagoras（roxygen2 8.0.0）で `devtools::document()`
