@@ -99,8 +99,6 @@ edges_data <- data.frame(
 tmp_file <- tempfile(fileext = ".csv")
 write.csv(edges_data, file = tmp_file, row.names = FALSE)
 result <- BINET(J35S515, ncls = 13, nfld = 12, conf = conf, adj_file = tmp_file)
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 unlink(tmp_file)
 plots <- plotLDPSR_gg(result)
 plots[[1]] # Show LDPSR for the first edge

@@ -87,12 +87,6 @@ The category probabilities are derived from cumulative probabilities:
 library(exametrika)
 # \donttest{
 result <- GRM(J5S1000)
-#> Parameters: 18 | Initial LL: -6252.352 
-#> initial  value 6252.351598 
-#> iter  10 value 6032.463982
-#> iter  20 value 6010.861094
-#> final  value 6008.297278 
-#> converged
 plots <- plotICRF_gg(result)
 plots[[1]] # Show ICRF for the first item
 

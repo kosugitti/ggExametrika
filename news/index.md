@@ -2,6 +2,8 @@
 
 ## ggExametrika 1.1.1
 
+CRAN release: 2026-06-15
+
 ### New Features
 
 - [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)

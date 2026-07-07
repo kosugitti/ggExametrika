@@ -78,21 +78,6 @@ supports 2PL, 3PL, and 4PL IRT models.
 ``` r
 library(exametrika)
 result <- IRT(J15S500, model = 3)
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
-#> iter 1 LogLik -3960.28                                                          
-#> iter 2 LogLik -3938.35                                                          
-#> iter 3 LogLik -3931.82                                                          
-#> iter 4 LogLik -3928.68                                                          
-#> iter 5 LogLik -3926.99                                                          
-#> iter 6 LogLik -3926.05                                                          
-#> iter 7 LogLik -3925.51                                                          
-#> iter 8 LogLik -3925.19                                                          
-#> iter 9 LogLik -3925.01                                                          
-#> iter 10 LogLik -3924.9                                                          
-#> iter 11 LogLik -3924.84                                                         
-#> iter 12 LogLik -3924.8                                                          
-#> iter 13 LogLik -3924.77                                                         
 plot <- plotTRF_gg(result)
 plot # Show Test Response Function
 ```

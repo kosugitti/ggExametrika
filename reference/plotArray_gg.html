@@ -167,42 +167,6 @@ difficult items (right columns) correctly.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kosugitti.github.io/exametrika/" class="external-link">exametrika</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, ncls <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Biclustering is chosen.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 1 log_lik -7966.66                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 2 log_lik -7442.38                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 3 log_lik -7266.35                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 4 log_lik -7151.01                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 5 log_lik -7023.94                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 6 log_lik -6984.82                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 7 log_lik -6950.27                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 8 log_lik -6939.34                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 9 log_lik -6930.89                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 10 log_lik -6923.5                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 11 log_lik -6914.56                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 12 log_lik -6908.89                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 13 log_lik -6906.84                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 14 log_lik -6905.39                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 15 log_lik -6904.24                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 16 log_lik -6903.28                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 17 log_lik -6902.41                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 18 log_lik -6901.58                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 19 log_lik -6900.74                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 20 log_lik -6899.86                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 21 log_lik -6898.9                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 22 log_lik -6897.84                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 23 log_lik -6896.66                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 24 log_lik -6895.35                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 25 log_lik -6893.92                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 26 log_lik -6892.4                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 27 log_lik -6890.85                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 28 log_lik -6889.32                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 29 log_lik -6887.9                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 30 log_lik -6886.66                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 31 log_lik -6885.67                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 32 log_lik -6884.98                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 33 log_lik -6884.58                                                        </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Basic usage</span></span></span>
 <span class="r-in"><span><span class="fu">plotArray_gg</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
@@ -224,10 +188,6 @@ difficult items (right columns) correctly.</p>
 <span class="r-in"><span><span class="va">synthetic_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">50</span> <span class="op">*</span> <span class="fl">20</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">50</span>, ncol <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">synthetic_data</span>, nfld <span class="op">=</span> <span class="fl">4</span>, ncls <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Biclustering is chosen.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 1 log_lik -805.847                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> iter 2 log_lik -805.895                                                         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Strongly ordinal alignment condition was satisfied.</span>
 <span class="r-in"><span><span class="fu">plotArray_gg</span><span class="op">(</span><span class="va">result_multi</span>, show_legend <span class="op">=</span> <span class="cn">TRUE</span>, Clustered_lines_color <span class="op">=</span> <span class="st">"darkgreen"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plotArray_gg-3.png" alt="" width="672" height="480"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> TableGrob (1 x 2) "arrange": 2 grobs</span>

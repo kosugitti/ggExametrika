@@ -101,12 +101,6 @@ boundaries.
 library(exametrika)
 # Ordinal biclustering example with polytomous data
 result <- Biclustering(J35S500, ncls = 4, nfld = 5)
-#> Biclustering is chosen.
-#> iter 1 log_lik -22624.6                                                         
-#> iter 2 log_lik -21286.8                                                         
-#> iter 3 log_lik -20981.4                                                         
-#> iter 4 log_lik -20982.2                                                         
-#> Weakly ordinal alignment condition was satisfied.
 
 # Plot first 4 fields
 plot <- plotFCBR_gg(result, fields = 1:4)

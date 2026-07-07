@@ -115,27 +115,6 @@ instead.
 # Binary biclustering
 library(exametrika)
 result <- Biclustering(J15S500, nfld = 3, ncls = 5)
-#> Biclustering is chosen.
-#> iter 1 log_lik -4020.83                                                         
-#> iter 2 log_lik -3997.76                                                         
-#> iter 3 log_lik -3992.39                                                         
-#> iter 4 log_lik -3986.8                                                          
-#> iter 5 log_lik -3980                                                            
-#> iter 6 log_lik -3973.35                                                         
-#> iter 7 log_lik -3967.73                                                         
-#> iter 8 log_lik -3963.4                                                          
-#> iter 9 log_lik -3960.25                                                         
-#> iter 10 log_lik -3958.04                                                        
-#> iter 11 log_lik -3956.52                                                        
-#> iter 12 log_lik -3955.47                                                        
-#> iter 13 log_lik -3954.72                                                        
-#> iter 14 log_lik -3954.17                                                        
-#> iter 15 log_lik -3953.75                                                        
-#> iter 16 log_lik -3953.39                                                        
-#> 
-#> 
-#> Weakly ordinal alignment condition was satisfied.
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 plotRRV_gg(result)
 
 
@@ -143,14 +122,6 @@ plotRRV_gg(result)
 # Ordinal biclustering (polytomous)
 data(J35S500)
 result_ord <- Biclustering(J35S500, ncls = 5, nfld = 5, method = "R")
-#> Ranklustering is chosen.
-#> iter 1 log_lik -22710.5                                                         
-#> iter 2 log_lik -21311.9                                                         
-#> iter 3 log_lik -21002.5                                                         
-#> iter 4 log_lik -20945.8                                                         
-#> iter 5 log_lik -20932.3                                                         
-#> iter 6 log_lik -20929.2                                                         
-#> iter 7 log_lik -20929.8                                                         
 plotRRV_gg(result_ord) # Default: mean
 
 plotRRV_gg(result_ord, stat = "median")

@@ -103,13 +103,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 <p>IRT（2PL, 3PL,
 4PL）モデルは、2値応答データから項目パラメータを推定します。</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.</span></span>
-<span><span class="co">#&gt; No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.</span></span>
-<span><span class="co">#&gt; iter 1 LogLik -3915.61 iter 2 LogLik -3901.1 iter 3 LogLik -3896.89 iter 4</span></span>
-<span><span class="co">#&gt; LogLik -3894.98 iter 5 LogLik -3894.02 iter 6 LogLik -3893.53 iter 7 LogLik</span></span>
-<span><span class="co">#&gt; -3893.28 iter 8 LogLik -3893.15 iter 9 LogLik -3893.08 iter 10 LogLik -3893.04</span></span>
-<span><span class="co">#&gt; iter 11 LogLik -3893.03</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_irt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/IRT.html" class="external-link">IRT</a></span><span class="op">(</span><span class="va">J15S500</span>, model <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="ploticc_gg-項目特性曲線icc">plotICC_gg: 項目特性曲線（ICC）<a class="anchor" aria-label="anchor" href="#ploticc_gg-%E9%A0%85%E7%9B%AE%E7%89%B9%E6%80%A7%E6%9B%B2%E7%B7%9Aicc"></a>
 </h3>
@@ -214,13 +208,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 </h2>
 <p>GRMは順序付き多値応答データ（例: リッカート尺度）を扱います。</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Parameters: 18 | Initial LL: -6252.352 </span></span>
-<span><span class="co">#&gt; initial  value 6252.351598 </span></span>
-<span><span class="co">#&gt; iter  10 value 6032.463982</span></span>
-<span><span class="co">#&gt; iter  20 value 6010.861094</span></span>
-<span><span class="co">#&gt; final  value 6008.297278 </span></span>
-<span><span class="co">#&gt; converged</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_grm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/GRM.html" class="external-link">GRM</a></span><span class="op">(</span><span class="va">J5S1000</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="ploticrf_gg-項目カテゴリ応答関数icrf">plotICRF_gg: 項目カテゴリ応答関数（ICRF）<a class="anchor" aria-label="anchor" href="#ploticrf_gg-%E9%A0%85%E7%9B%AE%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%E5%BF%9C%E7%AD%94%E9%96%A2%E6%95%B0icrf"></a>
 </h3>
@@ -283,13 +271,7 @@ IRT、GRM、潜在クラス・ランク分析、バイクラスタリング、�
 </h2>
 <p>LCAは2値応答データから潜在クラス（離散的グループ）を識別します。</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; iter 1 log_lik -3955.4 iter 2 log_lik -3904.63 iter 3 log_lik -3890.82 iter 4</span></span>
-<span><span class="co">#&gt; log_lik -3880 iter 5 log_lik -3870.82 iter 6 log_lik -3863.52 iter 7 log_lik</span></span>
-<span><span class="co">#&gt; -3857.89 iter 8 log_lik -3853.58 iter 9 log_lik -3850.31 iter 10 log_lik</span></span>
-<span><span class="co">#&gt; -3847.86 iter 11 log_lik -3846.05 iter 12 log_lik -3844.72 iter 13 log_lik</span></span>
-<span><span class="co">#&gt; -3843.74 iter 14 log_lik -3843.02 iter 15 log_lik -3842.48 iter 16 log_lik</span></span>
-<span><span class="co">#&gt; -3842.07 iter 17 log_lik -3841.76</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_lca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LCA.html" class="external-link">LCA</a></span><span class="op">(</span><span class="va">J15S500</span>, ncls <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotirp_gg-項目参照プロファイルirp">plotIRP_gg: 項目参照プロファイル（IRP）<a class="anchor" aria-label="anchor" href="#plotirp_gg-%E9%A0%85%E7%9B%AE%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%ABirp"></a>
 </h3>
@@ -469,12 +451,7 @@ K-1）を表示します。</p>
 </h2>
 <p>バイクラスタリングは、項目（フィールドへ）と学生（ランクへ）を同時にクラスタリングします。</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Biclustering is chosen.</span></span>
-<span><span class="co">#&gt; iter 1 log_lik -8463.81                                                         iter 2 log_lik -8195.78                                                         iter 3 log_lik -8121.09                                                         iter 4 log_lik -8091.3                                                          iter 5 log_lik -8086.61                                                         iter 6 log_lik -8086.47                                                         </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Strongly ordinal alignment condition was satisfied.</span></span>
-<span><span class="co">#&gt; No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotfrp_gg-フィールド参照プロファイル">plotFRP_gg: フィールド参照プロファイル<a class="anchor" aria-label="anchor" href="#plotfrp_gg-%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E5%8F%82%E7%85%A7%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB"></a>
 </h3>
@@ -568,11 +545,7 @@ K-1）を表示します。</p>
 でフィールド累積境界参照を 可視化できます。各フィールドの境界確率 P(Q
 &gt;= k) を潜在クラス/ランクごとに表示します。</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_ord_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Biclustering is chosen.</span></span>
-<span><span class="co">#&gt; iter 1 log_lik -22710.5 iter 2 log_lik -21311.9 iter 3 log_lik -21002.5 iter 4</span></span>
-<span><span class="co">#&gt; log_lik -20945.8 iter 5 log_lik -20932.3 iter 6 log_lik -20929.2 iter 7 log_lik</span></span>
-<span><span class="co">#&gt; -20929.8</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_ord_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S500</span>, ncls <span class="op">=</span> <span class="fl">5</span>, nfld <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fcbr_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotFCBR_gg.html">plotFCBR_gg</a></span><span class="op">(</span><span class="va">result_ord_bic</span><span class="op">)</span></span>
 <span><span class="va">fcbr_plot</span></span></code></pre></div>

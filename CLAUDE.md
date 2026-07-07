@@ -6,8 +6,8 @@ exametrikaパッケージの出力をggplot2で可視化するためのパッケ
 
 ## 現在のバージョン
 
-**v1.1.1（2026-06-15 CRAN提出済・確認クリック完了→レビュー待ち）** /
-直前のCRAN: v1.1.0（受理 2026-04-17）
+**v1.1.1（CRAN受理・公開済。2026-06-15提出→2026-06受理）** / 直前のCRAN:
+v1.1.0（受理 2026-04-17）
 
 - **親パッケージ**: exametrika v1.14.0（CRAN, 2026-06-14受理）
 - **GitHub**: <https://github.com/kosugitti/ggExametrika>
@@ -102,6 +102,15 @@ plotIIC_overlay_gg
 ItemInformationFunc, ItemInformationFunc_GRM
 
 ## CRAN投稿履歴
+
+### v1.1.1（2026-06-15 提出 → 2026-06 受理・公開）
+
+- border引数追加・Clusterd→Clustered破壊的リネーム・CRV/RRV
+  ordering修正・roxygen2
+  [8.0.0対応の@importFrom](mailto:8.0.0%E5%AF%BE%E5%BF%9C%E3%81%AE@importFrom)
+  1行化
+- 全チェック緑（win-builder OK / rhub 3環境success）で一発受理
+- 親パッケージ exametrika v1.14.0（CRAN 2026-06-14受理）に連動
 
 ### v1.0.0（2026-03-20 初回投稿 → 2026-03-25 再投稿、審査待ち）
 

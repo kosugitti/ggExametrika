@@ -40,12 +40,6 @@ IRT（2PL, 3PL,
 ``` r
 
 result_irt <- IRT(J15S500, model = 2)
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
-#> iter 1 LogLik -3915.61 iter 2 LogLik -3901.1 iter 3 LogLik -3896.89 iter 4
-#> LogLik -3894.98 iter 5 LogLik -3894.02 iter 6 LogLik -3893.53 iter 7 LogLik
-#> -3893.28 iter 8 LogLik -3893.15 iter 9 LogLik -3893.08 iter 10 LogLik -3893.04
-#> iter 11 LogLik -3893.03
 ```
 
 ### plotICC_gg: 項目特性曲線（ICC）
@@ -203,12 +197,6 @@ GRMは順序付き多値応答データ（例: リッカート尺度）を扱い
 ``` r
 
 result_grm <- GRM(J5S1000)
-#> Parameters: 18 | Initial LL: -6252.352 
-#> initial  value 6252.351598 
-#> iter  10 value 6032.463982
-#> iter  20 value 6010.861094
-#> final  value 6008.297278 
-#> converged
 ```
 
 ### plotICRF_gg: 項目カテゴリ応答関数（ICRF）
@@ -299,12 +287,6 @@ LCAは2値応答データから潜在クラス（離散的グループ）を識�
 ``` r
 
 result_lca <- LCA(J15S500, ncls = 3)
-#> iter 1 log_lik -3955.4 iter 2 log_lik -3904.63 iter 3 log_lik -3890.82 iter 4
-#> log_lik -3880 iter 5 log_lik -3870.82 iter 6 log_lik -3863.52 iter 7 log_lik
-#> -3857.89 iter 8 log_lik -3853.58 iter 9 log_lik -3850.31 iter 10 log_lik
-#> -3847.86 iter 11 log_lik -3846.05 iter 12 log_lik -3844.72 iter 13 log_lik
-#> -3843.74 iter 14 log_lik -3843.02 iter 15 log_lik -3842.48 iter 16 log_lik
-#> -3842.07 iter 17 log_lik -3841.76
 ```
 
 ### plotIRP_gg: 項目参照プロファイル（IRP）
@@ -563,11 +545,6 @@ rmp_plots[[1]]
 ``` r
 
 result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
-#> Biclustering is chosen.
-#> iter 1 log_lik -8463.81                                                         iter 2 log_lik -8195.78                                                         iter 3 log_lik -8121.09                                                         iter 4 log_lik -8091.3                                                          iter 5 log_lik -8086.61                                                         iter 6 log_lik -8086.47                                                         
-#> 
-#> Strongly ordinal alignment condition was satisfied.
-#> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 ```
 
 ### plotFRP_gg: フィールド参照プロファイル
@@ -701,10 +678,6 @@ plotArray_gg(result_bic, Clustered_lines = FALSE)
 ``` r
 
 result_ord_bic <- Biclustering(J35S500, ncls = 5, nfld = 5)
-#> Biclustering is chosen.
-#> iter 1 log_lik -22710.5 iter 2 log_lik -21311.9 iter 3 log_lik -21002.5 iter 4
-#> log_lik -20945.8 iter 5 log_lik -20932.3 iter 6 log_lik -20929.2 iter 7 log_lik
-#> -20929.8
 ```
 
 ``` r
