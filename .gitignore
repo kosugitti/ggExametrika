@@ -6,6 +6,7 @@
 *.Rproj.user
 .Rproj.user
 inst/doc
+docs/
 Rplots.pdf
 .claude/settings.local.json
 .DS_Store

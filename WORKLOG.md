@@ -1125,3 +1125,10 @@ exametrika v1.9.0で多値データ用のサンプルデータセットが追加
    - 16関数が未対応（CLAUDE.mdのTODOリスト参照）
 
 ---
+
+## 2026-06-22
+
+- v1.1.1 が CRAN 受理・公開済みであることを確認（2026-06-15提出→2026-06受理）。レビュー待ち状態を解消。
+- CLAUDE.md の現在バージョン欄・CRAN投稿履歴に v1.1.1 受理を記録。
+- 依存チェーン exametrika(1.14.0)→ggExametrika(1.1.1) は両方 CRAN 上で揃った。shinyExametrika は CRAN 登録不要方針。
+- 引き継ぎ: 次は親 exametrika 側の次リリース（Title 変更 issue#32・v2.0.0 多値BNM）に伴う ggExametrika 連動対応を見込む。
