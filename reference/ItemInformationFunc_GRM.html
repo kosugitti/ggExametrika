@@ -11,7 +11,7 @@ at different theta levels."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,10 +78,17 @@ ability level.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>For GRM, the Item Information Function is computed as:
-$$I(\theta) = a^2 \sum_{k=1}^{K-1} P_k^*(\theta) [1 - P_k^*(\theta)]$$</p>
-<p>where \(P_k^*(\theta)\) is the cumulative probability of scoring in
-category \(k\) or above.</p>
+    <p>The information is Samejima's (1969) item information for the GRM,
+computed identically to <code><a href="https://kosugitti.github.io/exametrika/reference/grm_iif.html" class="external-link">exametrika::grm_iif</a></code> (&gt;= 1.15.0.9000)
+so that ggExametrika plots match the base plots of the parent
+package:
+$$I(\theta) = \sum_{k=1}^{K} \frac{[P_k'(\theta)]^2}{P_k(\theta)}$$</p>
+<p>where \(P_k(\theta) = P_{k-1}^*(\theta) - P_k^*(\theta)\) is the
+category response probability, \(P_k^*(\theta)\) is the cumulative
+(boundary) probability with \(P_0^* = 1\) and \(P_K^* = 0\), and
+\(P_k^{*\prime}(\theta) = a P_k^*(\theta) [1 - P_k^*(\theta)]\).
+The logistic metric of the parent package's estimation is used as is
+(no 1.702 scaling constant).</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -92,7 +99,7 @@ category \(k\) or above.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Information at ability = 0 for a 5-category item</span></span></span>
 <span class="r-in"><span><span class="fu">ItemInformationFunc_GRM</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">0</span>, a <span class="op">=</span> <span class="fl">1.5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.651687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7024022</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -105,7 +112,7 @@ category \(k\) or above.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

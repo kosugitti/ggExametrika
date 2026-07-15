@@ -82,8 +82,8 @@ For an item with \\K\\ categories (0, 1, ..., K-1), the ICRP shows:
 The sum of all probabilities at each rank equals 1.0, as they represent
 mutually exclusive response options.
 
-Typically, higher ranks (higher ability) show higher probabilities for
-higher categories and lower probabilities for lower categories.
+Ranks are shown in natural order (rank 1, rank 2, ...), matching the
+base plots of the parent exametrika package.
 
 ## See also
 

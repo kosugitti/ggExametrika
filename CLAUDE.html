@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,9 @@
 </div>
 <div class="section level2">
 <h2 id="現在のバージョン">現在のバージョン<a class="anchor" aria-label="anchor" href="#%E7%8F%BE%E5%9C%A8%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3"></a></h2>
-<p><strong>v1.1.1（CRAN受理・公開済。2026-06-15提出→2026-06受理）</strong> / 直前のCRAN: v1.1.0（受理 2026-04-17）</p>
+<p><strong>開発版 v1.1.2（全体監査リリース・リリース可能状態）</strong> / CRAN: v1.1.1（2026-06受理・公開済）</p>
 <ul><li>
-<strong>親パッケージ</strong>: exametrika v1.14.0（CRAN, 2026-06-14受理）</li>
+<strong>親パッケージ</strong>: exametrika v1.15.0（CRAN受理済）/ v1.16.0（dev, 8/15目処・GRM修正入り）</li>
 <li>
 <strong>GitHub</strong>: <a href="https://github.com/kosugitti/ggExametrika" class="external-link uri">https://github.com/kosugitti/ggExametrika</a>
 </li>
@@ -57,10 +57,18 @@
 <strong>pkgdownサイト</strong>: <a href="https://kosugitti.github.io/ggExametrika/" class="uri">https://kosugitti.github.io/ggExametrika/</a>
 </li>
 </ul><div class="section level3">
-<h3 id="v111-で予定している変更">v1.1.1 で予定している変更<a class="anchor" aria-label="anchor" href="#v111-%E3%81%A7%E4%BA%88%E5%AE%9A%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E5%A4%89%E6%9B%B4"></a></h3>
+<h3 id="v112-の内容詳細はnewsmd">v1.1.2 の内容（詳細はNEWS.md）<a class="anchor" aria-label="anchor" href="#v112-%E3%81%AE%E5%86%85%E5%AE%B9%E8%A9%B3%E7%B4%B0%E3%81%AFnewsmd"></a></h3>
+<p>パッケージ全体監査(2026-07-15〜16)の成果。テスト634パス・R CMD check 0/0/0。</p>
+<ul><li>高深刻度バグ修正3件: 4PLのlowerAsym脱落(plotICC/plotIIC)・GRM情報量公式(正式Samejima式に。親exametrikaのgrm_iifも同時修正)・ランク軸反転撤去(ICBR/ICRP/ScoreRankを親と同じ自然順に。<strong>見た目の破壊的変更</strong>)</li>
+<li>中バグ群: クラス判定方向・範囲外添字依存・colors不足時の挙動統一・入力検証追加・Rplots.pdfの.Rbuildignore登録ほか</li>
+<li>内部統一・共通化: <code><a href="reference/dot-validate_exametrika.html">.validate_exametrika()</a></code> 等ヘルパー6本新設(R/utils-internal.R)、CRV/RRV・LCD/LRD・CMP/RMP・ICBR/ICRPをワーカー共通化</li>
+<li>テスト: test-utility-functions.R新設(数値Fisher検証・4PL回帰テスト・親grm_iif突合はバージョンガード付き)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="リリース方針">リリース方針<a class="anchor" aria-label="anchor" href="#%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E6%96%B9%E9%87%9D"></a></h3>
 <ul><li>
-<strong>2026-06-02 plotArray_gg のtypo修正（破壊的変更）</strong>: 引数 <code>Clusterd</code> / <code>Clusterd_lines</code> / <code>Clusterd_lines_color</code> を <code>Clustered*</code> にリネーム。タイトル <code>"Clusterd Data"</code> も <code>"Clustered Data"</code> に。本家 exametrika 内部の <code>00_plot_biclustering.R</code> (コメント・main・clusterd_data 変数) も同時修正。ggExametrika 側の vignettes 3本・test-plotArray_gg.R も更新済み。man/ は次回 roxygen2 再生成で反映予定。shinyExametrika はデフォルト引数呼び出しのみで影響なし</li>
-<li>リリースは本家 exametrika v1.14.0 と同時に行う方針</li>
+<strong>exametrika v1.16.0(8/15目処)のCRAN受理後に連動提出</strong>。GRM情報量が「修正済みの親」と揃う設計のため</li>
+<li>単独先行も技術的には可能(親比較テストは旧親で自動スキップ)だが、親の基本プロットとgg側の情報量表示が約1ヶ月食い違って見えるため非推奨</li>
 </ul></div>
 </div>
 <div class="section level2">
@@ -233,7 +241,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

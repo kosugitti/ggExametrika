@@ -78,10 +78,10 @@ For an item with \\K\\ categories (0, 1, ..., K-1), the ICBR shows:
 
 - ...
 
-- Line K: P(response \>= K \| rank) (always 1.0 for category 0)
+- Line K-1: P(response \>= K-1 \| rank)
 
-Higher ranks typically show lower probabilities for higher categories,
-indicating lower ability levels.
+Ranks are shown in natural order (rank 1, rank 2, ...), matching the
+base plots of the parent exametrika package.
 
 ## See also
 

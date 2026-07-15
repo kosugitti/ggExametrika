@@ -19,7 +19,7 @@ plotRRV_gg(
   show_legend = TRUE,
   legend_position = "right",
   stat = "mean",
-  show_labels = NULL
+  show_labels = FALSE
 )
 ```
 
@@ -43,9 +43,8 @@ plotRRV_gg(
 
 - linetype:
 
-  Character or numeric vector specifying the line types. If a single
-  value, all lines use that type. If a vector, each rank uses the
-  corresponding type. Default is `"solid"`.
+  Character or numeric scalar specifying the line type applied to all
+  lines. Default is `"solid"`.
 
 - show_legend:
 

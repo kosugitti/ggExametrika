@@ -281,7 +281,7 @@ tic_grm
 
 # Information at theta = 0 for a 5-category item
 ItemInformationFunc_GRM(theta = 0, a = 1.5, b = c(-1.5, -0.5, 0.5, 1.5))
-#> [1] 1.368688
+#> [1] 0.6969908
 ```
 
 ------------------------------------------------------------------------

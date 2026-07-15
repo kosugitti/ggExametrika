@@ -15,7 +15,7 @@ each category boundary."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,9 +123,9 @@ in ordinal items.</p>
 <p>For an item with \(K\) categories (0, 1, ..., K-1), the ICBR shows:</p><ul><li><p>Line 1: P(response &gt;= 1 | rank)</p></li>
 <li><p>Line 2: P(response &gt;= 2 | rank)</p></li>
 <li><p>...</p></li>
-<li><p>Line K: P(response &gt;= K | rank) (always 1.0 for category 0)</p></li>
-</ul><p>Higher ranks typically show lower probabilities for higher categories,
-indicating lower ability levels.</p>
+<li><p>Line K-1: P(response &gt;= K-1 | rank)</p></li>
+</ul><p>Ranks are shown in natural order (rank 1, rank 2, ...), matching the
+base plots of the parent exametrika package.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -163,7 +163,7 @@ indicating lower ability levels.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

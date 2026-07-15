@@ -91,8 +91,9 @@ plotArray_gg(
 
 ## Value
 
-A ggplot object or a grid arrangement of two ggplot objects (original
-and clustered plots side by side).
+When both `Original` and `Clustered` are `TRUE`, a gtable (grid
+arrangement of the two panels side by side, drawn as a side effect).
+Otherwise, a list containing the single requested ggplot object.
 
 ## Details
 

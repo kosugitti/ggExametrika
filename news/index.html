@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,60 @@
       <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.2" id="ggexametrika-112-development">ggExametrika 1.1.2 (development)<a class="anchor" aria-label="anchor" href="#ggexametrika-112-development"></a></h2>
+<p>Package-wide audit release: three high-severity bug fixes, a set of robustness fixes, API/validation unification, and internal refactoring. No exported function signatures change except as noted under Breaking Changes.</p>
+<div class="section level3">
+<h3 id="bug-fixes-high-severity-1-1-2">Bug Fixes (high severity)<a class="anchor" aria-label="anchor" href="#bug-fixes-high-severity-1-1-2"></a></h3>
+<ul><li>Fix 4PL parameter drop in <code><a href="../reference/plotICC_gg.html">plotICC_gg()</a></code> and <code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code>. The parameter-passing used <code>if (n_params == 3)</code> / <code>if (n_params == 4)</code>, so for 4PL models the <code>lowerAsym</code> parameter was silently dropped (treated as 0) and only <code>upperAsym</code> was applied. Curves for <code>IRT(..., model = 4)</code> were drawn with the wrong lower asymptote, while the <code>plot*_overlay_gg()</code> variants were correct, so the single and overlay versions of the same item disagreed. Both sites now use <code>&gt;=</code> as the overlay versions do. Added a regression test that checks the drawn ICC approaches <code>lowerAsym</code> at low theta.</li>
+<li>Fix the GRM item information formula in <code><a href="../reference/ItemInformationFunc_GRM.html">ItemInformationFunc_GRM()</a></code>. The previous implementation computed <code>a^2 * sum(P*_k (1 - P*_k))</code> over the boundary probabilities, which is not the Samejima GRM information and overstated information by a factor of roughly 2 or more across the theta range. The function now computes the correct Samejima (1969) information <code>I(theta) = sum_k [P'_k(theta)]^2 / P_k(theta)</code> on the logistic metric used by the parent package’s estimation (no 1.702 scaling constant), verified against numerical differentiation. The parent package’s own <code><a href="https://kosugitti.github.io/exametrika/reference/grm_iif.html" class="external-link">grm_iif()</a></code> had a related set of defects and was fixed in the same form (exametrika &gt; 1.15.0), so GRM IIC/TIC plots from ggExametrika match the fixed parent’s base plots numerically. Affects the GRM branches of <code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code> and <code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code>. Added a self-contained numerical-Fisher test plus a version-guarded agreement test against <code><a href="https://kosugitti.github.io/exametrika/reference/grm_iif.html" class="external-link">exametrika::grm_iif()</a></code>.</li>
+<li>Remove the unconditional rank-axis reversal in <code><a href="../reference/plotICBR_gg.html">plotICBR_gg()</a></code>, <code><a href="../reference/plotICRP_gg.html">plotICRP_gg()</a></code> (<code>n_ranks - Rank + 1</code>) and <code><a href="../reference/plotScoreRank_gg.html">plotScoreRank_gg()</a></code> (<code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_reverse()</a></code>). The reversal was based on the assumption that exametrika always orders rank 1 = high ability, but the parent package’s rank ordering is data-dependent and its base plots draw ranks in natural order. The ggplot versions were therefore mirror images of the base plots in the common case. Ranks are now always drawn in natural order (rank 1, rank 2, …), matching <code>exametrika::plot()</code>. The contradictory roxygen text about rank direction was corrected as well. <strong>This changes the x-axis direction of existing ICBR/ICRP/ScoreRank plots.</strong>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-robustness-1-1-2">Bug Fixes (robustness)<a class="anchor" aria-label="anchor" href="#bug-fixes-robustness-1-1-2"></a></h3>
+<ul><li>
+<code><a href="../reference/plotTIC_gg.html">plotTIC_gg()</a></code> and <code><a href="../reference/plotTRF_gg.html">plotTRF_gg()</a></code> no longer rely on out-of-range data.frame column indexing (<code>data$params[i, 3]</code> returning <code>NULL</code> for 2PL) and instead branch explicitly on the number of parameters.</li>
+<li>
+<code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code> now validates its inputs: non-list/empty <code>plots</code>, non-numeric/NA <code>selectPlots</code>, and indices below 1 are rejected with a clear error instead of an obscure subscript error.</li>
+<li>
+<code><a href="../reference/plotDistractor_gg.html">plotDistractor_gg()</a></code> validates the <code>items</code> and <code>ranks</code> ranges, and no longer errors on items whose correct answer (<code>CA</code>) is <code>NA</code>.</li>
+<li>
+<code><a href="../reference/plotScoreFreq_gg.html">plotScoreFreq_gg()</a></code> no longer runs its threshold loop with <code>1:(n_ranks - 1)</code> when only one rank is present (off-by-one via <code>1:0</code>); uses <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len()</a></code>.</li>
+<li>
+<code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> boundary lines no longer break when a class or field has no members (empty levels dropped from <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> produced <code>NA</code> breaks); explicit factor levels are used, and <code>n_class</code> gains a fallback for missing count fields. The return-value documentation now describes the actual behavior (gtable vs list).</li>
+<li>
+<code><a href="../reference/plotFCRP_gg.html">plotFCRP_gg()</a></code> (bar style) no longer fails when there are no boundary segments to draw (e.g. a single class/rank).</li>
+<li>
+<code><a href="../reference/plotFieldPIRP_gg.html">plotFieldPIRP_gg()</a></code> extracts the field number for labels with a regex instead of a hard-coded <code>substr(field, 7, 8)</code>.</li>
+<li>
+<code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> validates its input via <code><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits()</a></code> instead of <code>class(data)[2]</code> position matching, and reads the number of classes/ranks through the <code>n_class</code>/<code>Nclass</code> and <code>n_rank</code>/<code>Nrank</code> fallback chain like the rest of the package.</li>
+<li>
+<code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> now redirects <code>LRAordinal</code>/<code>LRArated</code> output to the RMP display like other rank-model output (previously it stopped with an error); <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> also accepts <code>LRArated</code>.</li>
+<li>User-supplied <code>colors</code> vectors that are shorter than the number of series now consistently warn and recycle across all plot functions (previously three behaviors coexisted: silent <code>NA</code> colors, a warning plus palette fallback, and a hard ggplot2 error).</li>
+<li>
+<code><a href="../reference/plotFCBR_gg.html">plotFCBR_gg()</a></code> falls back to <code>"Rank"</code> when <code>data$msg</code> is missing.</li>
+<li>
+<code>tests/testthat/Rplots.pdf</code> is now listed in <code>.Rbuildignore</code> so a stray test artifact can no longer slip into the CRAN tarball (recurrence of the v0.0.28 issue).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="consistency--internal-refactoring-1-1-2">Consistency / Internal Refactoring<a class="anchor" aria-label="anchor" href="#consistency--internal-refactoring-1-1-2"></a></h3>
+<ul><li>New internal helpers in <code>R/utils-internal.R</code>: <code><a href="../reference/dot-validate_exametrika.html">.validate_exametrika()</a></code> (single input-validation idiom; the previous code mixed four idioms, two of which either let unrelated <code>exametrika</code> objects through or would break when the parent package adds classes to its outputs), <code><a href="../reference/dot-resolve_colors.html">.resolve_colors()</a></code>, <code><a href="../reference/dot-resolve_title.html">.resolve_title()</a></code>, <code><a href="../reference/dot-apply_legend.html">.apply_legend()</a></code>, <code><a href="../reference/dot-variable_scaler.html">.variable_scaler()</a></code> and <code><a href="../reference/dot-axis_scaler.html">.axis_scaler()</a></code> (previously copy-pasted three times in <code>IRPtoCMPRMP.R</code>).</li>
+<li>Consolidated near-identical function pairs into shared internal workers: <code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code>/<code><a href="../reference/plotRRV_gg.html">plotRRV_gg()</a></code> (<code><a href="../reference/dot-plot_reference_vector.html">.plot_reference_vector()</a></code>), <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code>/<code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code> (<code><a href="../reference/dot-plot_student_distribution.html">.plot_student_distribution()</a></code>), <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code>/<code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> (<code><a href="../reference/dot-plot_membership_profile.html">.plot_membership_profile()</a></code>), and <code><a href="../reference/plotICBR_gg.html">plotICBR_gg()</a></code>/<code><a href="../reference/plotICRP_gg.html">plotICRP_gg()</a></code> (<code><a href="../reference/dot-plot_item_category.html">.plot_item_category()</a></code>). Behavior (including redirect warnings) is unchanged; <code>plotCRV_gg</code>/<code>plotRRV_gg</code> keep the historical <code>class</code>/<code>rank</code> columns in <code>p$data</code> for backward compatibility.</li>
+<li>Removed a local re-definition of <code><a href="../reference/ItemInformationFunc.html">ItemInformationFunc()</a></code> inside <code><a href="../reference/plotIIC_gg.html">plotIIC_gg()</a></code> that shadowed the exported function.</li>
+<li>Removed dead code: unreachable <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.nan()</a></code> cleanup in <code><a href="../reference/plotDistractor_gg.html">plotDistractor_gg()</a></code>, always-true <code>!is.null(colors)</code>/<code>linetype</code> guards after unconditional defaults, and the <code>show_labels = NULL</code> to <code>FALSE</code> conversion (the default is now simply <code>FALSE</code>).</li>
+<li>
+<code>isTRUE(Num_Students)</code> instead of <code>Num_Students == T</code>; bare <code>geom_text_repel()</code> unified to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel()</a></code>; loop variable <code>c</code> renamed to avoid shadowing <code><a href="https://rdrr.io/r/base/c.html" class="external-link">base::c</a></code>.</li>
+<li>Removed unused <code>@importFrom</code> entries (<code>guides</code>, <code>guide_legend</code>, <code>scale_x_reverse</code>).</li>
+<li>Documentation fixes: <code>linetype</code> in <code><a href="../reference/plotCRV_gg.html">plotCRV_gg()</a></code>/<code><a href="../reference/plotRRV_gg.html">plotRRV_gg()</a></code> is documented as a scalar (the vector form promised before was never implemented and errored), <code><a href="../reference/plotICRF_gg.html">plotICRF_gg()</a></code>’s custom title is documented as applying to every item’s plot, and the ICBR boundary list no longer describes a nonexistent “Line K … always 1.0” line.</li>
+<li>
+<code>DESCRIPTION</code>: <code>Suggests: exametrika (&gt;= 1.11.0)</code> (the test fixtures require the rated/ordinal biclustering outputs introduced there).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="tests-1-1-2">Tests<a class="anchor" aria-label="anchor" href="#tests-1-1-2"></a></h3>
+<ul><li>New <code>test-utility-functions.R</code> covering <code><a href="../reference/LogisticModel.html">LogisticModel()</a></code>, <code><a href="../reference/ItemInformationFunc.html">ItemInformationFunc()</a></code> (2PL closed form and peak location), <code><a href="../reference/ItemInformationFunc_GRM.html">ItemInformationFunc_GRM()</a></code> (self-contained numerical-Fisher check, binary special case, and a version-guarded agreement test against the fixed <code><a href="https://kosugitti.github.io/exametrika/reference/grm_iif.html" class="external-link">exametrika::grm_iif()</a></code>), and a 4PL <code>lowerAsym</code> regression test for <code><a href="../reference/plotICC_gg.html">plotICC_gg()</a></code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1" id="ggexametrika-111">ggExametrika 1.1.1<a class="anchor" aria-label="anchor" href="#ggexametrika-111"></a></h2><p class="text-muted">CRAN release: 2026-06-15</p>
 <div class="section level3">
@@ -549,7 +603,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

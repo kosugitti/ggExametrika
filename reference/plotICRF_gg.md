@@ -41,7 +41,7 @@ plotICRF_gg(
 
   Logical or character. If `TRUE` (default), display an auto-generated
   title. If `FALSE`, no title. If a character string, use it as a custom
-  title (only for single-item plots).
+  title applied to every item's plot.
 
 - colors:
 
