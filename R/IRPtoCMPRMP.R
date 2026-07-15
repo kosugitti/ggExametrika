@@ -51,13 +51,8 @@ plotIRP_gg <- function(data,
                        linetype = "dashed",
                        show_legend = FALSE,
                        legend_position = "right") {
-  if (all(class(data) %in% c("exametrika", "LCA"))) {
-    xlabel <- "Latent Class"
-  } else if (all(class(data) %in% c("exametrika", "LRA")) || all(class(data) %in% c("exametrika", "LDLRA"))) {
-    xlabel <- "Latent Rank"
-  } else {
-    stop("Invalid input. The variable must be from exametrika output or from either LCA, LRA, or LDLRA.")
-  }
+  model_class <- .validate_exametrika(data, c("LCA", "LRA", "LDLRA"))
+  xlabel <- if (model_class == "LCA") "Latent Class" else "Latent Rank"
 
   # Color setup
   if (is.null(colors)) {
@@ -81,13 +76,7 @@ plotIRP_gg <- function(data,
     )
 
     # Title setup
-    if (is.logical(title) && title) {
-      plot_title <- paste0("Item Reference Profile, ", rownames(data$IRP)[i])
-    } else if (is.logical(title) && !title) {
-      plot_title <- NULL
-    } else {
-      plot_title <- title
-    }
+    plot_title <- .resolve_title(title, paste0("Item Reference Profile, ", rownames(data$IRP)[i]))
 
     p <- ggplot(x, aes(x = rank, y = CRR)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
@@ -101,11 +90,7 @@ plotIRP_gg <- function(data,
       )
 
     # Legend control
-    if (!show_legend) {
-      p <- p + theme(legend.position = "none")
-    } else {
-      p <- p + theme(legend.position = legend_position)
-    }
+    p <- .apply_legend(p, show_legend, legend_position)
 
     plots[[i]] <- p
   }
@@ -198,14 +183,7 @@ plotFRP_gg <- function(data,
     "Biclustering", "nominalBiclustering", "ordinalBiclustering",
     "ratedBiclustering", "IRM", "LDB", "BINET"
   )
-  data_class <- class(data)[class(data) != "exametrika"]
-
-  if (!"exametrika" %in% class(data) || !any(data_class %in% valid_classes)) {
-    stop(
-      "Invalid input. The data must be from exametrika output: ",
-      "Biclustering, nominalBiclustering, ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET."
-    )
-  }
+  .validate_exametrika(data, valid_classes)
 
   # Validate stat parameter
   if (!stat %in% c("mean", "median", "mode")) {
@@ -327,9 +305,7 @@ plotFRP_gg <- function(data,
     )
 
   # Color scale setup
-  if (!is.null(colors)) {
-    p <- p + scale_color_manual(values = colors)
-  }
+  p <- p + scale_color_manual(values = colors)
 
   # Title setup
   if (is.logical(title)) {
@@ -350,11 +326,7 @@ plotFRP_gg <- function(data,
   }
 
   # Legend control
-  if (!show_legend) {
-    p <- p + theme(legend.position = "none")
-  } else {
-    p <- p + theme(legend.position = legend_position)
-  }
+  p <- .apply_legend(p, show_legend, legend_position)
 
   return(p)
 }
@@ -428,15 +400,7 @@ plotTRP_gg <- function(data,
     "LCA", "LRA", "Biclustering", "nominalBiclustering",
     "ordinalBiclustering", "ratedBiclustering", "IRM", "LDLRA", "LDB", "BINET"
   )
-  data_class <- class(data)[class(data) != "exametrika"]
-
-  if (!inherits(data, "exametrika") || !any(data_class %in% valid_classes)) {
-    stop(
-      "Invalid input. The variable must be from exametrika output or from either ",
-      "LCA, LRA, Biclustering, nominalBiclustering, ordinalBiclustering, ",
-      "ratedBiclustering, IRM, LDLRA, LDB, or BINET."
-    )
-  }
+  .validate_exametrika(data, valid_classes)
 
   # Get xlabel from msg field (Class or Rank), consistent with plotFRP_gg
   msg <- if ("msg" %in% names(data)) data$msg else "Class"
@@ -458,29 +422,15 @@ plotTRP_gg <- function(data,
   )
 
   x2 <- data.frame(
-    LC = c(1:length(data$TRP)),
+    LC = seq_along(data$TRP),
     ES = c(data$TRP)
   )
-
-  variable_scaler <- function(y2, yaxis1, yaxis2) {
-    a <- diff(yaxis1) / diff(yaxis2)
-    b <-
-      (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
-    a * y2 + b
-  }
-
-  axis_scaler <- function(y1, yaxis1, yaxis2) {
-    c <- diff(yaxis2) / diff(yaxis1)
-    d <-
-      (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
-    c * y1 + d
-  }
 
 
   yaxis1 <- c(0, max(x1$Num))
   yaxis2 <- c(0, max(x2$ES))
 
-  if (Num_Students == T) {
+  if (isTRUE(Num_Students)) {
     Num_label <- c(x1$Num)
   } else {
     Num_label <- ""
@@ -496,13 +446,7 @@ plotTRP_gg <- function(data,
   }
 
   # Title setup
-  if (is.logical(title) && title) {
-    plot_title <- "Test Reference Profile"
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
+  plot_title <- .resolve_title(title, "Test Reference Profile")
 
 
   plot <- ggplot(x1, aes(x = LC, y = Num)) +
@@ -511,16 +455,16 @@ plotTRP_gg <- function(data,
       fill = bar_fill,
       colour = "black"
     ) +
-    geom_point(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)),
+    geom_point(aes(y = .variable_scaler(x2$ES, yaxis1, yaxis2)),
       size = 2.1, color = line_color
     ) +
-    geom_line(aes(y = variable_scaler(x2$ES, yaxis1, yaxis2)),
+    geom_line(aes(y = .variable_scaler(x2$ES, yaxis1, yaxis2)),
       linetype = linetype, color = line_color
     ) +
-    scale_x_continuous(breaks = c(1:length(data$TRP))) +
+    scale_x_continuous(breaks = seq_along(data$TRP)) +
     scale_y_continuous(
       name = "Number of Students",
-      sec.axis = sec_axis(transform = ~ (axis_scaler(
+      sec.axis = sec_axis(transform = ~ (.axis_scaler(
         ., yaxis1, yaxis2
       )), name = "Expected Score")
     ) +
@@ -537,13 +481,122 @@ plotTRP_gg <- function(data,
     )
 
   # Legend control
-  if (!show_legend) {
-    plot <- plot + theme(legend.position = "none")
-  } else {
-    plot <- plot + theme(legend.position = legend_position)
-  }
+  plot <- .apply_legend(plot, show_legend, legend_position)
 
   return(plot)
+}
+
+
+#' Shared worker for plotLCD_gg / plotLRD_gg
+#'
+#' The two exported functions draw the same student-distribution plot;
+#' they differ only in which model family is the "native" one (class vs
+#' rank) and therefore in which direction the redirect warning fires.
+#'
+#' @param prefer Either "class" (plotLCD_gg) or "rank" (plotLRD_gg).
+#' @inheritParams plotLCD_gg
+#' @return A ggplot object.
+#' @keywords internal
+
+.plot_student_distribution <- function(data, Num_Students, title, colors,
+                                       linetype, show_legend, legend_position,
+                                       prefer) {
+  class_models <- c("LCA", "BINET")
+  rank_models <- c(
+    "LRA", "Biclustering", "ordinalBiclustering",
+    "nominalBiclustering", "ratedBiclustering", "LDLRA", "LDB"
+  )
+  .validate_exametrika(data, c(class_models, rank_models))
+
+  # mode TRUE = class model, FALSE = rank model
+  mode <- any(class(data) %in% class_models)
+  xlabel <- if (mode) "Latent Class" else "Latent Rank"
+
+  # Warn when the model family does not match the called function
+  if (mode && prefer == "rank") {
+    warning(
+      "The input data was supposed to be visualized with The Latent Class Distribution, so I will plot the LCD."
+    )
+  } else if (!mode && prefer == "class") {
+    warning(
+      "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
+    )
+  }
+
+  # Student distribution: class models prefer LCD, rank models prefer LRD (with fallback)
+  if (mode) {
+    dist_data <- .first_non_null(data$LCD, data$LRD)
+    freq_data <- .first_non_null(data$CMD, data$RMD)
+  } else {
+    dist_data <- .first_non_null(data$LRD, data$LCD)
+    freq_data <- .first_non_null(data$RMD, data$CMD)
+  }
+
+  x1 <- data.frame(
+    LC = seq_along(dist_data),
+    Num = c(dist_data)
+  )
+
+  x2 <- data.frame(
+    LC = seq_along(freq_data),
+    Fre = c(freq_data)
+  )
+
+  yaxis1 <- c(0, max(x1$Num))
+  yaxis2 <- c(0, max(x2$Fre))
+
+  if (isTRUE(Num_Students)) {
+    Num_label <- c(x1$Num)
+  } else {
+    Num_label <- ""
+  }
+
+  # Color setup
+  if (is.null(colors)) {
+    bar_fill <- "gray"
+    line_color <- "black"
+  } else {
+    bar_fill <- colors[1]
+    line_color <- if (length(colors) >= 2) colors[2] else "black"
+  }
+
+  # Title setup
+  auto_title <- if (mode) "Latent Class Distribution" else "Latent Rank Distribution"
+  plot_title <- .resolve_title(title, auto_title)
+
+  plot <- ggplot(x1, aes(x = LC, y = Num)) +
+    geom_bar(
+      stat = "identity",
+      fill = bar_fill,
+      colour = "black"
+    ) +
+    geom_point(aes(y = .variable_scaler(x2$Fre, yaxis1, yaxis2)),
+      size = 2.1, color = line_color
+    ) +
+    geom_line(aes(y = .variable_scaler(x2$Fre, yaxis1, yaxis2)),
+      linetype = linetype, color = line_color
+    ) +
+    scale_x_continuous(breaks = seq_along(dist_data)) +
+    scale_y_continuous(
+      name = "Number of Students",
+      sec.axis = sec_axis(transform = ~ (.axis_scaler(
+        ., yaxis1, yaxis2
+      )), name = "Frequency")
+    ) +
+    annotate(
+      "text",
+      x = x1$LC,
+      y = x1$Num - (median(x1$Num) * 0.05),
+      label = Num_label
+    ) +
+    theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
+    labs(
+      title = plot_title,
+      x = xlabel
+    )
+
+  # Legend control
+  .apply_legend(plot, show_legend, legend_position)
 }
 
 
@@ -609,138 +662,11 @@ plotLCD_gg <- function(data,
                        linetype = "dashed",
                        show_legend = FALSE,
                        legend_position = "right") {
-  # Validate exametrika object
-  if (!inherits(data, "exametrika")) {
-    stop("Invalid input. The variable must be from exametrika output.")
-  }
-
-  # Check model type
-  if (any(class(data) %in% c("LCA", "BINET"))) {
-    xlabel <- "Latent Class"
-    mode <- TRUE
-  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering"))) {
-    xlabel <- "Latent Rank"
-    mode <- FALSE
-    warning(
-      "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
-    )
-  } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
-    xlabel <- "Latent Rank"
-    mode <- FALSE
-    warning(
-      "The input data was supposed to be visualized with The Latent Rank Distribution, so I will plot the LRD."
-    )
-  } else {
-    stop(
-      "Invalid input. The variable must be from exametrika output or from either LCA or BINET."
-    )
-  }
-
-  # Student distribution: class models prefer LCD, rank models prefer LRD (with fallback)
-  if (mode) {
-    dist_data <- .first_non_null(data$LCD, data$LRD)
-    freq_data <- .first_non_null(data$CMD, data$RMD)
-  } else {
-    dist_data <- .first_non_null(data$LRD, data$LCD)
-    freq_data <- .first_non_null(data$RMD, data$CMD)
-  }
-
-  x1 <- data.frame(
-    LC = seq_along(dist_data),
-    Num = c(dist_data)
+  .plot_student_distribution(
+    data, Num_Students, title, colors, linetype, show_legend,
+    legend_position,
+    prefer = "class"
   )
-
-  x2 <- data.frame(
-    LC = seq_along(freq_data),
-    Fre = c(freq_data)
-  )
-
-  variable_scaler <- function(y2, yaxis1, yaxis2) {
-    a <- diff(yaxis1) / diff(yaxis2)
-    b <-
-      (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
-    a * y2 + b
-  }
-
-  axis_scaler <- function(y1, yaxis1, yaxis2) {
-    c <- diff(yaxis2) / diff(yaxis1)
-    d <-
-      (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
-    c * y1 + d
-  }
-
-
-  yaxis1 <- c(0, max(x1$Num))
-  yaxis2 <- c(0, max(x2$Fre))
-
-  if (Num_Students == T) {
-    Num_label <- c(x1$Num)
-  } else {
-    Num_label <- ""
-  }
-
-  # Color setup
-  if (is.null(colors)) {
-    bar_fill <- "gray"
-    line_color <- "black"
-  } else {
-    bar_fill <- colors[1]
-    line_color <- if (length(colors) >= 2) colors[2] else "black"
-  }
-
-  # Title setup
-  if (is.logical(title) && title) {
-    if (mode == TRUE) {
-      plot_title <- "Latent Class Distribution"
-    } else {
-      plot_title <- "Latent Rank Distribution"
-    }
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
-
-
-  plot <- ggplot(x1, aes(x = LC, y = Num)) +
-    geom_bar(
-      stat = "identity",
-      fill = bar_fill,
-      colour = "black"
-    ) +
-    geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-      size = 2.1, color = line_color
-    ) +
-    geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-      linetype = linetype, color = line_color
-    ) +
-    scale_x_continuous(breaks = c(1:length(data$TRP))) +
-    scale_y_continuous(
-      name = "Number of Students",
-      sec.axis = sec_axis(transform = ~ (axis_scaler(
-        ., yaxis1, yaxis2
-      )), name = "Frequency")
-    ) +
-    annotate(
-      "text",
-      x = x1$LC,
-      y = x1$Num - (median(x1$Num) * 0.05),
-      label = Num_label
-    ) +
-    theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
-    labs(
-      title = plot_title,
-      x = xlabel
-    )
-
-  # Legend control
-  if (!show_legend) {
-    plot <- plot + theme(legend.position = "none")
-  } else {
-    plot <- plot + theme(legend.position = legend_position)
-  }
-
-  return(plot)
 }
 
 #' @title Plot Latent Rank Distribution (LRD) from exametrika
@@ -805,135 +731,105 @@ plotLRD_gg <- function(data,
                        linetype = "dashed",
                        show_legend = FALSE,
                        legend_position = "right") {
-  # Validate exametrika object
-  if (!inherits(data, "exametrika")) {
-    stop("Invalid input. The variable must be from exametrika output.")
+  .plot_student_distribution(
+    data, Num_Students, title, colors, linetype, show_legend,
+    legend_position,
+    prefer = "rank"
+  )
+}
+
+
+#' Shared worker for plotCMP_gg / plotRMP_gg
+#'
+#' The two exported functions draw the same per-student membership plot;
+#' they differ only in which model family is the "native" one (class vs
+#' rank) and therefore in which direction the redirect warning fires.
+#'
+#' @param prefer Either "class" (plotCMP_gg) or "rank" (plotRMP_gg).
+#' @inheritParams plotCMP_gg
+#' @return A list of ggplot objects, one per student.
+#' @keywords internal
+
+.plot_membership_profile <- function(data, title, colors, linetype,
+                                     show_legend, legend_position, prefer) {
+  class_models <- c("LCA", "BINET")
+  rank_models <- c(
+    "LRA", "LRAordinal", "LRArated", "Biclustering", "ordinalBiclustering",
+    "nominalBiclustering", "ratedBiclustering", "LDB", "LDLRA"
+  )
+  .validate_exametrika(data, c(class_models, rank_models))
+
+  is_class_model <- any(class(data) %in% class_models)
+  xlabel <- if (is_class_model) "Class" else "Rank"
+
+  # LCA output has unnamed students: give them zero-padded names
+  if (inherits(data, "LCA")) {
+    dig <- nchar(nrow(data$Students))
+    rownames(data$Students) <- paste0(
+      "Student ", formatC(seq_len(nrow(data$Students)), width = dig, flag = "0")
+    )
   }
 
-  # Check model type
-  if (any(class(data) %in% c("LCA", "BINET"))) {
-    xlabel <- "Latent Class"
-    mode <- TRUE
+  # Warn when the model family does not match the called function
+  if (is_class_model && prefer == "rank") {
     warning(
-      "The input data was supposed to be visualized with The Latent Class Distribution, so I will plot the LCD."
+      "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
     )
-  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering"))) {
-    xlabel <- "Latent Rank"
-    mode <- FALSE
-  } else if (any(class(data) %in% c("LDLRA", "LDB"))) {
-    xlabel <- "Latent Rank"
-    mode <- FALSE
-  } else {
-    stop(
-      "Invalid input. The variable must be from exametrika output or from either LRA, Biclustering, LDLRA or LDB."
+  } else if (!is_class_model && prefer == "class") {
+    warning(
+      "The input data was supposed to be visualized with The Rank Membership Profile, so I will plot the RMP."
     )
   }
 
-  # Student distribution: class models prefer LCD, rank models prefer LRD (with fallback)
-  if (mode) {
-    dist_data <- .first_non_null(data$LCD, data$LRD)
-    freq_data <- .first_non_null(data$CMD, data$RMD)
-  } else {
-    dist_data <- .first_non_null(data$LRD, data$LCD)
-    freq_data <- .first_non_null(data$RMD, data$CMD)
-  }
+  # Get number of classes/ranks with fallback (prefer new field names)
+  n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
 
-  x1 <- data.frame(
-    LC = seq_along(dist_data),
-    Num = c(dist_data)
-  )
-
-  x2 <- data.frame(
-    LC = seq_along(freq_data),
-    Fre = c(freq_data)
-  )
-
-  variable_scaler <- function(y2, yaxis1, yaxis2) {
-    a <- diff(yaxis1) / diff(yaxis2)
-    b <-
-      (yaxis1[1] * yaxis2[2] - yaxis1[2] * yaxis2[1]) / diff(yaxis2)
-    a * y2 + b
-  }
-
-  axis_scaler <- function(y1, yaxis1, yaxis2) {
-    c <- diff(yaxis2) / diff(yaxis1)
-    d <-
-      (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
-    c * y1 + d
-  }
-
-
-  yaxis1 <- c(0, max(x1$Num))
-  yaxis2 <- c(0, max(x2$Fre))
-
-  if (Num_Students == T) {
-    Num_label <- c(x1$Num)
-  } else {
-    Num_label <- ""
+  if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
+    stop("Invalid number of Class or Rank")
   }
 
   # Color setup
   if (is.null(colors)) {
-    bar_fill <- "gray"
-    line_color <- "black"
+    use_color <- .gg_exametrika_palette(1)[1]
   } else {
-    bar_fill <- colors[1]
-    line_color <- if (length(colors) >= 2) colors[2] else "black"
+    use_color <- colors[1]
   }
 
-  # Title setup
-  if (is.logical(title) && title) {
-    if (mode == TRUE) {
-      plot_title <- "Latent Class Distribution"
-    } else {
-      plot_title <- "Latent Rank Distribution"
-    }
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
+  # Get Membership columns by name (prevent column index mismatch)
+  membership_cols <- grep("^Membership", colnames(data$Students))
+  if (length(membership_cols) == 0) {
+    stop("No 'Membership' columns found in data$Students")
   }
 
+  plots <- list()
 
-  plot <- ggplot(x1, aes(x = LC, y = Num)) +
-    geom_bar(
-      stat = "identity",
-      fill = bar_fill,
-      colour = "black"
-    ) +
-    geom_point(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-      size = 2.1, color = line_color
-    ) +
-    geom_line(aes(y = variable_scaler(x2$Fre, yaxis1, yaxis2)),
-      linetype = linetype, color = line_color
-    ) +
-    scale_x_continuous(breaks = c(1:length(data$TRP))) +
-    scale_y_continuous(
-      name = "Number of Students",
-      sec.axis = sec_axis(transform = ~ (axis_scaler(
-        ., yaxis1, yaxis2
-      )), name = "Frequency")
-    ) +
-    annotate(
-      "text",
-      x = x1$LC,
-      y = x1$Num - (median(x1$Num) * 0.05),
-      label = Num_label
-    ) +
-    theme(axis.title.y.right = element_text(angle = 90, vjust = 0.5)) +
-    labs(
-      title = plot_title,
-      x = xlabel
+  for (i in 1:nrow(data$Students)) {
+    x <- data.frame(
+      Membership = as.numeric(data$Students[i, membership_cols]),
+      rank = seq_along(membership_cols)
     )
 
-  # Legend control
-  if (!show_legend) {
-    plot <- plot + theme(legend.position = "none")
-  } else {
-    plot <- plot + theme(legend.position = legend_position)
+    # Title setup
+    plot_title <- .resolve_title(
+      title,
+      paste0(xlabel, " Membership Profile, ", rownames(data$Students)[i])
+    )
+
+    p <- ggplot(x, aes(x = rank, y = Membership)) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
+      geom_point(color = use_color) +
+      geom_line(linetype = linetype, color = use_color) +
+      scale_x_continuous(breaks = seq_along(membership_cols)) +
+      labs(
+        title = plot_title,
+        x = paste0("Latent ", xlabel),
+        y = "Membership"
+      )
+
+    plots[[i]] <- .apply_legend(p, show_legend, legend_position)
   }
 
-  return(plot)
+  return(plots)
 }
 
 
@@ -994,101 +890,10 @@ plotCMP_gg <- function(data,
                        linetype = "dashed",
                        show_legend = FALSE,
                        legend_position = "right") {
-  # Validate exametrika object
-  if (!inherits(data, "exametrika")) {
-    stop("Invalid input. The variable must be from exametrika output.")
-  }
-
-  # Check model type
-  if (any(class(data) %in% c("LCA"))) {
-    xlabel <- "Class"
-    change_rowname <- NULL
-    dig <- nchar(nrow(data$Students))
-    for (i in 1:nrow(data$Students)) {
-      change_rowname <-
-        c(change_rowname, paste0("Student ", formatC(
-          i,
-          width = dig, flag = "0"
-        )))
-    }
-    rownames(data$Students) <- change_rowname
-  } else if (any(class(data) %in% c("BINET"))) {
-    xlabel <- "Class"
-  } else if (any(class(data) %in% c("LRA", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "LDB", "LDLRA"))) {
-    xlabel <- "Rank"
-    warning(
-      "The input data was supposed to be visualized with The Rank Membership Profile, so I will plot the RMP."
-    )
-  } else {
-    stop(
-      "Invalid input. The variable must be from exametrika output or from either LCA or BINET."
-    )
-  }
-
-
-  # Get number of classes/ranks with fallback (prefer new field names)
-  n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
-
-  if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
-    stop("Invalid number of Class or Rank")
-  }
-
-  # Color setup
-  if (is.null(colors)) {
-    use_color <- .gg_exametrika_palette(1)[1]
-  } else {
-    use_color <- colors[1]
-  }
-
-  # Get Membership columns by name (prevent column index mismatch)
-  membership_cols <- grep("^Membership", colnames(data$Students))
-  if (length(membership_cols) == 0) {
-    stop("No 'Membership' columns found in data$Students")
-  }
-
-  plots <- list()
-
-  for (i in 1:nrow(data$Students)) {
-    x <- data.frame(
-      Membership = as.numeric(data$Students[i, membership_cols]),
-      rank = seq_along(membership_cols)
-    )
-
-    # Title setup
-    if (is.logical(title) && title) {
-      plot_title <- paste0(
-        xlabel,
-        " Membership Profile, ",
-        rownames(data$Students)[i]
-      )
-    } else if (is.logical(title) && !title) {
-      plot_title <- NULL
-    } else {
-      plot_title <- title
-    }
-
-    p <- ggplot(x, aes(x = rank, y = Membership)) +
-      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      geom_point(color = use_color) +
-      geom_line(linetype = linetype, color = use_color) +
-      scale_x_continuous(breaks = seq_along(membership_cols)) +
-      labs(
-        title = plot_title,
-        x = paste0("Latent ", xlabel),
-        y = "Membership"
-      )
-
-    # Legend control
-    if (!show_legend) {
-      p <- p + theme(legend.position = "none")
-    } else {
-      p <- p + theme(legend.position = legend_position)
-    }
-
-    plots[[i]] <- p
-  }
-
-  return(plots)
+  .plot_membership_profile(
+    data, title, colors, linetype, show_legend, legend_position,
+    prefer = "class"
+  )
 }
 
 #' @title Plot Rank Membership Profile (RMP) from exametrika
@@ -1148,102 +953,8 @@ plotRMP_gg <- function(data,
                        linetype = "dashed",
                        show_legend = FALSE,
                        legend_position = "right") {
-  # Validate exametrika object
-  if (!inherits(data, "exametrika")) {
-    stop("Invalid input. The variable must be from exametrika output.")
-  }
-
-  # Check model type
-  if (any(class(data) %in% c("LCA"))) {
-    xlabel <- "Class"
-    change_rowname <- NULL
-    dig <- nchar(nrow(data$Students))
-    warning(
-      "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
-    )
-    for (i in 1:nrow(data$Students)) {
-      change_rowname <-
-        c(change_rowname, paste0("Student ", formatC(
-          i,
-          width = dig, flag = "0"
-        )))
-    }
-    rownames(data$Students) <- change_rowname
-  } else if (any(class(data) %in% c("BINET"))) {
-    xlabel <- "Class"
-    warning(
-      "The input data was supposed to be visualized with The Class Membership Profile, so I will plot the CMP."
-    )
-  } else if (any(class(data) %in% c("LRA", "LRAordinal", "Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "LDB", "LDLRA"))) {
-    xlabel <- "Rank"
-  } else {
-    stop(
-      "Invalid input. The variable must be from exametrika output or from either LRA, LRAordinal, Biclustering, LDLRA or LDB."
-    )
-  }
-
-
-  # Color setup
-  if (is.null(colors)) {
-    use_color <- .gg_exametrika_palette(1)[1]
-  } else {
-    use_color <- colors[1]
-  }
-
-  # Get number of classes/ranks with fallback (prefer new field names)
-  n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
-
-  if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
-    stop("Invalid number of Class or Rank")
-  }
-
-  # Get Membership columns by name (prevent column index mismatch)
-  membership_cols <- grep("^Membership", colnames(data$Students))
-  if (length(membership_cols) == 0) {
-    stop("No 'Membership' columns found in data$Students")
-  }
-
-  plots <- list()
-
-  for (i in 1:nrow(data$Students)) {
-    x <- data.frame(
-      Membership = as.numeric(data$Students[i, membership_cols]),
-      rank = seq_along(membership_cols)
-    )
-
-    # Title setup
-    if (is.logical(title) && title) {
-      plot_title <- paste0(
-        xlabel,
-        " Membership Profile, ",
-        rownames(data$Students)[i]
-      )
-    } else if (is.logical(title) && !title) {
-      plot_title <- NULL
-    } else {
-      plot_title <- title
-    }
-
-    p <- ggplot(x, aes(x = rank, y = Membership)) +
-      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
-      geom_point(color = use_color) +
-      geom_line(linetype = linetype, color = use_color) +
-      scale_x_continuous(breaks = seq_along(membership_cols)) +
-      labs(
-        title = plot_title,
-        x = paste0("Latent ", xlabel),
-        y = "Membership"
-      )
-
-    # Legend control
-    if (!show_legend) {
-      p <- p + theme(legend.position = "none")
-    } else {
-      p <- p + theme(legend.position = legend_position)
-    }
-
-    plots[[i]] <- p
-  }
-
-  return(plots)
+  .plot_membership_profile(
+    data, title, colors, linetype, show_legend, legend_position,
+    prefer = "rank"
+  )
 }

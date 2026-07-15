@@ -23,11 +23,18 @@ The information function indicates how precisely an item measures ability
 at different theta levels.
 }
 \details{
-For GRM, the Item Information Function is computed as:
-\deqn{I(\theta) = a^2 \sum_{k=1}^{K-1} P_k^*(\theta) [1 - P_k^*(\theta)]}
+The information is Samejima's (1969) item information for the GRM,
+computed identically to \code{exametrika::grm_iif} (>= 1.15.0.9000)
+so that ggExametrika plots match the base plots of the parent
+package:
+\deqn{I(\theta) = \sum_{k=1}^{K} \frac{[P_k'(\theta)]^2}{P_k(\theta)}}
 
-where \eqn{P_k^*(\theta)} is the cumulative probability of scoring in
-category \eqn{k} or above.
+where \eqn{P_k(\theta) = P_{k-1}^*(\theta) - P_k^*(\theta)} is the
+category response probability, \eqn{P_k^*(\theta)} is the cumulative
+(boundary) probability with \eqn{P_0^* = 1} and \eqn{P_K^* = 0}, and
+\eqn{P_k^{*\prime}(\theta) = a P_k^*(\theta) [1 - P_k^*(\theta)]}.
+The logistic metric of the parent package's estimation is used as is
+(no 1.702 scaling constant).
 }
 \examples{
 # Information at ability = 0 for a 5-category item

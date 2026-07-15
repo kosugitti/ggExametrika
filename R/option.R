@@ -31,7 +31,19 @@
 #' @export
 
 combinePlots_gg <- function(plots, selectPlots = c(1:6)) {
-  selectPlots <- selectPlots[selectPlots <= length(plots)]
+  # Input validation
+  if (!is.list(plots) || length(plots) == 0) {
+    stop("'plots' must be a non-empty list of ggplot objects.", call. = FALSE)
+  }
+  if (!is.numeric(selectPlots) || anyNA(selectPlots)) {
+    stop("'selectPlots' must be a numeric vector without NA.", call. = FALSE)
+  }
+
+  # Keep only valid indices (1..length(plots))
+  selectPlots <- selectPlots[selectPlots >= 1 & selectPlots <= length(plots)]
+  if (length(selectPlots) == 0) {
+    stop("'selectPlots' contains no valid plot indices.", call. = FALSE)
+  }
 
   selected <- lapply(selectPlots, function(i) plots[[i]])
   return(grid.arrange(grobs = selected))

@@ -77,9 +77,7 @@ plotFCBR_gg <- function(data,
                         show_legend = TRUE,
                         legend_position = "right") {
   # Class check - ordinalBiclustering only
-  if (!all(c("exametrika", "ordinalBiclustering") %in% class(data))) {
-    stop("Invalid input. The data must be from exametrika ordinalBiclustering output (dataType = 'ordinal').")
-  }
+  .validate_exametrika(data, "ordinalBiclustering")
 
   # Check FRP data existence (in ordinalBiclustering, BCRM is stored as FRP)
   if (!"FRP" %in% names(data)) {
@@ -90,7 +88,7 @@ plotFCBR_gg <- function(data,
   nfld <- dim(BCRM)[1]
   ncls <- dim(BCRM)[2]
   maxQ <- dim(BCRM)[3]
-  msg <- data$msg # "Class" or "Rank"
+  msg <- .first_non_null(data$msg, "Rank") # "Class" or "Rank"
 
   # Field selection
   if (is.null(fields)) {
@@ -132,9 +130,7 @@ plotFCBR_gg <- function(data,
   long_data$Boundary <- factor(long_data$Boundary, levels = boundary_levels)
 
   # Set up colors
-  if (is.null(colors)) {
-    colors <- .gg_exametrika_palette(n_boundaries)
-  }
+  colors <- .resolve_colors(colors, n_boundaries)
 
   # Set up linetype
   if (is.null(linetype)) {
@@ -167,12 +163,8 @@ plotFCBR_gg <- function(data,
     )
 
   # Set color and linetype scales
-  if (!is.null(colors)) {
-    p <- p + scale_color_manual(values = colors)
-  }
-  if (!is.null(linetype)) {
-    p <- p + scale_linetype_manual(values = linetype)
-  }
+  p <- p + scale_color_manual(values = colors) +
+    scale_linetype_manual(values = linetype)
 
   # Set title
   if (is.logical(title)) {

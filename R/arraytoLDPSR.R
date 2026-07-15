@@ -42,8 +42,10 @@
 #' @param border_linewidth Numeric. Line width of the panel border.
 #'   Default is \code{0.5}.
 #'
-#' @return A ggplot object or a grid arrangement of two ggplot objects
-#'   (original and clustered plots side by side).
+#' @return When both \code{Original} and \code{Clustered} are \code{TRUE},
+#'   a gtable (grid arrangement of the two panels side by side, drawn as a
+#'   side effect). Otherwise, a list containing the single requested
+#'   ggplot object.
 #'
 #' @details
 #' The array plot provides a visual representation of the biclustering
@@ -103,12 +105,7 @@ plotArray_gg <- function(data,
     "Biclustering", "nominalBiclustering", "ordinalBiclustering",
     "ratedBiclustering", "IRM", "LDB", "BINET"
   )
-  if (!any(sapply(valid_classes, function(cls) all(class(data) %in% c("exametrika", cls))))) {
-    stop(
-      "Invalid input. The variable must be from exametrika output: ",
-      "Biclustering, nominalBiclustering, ordinalBiclustering, ratedBiclustering, IRM, LDB, or BINET."
-    )
-  }
+  .validate_exametrika(data, valid_classes)
 
   # Detect data values and categories
   raw_data <- if (!is.null(data$U)) data$U else data$Q
@@ -168,7 +165,7 @@ plotArray_gg <- function(data,
       }
     }
   } else {
-    use_colors <- colors[1:n_categories]
+    use_colors <- .resolve_colors(colors, n_categories)
   }
 
   # Create labels for legend (NA for -1, numbers for others)
@@ -240,11 +237,7 @@ plotArray_gg <- function(data,
     }
 
     # Legend control
-    if (!show_legend) {
-      original_plot <- original_plot + theme(legend.position = "none")
-    } else {
-      original_plot <- original_plot + theme(legend.position = legend_position)
-    }
+    original_plot <- .apply_legend(original_plot, show_legend, legend_position)
 
     plots[[1]] <- original_plot
   }
@@ -323,15 +316,20 @@ plotArray_gg <- function(data,
       sorted_class <- data$ClassEstimated[case_order]
       sorted_field <- data$FieldEstimated[field_order]
 
-      class_breaks <- cumsum(table(sorted_class))
-      field_breaks <- cumsum(table(sorted_field))
-
       # Get class/field count (prefer new names, fallback to old names)
-      n_class <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
+      n_class <- .first_non_null(
+        data$n_class, data$Nclass, data$n_rank, data$Nrank,
+        length(unique(data$ClassEstimated))
+      )
       n_field <- .first_non_null(data$n_field, data$Nfield, length(unique(data$FieldEstimated)))
 
-      h <- class_breaks[1:(n_class - 1)]
-      v <- field_breaks[1:(n_field - 1)]
+      # Use explicit factor levels so that empty classes/fields do not
+      # drop out of the table (which would leave NA in the breaks)
+      class_breaks <- cumsum(table(factor(sorted_class, levels = seq_len(n_class))))
+      field_breaks <- cumsum(table(factor(sorted_field, levels = seq_len(n_field))))
+
+      h <- class_breaks[seq_len(n_class - 1)]
+      v <- field_breaks[seq_len(n_field - 1)]
 
       # Since rown is reversed (nrow:1), we need to adjust h positions
       # h gives positions in sorted data (1-indexed from top)
@@ -345,11 +343,7 @@ plotArray_gg <- function(data,
     }
 
     # Legend control
-    if (!show_legend) {
-      clustered_plot <- clustered_plot + theme(legend.position = "none")
-    } else {
-      clustered_plot <- clustered_plot + theme(legend.position = legend_position)
-    }
+    clustered_plot <- .apply_legend(clustered_plot, show_legend, legend_position)
 
     plots[[length(plots) + 1]] <- clustered_plot
   }
@@ -435,9 +429,7 @@ plotFieldPIRP_gg <- function(data,
                              linetype = "solid",
                              show_legend = FALSE,
                              legend_position = "right") {
-  if (all(class(data) %in% c("exametrika", "LDB"))) {} else {
-    stop("Invalid input. The variable must be from exametrika output or from LDB.")
-  }
+  .validate_exametrika(data, "LDB")
 
 
   # Get class/field count (prefer new names, fallback to old names)
@@ -491,7 +483,7 @@ plotFieldPIRP_gg <- function(data,
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.25)) +
       scale_x_continuous(breaks = seq(0, max(plot_data$l), 1)) +
       geom_line(linetype = linetype) +
-      geom_text(aes(x = l, y = k - 0.02, label = substr(field, 7, 8)),
+      geom_text(aes(x = l, y = k - 0.02, label = sub("\\D*", "", field)),
         show.legend = FALSE
       ) +
       scale_color_manual(values = use_colors) +
@@ -503,11 +495,7 @@ plotFieldPIRP_gg <- function(data,
       )
 
     # Legend control
-    if (!show_legend) {
-      p <- p + theme(legend.position = "none")
-    } else {
-      p <- p + theme(legend.position = legend_position)
-    }
+    p <- .apply_legend(p, show_legend, legend_position)
 
     plots[[i]] <- p
   }

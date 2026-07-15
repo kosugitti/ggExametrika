@@ -16,3 +16,5 @@
 ^CRAN-SUBMISSION$
 ^WORKLOG\.md$
 ^\.positai$
+^tests/testthat/Rplots\.pdf$
+Rplots\.pdf

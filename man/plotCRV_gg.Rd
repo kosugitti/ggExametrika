@@ -12,7 +12,7 @@ plotCRV_gg(
   show_legend = TRUE,
   legend_position = "right",
   stat = "mean",
-  show_labels = NULL
+  show_labels = FALSE
 )
 }
 \arguments{
@@ -26,9 +26,8 @@ use it as a custom title.}
 \item{colors}{Character vector of colors for each class.
 If \code{NULL} (default), a colorblind-friendly palette is used.}
 
-\item{linetype}{Character or numeric vector specifying the line types.
-If a single value, all lines use that type. If a vector, each class
-uses the corresponding type. Default is \code{"solid"}.}
+\item{linetype}{Character or numeric scalar specifying the line type
+applied to all lines. Default is \code{"solid"}.}
 
 \item{show_legend}{Logical. If \code{TRUE} (default), display the legend.}
 

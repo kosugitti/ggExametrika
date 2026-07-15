@@ -68,7 +68,7 @@
 #'
 #' @seealso \code{\link{plotFCBR_gg}}, \code{\link{plotScoreField_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line geom_point geom_bar facet_wrap labs theme_minimal scale_color_manual scale_fill_manual scale_linetype_manual scale_y_continuous theme element_text guide_legend guides
+#' @importFrom ggplot2 ggplot aes geom_line geom_point geom_bar facet_wrap labs theme_minimal scale_color_manual scale_fill_manual scale_linetype_manual scale_y_continuous theme element_text
 #' @importFrom tidyr pivot_longer
 #'
 #' @export
@@ -80,14 +80,7 @@ plotFCRP_gg <- function(data,
                         show_legend = TRUE,
                         legend_position = "right") {
   # Input validation
-  if (!inherits(data, "exametrika")) {
-    stop("Input must be an exametrika object")
-  }
-
-  model_class <- tail(class(data), 1)
-  if (!model_class %in% c("ordinalBiclustering", "nominalBiclustering", "ratedBiclustering")) {
-    stop("FCRP is only available for ordinalBiclustering, nominalBiclustering, or ratedBiclustering models")
-  }
+  .validate_exametrika(data, c("ordinalBiclustering", "nominalBiclustering", "ratedBiclustering"))
 
   if (is.null(data$FRP)) {
     stop("FRP data not found in the model output")
@@ -116,13 +109,13 @@ plotFCRP_gg <- function(data,
   # Convert 3D array to long format data frame
   fcrp_list <- list()
   for (f in 1:nfld) {
-    for (c in 1:ncls) {
+    for (cc in 1:ncls) {
       for (q in 1:maxQ) {
         fcrp_list[[length(fcrp_list) + 1]] <- data.frame(
           Field = paste0("Field ", f),
-          ClassRank = c,
+          ClassRank = cc,
           Category = paste0("Cat", q),
-          Probability = BCRM[f, c, q]
+          Probability = BCRM[f, cc, q]
         )
       }
     }
@@ -135,15 +128,7 @@ plotFCRP_gg <- function(data,
   )
 
   # Set up colors
-  if (is.null(colors)) {
-    colors <- .gg_exametrika_palette(maxQ)
-  } else if (length(colors) < maxQ) {
-    warning(paste(
-      "Insufficient colors provided. Need", maxQ,
-      "but got", length(colors), ". Using default palette."
-    ))
-    colors <- .gg_exametrika_palette(maxQ)
-  }
+  colors <- .resolve_colors(colors, maxQ)
 
   # Create plot based on style
   if (style == "line") {
@@ -170,10 +155,7 @@ plotFCRP_gg <- function(data,
         strip.text = element_text(size = 10, face = "bold")
       )
 
-    # Apply custom colors if provided
-    if (!is.null(colors)) {
-      p <- p + scale_color_manual(values = colors)
-    }
+    p <- p + scale_color_manual(values = colors)
 
     # Apply custom linetype
     p <- p + scale_linetype_manual(values = rep(linetype, length.out = maxQ))
@@ -228,12 +210,15 @@ plotFCRP_gg <- function(data,
       y = Probability,
       fill = Category
     )) +
-      geom_bar(stat = "identity", position = "stack", width = 0.7) +
-      geom_segment(
+      geom_bar(stat = "identity", position = "stack", width = 0.7)
+    if (!is.null(boundary_segments) && nrow(boundary_segments) > 0) {
+      p <- p + geom_segment(
         data = boundary_segments,
         aes(x = x, xend = xend, y = y, yend = yend),
         linetype = "dashed", color = "gray30", linewidth = 0.5
-      ) +
+      )
+    }
+    p <- p +
       facet_wrap(~Field, ncol = 2) +
       scale_y_continuous(breaks = seq(0, 1, 0.25)) +
       labs(
@@ -245,10 +230,7 @@ plotFCRP_gg <- function(data,
         strip.text = element_text(size = 10, face = "bold")
       )
 
-    # Apply custom colors if provided
-    if (!is.null(colors)) {
-      p <- p + scale_fill_manual(values = colors)
-    }
+    p <- p + scale_fill_manual(values = colors)
   }
 
   # Handle title
@@ -261,11 +243,7 @@ plotFCRP_gg <- function(data,
   }
 
   # Handle legend visibility
-  if (!show_legend) {
-    p <- p + theme(legend.position = "none")
-  } else {
-    p <- p + theme(legend.position = legend_position)
-  }
+  p <- .apply_legend(p, show_legend, legend_position)
 
   return(p)
 }

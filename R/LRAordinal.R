@@ -56,12 +56,7 @@ plotScoreFreq_gg <- function(data,
                              show_legend = FALSE,
                              legend_position = "right") {
   # Class validation
-  is_LRAordinal <- all(class(data) %in% c("exametrika", "LRAordinal"))
-  is_LRArated <- all(class(data) %in% c("exametrika", "LRArated"))
-
-  if (!is_LRAordinal && !is_LRArated) {
-    stop("Invalid input. The variable must be from exametrika output (LRAordinal or LRArated).")
-  }
+  .validate_exametrika(data, c("LRAordinal", "LRArated"))
 
   # Extract scores and ranks from Students data
   tmp <- as.data.frame(data$Students)
@@ -73,7 +68,7 @@ plotScoreFreq_gg <- function(data,
   n_ranks <- length(unique_ranks)
   thresholds <- numeric(n_ranks - 1)
 
-  for (i in 1:(n_ranks - 1)) {
+  for (i in seq_len(n_ranks - 1)) {
     max_rank_i <- max(sc[rank == unique_ranks[i]])
     min_rank_next <- min(sc[rank == unique_ranks[i + 1]])
     thresholds[i] <- (max_rank_i + min_rank_next) / 2
@@ -95,13 +90,7 @@ plotScoreFreq_gg <- function(data,
   }
 
   # Title setup
-  if (is.logical(title) && title) {
-    plot_title <- "Score Frequency Distribution"
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
+  plot_title <- .resolve_title(title, "Score Frequency Distribution")
 
   # Build plot
   plot_data <- data.frame(score = sc)
@@ -120,13 +109,122 @@ plotScoreFreq_gg <- function(data,
     )
 
   # Legend control
-  if (show_legend) {
-    p <- p + theme(legend.position = legend_position)
-  } else {
-    p <- p + theme(legend.position = "none")
-  }
+  p <- .apply_legend(p, show_legend, legend_position)
 
   return(p)
+}
+
+
+#' Shared worker for plotICBR_gg / plotICRP_gg
+#'
+#' The two exported functions differ only in which element of the
+#' exametrika output they draw (ICBR vs ICRP), the accepted model
+#' classes, and the auto title.
+#'
+#' @param element Name of the data element ("ICBR" or "ICRP").
+#' @param valid_classes Acceptable model classes.
+#' @param auto_title Base string of the automatic title.
+#' @inheritParams plotICBR_gg
+#' @return A ggplot object.
+#' @keywords internal
+
+.plot_item_category <- function(data, items, title, colors, linetype,
+                                show_legend, legend_position,
+                                element, valid_classes, auto_title) {
+  # Class validation
+  .validate_exametrika(data, valid_classes)
+
+  # Check data existence
+  if (!element %in% names(data)) {
+    stop(element, " data not found in the input object.")
+  }
+
+  element_data <- data[[element]]
+
+  # Item selection
+  all_items <- unique(element_data$ItemLabel)
+  if (is.null(items)) {
+    selected_items <- all_items
+  } else {
+    # Convert numeric indices to ItemLabel
+    if (is.numeric(items)) {
+      selected_items <- all_items[items]
+    } else {
+      selected_items <- items
+    }
+  }
+
+  # Filter selected items
+  plot_data <- element_data[element_data$ItemLabel %in% selected_items, ]
+
+  # Convert wide to long format (rank1, rank2, ... -> Rank and Probability)
+  rank_cols <- grep("^rank[0-9]+$", colnames(plot_data), value = TRUE)
+
+  long_data <- tidyr::pivot_longer(
+    plot_data,
+    cols = all_of(rank_cols),
+    names_to = "Rank",
+    values_to = "Probability",
+    names_prefix = "rank"
+  )
+
+  # Convert Rank to numeric
+  # Ranks are plotted in natural order (rank1, rank2, ...) to match
+  # the base plots of the parent exametrika package
+  long_data$Rank <- as.numeric(long_data$Rank)
+
+  # Strip item name prefix from CategoryLabel (e.g., "V1-Cat1" -> "Cat1")
+  # This ensures consistent category labels across items for color mapping
+  long_data$Category <- sub("^.*-", "", long_data$CategoryLabel)
+
+  # Color setup
+  n_categories <- length(unique(long_data$Category))
+  colors <- .resolve_colors(colors, n_categories)
+
+  # Linetype setup
+  if (is.null(linetype)) {
+    # Automatically assign linetypes
+    linetype_options <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
+    linetype <- rep(linetype_options, length.out = n_categories)
+  }
+
+  # Build plot
+  p <- ggplot(long_data, aes(
+    x = Rank, y = Probability,
+    color = Category,
+    linetype = Category,
+    group = interaction(ItemLabel, Category)
+  )) +
+    geom_line(linewidth = 0.8) +
+    facet_wrap(~ItemLabel) +
+    scale_y_continuous(breaks = seq(0, 1, 0.25)) +
+    labs(
+      x = "Rank",
+      y = "Probability",
+      color = "Category",
+      linetype = "Category"
+    ) +
+    theme(
+      strip.text = element_text(size = 10, face = "bold")
+    )
+
+  # Color and linetype scale setup
+  p <- p + scale_color_manual(values = colors) +
+    scale_linetype_manual(values = linetype)
+
+  # Title setup
+  if (is.logical(title)) {
+    if (title && length(selected_items) == 1) {
+      p <- p + labs(title = paste0(auto_title, ": ", selected_items[1]))
+    } else if (title && length(selected_items) > 1) {
+      p <- p + labs(title = auto_title)
+    }
+  } else if (is.character(title)) {
+    p <- p + labs(title = title)
+  }
+
+  # Legend control
+  .apply_legend(p, show_legend, legend_position)
 }
 
 
@@ -169,11 +267,11 @@ plotScoreFreq_gg <- function(data,
 #'   \item Line 1: P(response >= 1 | rank)
 #'   \item Line 2: P(response >= 2 | rank)
 #'   \item ...
-#'   \item Line K: P(response >= K | rank) (always 1.0 for category 0)
+#'   \item Line K-1: P(response >= K-1 | rank)
 #' }
 #'
-#' Higher ranks typically show lower probabilities for higher categories,
-#' indicating lower ability levels.
+#' Ranks are shown in natural order (rank 1, rank 2, ...), matching the
+#' base plots of the parent exametrika package.
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
@@ -206,117 +304,12 @@ plotICBR_gg <- function(data,
                         linetype = NULL,
                         show_legend = TRUE,
                         legend_position = "right") {
-  # Class validation
-  if (!all(c("exametrika", "LRAordinal") %in% class(data))) {
-    stop("Invalid input. The data must be from exametrika LRAordinal output (dataType = 'ordinal').")
-  }
-
-  # Check ICBR data existence
-  if (!"ICBR" %in% names(data)) {
-    stop("ICBR data not found in the input object.")
-  }
-
-  icbr_data <- data$ICBR
-
-  # Item selection
-  all_items <- unique(icbr_data$ItemLabel)
-  if (is.null(items)) {
-    selected_items <- all_items
-  } else {
-    # Convert numeric indices to ItemLabel
-    if (is.numeric(items)) {
-      selected_items <- all_items[items]
-    } else {
-      selected_items <- items
-    }
-  }
-
-  # Filter selected items
-  plot_data <- icbr_data[icbr_data$ItemLabel %in% selected_items, ]
-
-  # Convert wide to long format (rank1, rank2, ... -> Rank and Probability)
-  rank_cols <- grep("^rank[0-9]+$", colnames(plot_data), value = TRUE)
-
-  long_data <- tidyr::pivot_longer(
-    plot_data,
-    cols = all_of(rank_cols),
-    names_to = "Rank",
-    values_to = "Probability",
-    names_prefix = "rank"
+  .plot_item_category(
+    data, items, title, colors, linetype, show_legend, legend_position,
+    element = "ICBR",
+    valid_classes = "LRAordinal",
+    auto_title = "Item Category Boundary Response"
   )
-
-  # Convert Rank to numeric
-  long_data$Rank <- as.numeric(long_data$Rank)
-
-  # Reverse rank order for plotting (low ability -> high ability)
-  # In exametrika, rank1 = high ability, so reverse for visual ordering
-  n_ranks <- max(long_data$Rank)
-  long_data$Rank <- n_ranks - long_data$Rank + 1
-
-  # Strip item name prefix from CategoryLabel (e.g., "V1-Cat1" -> "Cat1")
-  # This ensures consistent category labels across items for color mapping
-  long_data$Category <- sub("^.*-", "", long_data$CategoryLabel)
-
-  # Color setup
-  n_categories <- length(unique(long_data$Category))
-  if (is.null(colors)) {
-    colors <- .gg_exametrika_palette(n_categories)
-  }
-
-  # Linetype setup
-  if (is.null(linetype)) {
-    # Automatically assign linetypes
-    linetype_options <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
-    linetype <- rep(linetype_options, length.out = n_categories)
-  }
-
-  # Build plot
-  p <- ggplot(long_data, aes(
-    x = Rank, y = Probability,
-    color = Category,
-    linetype = Category,
-    group = interaction(ItemLabel, Category)
-  )) +
-    geom_line(linewidth = 0.8) +
-    facet_wrap(~ItemLabel) +
-    scale_y_continuous(breaks = seq(0, 1, 0.25)) +
-    labs(
-      x = "Rank",
-      y = "Probability",
-      color = "Category",
-      linetype = "Category"
-    ) +
-    theme(
-      strip.text = element_text(size = 10, face = "bold")
-    )
-
-  # Color and linetype scale setup
-  if (!is.null(colors)) {
-    p <- p + scale_color_manual(values = colors)
-  }
-  if (!is.null(linetype)) {
-    p <- p + scale_linetype_manual(values = linetype)
-  }
-
-  # Title setup
-  if (is.logical(title)) {
-    if (title && length(selected_items) == 1) {
-      p <- p + labs(title = paste("Item Category Boundary Response:", selected_items[1]))
-    } else if (title && length(selected_items) > 1) {
-      p <- p + labs(title = "Item Category Boundary Response")
-    }
-  } else if (is.character(title)) {
-    p <- p + labs(title = title)
-  }
-
-  # Legend control
-  if (!show_legend) {
-    p <- p + theme(legend.position = "none")
-  } else {
-    p <- p + theme(legend.position = legend_position)
-  }
-
-  return(p)
 }
 
 
@@ -363,8 +356,8 @@ plotICBR_gg <- function(data,
 #' The sum of all probabilities at each rank equals 1.0, as they represent
 #' mutually exclusive response options.
 #'
-#' Typically, higher ranks (higher ability) show higher probabilities for
-#' higher categories and lower probabilities for lower categories.
+#' Ranks are shown in natural order (rank 1, rank 2, ...), matching the
+#' base plots of the parent exametrika package.
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
@@ -397,118 +390,10 @@ plotICRP_gg <- function(data,
                         linetype = NULL,
                         show_legend = TRUE,
                         legend_position = "right") {
-  # Class validation
-  is_LRAordinal <- all(c("exametrika", "LRAordinal") %in% class(data))
-  is_LRArated <- all(c("exametrika", "LRArated") %in% class(data))
-
-  if (!is_LRAordinal && !is_LRArated) {
-    stop("Invalid input. The data must be from exametrika LRAordinal or LRArated output.")
-  }
-
-  # Check ICRP data existence
-  if (!"ICRP" %in% names(data)) {
-    stop("ICRP data not found in the input object.")
-  }
-
-  icrp_data <- data$ICRP
-
-  # Item selection
-  all_items <- unique(icrp_data$ItemLabel)
-  if (is.null(items)) {
-    selected_items <- all_items
-  } else {
-    # Convert numeric indices to ItemLabel
-    if (is.numeric(items)) {
-      selected_items <- all_items[items]
-    } else {
-      selected_items <- items
-    }
-  }
-
-  # Filter selected items
-  plot_data <- icrp_data[icrp_data$ItemLabel %in% selected_items, ]
-
-  # Convert wide to long format (rank1, rank2, ... -> Rank and Probability)
-  rank_cols <- grep("^rank[0-9]+$", colnames(plot_data), value = TRUE)
-
-  long_data <- tidyr::pivot_longer(
-    plot_data,
-    cols = all_of(rank_cols),
-    names_to = "Rank",
-    values_to = "Probability",
-    names_prefix = "rank"
+  .plot_item_category(
+    data, items, title, colors, linetype, show_legend, legend_position,
+    element = "ICRP",
+    valid_classes = c("LRAordinal", "LRArated"),
+    auto_title = "Item Category Reference Profile"
   )
-
-  # Convert Rank to numeric
-  long_data$Rank <- as.numeric(long_data$Rank)
-
-  # Reverse rank order for plotting (low ability -> high ability)
-  # In exametrika, rank1 = low ability, so reverse for visual ordering
-  n_ranks <- max(long_data$Rank)
-  long_data$Rank <- n_ranks - long_data$Rank + 1
-
-  # Strip item name prefix from CategoryLabel (e.g., "V1-Cat1" -> "Cat1")
-  # This ensures consistent category labels across items for color mapping
-  long_data$Category <- sub("^.*-", "", long_data$CategoryLabel)
-
-  # Color setup
-  n_categories <- length(unique(long_data$Category))
-  if (is.null(colors)) {
-    colors <- .gg_exametrika_palette(n_categories)
-  }
-
-  # Linetype setup
-  if (is.null(linetype)) {
-    # Automatically assign linetypes
-    linetype_options <- c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
-    linetype <- rep(linetype_options, length.out = n_categories)
-  }
-
-  # Build plot
-  p <- ggplot(long_data, aes(
-    x = Rank, y = Probability,
-    color = Category,
-    linetype = Category,
-    group = interaction(ItemLabel, Category)
-  )) +
-    geom_line(linewidth = 0.8) +
-    facet_wrap(~ItemLabel) +
-    scale_y_continuous(breaks = seq(0, 1, 0.25)) +
-    labs(
-      x = "Rank",
-      y = "Probability",
-      color = "Category",
-      linetype = "Category"
-    ) +
-    theme(
-      strip.text = element_text(size = 10, face = "bold")
-    )
-
-  # Color and linetype scale setup
-  if (!is.null(colors)) {
-    p <- p + scale_color_manual(values = colors)
-  }
-  if (!is.null(linetype)) {
-    p <- p + scale_linetype_manual(values = linetype)
-  }
-
-  # Title setup
-  if (is.logical(title)) {
-    if (title && length(selected_items) == 1) {
-      p <- p + labs(title = paste("Item Category Reference Profile:", selected_items[1]))
-    } else if (title && length(selected_items) > 1) {
-      p <- p + labs(title = "Item Category Reference Profile")
-    }
-  } else if (is.character(title)) {
-    p <- p + labs(title = title)
-  }
-
-  # Legend control
-  if (!show_legend) {
-    p <- p + theme(legend.position = "none")
-  } else {
-    p <- p + theme(legend.position = legend_position)
-  }
-
-  return(p)
 }

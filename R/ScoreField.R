@@ -82,15 +82,7 @@ plotScoreField_gg <- function(data,
                               show_values = TRUE,
                               text_size = 3.5) {
   # Input validation
-  if (!inherits(data, "exametrika")) {
-    stop("Input must be an exametrika model object")
-  }
-
-  # Check if this is a polytomous biclustering model
-  valid_models <- c("nominalBiclustering", "ordinalBiclustering", "ratedBiclustering")
-  if (!any(class(data) %in% valid_models)) {
-    stop("ScoreField plot is only available for nominalBiclustering, ordinalBiclustering, and ratedBiclustering models")
-  }
+  .validate_exametrika(data, c("nominalBiclustering", "ordinalBiclustering", "ratedBiclustering"))
 
   # Check if FRP exists and has 3 dimensions (polytomous data)
   if (is.null(data$FRP)) {
@@ -105,18 +97,11 @@ plotScoreField_gg <- function(data,
   BCRM <- data$FRP # Field x Class/Rank x Category
   nfld <- dim(BCRM)[1]
   ncls <- dim(BCRM)[2]
-  maxQ <- dim(BCRM)[3]
   msg <- data$msg # "Class" or "Rank"
 
   # Calculate expected scores for each field x class/rank
-  score_mat <- matrix(0, nrow = nfld, ncol = ncls)
-  for (f in 1:nfld) {
-    for (cc in 1:ncls) {
-      # Expected score = sum(category * probability)
-      # Categories are numbered 1, 2, 3, ... maxQ
-      score_mat[f, cc] <- sum((1:maxQ) * BCRM[f, cc, ])
-    }
-  }
+  # (categories are numbered 1, 2, 3, ... maxQ)
+  score_mat <- .calc_expected_scores(BCRM, "mean")
 
   # Convert to long format for ggplot
   plot_data <- data.frame(

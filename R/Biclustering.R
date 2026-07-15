@@ -23,6 +23,110 @@
 }
 
 
+#' Shared worker for plotCRV_gg / plotRRV_gg
+#'
+#' The two exported functions differ only in the series prefix ("C"/"R")
+#' and the display name ("Class"/"Rank").
+#'
+#' @param prefix Single letter prepended to the series labels.
+#' @param unit_name Display name used in the auto title.
+#' @inheritParams plotCRV_gg
+#' @return A ggplot object.
+#' @keywords internal
+
+.plot_reference_vector <- function(data, title, colors, linetype, show_legend,
+                                   legend_position, stat, show_labels,
+                                   prefix, unit_name) {
+  # Check if this is an exametrika Biclustering-related model
+  valid_classes <- c("Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "Biclustering_IRM")
+  .validate_exametrika(data, valid_classes)
+
+  # Validate stat parameter
+  if (!stat %in% c("mean", "median", "mode")) {
+    stop("stat must be one of: 'mean', 'median', 'mode'")
+  }
+
+  # Check FRP dimensionality
+  is_polytomous <- (length(dim(data$FRP)) == 3)
+
+  if (is_polytomous) {
+    # Polytomous (3D): Field x Class/Rank x Category -> expected scores
+    BCRM <- data$FRP
+    maxQ <- dim(BCRM)[3]
+    RV <- t(.calc_expected_scores(BCRM, stat)) # Class/Rank x Field
+    y_label <- paste0("Expected Score (", stat, ")")
+    y_limits <- c(1, maxQ)
+    y_breaks <- 1:maxQ
+  } else {
+    # Binary (2D): Field x Class/Rank
+    RV <- t(data$FRP)
+    y_label <- "Correct Response Rate"
+    y_limits <- c(0, 1)
+    y_breaks <- seq(0, 1, 0.25)
+  }
+  n_series <- nrow(RV)
+  n_fld <- ncol(RV)
+
+  # Convert to long format
+  series_levels <- paste0(prefix, 1:n_series)
+  plot_data <- data.frame(
+    field = rep(1:n_fld, each = n_series),
+    field_label = rep(paste0("F", 1:n_fld), each = n_series),
+    value = as.vector(RV),
+    series = factor(rep(series_levels, times = n_fld), levels = series_levels),
+    series_num = rep(1:n_series, times = n_fld) # For label display
+  )
+
+  # Keep the historical column names ("class"/"rank") in the plot data
+  # so that downstream code inspecting p$data continues to work
+  legacy_col <- tolower(unit_name)
+  plot_data[[legacy_col]] <- plot_data$series
+  plot_data[[paste0(legacy_col, "_num")]] <- plot_data$series_num
+
+  # Color setup
+  use_colors <- .resolve_colors(colors, n_series)
+
+  # Title setup
+  auto_title <- if (is_polytomous) {
+    paste0(unit_name, " Reference Vector (", stat, ")")
+  } else {
+    paste0(unit_name, " Reference Vector")
+  }
+  plot_title <- .resolve_title(title, auto_title)
+
+  p <- ggplot(plot_data, aes(x = field, y = value, color = series)) +
+    geom_line(linetype = linetype) +
+    geom_point() +
+    scale_x_continuous(breaks = 1:n_fld, labels = paste0("F", 1:n_fld)) +
+    scale_y_continuous(limits = y_limits, breaks = y_breaks) +
+    scale_color_manual(values = use_colors) +
+    labs(
+      title = plot_title,
+      x = "Field",
+      y = y_label,
+      color = NULL
+    )
+
+  # Label display (using ggrepel to avoid overlaps)
+  if (show_labels) {
+    p <- p + ggrepel::geom_text_repel(
+      data = plot_data,
+      mapping = aes(x = field, y = value, label = series_num, color = series),
+      size = 3,
+      box.padding = 0.5,
+      point.padding = 0.3,
+      segment.color = "grey50",
+      segment.size = 0.3,
+      max.overlaps = Inf,
+      show.legend = FALSE
+    )
+  }
+
+  # Legend control
+  .apply_legend(p, show_legend, legend_position)
+}
+
+
 #' @title Plot Class Reference Vector (CRV) from exametrika
 #'
 #' @description
@@ -41,9 +145,8 @@
 #'   use it as a custom title.
 #' @param colors Character vector of colors for each class.
 #'   If \code{NULL} (default), a colorblind-friendly palette is used.
-#' @param linetype Character or numeric vector specifying the line types.
-#'   If a single value, all lines use that type. If a vector, each class
-#'   uses the corresponding type. Default is \code{"solid"}.
+#' @param linetype Character or numeric scalar specifying the line type
+#'   applied to all lines. Default is \code{"solid"}.
 #' @param show_legend Logical. If \code{TRUE} (default), display the legend.
 #' @param legend_position Character. Position of the legend.
 #'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
@@ -107,121 +210,12 @@ plotCRV_gg <- function(data,
                        show_legend = TRUE,
                        legend_position = "right",
                        stat = "mean",
-                       show_labels = NULL) {
-  # Check if this is an exametrika Biclustering model
-  if (!inherits(data, "exametrika")) {
-    stop("Invalid input. The variable must be from exametrika output.")
-  }
-
-  # Check if it's a Biclustering-related model
-  valid_classes <- c("Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "Biclustering_IRM")
-  if (!any(class(data) %in% valid_classes)) {
-    stop("Invalid input. The variable must be from Biclustering, ordinalBiclustering, nominalBiclustering, or ratedBiclustering.")
-  }
-
-  # Validate stat parameter
-  if (!stat %in% c("mean", "median", "mode")) {
-    stop("stat must be one of: 'mean', 'median', 'mode'")
-  }
-
-  # Check FRP dimensionality
-  frp_dims <- length(dim(data$FRP))
-  is_polytomous <- (frp_dims == 3)
-
-  if (is_polytomous) {
-    # Polytomous (3D): Field x Class/Rank x Category
-    BCRM <- data$FRP
-    maxQ <- dim(BCRM)[3]
-
-    # Calculate expected scores
-    FRP_mat <- .calc_expected_scores(BCRM, stat)
-    CRV <- t(FRP_mat) # Transpose to Class x Field
-
-    n_cls <- nrow(CRV)
-    n_fld <- ncol(CRV)
-    y_label <- paste0("Expected Score (", stat, ")")
-    y_limits <- c(1, maxQ)
-    y_breaks <- 1:maxQ
-  } else {
-    # Binary (2D): Field x Class/Rank
-    CRV <- t(data$FRP)
-    n_cls <- nrow(CRV)
-    n_fld <- ncol(CRV)
-    y_label <- "Correct Response Rate"
-    y_limits <- c(0, 1)
-    y_breaks <- seq(0, 1, 0.25)
-  }
-
-  # Convert to long format
-  plot_data <- data.frame(
-    field = rep(1:n_fld, each = n_cls),
-    field_label = rep(paste0("F", 1:n_fld), each = n_cls),
-    value = as.vector(CRV),
-    class = factor(rep(paste0("C", 1:n_cls), times = n_fld), levels = paste0("C", 1:n_cls)),
-    class_num = rep(1:n_cls, times = n_fld)
+                       show_labels = FALSE) {
+  .plot_reference_vector(
+    data, title, colors, linetype, show_legend, legend_position,
+    stat, show_labels,
+    prefix = "C", unit_name = "Class"
   )
-
-  # Set default for show_labels
-  if (is.null(show_labels)) {
-    show_labels <- FALSE
-  }
-
-  # Color setup
-  if (is.null(colors)) {
-    use_colors <- .gg_exametrika_palette(n_cls)
-  } else {
-    use_colors <- colors[1:n_cls]
-  }
-
-  # Title setup
-  if (is.logical(title) && title) {
-    if (is_polytomous) {
-      plot_title <- paste0("Class Reference Vector (", stat, ")")
-    } else {
-      plot_title <- "Class Reference Vector"
-    }
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
-
-  p <- ggplot(plot_data, aes(x = field, y = value, color = class)) +
-    geom_line(linetype = linetype) +
-    geom_point() +
-    scale_x_continuous(breaks = 1:n_fld, labels = paste0("F", 1:n_fld)) +
-    scale_y_continuous(limits = y_limits, breaks = y_breaks) +
-    scale_color_manual(values = use_colors) +
-    labs(
-      title = plot_title,
-      x = "Field",
-      y = y_label,
-      color = NULL
-    )
-
-  # Label display (using ggrepel to avoid overlaps)
-  if (show_labels) {
-    p <- p + ggrepel::geom_text_repel(
-      data = plot_data,
-      mapping = aes(x = field, y = value, label = class_num, color = class),
-      size = 3,
-      box.padding = 0.5,
-      point.padding = 0.3,
-      segment.color = "grey50",
-      segment.size = 0.3,
-      max.overlaps = Inf,
-      show.legend = FALSE
-    )
-  }
-
-  # Legend control
-  if (show_legend) {
-    p <- p + theme(legend.position = legend_position)
-  } else {
-    p <- p + theme(legend.position = "none")
-  }
-
-  return(p)
 }
 
 
@@ -243,9 +237,8 @@ plotCRV_gg <- function(data,
 #'   use it as a custom title.
 #' @param colors Character vector of colors for each rank.
 #'   If \code{NULL} (default), a colorblind-friendly palette is used.
-#' @param linetype Character or numeric vector specifying the line types.
-#'   If a single value, all lines use that type. If a vector, each rank
-#'   uses the corresponding type. Default is \code{"solid"}.
+#' @param linetype Character or numeric scalar specifying the line type
+#'   applied to all lines. Default is \code{"solid"}.
 #' @param show_legend Logical. If \code{TRUE} (default), display the legend.
 #' @param legend_position Character. Position of the legend.
 #'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
@@ -316,119 +309,10 @@ plotRRV_gg <- function(data,
                        show_legend = TRUE,
                        legend_position = "right",
                        stat = "mean",
-                       show_labels = NULL) {
-  # Check if this is an exametrika Biclustering model
-  if (!inherits(data, "exametrika")) {
-    stop("Invalid input. The variable must be from exametrika output.")
-  }
-
-  # Check if it's a Biclustering-related model
-  valid_classes <- c("Biclustering", "ordinalBiclustering", "nominalBiclustering", "ratedBiclustering", "Biclustering_IRM")
-  if (!any(class(data) %in% valid_classes)) {
-    stop("Invalid input. The variable must be from Biclustering, ordinalBiclustering, nominalBiclustering, or ratedBiclustering.")
-  }
-
-  # Validate stat parameter
-  if (!stat %in% c("mean", "median", "mode")) {
-    stop("stat must be one of: 'mean', 'median', 'mode'")
-  }
-
-  # Check FRP dimensionality
-  frp_dims <- length(dim(data$FRP))
-  is_polytomous <- (frp_dims == 3)
-
-  if (is_polytomous) {
-    # Polytomous (3D): Field x Class/Rank x Category
-    BCRM <- data$FRP
-    maxQ <- dim(BCRM)[3]
-
-    # Calculate expected scores
-    FRP_mat <- .calc_expected_scores(BCRM, stat)
-    RRV <- t(FRP_mat) # Transpose to Rank x Field
-
-    n_rank <- nrow(RRV)
-    n_fld <- ncol(RRV)
-    y_label <- paste0("Expected Score (", stat, ")")
-    y_limits <- c(1, maxQ)
-    y_breaks <- 1:maxQ
-  } else {
-    # Binary (2D): Field x Class/Rank
-    RRV <- t(data$FRP)
-    n_rank <- nrow(RRV)
-    n_fld <- ncol(RRV)
-    y_label <- "Correct Response Rate"
-    y_limits <- c(0, 1)
-    y_breaks <- seq(0, 1, 0.25)
-  }
-
-  # Convert to long format
-  plot_data <- data.frame(
-    field = rep(1:n_fld, each = n_rank),
-    field_label = rep(paste0("F", 1:n_fld), each = n_rank),
-    value = as.vector(RRV),
-    rank = factor(rep(paste0("R", 1:n_rank), times = n_fld), levels = paste0("R", 1:n_rank)),
-    rank_num = rep(1:n_rank, times = n_fld) # For label display
+                       show_labels = FALSE) {
+  .plot_reference_vector(
+    data, title, colors, linetype, show_legend, legend_position,
+    stat, show_labels,
+    prefix = "R", unit_name = "Rank"
   )
-
-  # Set default for show_labels
-  if (is.null(show_labels)) {
-    show_labels <- FALSE # Default to FALSE since legend provides rank information
-  }
-
-  # Color setup
-  if (is.null(colors)) {
-    use_colors <- .gg_exametrika_palette(n_rank)
-  } else {
-    use_colors <- colors[1:n_rank]
-  }
-
-  # Title setup
-  if (is.logical(title) && title) {
-    if (is_polytomous) {
-      plot_title <- paste0("Rank Reference Vector (", stat, ")")
-    } else {
-      plot_title <- "Rank Reference Vector"
-    }
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
-
-  p <- ggplot(plot_data, aes(x = field, y = value, color = rank)) +
-    geom_line(linetype = linetype) +
-    geom_point() +
-    scale_x_continuous(breaks = 1:n_fld, labels = paste0("F", 1:n_fld)) +
-    scale_y_continuous(limits = y_limits, breaks = y_breaks) +
-    scale_color_manual(values = use_colors) +
-    labs(
-      title = plot_title,
-      x = "Field",
-      y = y_label,
-      color = NULL
-    )
-
-  # Label display (using ggrepel to avoid overlaps)
-  if (show_labels) {
-    p <- p + geom_text_repel(
-      data = plot_data,
-      mapping = aes(x = field, y = value, label = rank_num, color = rank),
-      size = 3,
-      box.padding = 0.5,
-      point.padding = 0.3,
-      segment.color = "grey50",
-      segment.size = 0.3,
-      max.overlaps = Inf,
-      show.legend = FALSE
-    )
-  }
-
-  # Legend control
-  if (show_legend) {
-    p <- p + theme(legend.position = legend_position)
-  } else {
-    p <- p + theme(legend.position = "none")
-  }
-
-  return(p)
 }

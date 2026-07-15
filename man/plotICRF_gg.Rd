@@ -27,7 +27,7 @@ x-axis (ability). Default is \code{c(-4, 4)}.}
 
 \item{title}{Logical or character. If \code{TRUE} (default), display an
 auto-generated title. If \code{FALSE}, no title. If a character string,
-use it as a custom title (only for single-item plots).}
+use it as a custom title applied to every item's plot.}
 
 \item{colors}{Character vector of colors for each category.
 If \code{NULL} (default), a colorblind-friendly palette is used.}

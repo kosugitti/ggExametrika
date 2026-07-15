@@ -14,7 +14,7 @@
 #'   x-axis (ability). Default is \code{c(-4, 4)}.
 #' @param title Logical or character. If \code{TRUE} (default), display an
 #'   auto-generated title. If \code{FALSE}, no title. If a character string,
-#'   use it as a custom title (only for single-item plots).
+#'   use it as a custom title applied to every item's plot.
 #' @param colors Character vector of colors for each category.
 #'   If \code{NULL} (default), a colorblind-friendly palette is used.
 #' @param linetype Character or numeric specifying the line type.
@@ -48,7 +48,7 @@
 #'
 #' @seealso \code{\link{plotICC_gg}}
 #'
-#' @importFrom ggplot2 ggplot aes geom_line labs theme element_text scale_color_manual guides guide_legend
+#' @importFrom ggplot2 ggplot aes geom_line labs theme element_text scale_color_manual
 #' @export
 
 
@@ -60,9 +60,7 @@ plotICRF_gg <- function(data,
                         linetype = "solid",
                         show_legend = TRUE,
                         legend_position = "right") {
-  if (!all(class(data) %in% c("exametrika", "GRM"))) {
-    stop("Invalid input. The variable must be from exametrika output or an output from GRM.")
-  }
+  .validate_exametrika(data, "GRM")
 
   params <- data$params
   n_items <- nrow(params)
@@ -121,20 +119,10 @@ plotICRF_gg <- function(data,
     )
 
     # Color setup
-    if (is.null(colors)) {
-      use_colors <- .gg_exametrika_palette(K)
-    } else {
-      use_colors <- colors[1:K]
-    }
+    use_colors <- .resolve_colors(colors, K)
 
     # Title setup
-    if (is.logical(title) && title) {
-      plot_title <- paste("Item Category Response Function,", rownames(params)[i])
-    } else if (is.logical(title) && !title) {
-      plot_title <- NULL
-    } else {
-      plot_title <- title
-    }
+    plot_title <- .resolve_title(title, paste("Item Category Response Function,", rownames(params)[i]))
 
     p <- ggplot(plot_data, aes(x = theta, y = probability, color = category)) +
       geom_line(linetype = linetype) +
@@ -148,11 +136,7 @@ plotICRF_gg <- function(data,
       )
 
     # Legend control
-    if (show_legend) {
-      p <- p + theme(legend.position = legend_position)
-    } else {
-      p <- p + theme(legend.position = "none")
-    }
+    p <- .apply_legend(p, show_legend, legend_position)
 
     plots[[idx]] <- p
   }
@@ -176,11 +160,18 @@ plotICRF_gg <- function(data,
 #'   ability level.
 #'
 #' @details
-#' For GRM, the Item Information Function is computed as:
-#' \deqn{I(\theta) = a^2 \sum_{k=1}^{K-1} P_k^*(\theta) [1 - P_k^*(\theta)]}
+#' The information is Samejima's (1969) item information for the GRM,
+#' computed identically to \code{exametrika::grm_iif} (>= 1.15.0.9000)
+#' so that ggExametrika plots match the base plots of the parent
+#' package:
+#' \deqn{I(\theta) = \sum_{k=1}^{K} \frac{[P_k'(\theta)]^2}{P_k(\theta)}}
 #'
-#' where \eqn{P_k^*(\theta)} is the cumulative probability of scoring in
-#' category \eqn{k} or above.
+#' where \eqn{P_k(\theta) = P_{k-1}^*(\theta) - P_k^*(\theta)} is the
+#' category response probability, \eqn{P_k^*(\theta)} is the cumulative
+#' (boundary) probability with \eqn{P_0^* = 1} and \eqn{P_K^* = 0}, and
+#' \eqn{P_k^{*\prime}(\theta) = a P_k^*(\theta) [1 - P_k^*(\theta)]}.
+#' The logistic metric of the parent package's estimation is used as is
+#' (no 1.702 scaling constant).
 #'
 #' @examples
 #' # Information at ability = 0 for a 5-category item
@@ -191,18 +182,14 @@ plotICRF_gg <- function(data,
 #' @export
 
 ItemInformationFunc_GRM <- function(theta, a, b) {
-  grm_cumprob <- function(theta, a, b) {
-    1 / (1 + exp(-a * (theta - b)))
-  }
-
   K <- length(b) + 1 # number of categories
-  info <- 0
-
-  for (k in seq_along(b)) {
-    Pk_star <- grm_cumprob(theta, a, b[k])
-    info <- info + Pk_star * (1 - Pk_star)
-  }
-
-  info <- a^2 * info
-  return(info)
+  # Boundary probabilities P*_0 = 1 > P*_1 > ... > P*_{K-1} > P*_K = 0
+  cum_p <- c(1, 1 / (1 + exp(-a * (theta - b))), 0)
+  # Category probabilities P_k = P*_{k-1} - P*_k
+  p <- cum_p[1:K] - cum_p[2:(K + 1)]
+  # dP*_k/dtheta = a P*_k (1 - P*_k); zero at both endpoints
+  d_cum <- a * cum_p * (1 - cum_p)
+  d_p <- d_cum[1:K] - d_cum[2:(K + 1)]
+  info <- sum(d_p^2 / pmax(p, 1e-10))
+  return(unname(info))
 }

@@ -6,16 +6,25 @@ exametrikaパッケージの出力をggplot2で可視化するためのパッケ
 
 ## 現在のバージョン
 
-**v1.1.1（CRAN受理・公開済。2026-06-15提出→2026-06受理）** / 直前のCRAN: v1.1.0（受理 2026-04-17）
+**開発版 v1.1.2（全体監査リリース・リリース可能状態）** / CRAN: v1.1.1（2026-06受理・公開済）
 
-- **親パッケージ**: exametrika v1.14.0（CRAN, 2026-06-14受理）
+- **親パッケージ**: exametrika v1.15.0（CRAN受理済）/ v1.16.0（dev, 8/15目処・GRM修正入り）
 - **GitHub**: https://github.com/kosugitti/ggExametrika
 - **pkgdownサイト**: https://kosugitti.github.io/ggExametrika/
 
-### v1.1.1 で予定している変更
+### v1.1.2 の内容（詳細はNEWS.md）
 
-- **2026-06-02 plotArray_gg のtypo修正（破壊的変更）**: 引数 `Clusterd` / `Clusterd_lines` / `Clusterd_lines_color` を `Clustered*` にリネーム。タイトル `"Clusterd Data"` も `"Clustered Data"` に。本家 exametrika 内部の `00_plot_biclustering.R` (コメント・main・clusterd_data 変数) も同時修正。ggExametrika 側の vignettes 3本・test-plotArray_gg.R も更新済み。man/ は次回 roxygen2 再生成で反映予定。shinyExametrika はデフォルト引数呼び出しのみで影響なし
-- リリースは本家 exametrika v1.14.0 と同時に行う方針
+パッケージ全体監査(2026-07-15〜16)の成果。テスト634パス・R CMD check 0/0/0。
+
+- 高深刻度バグ修正3件: 4PLのlowerAsym脱落(plotICC/plotIIC)・GRM情報量公式(正式Samejima式に。親exametrikaのgrm_iifも同時修正)・ランク軸反転撤去(ICBR/ICRP/ScoreRankを親と同じ自然順に。**見た目の破壊的変更**)
+- 中バグ群: クラス判定方向・範囲外添字依存・colors不足時の挙動統一・入力検証追加・Rplots.pdfの.Rbuildignore登録ほか
+- 内部統一・共通化: `.validate_exametrika()` 等ヘルパー6本新設(R/utils-internal.R)、CRV/RRV・LCD/LRD・CMP/RMP・ICBR/ICRPをワーカー共通化
+- テスト: test-utility-functions.R新設(数値Fisher検証・4PL回帰テスト・親grm_iif突合はバージョンガード付き)
+
+### リリース方針
+
+- **exametrika v1.16.0(8/15目処)のCRAN受理後に連動提出**。GRM情報量が「修正済みの親」と揃う設計のため
+- 単独先行も技術的には可能(親比較テストは旧親で自動スキップ)だが、親の基本プロットとgg側の情報量表示が約1ヶ月食い違って見えるため非推奨
 
 ## 親パッケージ
 

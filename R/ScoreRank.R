@@ -48,12 +48,7 @@ plotScoreRank_gg <- function(data,
                              show_legend = TRUE,
                              legend_position = "right") {
   # Class validation
-  is_LRAordinal <- all(class(data) %in% c("exametrika", "LRAordinal"))
-  is_LRArated <- all(class(data) %in% c("exametrika", "LRArated"))
-
-  if (!is_LRAordinal && !is_LRArated) {
-    stop("Invalid input. The variable must be from exametrika output (LRAordinal or LRArated).")
-  }
+  .validate_exametrika(data, c("LRAordinal", "LRArated"))
 
   score_rank_matrix <- data$ScoreRank
   n_rank <- ncol(score_rank_matrix)
@@ -76,18 +71,14 @@ plotScoreRank_gg <- function(data,
   }
 
   # Title setup
-  if (is.logical(title) && title) {
-    plot_title <- "Score-Rank Distribution"
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
+  plot_title <- .resolve_title(title, "Score-Rank Distribution")
 
   p <- ggplot(plot_data, aes(x = rank, y = score, fill = count)) +
     geom_tile() +
     scale_fill_gradient(low = color_low, high = color_high) +
-    scale_x_reverse(breaks = 1:n_rank) +
+    # Ranks are shown in natural order (1, 2, ...) to match the base
+    # plots of the parent exametrika package
+    scale_x_continuous(breaks = 1:n_rank) +
     labs(
       title = plot_title,
       x = "Latent Rank",
@@ -96,11 +87,7 @@ plotScoreRank_gg <- function(data,
     )
 
   # Legend control
-  if (show_legend) {
-    p <- p + theme(legend.position = legend_position)
-  } else {
-    p <- p + theme(legend.position = "none")
-  }
+  p <- .apply_legend(p, show_legend, legend_position)
 
   return(p)
 }

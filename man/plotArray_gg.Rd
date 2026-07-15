@@ -64,8 +64,10 @@ border color (default color is \code{"black"}).}
 Default is \code{0.5}.}
 }
 \value{
-A ggplot object or a grid arrangement of two ggplot objects
-(original and clustered plots side by side).
+When both \code{Original} and \code{Clustered} are \code{TRUE},
+a gtable (grid arrangement of the two panels side by side, drawn as a
+side effect). Otherwise, a list containing the single requested
+ggplot object.
 }
 \description{
 This function takes exametrika output as input and generates

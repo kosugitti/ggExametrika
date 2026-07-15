@@ -63,9 +63,7 @@ plotICC_gg <- function(data,
                        linetype = "solid",
                        show_legend = FALSE,
                        legend_position = "right") {
-  if (!all(class(data) %in% c("exametrika", "IRT"))) {
-    stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
-  }
+  .validate_exametrika(data, "IRT")
 
   Item_Characteristic_function <- function(x, slope = 1, location, lowerAsym = 0, upperAsym = 1) {
     lowerAsym + ((upperAsym - lowerAsym) / (1 + exp(-1 * slope * (x - location))))
@@ -97,21 +95,15 @@ plotICC_gg <- function(data,
   for (idx in seq_along(items)) {
     i <- items[idx]
     args <- c(slope = data$params$slope[i], location = data$params$location[i])
-    if (n_params == 3) {
+    if (n_params >= 3) {
       args["lowerAsym"] <- data$params$lowerAsym[i]
     }
-    if (n_params == 4) {
+    if (n_params >= 4) {
       args["upperAsym"] <- data$params$upperAsym[i]
     }
 
     # Title setup
-    if (is.logical(title) && title) {
-      plot_title <- paste0("Item Characteristic Curve, ", rownames(data$params)[i])
-    } else if (is.logical(title) && !title) {
-      plot_title <- NULL
-    } else {
-      plot_title <- title
-    }
+    plot_title <- .resolve_title(title, paste0("Item Characteristic Curve, ", rownames(data$params)[i]))
 
     p <- ggplot(data = data.frame(x = xvariable)) +
       xlim(xvariable[1], xvariable[2]) +
@@ -127,11 +119,7 @@ plotICC_gg <- function(data,
       )
 
     # Legend control
-    if (!show_legend) {
-      p <- p + theme(legend.position = "none")
-    } else {
-      p <- p + theme(legend.position = legend_position)
-    }
+    p <- .apply_legend(p, show_legend, legend_position)
 
     plots[[idx]] <- p
   }
@@ -300,23 +288,12 @@ plotIIC_gg <- function(data,
                        show_legend = FALSE,
                        legend_position = "right") {
   # Check model type
-  is_IRT <- all(class(data) %in% c("exametrika", "IRT"))
-  is_GRM <- all(class(data) %in% c("exametrika", "GRM"))
-
-  if (!is_IRT && !is_GRM) {
-    stop("Invalid input. The variable must be from exametrika output (IRT or GRM).")
-  }
+  model_class <- .validate_exametrika(data, c("IRT", "GRM"))
+  is_IRT <- model_class == "IRT"
+  is_GRM <- model_class == "GRM"
 
   # === IRT Model ===
   if (is_IRT) {
-    ItemInformationFunc <- function(x, a = 1, b, c = 0, d = 1) {
-      numerator <- a^2 * (LogisticModel(x, a, b, c, d) - c) * (d - LogisticModel(x, a, b, c, d)) *
-        (LogisticModel(x, a, b, c, d) * (c + d - LogisticModel(x, a, b, c, d)) - c * d)
-      denominator <- (d - c)^2 * LogisticModel(x, a, b, c, d) * (1 - LogisticModel(x, a, b, c, d))
-      tmp <- numerator / denominator
-      return(tmp)
-    }
-
     n_params <- ncol(data$params)
     if (n_params < 2 || n_params > 4) {
       stop("Invalid number of parameters.")
@@ -342,21 +319,15 @@ plotIIC_gg <- function(data,
     for (idx in seq_along(items)) {
       i <- items[idx]
       args <- c(a = data$params$slope[i], b = data$params$location[i])
-      if (n_params == 3) {
+      if (n_params >= 3) {
         args["c"] <- data$params$lowerAsym[i]
       }
-      if (n_params == 4) {
+      if (n_params >= 4) {
         args["d"] <- data$params$upperAsym[i]
       }
 
       # Title setup
-      if (is.logical(title) && title) {
-        plot_title <- paste0("Item Information Curve, ", rownames(data$params)[i])
-      } else if (is.logical(title) && !title) {
-        plot_title <- NULL
-      } else {
-        plot_title <- title
-      }
+      plot_title <- .resolve_title(title, paste0("Item Information Curve, ", rownames(data$params)[i]))
 
       p <- ggplot(data = data.frame(x = xvariable)) +
         xlim(xvariable[1], xvariable[2]) +
@@ -368,11 +339,7 @@ plotIIC_gg <- function(data,
         )
 
       # Legend control (generally not needed for IRT)
-      if (!show_legend) {
-        p <- p + theme(legend.position = "none")
-      } else {
-        p <- p + theme(legend.position = legend_position)
-      }
+      p <- .apply_legend(p, show_legend, legend_position)
 
       plots[[idx]] <- p
     }
@@ -419,13 +386,7 @@ plotIIC_gg <- function(data,
       )
 
       # Title setup
-      if (is.logical(title) && title) {
-        plot_title <- paste("Item Information Curve,", rownames(params)[i])
-      } else if (is.logical(title) && !title) {
-        plot_title <- NULL
-      } else {
-        plot_title <- title
-      }
+      plot_title <- .resolve_title(title, paste("Item Information Curve,", rownames(params)[i]))
 
       p <- ggplot(plot_data, aes(x = theta, y = information)) +
         geom_line(color = use_color, linetype = linetype) +
@@ -436,11 +397,7 @@ plotIIC_gg <- function(data,
         )
 
       # Legend control
-      if (!show_legend) {
-        p <- p + theme(legend.position = "none")
-      } else {
-        p <- p + theme(legend.position = legend_position)
-      }
+      p <- .apply_legend(p, show_legend, legend_position)
 
       plots[[idx]] <- p
     }
@@ -516,12 +473,9 @@ plotTIC_gg <- function(data,
                        show_legend = FALSE,
                        legend_position = "right") {
   # Check model type
-  is_IRT <- all(class(data) %in% c("exametrika", "IRT"))
-  is_GRM <- all(class(data) %in% c("exametrika", "GRM"))
-
-  if (!is_IRT && !is_GRM) {
-    stop("Invalid input. The variable must be from exametrika output (IRT or GRM).")
-  }
+  model_class <- .validate_exametrika(data, c("IRT", "GRM"))
+  is_IRT <- model_class == "IRT"
+  is_GRM <- model_class == "GRM"
 
   # Color setup
   if (is.null(colors)) {
@@ -531,13 +485,7 @@ plotTIC_gg <- function(data,
   }
 
   # Title setup
-  if (is.logical(title) && title) {
-    plot_title <- "Test Information Curve"
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
+  plot_title <- .resolve_title(title, "Test Information Curve")
 
   # === IRT Model ===
   if (is_IRT) {
@@ -554,8 +502,8 @@ plotTIC_gg <- function(data,
           x,
           data$params[i, 1], # slope
           data$params[i, 2], # location
-          ifelse(is.null(data$params[i, 3]), 0, data$params[i, 3]), # lower
-          ifelse(is.null(data$params[i, 4]), 1, data$params[i, 4]) # upper
+          if (n_params >= 3) data$params[i, 3] else 0, # lower
+          if (n_params >= 4) data$params[i, 4] else 1 # upper
         )
       }
       return(total)
@@ -571,11 +519,7 @@ plotTIC_gg <- function(data,
       )
 
     # Legend control
-    if (!show_legend) {
-      plot <- plot + theme(legend.position = "none")
-    } else {
-      plot <- plot + theme(legend.position = legend_position)
-    }
+    plot <- .apply_legend(plot, show_legend, legend_position)
 
     return(plot)
   }
@@ -616,11 +560,7 @@ plotTIC_gg <- function(data,
       )
 
     # Legend control
-    if (!show_legend) {
-      plot <- plot + theme(legend.position = "none")
-    } else {
-      plot <- plot + theme(legend.position = legend_position)
-    }
+    plot <- .apply_legend(plot, show_legend, legend_position)
 
     return(plot)
   }
@@ -684,9 +624,7 @@ plotTRF_gg <- function(data,
                        linetype = "solid",
                        show_legend = FALSE,
                        legend_position = "right") {
-  if (!all(class(data) %in% c("exametrika", "IRT"))) {
-    stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
-  }
+  .validate_exametrika(data, "IRT")
 
   n_params <- ncol(data$params)
 
@@ -704,13 +642,7 @@ plotTRF_gg <- function(data,
   }
 
   # Title setup
-  if (is.logical(title) && title) {
-    plot_title <- "Test Response Function"
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
+  plot_title <- .resolve_title(title, "Test Response Function")
 
   multi <- function(x) {
     total <- 0
@@ -719,8 +651,8 @@ plotTRF_gg <- function(data,
         x,
         a = data$params[i, 1], # slope
         b = data$params[i, 2], # location
-        c = ifelse(is.null(data$params[i, 3]), 0, data$params[i, 3]), # lower
-        d = ifelse(is.null(data$params[i, 4]), 1, data$params[i, 4]) # upper
+        c = if (n_params >= 3) data$params[i, 3] else 0, # lower
+        d = if (n_params >= 4) data$params[i, 4] else 1 # upper
       )
     }
     return(total)
@@ -737,11 +669,7 @@ plotTRF_gg <- function(data,
     )
 
   # Legend control
-  if (!show_legend) {
-    plot <- plot + theme(legend.position = "none")
-  } else {
-    plot <- plot + theme(legend.position = legend_position)
-  }
+  plot <- .apply_legend(plot, show_legend, legend_position)
 
   return(plot)
 }
@@ -804,9 +732,7 @@ plotICC_overlay_gg <- function(data,
                                linetype = "solid",
                                show_legend = TRUE,
                                legend_position = "right") {
-  if (!all(class(data) %in% c("exametrika", "IRT"))) {
-    stop("Invalid input. The variable must be from exametrika output or an output from IRT.")
-  }
+  .validate_exametrika(data, "IRT")
 
   n_params <- ncol(data$params)
 
@@ -868,13 +794,7 @@ plotICC_overlay_gg <- function(data,
   }
 
   # Set title
-  if (is.logical(title) && title) {
-    plot_title <- "Item Characteristic Curves"
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
+  plot_title <- .resolve_title(title, "Item Characteristic Curves")
 
   # Create plot
   p <- ggplot(plot_data, aes(x = theta, y = probability, color = item, group = item)) +
@@ -889,11 +809,7 @@ plotICC_overlay_gg <- function(data,
     scale_color_manual(values = colors)
 
   # Legend control
-  if (!show_legend) {
-    p <- p + theme(legend.position = "none")
-  } else {
-    p <- p + theme(legend.position = legend_position)
-  }
+  p <- .apply_legend(p, show_legend, legend_position)
 
   return(p)
 }
@@ -966,12 +882,9 @@ plotIIC_overlay_gg <- function(data,
                                show_legend = TRUE,
                                legend_position = "right") {
   # Check model type
-  is_IRT <- all(class(data) %in% c("exametrika", "IRT"))
-  is_GRM <- all(class(data) %in% c("exametrika", "GRM"))
-
-  if (!is_IRT && !is_GRM) {
-    stop("Invalid input. The variable must be from exametrika output (IRT or GRM).")
-  }
+  model_class <- .validate_exametrika(data, c("IRT", "GRM"))
+  is_IRT <- model_class == "IRT"
+  is_GRM <- model_class == "GRM"
 
   # Generate theta (ability) values
   thetas <- seq(xvariable[1], xvariable[2], length.out = 501)
@@ -1080,13 +993,7 @@ plotIIC_overlay_gg <- function(data,
   }
 
   # Set title
-  if (is.logical(title) && title) {
-    plot_title <- "Item Information Curves"
-  } else if (is.logical(title) && !title) {
-    plot_title <- NULL
-  } else {
-    plot_title <- title
-  }
+  plot_title <- .resolve_title(title, "Item Information Curves")
 
   # Create plot
   p <- ggplot(plot_data, aes(x = theta, y = information, color = item, group = item)) +
@@ -1100,11 +1007,7 @@ plotIIC_overlay_gg <- function(data,
     scale_color_manual(values = colors)
 
   # Legend control
-  if (!show_legend) {
-    p <- p + theme(legend.position = "none")
-  } else {
-    p <- p + theme(legend.position = legend_position)
-  }
+  p <- .apply_legend(p, show_legend, legend_position)
 
   return(p)
 }

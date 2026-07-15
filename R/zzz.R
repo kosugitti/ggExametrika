@@ -5,8 +5,8 @@ utils::globalVariables(c(
   "value",
   # plotCMP_gg / plotRMP_gg
   "Membership",
-  # plotCRV_gg
-  "field", "class_num",
+  # .plot_reference_vector (plotCRV_gg / plotRRV_gg)
+  "field", "series", "series_num",
   # plotFCBR_gg
   "ClassRank", "Probability", "Boundary", "Field",
   # plotFCRP_gg
@@ -28,8 +28,6 @@ utils::globalVariables(c(
   "LC", "Num",
   # plotLDPSR_gg
   "item_pos", "class_type", "label",
-  # plotRRV_gg
-  "rank_num",
   # plotScoreField_gg
   "LatentLabel", "ExpectedScore",
   # plotScoreFreq_gg / plotScoreRank_gg
@@ -40,6 +38,6 @@ utils::globalVariables(c(
 
 #' @importFrom stats ave median setNames
 #' @importFrom utils tail
-#' @importFrom ggplot2 geom_segment sec_axis scale_fill_gradientn scale_x_reverse
+#' @importFrom ggplot2 geom_segment sec_axis scale_fill_gradientn
 #' @importFrom tidyr all_of
 NULL

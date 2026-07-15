@@ -77,9 +77,7 @@ plotLDPSR_gg <- function(data,
                          show_legend = TRUE,
                          legend_position = "right") {
   # Input validation: BINET only
-  if (!inherits(data, "exametrika") || !any(class(data) %in% "BINET")) {
-    stop("Invalid input. The variable must be from exametrika BINET output.")
-  }
+  .validate_exametrika(data, "BINET")
 
   if (is.null(data$params) || length(data$params) == 0) {
     stop("No LDPSR parameters found in the BINET output.")
@@ -181,11 +179,7 @@ plotLDPSR_gg <- function(data,
       )
 
     # Legend control (single conditional block for consistency)
-    if (show_legend) {
-      p <- p + theme(legend.position = legend_position)
-    } else {
-      p <- p + theme(legend.position = "none")
-    }
+    p <- .apply_legend(p, show_legend, legend_position)
 
     plots[[i]] <- p
   }

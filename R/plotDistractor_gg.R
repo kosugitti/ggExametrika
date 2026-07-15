@@ -79,14 +79,18 @@ plotDistractor_gg <- function(data,
                               show_legend = TRUE,
                               legend_position = "right") {
   # Input validation
-  if (!inherits(data, "exametrika") || !inherits(data, "DistractorAnalysis")) {
-    stop("Invalid input. The data must be from exametrika::DistractorAnalysis().")
-  }
+  .validate_exametrika(data, "DistractorAnalysis")
 
   # Default: all items / all ranks
 
   if (is.null(items)) items <- seq_len(data$nitems)
   if (is.null(ranks)) ranks <- seq_len(data$n_rank)
+  if (any(items < 1 | items > data$nitems)) {
+    stop("'items' must contain values between 1 and ", data$nitems, call. = FALSE)
+  }
+  if (any(ranks < 1 | ranks > data$n_rank)) {
+    stop("'ranks' must contain values between 1 and ", data$n_rank, call. = FALSE)
+  }
 
   # Determine x-axis label
   msg <- if (!is.null(data$msg)) data$msg else "Rank"
@@ -102,7 +106,6 @@ plotDistractor_gg <- function(data,
     row_sums <- rowSums(freq)
     row_sums[row_sums == 0] <- 1
     props <- freq / row_sums
-    props[is.nan(props)] <- 0
 
     # Correct answer for this item
     ca <- data$CA[j]
@@ -122,7 +125,9 @@ plotDistractor_gg <- function(data,
     # Color setup
     if (is.null(colors)) {
       fill_colors <- rep("gray70", data$maxQ)
-      fill_colors[ca] <- "steelblue"
+      if (!is.na(ca)) {
+        fill_colors[ca] <- "steelblue"
+      }
       names(fill_colors) <- cat_labels
     } else {
       fill_colors <- rep_len(colors, data$maxQ)
@@ -158,11 +163,7 @@ plotDistractor_gg <- function(data,
       )
 
     # Legend control
-    if (!show_legend) {
-      p <- p + theme(legend.position = "none")
-    } else {
-      p <- p + theme(legend.position = legend_position)
-    }
+    p <- .apply_legend(p, show_legend, legend_position)
 
     plots[[item_label]] <- p
   }

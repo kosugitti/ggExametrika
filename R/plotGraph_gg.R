@@ -109,7 +109,7 @@
 #' plotGraph_gg(result, title = "My Network Model")[[1]]
 #'
 #' @importFrom ggraph ggraph geom_edge_link geom_node_point geom_node_text
-#' @importFrom ggplot2 ggplot aes theme_void ggtitle scale_fill_manual guide_legend
+#' @importFrom ggplot2 ggplot aes theme_void ggtitle scale_fill_manual
 #' @importFrom igraph V E vcount ecount
 #' @export
 
@@ -124,10 +124,7 @@ plotGraph_gg <- function(data,
                          show_legend = FALSE,
                          legend_position = "right") {
   # Check class
-  model_class <- class(data)[2]
-  if (!model_class %in% c("BNM", "LDLRA", "LDB", "BINET")) {
-    stop("This function supports BNM, LDLRA, LDB, and BINET models only.")
-  }
+  model_class <- .validate_exametrika(data, c("BNM", "LDLRA", "LDB", "BINET"))
 
   # All four DAG models are implemented
   # Development order was: BNM -> LDLRA -> LDB -> BINET
@@ -174,7 +171,7 @@ plotGraph_gg <- function(data,
   # LDLRA Implementation
   # ===================================================================
   if (model_class == "LDLRA") {
-    n_ranks <- data$Nclass
+    n_ranks <- .first_non_null(data$n_class, data$Nclass)
     plot_list <- vector("list", n_ranks)
 
     for (i in seq_len(n_ranks)) {
@@ -233,7 +230,7 @@ plotGraph_gg <- function(data,
   # LDB Implementation
   # ===================================================================
   if (model_class == "LDB") {
-    n_ranks <- data$Nrank
+    n_ranks <- .first_non_null(data$n_rank, data$Nrank)
     plot_list <- vector("list", n_ranks)
 
     # LDB uses Field nodes (green diamonds) instead of Item nodes (purple circles)
