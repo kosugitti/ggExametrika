@@ -15,3 +15,7 @@ vignettes/articles/*_cache/
 *.tar.gz
 CRAN-SUBMISSION
 .positai
+
+# private working files — pkgdownが公開サイトへレンダリングするのを防ぐため追跡外にする
+CLAUDE.md
+log.md
