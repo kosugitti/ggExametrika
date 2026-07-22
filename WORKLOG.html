@@ -983,19 +983,6 @@
 <li>依存チェーン exametrika(1.14.0)→ggExametrika(1.1.1) は両方 CRAN 上で揃った。shinyExametrika は CRAN 登録不要方針。</li>
 <li>引き継ぎ: 次は親 exametrika 側の次リリース（Title 変更 issue#32・v2.0.0 多値BNM）に伴う ggExametrika 連動対応を見込む。</li>
 </ul></div>
-<div class="section level2">
-<h2 id="claudemdからの退避-2026-07-17">CLAUDE.mdからの退避 (2026-07-17)<a class="anchor" aria-label="anchor" href="#claudemd%E3%81%8B%E3%82%89%E3%81%AE%E9%80%80%E9%81%BF-2026-07-17"></a></h2>
-<p>ホーム索引(~/Dropbox/CLAUDE.md)のステータスセル圧縮時の退避(退避時点の全文):</p>
-<p>CRAN版v1.1.1。開発版v1.1.2=全体監査完了でリリース可能状態(高3件=4PL lowerAsym/GRM情報量/ランク軸反転撤去＋中バグ群＋検証統一＋重複4ペア共通化、634テスト・check 0/0/0、commit&amp;push済)。親exametrika v1.16.0(8/15目処)受理後に連動提出。詳細→Git/ggExametrika/{CLAUDE,WORKLOG}.md</p>
-</div>
-<div class="section level2">
-<h2 id="id_2026-07-22-pkgdownがprivateファイルを公開していた問題の修正">2026-07-22 pkgdownがprivateファイルを公開していた問題の修正<a class="anchor" aria-label="anchor" href="#id_2026-07-22-pkgdown%E3%81%8Cprivate%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%85%AC%E9%96%8B%E3%81%97%E3%81%A6%E3%81%84%E3%81%9F%E5%95%8F%E9%A1%8C%E3%81%AE%E4%BF%AE%E6%AD%A3"></a></h2>
-<ul><li>発覚: pkgdown 2.2.0 の <code>package_mds()</code> はパッケージルートの全 <code>*.md</code> を機械的にサイト化する実装（handled/no_render の固定リスト以外は全部）。<code>_pkgdown.yml</code> に除外オプションはなく <code>.Rbuildignore</code> も見ない。<code>CLAUDE.md</code>・<code>log.md</code> がリポジトリに commit されていたため CI の pkgdown が毎回レンダリングし、<code>https://kosugitti.github.io/ggExametrika/CLAUDE.html</code> が HTTP 200 で公開されていた（private な作業指示・開発ログの流出）。</li>
-<li>恒久除外: <code>git rm --cached CLAUDE.md log.md</code>（ローカル/Dropbox 上のファイルは残す）＋ <code>.gitignore</code> に両者を追加。commit <code>c334d35</code>（WORKLOG.md の無関係変更は巻き込まずスコープ限定）→ main に push。以後の CI ビルドで生成されなくなる。</li>
-<li>既出分の撤去: デプロイは <code>clean:false</code> で自動削除されないため、gh-pages ブランチから <code>CLAUDE.{html,md}</code>・<code>log.{html,md}</code> を大文字小文字の両 variant（macOS は case-insensitive で uppercase 側が <code>git rm --cached -f</code> 必要）計6件削除。commit <code>6fdf8ad</code> → gh-pages に push。</li>
-<li>確認: ライブの <code>CLAUDE.html</code>/<code>claude.html</code>/<code>log.html</code> がいずれも 404 になったことを確認（GH Pages 反映は約1分）。</li>
-<li>教訓: pkgdown パッケージでは private な <code>.md</code>（CLAUDE.md 等）をルートに commit しない。追跡外＋gitignore が唯一確実な除外。exametrika 他ファミリーの pkgdown サイトも同様の露出がないか要点検。</li>
-</ul></div>
 </div>
 
 
