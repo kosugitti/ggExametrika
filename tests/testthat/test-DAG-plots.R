@@ -58,7 +58,7 @@ test_that("plotGraph_gg returns list of ggplots for LDLRA", {
 
   result <- plotGraph_gg(fixture_LDLRA)
   expect_type(result, "list")
-  expect_length(result, fixture_LDLRA$Nclass)
+  expect_length(result, fixture_LDLRA$n_class)
   for (p in result) {
     expect_s3_class(p, "gg")
   }
@@ -81,7 +81,7 @@ test_that("plotGraph_gg LDLRA: title common option works", {
   expect_s3_class(plots_single[[1]], "gg")
 
   # Character vector: each rank gets own title
-  n <- fixture_LDLRA$Nclass
+  n <- fixture_LDLRA$n_class
   titles <- paste0("Rank-", seq_len(n))
   plots_vec <- plotGraph_gg(fixture_LDLRA, title = titles)
   expect_length(plots_vec, n)
@@ -139,7 +139,7 @@ test_that("plotGraph_gg returns list of ggplots for LDB", {
   skip_if_not_installed("exametrika")
   skip_if(is.null(fixture_LDB), "LDB fixture not available")
 
-  n_ranks <- if (!is.null(fixture_LDB$Nrank)) fixture_LDB$Nrank else fixture_LDB$Nclass
+  n_ranks <- if (!is.null(fixture_LDB$n_rank)) fixture_LDB$n_rank else fixture_LDB$n_class
   result <- plotGraph_gg(fixture_LDB)
   expect_type(result, "list")
   expect_length(result, n_ranks)
