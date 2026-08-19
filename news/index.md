@@ -150,7 +150,7 @@ Changes.
   default is now simply `FALSE`).
 - `isTRUE(Num_Students)` instead of `Num_Students == T`; bare
   `geom_text_repel()` unified to
-  [`ggrepel::geom_text_repel()`](https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html);
+  [`ggrepel::geom_text_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.html);
   loop variable `c` renamed to avoid shadowing
   [`base::c`](https://rdrr.io/r/base/c.html).
 - Removed unused `@importFrom` entries (`guides`, `guide_legend`,
