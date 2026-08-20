@@ -111,6 +111,17 @@ Changes.
 
 ### Consistency / Internal Refactoring
 
+- `README.Rmd` is the source of truth again and `README.md` is generated
+  from it, matching the parent exametrika package. Since 2026-02-17 the
+  convention here had been inverted: README.md was hand-maintained while
+  README.Rmd survived as a stub whose only content was a comment asking
+  not to knit it – a stub that still rendered cleanly, so
+  `build_readme()` would silently overwrite the real README and exit
+  successfully. The conversion was verified word-for-word (856 tokens,
+  none lost or added) and the round trip is idempotent.
+  Development-only; no effect on the installed package, as README.Rmd is
+  in `.Rbuildignore`.
+
 - Drop the PascalCase field-name fallbacks (`Nclass`, `Nfield`,
   `Nrank`). They were removed from exametrika in 2.0.0 and had been
   deprecated there since 1.8.0, so no version this package supports
