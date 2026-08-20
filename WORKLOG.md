@@ -1146,3 +1146,78 @@ CRAN版v1.1.1。開発版v1.1.2=全体監査完了でリリース可能状態(�
 - 既出分の撤去: デプロイは `clean:false` で自動削除されないため、gh-pages ブランチから `CLAUDE.{html,md}`・`log.{html,md}` を大文字小文字の両 variant（macOS は case-insensitive で uppercase 側が `git rm --cached -f` 必要）計6件削除。commit `6fdf8ad` → gh-pages に push。
 - 確認: ライブの `CLAUDE.html`/`claude.html`/`log.html` がいずれも 404 になったことを確認（GH Pages 反映は約1分）。
 - 教訓: pkgdown パッケージでは private な `.md`（CLAUDE.md 等）をルートに commit しない。追跡外＋gitignore が唯一確実な除外。exametrika 他ファミリーの pkgdown サイトも同様の露出がないか要点検。
+
+
+## 2026-08-20 exametrika 2.0.0 対応・リリース準備・検査時間の是正
+
+### 旧フィールド名フォールバックの除去(`3ec24c3`)
+
+exametrika 2.0.0 が `Nclass` / `Nfield` / `Nrank` を削除。本パッケージは
+`exametrika (>= 1.11.0)` を要求し，新名は 1.8.0 から存在するので，
+**フォールバック引数はどのサポート版でも NULL にしかならない死にコード**だった。
+7 箇所を除去。
+
+**`n_class` と `n_rank` の併記は残した**。これは旧名対応ではなく，順序なしモデルと
+順序ありモデルで報告するフィールドが違うという実質的な分岐。機械的に消すと壊れる。
+
+作業前に**ローカルの exametrika が旧ビルドだったことに気づいて入れ替えた**
+(`Nclass` が返っていた)。そのままだと判断を誤るところだった。
+
+### **README.Rmd の罠と，親への追随(`78840b5`)**
+
+`build_readme()` を回したら **README.md が 303 行 → 15 行になった**。即 revert。
+
+原因: 2026-02-17 の `cfe4e29` 以降，このリポジトリだけ**R の規約が逆転**していた。
+README.md を手書き正本にし，README.Rmd を 7 行の抜け殻にして
+`<!-- Do not knit this file. -->` と書き残していた。危険が三重:
+
+1. 警告文が**無視すると壊れるファイル自身**の中にある。`build_readme()` を呼ぶ人は
+   そのファイルを開かない。HTML コメントなので knitr も読まない。
+2. 抜け殻が**正しく動く Rmd** のままなので knit は成功し，**終了コード 0**。
+   git diff を見るまで気づけない。
+3. **親 exametrika とは規約が真逆**。同じ日に両方を触ると手が裏目に出る。
+
+対処: README.md の内容を README.Rmd へ全量移送し，**Rmd を正本に戻した**
+(`eval=FALSE`・既存の `man/figures/README-*.png` は実体参照のまま)。
+**語単位で検証: 856 語が完全一致・欠落も増加もゼロ**，2 回目の build_readme で
+差分なし(冪等)。`tools/build_pkg.R` に `build_readme()` を復帰，CLAUDE.md に経緯つきで
+規約を明記。
+
+### リリース準備(`1addf83`, `5a55982`)
+
+- `cran-comments.md` が**1.1.1 の内容のまま**だった → 1.1.2 用に全面刷新。
+- `tools/build_pkg.R` を exametrika と同じ **git archive 方式**へ(dirty tree で停止)。
+  理由は exametrika `350fd7c` と同じ Dropbox 復活事故。
+- `.Rbuildignore` に `^tools$` と `^README_files$` を追加。
+
+### **検査時間 686 秒 → 是正(`742fd6b`, `052d816`)**
+
+win-builder が **686 秒(上限 600)** と**例 28 秒の NOTE** を返した。そのまま出していたら
+弾かれていた。exametrika 1.13.0 を沈めたのと同じ失敗。
+
+原因は**テストの数ではなくフィクスチャの大きさ**:
+`plotRMP_gg()` / `plotCMP_gg()` は**受験者 1 人につき 1 枚**の ggplot を作る。
+LRAordinal / LRArated のフィクスチャが J15S3810 の**全 3,810 人**で組まれていたため，
+呼ぶたび 3,810 枚描いていた(tests 484 秒 = 全体の 71%)。
+
+- フィクスチャを 200 行(LDLRA は 300 行)へ。主張は全て構造的で人数に依存しない。
+- 例の NOTE は描画でなく `LRA(J15S3810, ...)` の適合 → 4 例を **J5S1000** へ。
+  **`\donttest{}` は効かない**(CRAN は incoming でそれも走らせる。v1.15.0 の教訓)。
+
+手元 72 秒 → **38 秒**，as-cran の例 26 秒で **NOTE 消滅**。カバレッジは不変(PASS 648)。
+
+### **黙って握りつぶされる設計に歯止め(`test-fixtures.R` 新設)**
+
+最初 120 行まで削ったとき，J15S3810 の一部カテゴリが未観測になり
+(メタデータの `categories` は元のまま残るので列数が食い違う)フィットが失敗。
+ところが**フィクスチャは `tryCatch(→NULL)` + `skip_if()` で守られている**ため，
+**15 件のテストが静かに消えたまま「FAIL 0」と報告された**。
+exametrika が入っている環境では全フィクスチャが組めたことを検査するテストを追加し，
+この失敗が見えるようにした。150 行で通り，余裕をみて 200 行を採用。
+
+### 次
+
+- **win-devel の再実測待ち**(8/20 15:49 頃着弾予定)。600 秒を十分下回るか確認する。
+- **提出は exametrika 2.0.0 が CRAN に載ってから**。cran-comments に
+  「2.0.0 で削除された名前への対応」と書く以上，その 2.0.0 が公開済みである方が筋が通る。
+  Suggests 依存なので技術的な lockstep は不要で，純粋に説明の一貫性の問題。
