@@ -41,9 +41,19 @@ path was unreachable. The suite passes against both the CRAN version and
 
 All Imports packages are available on CRAN.
 
+## Check time
+
+The first win-builder run of this release came in at 686 s, over CRAN's
+600 s Windows limit, and raised a NOTE for a 28 s example. Both were
+fixture size rather than test count: two plotting functions emit one
+ggplot per respondent and their fixtures were fitted on all 3,810
+respondents of `J15S3810`. The fixtures now use row subsets and the
+affected examples fit `J5S1000`; the assertions are structural and
+unchanged. Locally the suite runs in 39 s and the examples in 26 s.
+
 ## Test results
 
-0 failures | 0 skips | 647 passes
+0 failures | 0 skips | 648 passes
 
 One warning is emitted during the tests by exametrika's `BINET()` when it
 reports that an edge exceeds the maximum number of fields on the small
