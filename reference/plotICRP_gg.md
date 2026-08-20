@@ -96,7 +96,10 @@ base plots of the parent exametrika package.
 ``` r
 library(exametrika)
 # \donttest{
-result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
+#> 
+#> Reached the maximum number of iterations.
+#> Warning: Algorithm may not have converged. Interpret results with caution.
 
 # Plot first 4 items
 plot <- plotICRP_gg(result, items = 1:4)

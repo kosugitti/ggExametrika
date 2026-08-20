@@ -111,6 +111,40 @@ Changes.
 
 ### Consistency / Internal Refactoring
 
+- Cut the CRAN check time. win-builder measured 686 s against CRAN’s 600
+  s Windows limit, with the tests alone accounting for 484 s (71%). The
+  cause was fixture size rather than the number of tests:
+  [`plotRMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRMP_gg.md)
+  /
+  [`plotCMP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCMP_gg.md)
+  draw one ggplot per respondent, so the LRAordinal and LRArated
+  fixtures built on 3,810 respondents were producing 3,810 plots on
+  every call. Those fixtures now use a 200-row subset and the LDLRA
+  fixture a 300-row one; the assertions are structural and do not depend
+  on the respondent count. The suite runs in 38 s locally, down from 72
+  s, with the same coverage.
+
+- The examples for
+  [`plotScoreRank_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreRank_gg.md),
+  [`plotScoreFreq_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreFreq_gg.md),
+  [`plotICRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICRP_gg.md)
+  and
+  [`plotICBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotICBR_gg.md)
+  fit an ordinal LRA on `J5S1000` instead of `J15S3810`. The fit, not
+  the plotting, was the cost: 28 s elapsed for
+  [`plotScoreRank_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreRank_gg.md)
+  on Windows, which raised a NOTE for exceeding the 10 s example limit.
+  (`\donttest{}` would not have helped; CRAN runs those on the incoming
+  check.)
+
+- New `test-fixtures.R` asserts that every fixture builds when
+  exametrika is installed. The fixtures are guarded by
+  `tryCatch(..., NULL)` plus `skip_if()` so the suite survives without
+  the suggested package, but that also meant a broken fixture disabled
+  its tests silently – during this release two fixtures were briefly
+  over-trimmed and 15 tests vanished while the suite still reported no
+  failures.
+
 - `README.Rmd` is the source of truth again and `README.md` is generated
   from it, matching the parent exametrika package. Since 2026-02-17 the
   convention here had been inverted: README.md was hand-maintained while
