@@ -111,6 +111,15 @@ Changes.
 
 ### Consistency / Internal Refactoring
 
+- Drop the PascalCase field-name fallbacks (`Nclass`, `Nfield`,
+  `Nrank`). They were removed from exametrika in 2.0.0 and had been
+  deprecated there since 1.8.0, so no version this package supports
+  (`>= 1.11.0`) could reach them. Where the two names remain consulted
+  in sequence (`n_class` then `n_rank`) that is not a legacy fallback
+  but a real distinction: unordered models report the former and ranked
+  ones the latter. Verified against exametrika 2.0.0 with the suite
+  unchanged.
+
 - New internal helpers in `R/utils-internal.R`:
   [`.validate_exametrika()`](https://kosugitti.github.io/ggExametrika/reference/dot-validate_exametrika.md)
   (single input-validation idiom; the previous code mixed four idioms,
@@ -123,6 +132,7 @@ Changes.
   and
   [`.axis_scaler()`](https://kosugitti.github.io/ggExametrika/reference/dot-axis_scaler.md)
   (previously copy-pasted three times in `IRPtoCMPRMP.R`).
+
 - Consolidated near-identical function pairs into shared internal
   workers:
   [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)/[`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md)
@@ -137,24 +147,29 @@ Changes.
   Behavior (including redirect warnings) is unchanged;
   `plotCRV_gg`/`plotRRV_gg` keep the historical `class`/`rank` columns
   in `p$data` for backward compatibility.
+
 - Removed a local re-definition of
   [`ItemInformationFunc()`](https://kosugitti.github.io/ggExametrika/reference/ItemInformationFunc.md)
   inside
   [`plotIIC_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotIIC_gg.md)
   that shadowed the exported function.
+
 - Removed dead code: unreachable
   [`is.nan()`](https://rdrr.io/r/base/is.finite.html) cleanup in
   [`plotDistractor_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotDistractor_gg.md),
   always-true `!is.null(colors)`/`linetype` guards after unconditional
   defaults, and the `show_labels = NULL` to `FALSE` conversion (the
   default is now simply `FALSE`).
+
 - `isTRUE(Num_Students)` instead of `Num_Students == T`; bare
   `geom_text_repel()` unified to
   [`ggrepel::geom_text_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.html);
   loop variable `c` renamed to avoid shadowing
   [`base::c`](https://rdrr.io/r/base/c.html).
+
 - Removed unused `@importFrom` entries (`guides`, `guide_legend`,
   `scale_x_reverse`).
+
 - Documentation fixes: `linetype` in
   [`plotCRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotCRV_gg.md)/[`plotRRV_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRRV_gg.md)
   is documented as a scalar (the vector form promised before was never
@@ -163,6 +178,7 @@ Changes.
   custom title is documented as applying to every item’s plot, and the
   ICBR boundary list no longer describes a nonexistent “Line K … always
   1.0” line.
+
 - `DESCRIPTION`: `Suggests: exametrika (>= 1.11.0)` (the test fixtures
   require the rated/ordinal biclustering outputs introduced there).
 
