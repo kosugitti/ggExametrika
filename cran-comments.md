@@ -2,35 +2,48 @@
 
 0 errors | 0 warnings | 0 notes
 
-## Test results
-
-0 failures | 1 warning | 0 skips | 581 passes
-
-The 1 warning is from exametrika's internal `stanine()` function when
-processing small synthetic test data, not from ggExametrika code.
-
-## Update (v1.1.0 -> v1.1.1)
-
-This is an update to the CRAN-published v1.1.0. Changes in this version:
-
-* `plotArray_gg()` gains opt-in `border` and `border_linewidth` arguments
-  to draw a rectangular panel border around the original and clustered
-  panels. The default (`border = FALSE`) preserves the v1.1.0 appearance.
-* Rename the misspelled `Clusterd*` arguments and labels in
-  `plotArray_gg()` to the correct `Clustered*` spelling
-  (`Clusterd` -> `Clustered`, etc.). Code passing these by position is
-  unaffected; code naming them must be updated.
-* Fix a value/label ordering bug in `plotCRV_gg()` and `plotRRV_gg()`.
-
 ## Test environments
 
-* local macOS Tahoe 26 (Apple Silicon, aarch64-apple-darwin25), R 4.6.0
-* GitHub Actions: macOS-latest (release), windows-latest (release), ubuntu-latest (release, devel)
-* R-hub: linux (R-devel), macos-arm64 (R-devel), windows (R-devel)
+* local macOS (aarch64-apple-darwin25.0.0), R 4.6.1: OK
+* GitHub Actions: ubuntu-latest (R-devel, R-release), macOS-latest
+  (R-release), windows-latest (R-release)
+* R-hub v2: linux, macos-arm64, windows (R-devel)
+* win-builder: R-devel
+
+## Update (v1.1.1 -> v1.1.2)
+
+A package-wide audit release. No exported function signature changes.
+
+### Bug fixes (high severity)
+
+* `plotICC_gg()` / `plotIIC_gg()` silently dropped the `lowerAsym`
+  parameter for 4PL models, so a 4PL curve was drawn with a lower
+  asymptote of 0. The `plot*_overlay_gg()` variants were already correct,
+  so the single and overlay versions of the same item disagreed.
+* The GRM item information formula in `ItemInformationFunc_GRM()` did not
+  match Samejima (1969); it is corrected and cross-checked against
+  numerical differentiation of the category response functions.
+
+The remaining changes are robustness fixes, argument validation made
+consistent across the plotting functions, and internal refactoring, all
+listed in NEWS.md.
 
 ## Dependencies
 
-* exametrika (in Suggests) is now published on CRAN at v1.14.0, so its
-  binary is available on all R-hub / win-builder platforms. This resolves
-  the Windows binary-availability note seen during the v1.1.0 submission.
-* All Imports packages are available on CRAN.
+`exametrika` is in Suggests. This release drops the PascalCase field-name
+fallbacks (`Nclass`, `Nfield`, `Nrank`) that exametrika deprecated in
+1.8.0 and removed in 2.0.0. The package declares `exametrika (>= 1.11.0)`,
+so every supported version reports the snake_case names and the removed
+path was unreachable. The suite passes against both the CRAN version and
+2.0.0.
+
+All Imports packages are available on CRAN.
+
+## Test results
+
+0 failures | 0 skips | 647 passes
+
+One warning is emitted during the tests by exametrika's `BINET()` when it
+reports that an edge exceeds the maximum number of fields on the small
+synthetic test data. It is a model-side caution from the suggested
+package, not a condition raised by ggExametrika.
