@@ -32,7 +32,8 @@ listed in NEWS.md.
 
 ## Dependencies
 
-`exametrika` is in Suggests. This release drops the PascalCase field-name
+`exametrika` is in Suggests, and version 2.0.0 of it is now on CRAN
+(published 2026-08-20). This release drops the PascalCase field-name
 fallbacks (`Nclass`, `Nfield`, `Nrank`) that exametrika deprecated in
 1.8.0 and removed in 2.0.0. The package declares `exametrika (>= 1.11.0)`,
 so every supported version reports the snake_case names and the removed
@@ -49,7 +50,8 @@ fixture size rather than test count: two plotting functions emit one
 ggplot per respondent and their fixtures were fitted on all 3,810
 respondents of `J15S3810`. The fixtures now use row subsets and the
 affected examples fit `J5S1000`; the assertions are structural and
-unchanged. Locally the suite runs in 39 s and the examples in 26 s.
+unchanged. Locally the suite runs in 39 s and the examples in 26 s, and the re-run on
+win-builder (R-devel, 2026-08-20) came in at 413 s with status OK.
 
 ## Test results
 
