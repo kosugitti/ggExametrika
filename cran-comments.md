@@ -4,7 +4,9 @@
 
 ## Test environments
 
-* local macOS (aarch64-apple-darwin25.0.0), R 4.6.1: OK
+* local macOS (aarch64-apple-darwin25.0.0), R 4.6.1: 0 errors, 0 warnings,
+  1 NOTE (HTML manual validation skipped, an artifact of the local HTML
+  Tidy version; not reported by win-builder, R-hub or CI)
 * GitHub Actions: ubuntu-latest (R-devel, R-release), macOS-latest
   (R-release), windows-latest (R-release)
 * R-hub v2: linux, macos-arm64, windows (R-devel)
