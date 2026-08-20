@@ -39,7 +39,7 @@
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' \donttest{
 #' library(exametrika)
-#' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+#' result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
 #' plot <- plotScoreFreq_gg(result)
 #' plot
 #' }
@@ -276,7 +276,7 @@ plotScoreFreq_gg <- function(data,
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' \donttest{
-#' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+#' result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
 #'
 #' # Plot first 4 items
 #' plot <- plotICBR_gg(result, items = 1:4)
@@ -362,7 +362,7 @@ plotICBR_gg <- function(data,
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
 #' \donttest{
-#' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+#' result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
 #'
 #' # Plot first 4 items
 #' plot <- plotICRP_gg(result, items = 1:4)

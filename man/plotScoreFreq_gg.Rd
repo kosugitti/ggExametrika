@@ -60,7 +60,7 @@ observed score ranges.
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 library(exametrika)
-result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
 plot <- plotScoreFreq_gg(result)
 plot
 }

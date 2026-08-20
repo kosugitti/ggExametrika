@@ -6,6 +6,29 @@
 
 has_exametrika <- requireNamespace("exametrika", quietly = TRUE)
 
+#' 整形済みデータの先頭 n 行を取る
+#'
+#' このパッケージの主張は「ggplot が返るか」「構造が正しいか」であって，
+#' 受験者数には依存しない。一方 plotRMP_gg()/plotCMP_gg() は受験者ごとに
+#' 1 枚の ggplot を作るので，3,810 人のデータを渡すと 3,810 枚を描く。
+#' それが CRAN の Windows 検査を 686 秒(上限 600)に押し上げていた
+#' (2026-08-20 実測。tests が 484 秒で全体の 71%)。行を削るだけなので
+#' クラス・メタデータ(response.type, categories, CA)は保たれる。
+#'
+#' **行を削りすぎると壊れる。**メタデータの `categories` は元データのまま
+#' 残るので，部分集合で未観測になったカテゴリがあると推定側と列数が食い違って
+#' フィットが落ちる(J15S3810 の順序データは 120 行で発生・150 行で解消)。
+#' 余裕をみた行数を使い，下の test-fixtures.R で全フィクスチャが組めたことを
+#' 検査する。
+head_rows_dat <- function(x, n) {
+  n <- min(n, length(x$ID))
+  x$ID <- x$ID[seq_len(n)]
+  for (f in c("Q", "U", "Z")) {
+    if (!is.null(x[[f]])) x[[f]] <- x[[f]][seq_len(n), , drop = FALSE]
+  }
+  return(x)
+}
+
 if (has_exametrika) {
   # ---- IRT fixtures (fast) ----
   fixture_IRT_2PL <- tryCatch(
@@ -73,7 +96,7 @@ if (has_exametrika) {
 
   # ---- LRAordinal fixture ----
   fixture_LRAord <- tryCatch(
-    exametrika::LRA(exametrika::J15S3810,
+    exametrika::LRA(head_rows_dat(exametrika::J15S3810, 200),
       nrank = 3,
       dataType = "ordinal"
     ),
@@ -82,7 +105,7 @@ if (has_exametrika) {
 
   # ---- LRArated fixture ----
   fixture_LRArated <- tryCatch(
-    exametrika::LRA(exametrika::J15S3810,
+    exametrika::LRA(head_rows_dat(exametrika::J15S3810, 200),
       nrank = 3,
       dataType = "rated"
     ),
@@ -98,7 +121,7 @@ if (has_exametrika) {
         to   = c("Item02", "Item03", "Item04")
       )
       ldlra_g <- igraph::graph_from_data_frame(ldlra_dag, directed = TRUE)
-      exametrika::LDLRA(exametrika::J12S5000,
+      exametrika::LDLRA(head_rows_dat(exametrika::J12S5000, 300),
         ncls = 3,
         g = list(ldlra_g, ldlra_g, ldlra_g)
       )

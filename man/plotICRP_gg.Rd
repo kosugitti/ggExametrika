@@ -69,7 +69,7 @@ base plots of the parent exametrika package.
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 \donttest{
-result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
 
 # Plot first 4 items
 plot <- plotICRP_gg(result, items = 1:4)

@@ -52,7 +52,7 @@ represent scores and columns represent latent ranks.
 \examples{
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
-result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
 plot <- plotScoreRank_gg(result)
 plot
 \dontshow{\}) # examplesIf}

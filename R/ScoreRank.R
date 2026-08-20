@@ -33,7 +33,7 @@
 #'
 #' @examplesIf requireNamespace("exametrika", quietly = TRUE)
 #' library(exametrika)
-#' result <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+#' result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
 #' plot <- plotScoreRank_gg(result)
 #' plot
 #'
