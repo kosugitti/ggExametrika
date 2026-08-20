@@ -316,12 +316,13 @@ plotArray_gg <- function(data,
       sorted_class <- data$ClassEstimated[case_order]
       sorted_field <- data$FieldEstimated[field_order]
 
-      # Get class/field count (prefer new names, fallback to old names)
+      # Class-side count: models name it n_class or n_rank depending on
+      # whether the groups are ordered, so both are consulted.
       n_class <- .first_non_null(
-        data$n_class, data$Nclass, data$n_rank, data$Nrank,
+        data$n_class, data$n_rank,
         length(unique(data$ClassEstimated))
       )
-      n_field <- .first_non_null(data$n_field, data$Nfield, length(unique(data$FieldEstimated)))
+      n_field <- .first_non_null(data$n_field, length(unique(data$FieldEstimated)))
 
       # Use explicit factor levels so that empty classes/fields do not
       # drop out of the table (which would leave NA in the breaks)
@@ -432,10 +433,10 @@ plotFieldPIRP_gg <- function(data,
   .validate_exametrika(data, "LDB")
 
 
-  # Get class/field count (prefer new names, fallback to old names)
-  n_cls <- .first_non_null(data$n_rank, data$Nrank, data$n_class, data$Nclass)
+  # Ranked models report n_rank, unordered ones n_class
+  n_cls <- .first_non_null(data$n_rank, data$n_class)
 
-  n_field <- .first_non_null(data$n_field, data$Nfield)
+  n_field <- data$n_field
 
   # Color setup
   if (is.null(colors)) {

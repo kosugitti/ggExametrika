@@ -171,7 +171,7 @@ plotGraph_gg <- function(data,
   # LDLRA Implementation
   # ===================================================================
   if (model_class == "LDLRA") {
-    n_ranks <- .first_non_null(data$n_class, data$Nclass)
+    n_ranks <- data$n_class
     plot_list <- vector("list", n_ranks)
 
     for (i in seq_len(n_ranks)) {
@@ -230,7 +230,7 @@ plotGraph_gg <- function(data,
   # LDB Implementation
   # ===================================================================
   if (model_class == "LDB") {
-    n_ranks <- .first_non_null(data$n_rank, data$Nrank)
+    n_ranks <- data$n_rank
     plot_list <- vector("list", n_ranks)
 
     # LDB uses Field nodes (green diamonds) instead of Item nodes (purple circles)

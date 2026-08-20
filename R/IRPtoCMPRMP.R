@@ -781,8 +781,8 @@ plotLRD_gg <- function(data,
     )
   }
 
-  # Get number of classes/ranks with fallback (prefer new field names)
-  n_cls <- .first_non_null(data$n_class, data$Nclass, data$n_rank, data$Nrank)
+  # Unordered models report n_class, ranked ones n_rank
+  n_cls <- .first_non_null(data$n_class, data$n_rank)
 
   if (is.null(n_cls) || n_cls < 2 || n_cls > 20) {
     stop("Invalid number of Class or Rank")

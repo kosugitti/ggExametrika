@@ -83,6 +83,14 @@ Changes.
 
 ## Consistency / Internal Refactoring
 
+* Drop the PascalCase field-name fallbacks (`Nclass`, `Nfield`, `Nrank`).
+  They were removed from exametrika in 2.0.0 and had been deprecated there
+  since 1.8.0, so no version this package supports (`>= 1.11.0`) could
+  reach them. Where the two names remain consulted in sequence
+  (`n_class` then `n_rank`) that is not a legacy fallback but a real
+  distinction: unordered models report the former and ranked ones the
+  latter. Verified against exametrika 2.0.0 with the suite unchanged.
+
 * New internal helpers in `R/utils-internal.R`:
   `.validate_exametrika()` (single input-validation idiom; the previous
   code mixed four idioms, two of which either let unrelated
