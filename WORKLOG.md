@@ -1221,3 +1221,30 @@ exametrika が入っている環境では全フィクスチャが組めたこと
 - **提出は exametrika 2.0.0 が CRAN に載ってから**。cran-comments に
   「2.0.0 で削除された名前への対応」と書く以上，その 2.0.0 が公開済みである方が筋が通る。
   Suggests 依存なので技術的な lockstep は不要で，純粋に説明の一貫性の問題。
+
+## 2026-08-20 1.1.2 を CRAN へ提出
+
+exametrika 2.0.0 が同日 CRAN に公開された(Version 2.0.0 / Published 2026-08-20)ため、
+待っていた条件が揃った。**win-devel の再実測も同日に返ってきて 413秒・status OK**
+(フィクスチャを絞る前の版は 686秒・1 NOTE)。上限600秒を大きく下回り、原因が
+テスト数ではなくフィクスチャの大きさだったことが数字で確定した。
+
+`cran-comments.md` に2点追記してコミット(`1783172`)。
+
+- Dependencies: exametrika 2.0.0 は 2026-08-20 に CRAN 公開済みと明記
+- Check time: 8/20 の win-builder 再実測 413秒・status OK
+
+提出は `tools/build_pkg.R` の方針どおり **git archive** で `~/.local/tmp` に書き出した木から
+tarball を作成(Dropbox の働き木は tarball の源に使わない)。
+
+**`devtools::submit_cran()` は非対話環境では止まる**(`yesno()` が
+「Called from non-interactive context」)。CRAN の提出フォーム
+(https://xmpalantir.wu.ac.at/cransubmit/)から提出した。**`cran-comments.md` は
+`.Rbuildignore` されていて tarball に入らないので、中身を Optional comment 欄に貼る**。
+Step 2 の検出情報(Package/Version/Maintainer/Suggests)を確認して submit、20:20 に
+確認リンク押下で提出完了。
+
+### 次
+
+- **審査結果待ち**。通れば tag `v1.1.2` → GitHub Release → 告知。
+- 指摘が来たら修正して再提出(CRAN の再提出間隔に注意)。
