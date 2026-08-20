@@ -1,39 +1,41 @@
 
-<!-- README.md is generated manually. -->
+<!-- README.md is generated from README.Rmd. Please edit README.Rmd, then run `Rscript -e 'devtools::build_readme()'` and commit both files. Direct edits to README.md will be overwritten. -->
 
 # ggExametrika
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/kosugitti/ggExametrika/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kosugitti/ggExametrika/actions/workflows/R-CMD-check.yaml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
 **ggExametrika** provides ggplot2-based visualization for the
-[exametrika](https://kosugitti.github.io/exametrika/) package.
-It supports a wide range of psychometric models:
+[exametrika](https://kosugitti.github.io/exametrika/) package. It
+supports a wide range of psychometric models:
 
-| Model | Description |
-|-------|-------------|
-| **IRT** | Item Response Theory (2PL, 3PL, 4PL) |
-| **GRM** | Graded Response Model |
-| **LCA** | Latent Class Analysis |
-| **LRA** | Latent Rank Analysis |
-| **LRAordinal** | Latent Rank Analysis for ordinal data |
-| **LRArated** | Latent Rank Analysis for rated data |
-| **Biclustering** | Simultaneous item/student clustering (binary) |
-| **nominalBiclustering** | Biclustering for nominal data |
-| **ordinalBiclustering** | Biclustering for ordinal data |
-| **IRM** | Infinite Relational Model |
-| **LDLRA** | Locally Dependent Latent Rank Analysis |
-| **LDB** | Locally Dependent Biclustering |
-| **BINET** | Bayesian Network and Test |
-| **BNM** | Bayesian Network Model |
+| Model                   | Description                                   |
+|-------------------------|-----------------------------------------------|
+| **IRT**                 | Item Response Theory (2PL, 3PL, 4PL)          |
+| **GRM**                 | Graded Response Model                         |
+| **LCA**                 | Latent Class Analysis                         |
+| **LRA**                 | Latent Rank Analysis                          |
+| **LRAordinal**          | Latent Rank Analysis for ordinal data         |
+| **LRArated**            | Latent Rank Analysis for rated data           |
+| **Biclustering**        | Simultaneous item/student clustering (binary) |
+| **nominalBiclustering** | Biclustering for nominal data                 |
+| **ordinalBiclustering** | Biclustering for ordinal data                 |
+| **IRM**                 | Infinite Relational Model                     |
+| **LDLRA**               | Locally Dependent Latent Rank Analysis        |
+| **LDB**                 | Locally Dependent Biclustering                |
+| **BINET**               | Bayesian Network and Test                     |
+| **BNM**                 | Bayesian Network Model                        |
 
 ## Reference
 
-Shojima, Kojiro (2022) *Test Data Engineering: Latent Rank Analysis, Biclustering, and Bayesian Network*
-(Behaviormetrics: Quantitative Approaches to Human Behavior, 13),
-Springer, ISBN 978-981-16-9985-6
+Shojima, Kojiro (2022) *Test Data Engineering: Latent Rank Analysis,
+Biclustering, and Bayesian Network* (Behaviormetrics: Quantitative
+Approaches to Human Behavior, 13), Springer, ISBN 978-981-16-9985-6
 
 ## Installation
 
@@ -44,8 +46,8 @@ devtools::install_github("kosugitti/ggExametrika")
 
 ## Examples
 
-All plot functions take exametrika output directly and return ggplot objects.
-Functions are named `plotXXX_gg()`.
+All plot functions take exametrika output directly and return ggplot
+objects. Functions are named `plotXXX_gg()`.
 
 ### IRT: Item Characteristic Curve (plotICC_gg)
 
@@ -215,66 +217,66 @@ plotGraph_gg(result_ldlra)     # One DAG per rank
 
 ### IRT / GRM
 
-| Function | IRT | GRM |
-|----------|:---:|:---:|
-| plotICC_gg | x | |
-| plotICC_overlay_gg | x | |
-| plotIIC_gg | x | x |
-| plotIIC_overlay_gg | x | x |
-| plotTIC_gg | x | x |
-| plotTRF_gg | x | |
-| plotICRF_gg | | x |
+| Function           | IRT | GRM |
+|--------------------|:---:|:---:|
+| plotICC_gg         |  x  |     |
+| plotICC_overlay_gg |  x  |     |
+| plotIIC_gg         |  x  |  x  |
+| plotIIC_overlay_gg |  x  |  x  |
+| plotTIC_gg         |  x  |  x  |
+| plotTRF_gg         |  x  |     |
+| plotICRF_gg        |     |  x  |
 
 ### LCA / LRA / LRAordinal / LRArated
 
-| Function | LCA | LRA | LRAordinal | LRArated |
-|----------|:---:|:---:|:----------:|:--------:|
-| plotIRP_gg | x | x | | |
-| plotFRP_gg | x | x | | |
-| plotTRP_gg | x | x | | |
-| plotLCD_gg | x | | | |
-| plotLRD_gg | | x | | |
-| plotCMP_gg | x | | | |
-| plotRMP_gg | | x | x | x |
-| plotScoreFreq_gg | | | x | x |
-| plotScoreRank_gg | | | x | x |
-| plotICRP_gg | | | x | x |
-| plotICBR_gg | | | x | |
+| Function         | LCA | LRA | LRAordinal | LRArated |
+|------------------|:---:|:---:|:----------:|:--------:|
+| plotIRP_gg       |  x  |  x  |            |          |
+| plotFRP_gg       |  x  |  x  |            |          |
+| plotTRP_gg       |  x  |  x  |            |          |
+| plotLCD_gg       |  x  |     |            |          |
+| plotLRD_gg       |     |  x  |            |          |
+| plotCMP_gg       |  x  |     |            |          |
+| plotRMP_gg       |     |  x  |     x      |    x     |
+| plotScoreFreq_gg |     |     |     x      |    x     |
+| plotScoreRank_gg |     |     |     x      |    x     |
+| plotICRP_gg      |     |     |     x      |    x     |
+| plotICBR_gg      |     |     |     x      |          |
 
 ### Biclustering / IRM
 
-| Function | Bic. | nomBic. | ordBic. | IRM |
-|----------|:----:|:-------:|:-------:|:---:|
-| plotFRP_gg | x | x | x | x |
-| plotTRP_gg | x | | | x |
-| plotLCD_gg | x | x | x | |
-| plotLRD_gg | x | x | x | |
-| plotCMP_gg | x | x | x | |
-| plotRMP_gg | x | | x | |
-| plotCRV_gg | x | x | x | |
-| plotRRV_gg | x | x | x | |
-| plotArray_gg | x | x | x | x |
-| plotFCRP_gg | | x | x | |
-| plotFCBR_gg | | | x | |
-| plotScoreField_gg | | x | x | |
+| Function          | Bic. | nomBic. | ordBic. | IRM |
+|-------------------|:----:|:-------:|:-------:|:---:|
+| plotFRP_gg        |  x   |    x    |    x    |  x  |
+| plotTRP_gg        |  x   |         |         |  x  |
+| plotLCD_gg        |  x   |    x    |    x    |     |
+| plotLRD_gg        |  x   |    x    |    x    |     |
+| plotCMP_gg        |  x   |    x    |    x    |     |
+| plotRMP_gg        |  x   |         |    x    |     |
+| plotCRV_gg        |  x   |    x    |    x    |     |
+| plotRRV_gg        |  x   |    x    |    x    |     |
+| plotArray_gg      |  x   |    x    |    x    |  x  |
+| plotFCRP_gg       |      |    x    |    x    |     |
+| plotFCBR_gg       |      |         |    x    |     |
+| plotScoreField_gg |      |    x    |    x    |     |
 
 ### Network Models (LDLRA / LDB / BINET / BNM)
 
-| Function | LDLRA | LDB | BINET | BNM |
-|----------|:-----:|:---:|:-----:|:---:|
-| plotIRP_gg | x | | | |
-| plotFRP_gg | | x | x | |
-| plotTRP_gg | | x | x | |
-| plotLRD_gg | x | x | x | |
-| plotRMP_gg | x | x | x | |
-| plotArray_gg | | x | x | |
-| plotFieldPIRP_gg | | x | | |
-| plotGraph_gg | x | x | x | x |
+| Function         | LDLRA | LDB | BINET | BNM |
+|------------------|:-----:|:---:|:-----:|:---:|
+| plotIRP_gg       |   x   |     |       |     |
+| plotFRP_gg       |       |  x  |   x   |     |
+| plotTRP_gg       |       |  x  |   x   |     |
+| plotLRD_gg       |   x   |  x  |   x   |     |
+| plotRMP_gg       |   x   |  x  |   x   |     |
+| plotArray_gg     |       |  x  |   x   |     |
+| plotFieldPIRP_gg |       |  x  |       |     |
+| plotGraph_gg     |   x   |  x  |   x   |  x  |
 
 ### Utility
 
-| Function | Description |
-|----------|-------------|
+| Function        | Description                      |
+|-----------------|----------------------------------|
 | combinePlots_gg | Arrange multiple plots in a grid |
 
 ## Common Plot Options
@@ -282,7 +284,7 @@ plotGraph_gg(result_ldlra)     # One DAG per rank
 All plot functions support these customization options:
 
 | Parameter | Description | Default |
-|-----------|-------------|---------|
+|----|----|----|
 | `title` | `TRUE` (auto), `FALSE` (none), or character string | `TRUE` |
 | `colors` | Color vector (colorblind-friendly default) | auto |
 | `linetype` | `"solid"`, `"dashed"`, `"dotted"`, etc. | `"solid"` |
@@ -292,12 +294,14 @@ All plot functions support these customization options:
 Some functions have additional parameters:
 
 | Parameter | Functions | Description |
-|-----------|-----------|-------------|
+|----|----|----|
 | `stat` | plotFRP_gg, plotCRV_gg, plotRRV_gg | `"mean"`, `"median"`, or `"mode"` for polytomous data |
 | `style` | plotFCRP_gg | `"line"` or `"bar"` |
 | `show_labels` | plotRRV_gg | Show value labels (uses ggrepel) |
 
 ## Documentation
 
-- [Getting Started (English)](https://kosugitti.github.io/ggExametrika/articles/getting-started.html)
-- [Function Reference](https://kosugitti.github.io/ggExametrika/reference/index.html)
+- [Getting Started
+  (English)](https://kosugitti.github.io/ggExametrika/articles/getting-started.html)
+- [Function
+  Reference](https://kosugitti.github.io/ggExametrika/reference/index.html)

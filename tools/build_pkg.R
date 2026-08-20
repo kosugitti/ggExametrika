@@ -14,10 +14,7 @@ pacman::p_load(styler, devtools, rhub)
 ## --- A. 開発側(働き木)。差分が出たらコミットしてから B へ進む ---
 styler::style_pkg()
 devtools::document()
-# **build_readme() は呼ばない。**このリポジトリは README.md が正本で，
-# README.Rmd は「参照用・knit するな」と自ら明記している残骸(.Rbuildignore 済み)。
-# 2026-08-20 に誤って再生成し 296 行を消しかけた。README を直すときは
-# README.md を直接編集する。
+devtools::build_readme() # README.md は生成物。README.Rmd を直して再生成する
 devtools::spell_check()
 
 ## --- B. 検査・提出側(コミット済みの木だけを使う) ---

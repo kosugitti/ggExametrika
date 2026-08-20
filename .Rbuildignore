@@ -19,3 +19,4 @@
 ^tests/testthat/Rplots\.pdf$
 Rplots\.pdf
 ^tools$
+^README_files$
