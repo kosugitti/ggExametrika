@@ -1248,3 +1248,25 @@ Step 2 の検出情報(Package/Version/Maintainer/Suggests)を確認して submi
 
 - **審査結果待ち**。通れば tag `v1.1.2` → GitHub Release → 告知。
 - 指摘が来たら修正して再提出(CRAN の再提出間隔に注意)。
+
+## 2026-08-21 1.1.2 受理・公開 → 告知
+
+提出(8/20 20:20)から7時間半、**8/21 03:59 に受理**(`on its way to CRAN`)。指摘ゼロの
+一発通過。exametrika 2.0.0 と2日続けて通った。**CRAN のパッケージページの反映は
+ミラー更新待ちで数時間遅れる**(受理直後はまだ 1.1.1 と表示される)。受理メールが
+確定の根拠なので、告知はページの反映を待たずに出してよい。
+
+- NEWS の 1.1.2 見出しから `(development)` を外した(`0644a5d`)。**受理後の整形**
+- tag `v1.1.2` を作成・push
+- Release: https://github.com/kosugitti/ggExametrika/releases/tag/v1.1.2
+- 告知は**親の exametrika 側の Discussions** へ日英1本にまとめて投稿
+  (https://github.com/kosugitti/exametrika/discussions/39)。ggExametrika 側にも
+  Discussions はあるが読者がいないので、親の Announcements に出すほうが届く
+
+Release ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情報量の式・ランク軸の
+無条件反転)を主役にした。**1.1.2 に破壊的変更は無い**(`Clusterd`→`Clustered` の改名は
+1.1.1 のもの)。
+
+### 次
+
+- v1.1.3 以降の予定は未定。親の v2.1.0(多値BNM)に追随する作業が出れば、そこで再開する。
