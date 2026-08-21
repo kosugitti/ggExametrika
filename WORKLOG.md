@@ -1273,3 +1273,63 @@ win-builder が **686 秒(上限 600)** と**例 28 秒の NOTE**
   「2.0.0 で削除された名前への対応」と書く以上，その 2.0.0
   が公開済みである方が筋が通る。 Suggests 依存なので技術的な lockstep
   は不要で，純粋に説明の一貫性の問題。
+
+## 2026-08-20 1.1.2 を CRAN へ提出
+
+exametrika 2.0.0 が同日 CRAN に公開された(Version 2.0.0 / Published
+2026-08-20)ため、 待っていた条件が揃った。**win-devel
+の再実測も同日に返ってきて 413秒・status OK**
+(フィクスチャを絞る前の版は 686秒・1
+NOTE)。上限600秒を大きく下回り、原因が
+テスト数ではなくフィクスチャの大きさだったことが数字で確定した。
+
+`cran-comments.md` に2点追記してコミット(`1783172`)。
+
+- Dependencies: exametrika 2.0.0 は 2026-08-20 に CRAN 公開済みと明記
+- Check time: 8/20 の win-builder 再実測 413秒・status OK
+
+提出は `tools/build_pkg.R` の方針どおり **git archive** で
+`~/.local/tmp` に書き出した木から tarball を作成(Dropbox の働き木は
+tarball の源に使わない)。
+
+**`devtools::submit_cran()` は非対話環境では止まる**(`yesno()` が
+「Called from non-interactive context」)。CRAN の提出フォーム
+([https://xmpalantir.wu.ac.at/cransubmit/)から提出した](https://xmpalantir.wu.ac.at/cransubmit/)%E3%81%8B%E3%82%89%E6%8F%90%E5%87%BA%E3%81%97%E3%81%9F)。**`cran-comments.md`
+は `.Rbuildignore` されていて tarball に入らないので、中身を Optional
+comment 欄に貼る**。 Step 2
+の検出情報(Package/Version/Maintainer/Suggests)を確認して submit、20:20
+に 確認リンク押下で提出完了。
+
+### 次
+
+- **審査結果待ち**。通れば tag `v1.1.2` → GitHub Release → 告知。
+- 指摘が来たら修正して再提出(CRAN の再提出間隔に注意)。
+
+## 2026-08-21 1.1.2 受理・公開 → 告知
+
+提出(8/20 20:20)から7時間半、**8/21 03:59
+に受理**(`on its way to CRAN`)。指摘ゼロの 一発通過。exametrika 2.0.0
+と2日続けて通った。**CRAN のパッケージページの反映は
+ミラー更新待ちで数時間遅れる**(受理直後はまだ 1.1.1
+と表示される)。受理メールが
+確定の根拠なので、告知はページの反映を待たずに出してよい。
+
+- NEWS の 1.1.2 見出しから `(development)`
+  を外した(`0644a5d`)。**受理後の整形**
+- tag `v1.1.2` を作成・push
+- Release:
+  <https://github.com/kosugitti/ggExametrika/releases/tag/v1.1.2>
+- 告知は**親の exametrika 側の Discussions** へ日英1本にまとめて投稿
+  (<https://github.com/kosugitti/exametrika/discussions/39>)。ggExametrika
+  側にも Discussions はあるが読者がいないので、親の Announcements
+  に出すほうが届く
+
+Release
+ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情報量の式・ランク軸の
+無条件反転)を主役にした。**1.1.2
+に破壊的変更は無い**(`Clusterd`→`Clustered` の改名は 1.1.1 のもの)。
+
+### 次
+
+- v1.1.3 以降の予定は未定。親の
+  v2.1.0(多値BNM)に追随する作業が出れば、そこで再開する。

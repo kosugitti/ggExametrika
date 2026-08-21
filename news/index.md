@@ -1,6 +1,6 @@
 # Changelog
 
-## ggExametrika 1.1.2 (development)
+## ggExametrika 1.1.2
 
 Package-wide audit release: three high-severity bug fixes, a set of
 robustness fixes, API/validation unification, and internal refactoring.

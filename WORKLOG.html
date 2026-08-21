@@ -1043,6 +1043,36 @@
 <strong>提出は exametrika 2.0.0 が CRAN に載ってから</strong>。cran-comments に 「2.0.0 で削除された名前への対応」と書く以上，その 2.0.0 が公開済みである方が筋が通る。 Suggests 依存なので技術的な lockstep は不要で，純粋に説明の一貫性の問題。</li>
 </ul></div>
 </div>
+<div class="section level2">
+<h2 id="id_2026-08-20-112-を-cran-へ提出">2026-08-20 1.1.2 を CRAN へ提出<a class="anchor" aria-label="anchor" href="#id_2026-08-20-112-%E3%82%92-cran-%E3%81%B8%E6%8F%90%E5%87%BA"></a></h2>
+<p>exametrika 2.0.0 が同日 CRAN に公開された(Version 2.0.0 / Published 2026-08-20)ため、 待っていた条件が揃った。<strong>win-devel の再実測も同日に返ってきて 413秒・status OK</strong> (フィクスチャを絞る前の版は 686秒・1 NOTE)。上限600秒を大きく下回り、原因が テスト数ではなくフィクスチャの大きさだったことが数字で確定した。</p>
+<p><code>cran-comments.md</code> に2点追記してコミット(<code>1783172</code>)。</p>
+<ul><li>Dependencies: exametrika 2.0.0 は 2026-08-20 に CRAN 公開済みと明記</li>
+<li>Check time: 8/20 の win-builder 再実測 413秒・status OK</li>
+</ul><p>提出は <code>tools/build_pkg.R</code> の方針どおり <strong>git archive</strong> で <code>~/.local/tmp</code> に書き出した木から tarball を作成(Dropbox の働き木は tarball の源に使わない)。</p>
+<p><strong><code>devtools::submit_cran()</code> は非対話環境では止まる</strong>(<code>yesno()</code> が 「Called from non-interactive context」)。CRAN の提出フォーム (<a href="https://xmpalantir.wu.ac.at/cransubmit/)%E3%81%8B%E3%82%89%E6%8F%90%E5%87%BA%E3%81%97%E3%81%9F" class="external-link uri">https://xmpalantir.wu.ac.at/cransubmit/)から提出した</a>。<strong><code>cran-comments.md</code> は <code>.Rbuildignore</code> されていて tarball に入らないので、中身を Optional comment 欄に貼る</strong>。 Step 2 の検出情報(Package/Version/Maintainer/Suggests)を確認して submit、20:20 に 確認リンク押下で提出完了。</p>
+<div class="section level3">
+<h3 id="次-1">次<a class="anchor" aria-label="anchor" href="#%E6%AC%A1-1"></a></h3>
+<ul><li>
+<strong>審査結果待ち</strong>。通れば tag <code>v1.1.2</code> → GitHub Release → 告知。</li>
+<li>指摘が来たら修正して再提出(CRAN の再提出間隔に注意)。</li>
+</ul></div>
+</div>
+<div class="section level2">
+<h2 id="id_2026-08-21-112-受理公開--告知">2026-08-21 1.1.2 受理・公開 → 告知<a class="anchor" aria-label="anchor" href="#id_2026-08-21-112-%E5%8F%97%E7%90%86%E5%85%AC%E9%96%8B--%E5%91%8A%E7%9F%A5"></a></h2>
+<p>提出(8/20 20:20)から7時間半、<strong>8/21 03:59 に受理</strong>(<code>on its way to CRAN</code>)。指摘ゼロの 一発通過。exametrika 2.0.0 と2日続けて通った。<strong>CRAN のパッケージページの反映は ミラー更新待ちで数時間遅れる</strong>(受理直後はまだ 1.1.1 と表示される)。受理メールが 確定の根拠なので、告知はページの反映を待たずに出してよい。</p>
+<ul><li>NEWS の 1.1.2 見出しから <code>(development)</code> を外した(<code>0644a5d</code>)。<strong>受理後の整形</strong>
+</li>
+<li>tag <code>v1.1.2</code> を作成・push</li>
+<li>Release: <a href="https://github.com/kosugitti/ggExametrika/releases/tag/v1.1.2" class="external-link uri">https://github.com/kosugitti/ggExametrika/releases/tag/v1.1.2</a>
+</li>
+<li>告知は<strong>親の exametrika 側の Discussions</strong> へ日英1本にまとめて投稿 (<a href="https://github.com/kosugitti/exametrika/discussions/39" class="external-link uri">https://github.com/kosugitti/exametrika/discussions/39</a>)。ggExametrika 側にも Discussions はあるが読者がいないので、親の Announcements に出すほうが届く</li>
+</ul><p>Release ノートは高重要度の3件(4PLの<code>lowerAsym</code>欠落・GRM項目情報量の式・ランク軸の 無条件反転)を主役にした。<strong>1.1.2 に破壊的変更は無い</strong>(<code>Clusterd</code>→<code>Clustered</code> の改名は 1.1.1 のもの)。</p>
+<div class="section level3">
+<h3 id="次-2">次<a class="anchor" aria-label="anchor" href="#%E6%AC%A1-2"></a></h3>
+<ul><li>v1.1.3 以降の予定は未定。親の v2.1.0(多値BNM)に追随する作業が出れば、そこで再開する。</li>
+</ul></div>
+</div>
 </div>
 
 
