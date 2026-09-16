@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,11 +36,25 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/v1.1.2/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/kosugitti/ggExametrika/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.2" id="ggexametrika-112">ggExametrika 1.1.2<a class="anchor" aria-label="anchor" href="#ggexametrika-112"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.2.0" id="ggexametrika-120">ggExametrika 1.2.0<a class="anchor" aria-label="anchor" href="#ggexametrika-120"></a></h2>
+<p><code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> changes what it draws by default, so the version is raised rather than treated as a patch.</p>
+<div class="section level3">
+<h3 id="bug-fixes-1-2-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0"></a></h3>
+<ul><li>Fix the colour assignment in <code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> when <code>colors</code> is supplied and the data contain missing responses. Missing data occupies a slot of its own in the legend, but a supplied vector was recycled across every slot without reserving it, so one colour per category left the first colour on the missing level and wrapped the last category back to the start. The only feedback was a generic “fewer colors supplied” warning that did not mention missing data. A vector is now read by its length: one colour per valid category leaves the missing level at its default, and one colour per level is honoured as before.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-1-2-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-1-2-0"></a></h3>
+<ul><li><p><code><a href="../reference/plotArray_gg.html">plotArray_gg()</a></code> draws ordered categories with a sequential green ramp instead of a qualitative palette. Response categories carry an order, and a qualitative palette hides exactly the structure the plot exists to show. The ramp runs light to dark, so the category index reads as lightness. Binary data keep black and white.</p></li>
+<li><p>Missing responses are drawn in grey rather than black when the sequential ramp is in use, where black would read as the darkest category.</p></li>
+<li><p>The default colour of the cluster boundary lines is a dark red for ordered categories. White lines, the previous default, disappeared into the palest cells of the new ramp.</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.2" id="ggexametrika-112">ggExametrika 1.1.2<a class="anchor" aria-label="anchor" href="#ggexametrika-112"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>
 <p>Package-wide audit release: three high-severity bug fixes, a set of robustness fixes, API/validation unification, and internal refactoring. No exported function signatures change except as noted under Breaking Changes.</p>
 <div class="section level3">
 <h3 id="bug-fixes-high-severity-1-1-2">Bug Fixes (high severity)<a class="anchor" aria-label="anchor" href="#bug-fixes-high-severity-1-1-2"></a></h3>
