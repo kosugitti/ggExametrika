@@ -19,7 +19,7 @@ plotArray_gg(
   title = TRUE,
   colors = NULL,
   show_legend = NULL,
-  legend_position = "right",
+  legend_position = "bottom",
   border = FALSE,
   border_linewidth = 0.5
 )
@@ -63,9 +63,13 @@ plotArray_gg(
 
 - colors:
 
-  Character vector of colors for each category. If `NULL` (default),
-  uses white/black for binary data or a colorblind-friendly palette for
-  multi-valued data.
+  Character vector of colors. Supply either one colour per valid
+  category, in which case missing data keeps the default colour, or one
+  colour per level including missing data, in which case the first
+  element is used for missing. Default NULL uses a sequential ramp for
+  ordered categories and black and white for binary data. If `NULL`
+  (default), uses white/black for binary data or a colorblind-friendly
+  palette for multi-valued data.
 
 - show_legend:
 
@@ -74,8 +78,10 @@ plotArray_gg(
 
 - legend_position:
 
-  Character. Position of the legend. One of `"right"` (default),
-  `"top"`, `"bottom"`, `"left"`, `"none"`.
+  Character. Position of the legend. Defaults to "bottom": the array
+  panels are tall, so a legend beside them wastes width. When both
+  panels are drawn the legend is shared, not repeated. One of `"right"`
+  (default), `"top"`, `"bottom"`, `"left"`, `"none"`.
 
 - border:
 
@@ -139,8 +145,8 @@ result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
 plotArray_gg(result_multi, show_legend = TRUE, Clustered_lines_color = "darkgreen")
 
-#> TableGrob (1 x 2) "arrange": 2 grobs
-#>   z     cells    name           grob
-#> 1 1 (1-1,1-1) arrange gtable[layout]
-#> 2 2 (1-1,2-2) arrange gtable[layout]
+#> TableGrob (2 x 1) "arrange": 2 grobs
+#>   z     cells    name              grob
+#> 1 1 (1-1,1-1) arrange   gtable[arrange]
+#> 2 2 (2-2,1-1) arrange gtable[guide-box]
 ```
