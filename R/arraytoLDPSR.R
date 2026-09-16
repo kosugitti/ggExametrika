@@ -1,3 +1,30 @@
+#' Pull the guide box out of a ggplot
+#'
+#' Used to share one legend between the two array panels instead of drawing
+#' the same one twice. Returns NULL when the plot carries no legend.
+#'
+#' @param p A ggplot object, already themed with the wanted legend position so
+#'   that the guide box has the matching orientation.
+#' @return A grob, or NULL.
+#' @keywords internal
+
+.extract_legend <- function(p) {
+  g <- ggplot2::ggplotGrob(p)
+  idx <- which(vapply(g$grobs, function(x) grepl("^guide-box", x$name), logical(1)))
+  for (i in idx) {
+    box <- g$grobs[[i]]
+    # ggplot2 lays out a guide box on every side; all but one are empty
+    if (!inherits(box, "zeroGrob")) {
+      inner <- if (!is.null(box$grobs)) box$grobs else box$children
+      if (length(inner) > 0) {
+        return(box)
+      }
+    }
+  }
+  return(NULL)
+}
+
+
 #' @title Plot Array from exametrika
 #'
 #' @description
@@ -35,7 +62,9 @@
 #'   colorblind-friendly palette for multi-valued data.
 #' @param show_legend Logical. If \code{TRUE}, display the legend.
 #'   Default is \code{FALSE} for binary data, \code{TRUE} for multi-valued.
-#' @param legend_position Character. Position of the legend.
+#' @param legend_position Character. Position of the legend. Defaults to
+#'   "bottom": the array panels are tall, so a legend beside them wastes width.
+#'   When both panels are drawn the legend is shared, not repeated.
 #'   One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
 #'   \code{"left"}, \code{"none"}.
 #' @param border Logical or character. If \code{TRUE}, draw a rectangular
@@ -90,7 +119,7 @@ plotArray_gg <- function(data,
                          title = TRUE,
                          colors = NULL,
                          show_legend = NULL,
-                         legend_position = "right",
+                         legend_position = "bottom",
                          border = FALSE,
                          border_linewidth = 0.5) {
   # Border color resolution
@@ -366,7 +395,57 @@ plotArray_gg <- function(data,
   }
 
   if (Original == TRUE && Clustered == TRUE) {
-    plots <- grid.arrange(plots[[1]], plots[[2]], nrow = 1)
+    # Both panels share one scale, so draw the legend once beside or below the
+    # pair rather than repeating it inside each panel.
+    shared_legend <- if (isTRUE(show_legend)) .extract_legend(plots[[1]]) else NULL
+    if (is.null(shared_legend)) {
+      plots <- grid.arrange(plots[[1]], plots[[2]], nrow = 1)
+    } else {
+      panels <- gridExtra::arrangeGrob(
+        plots[[1]] + ggplot2::theme(legend.position = "none"),
+        plots[[2]] + ggplot2::theme(legend.position = "none"),
+        nrow = 1
+      )
+      vertical <- legend_position %in% c("bottom", "top")
+      parts <- list(panels, shared_legend)
+      flip <- legend_position %in% c("top", "left")
+      if (flip) {
+        parts <- rev(parts)
+      }
+      # Give the guide box exactly the room it asks for; a fixed ratio clips
+      # the legend title at some figure sizes.
+      if (vertical) {
+        legend_size <- if (!is.null(shared_legend$heights)) {
+          sum(shared_legend$heights)
+        } else {
+          grid::unit(1, "lines")
+        }
+        panel_size <- grid::unit(1, "null")
+        plots <- grid.arrange(
+          grobs = parts, nrow = 2,
+          heights = if (flip) {
+            grid::unit.c(legend_size, panel_size)
+          } else {
+            grid::unit.c(panel_size, legend_size)
+          }
+        )
+      } else {
+        legend_size <- if (!is.null(shared_legend$widths)) {
+          sum(shared_legend$widths)
+        } else {
+          grid::unit(4, "lines")
+        }
+        panel_size <- grid::unit(1, "null")
+        plots <- grid.arrange(
+          grobs = parts, ncol = 2,
+          widths = if (flip) {
+            grid::unit.c(legend_size, panel_size)
+          } else {
+            grid::unit.c(panel_size, legend_size)
+          }
+        )
+      }
+    }
   }
 
   return(plots)

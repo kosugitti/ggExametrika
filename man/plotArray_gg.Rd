@@ -13,7 +13,7 @@ plotArray_gg(
   title = TRUE,
   colors = NULL,
   show_legend = NULL,
-  legend_position = "right",
+  legend_position = "bottom",
   border = FALSE,
   border_linewidth = 0.5
 )
@@ -43,14 +43,20 @@ If \code{NULL} (default), uses \code{"red"} for binary data or
 auto-generated titles. If \code{FALSE}, no titles. If a character
 string, use it as a custom title prefix.}
 
-\item{colors}{Character vector of colors for each category.
+\item{colors}{Character vector of colors. Supply either one colour per
+valid category, in which case missing data keeps the default colour, or
+one colour per level including missing data, in which case the first
+element is used for missing. Default NULL uses a sequential ramp for
+ordered categories and black and white for binary data.
 If \code{NULL} (default), uses white/black for binary data or a
 colorblind-friendly palette for multi-valued data.}
 
 \item{show_legend}{Logical. If \code{TRUE}, display the legend.
 Default is \code{FALSE} for binary data, \code{TRUE} for multi-valued.}
 
-\item{legend_position}{Character. Position of the legend.
+\item{legend_position}{Character. Position of the legend. Defaults to
+"bottom": the array panels are tall, so a legend beside them wastes width.
+When both panels are drawn the legend is shared, not repeated.
 One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
 \code{"left"}, \code{"none"}.}
 

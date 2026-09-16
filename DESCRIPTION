@@ -18,7 +18,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.1.0), ggplot2
-Imports: ggraph, ggrepel, gridExtra, igraph, tidyr
+Imports: ggraph, ggrepel, grid, gridExtra, igraph, tidyr
 Suggests:
     exametrika (>= 1.11.0),
     testthat (>= 3.0.0)

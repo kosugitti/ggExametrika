@@ -25,6 +25,12 @@ rather than treated as a patch.
 * Missing responses are drawn in grey rather than black when the sequential
   ramp is in use, where black would read as the darkest category.
 
+* `plotArray_gg()` draws one shared legend instead of repeating the same one
+  inside each panel, and its default position moves from the right to the
+  bottom. The array panels are tall and narrow, so a legend beside them costs
+  width that the data could use. The guide box is given its natural size, so
+  the legend title is no longer clipped. Drawing a single panel is unchanged.
+
 * The default colour of the cluster boundary lines is a dark red for ordered
   categories. White lines, the previous default, disappeared into the palest
   cells of the new ramp.
