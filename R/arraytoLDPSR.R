@@ -26,7 +26,11 @@
 #' @param title Logical or character. If \code{TRUE} (default), display
 #'   auto-generated titles. If \code{FALSE}, no titles. If a character
 #'   string, use it as a custom title prefix.
-#' @param colors Character vector of colors for each category.
+#' @param colors Character vector of colors. Supply either one colour per
+#'   valid category, in which case missing data keeps the default colour, or
+#'   one colour per level including missing data, in which case the first
+#'   element is used for missing. Default NULL uses a sequential ramp for
+#'   ordered categories and black and white for binary data.
 #'   If \code{NULL} (default), uses white/black for binary data or a
 #'   colorblind-friendly palette for multi-valued data.
 #' @param show_legend Logical. If \code{TRUE}, display the legend.
@@ -121,11 +125,15 @@ plotArray_gg <- function(data,
 
   # Set default boundary line color based on number of valid categories
   if (is.null(Clustered_lines_color)) {
-    if (n_valid_categories <= 2 && !has_missing) {
+    if (n_valid_categories > 2) {
+      # The sequential ramp is light at the bottom end, so white lines would
+      # disappear into the palest cells. A dark red reads against every step.
+      Clustered_lines_color <- "#B00020"
+    } else if (n_valid_categories <= 2 && !has_missing) {
       # Binary data: red lines for better visibility on black/white
       Clustered_lines_color <- "red"
     } else {
-      # Multi-valued data: white lines
+      # Two categories plus missing: the qualitative fills are dark enough
       Clustered_lines_color <- "white"
     }
   }
@@ -135,29 +143,23 @@ plotArray_gg <- function(data,
     if (n_valid_categories == 2 && !has_missing) {
       # Binary data: white (0) and black (1)
       valid_colors <- c("#FFFFFF", "#000000")
+    } else if (n_valid_categories > 2) {
+      # Ordered categories: a sequential ramp, so that the category index is
+      # readable as lightness. A qualitative palette hides the ordering.
+      valid_colors <- .gg_exametrika_sequential(n_valid_categories)
     } else {
-      # Multi-valued data: use colorblind-friendly palette
-      valid_colors <- c(
-        "#E69F00", "#0173B2", "#DE8F05", "#029E73", "#CC78BC",
-        "#CA9161", "#FBAFE4", "#949494", "#ECE133", "#56B4E9"
-      )
-      if (length(valid_colors) < n_valid_categories) {
-        # Add more colors if needed
-        additional_colors <- c(
-          "#D55E00", "#F0E442", "#009E73", "#CC79A7", "#0072B2",
-          "#E8601C", "#7CAE00", "#C77CFF", "#00BFC4", "#F8766D"
-        )
-        valid_colors <- c(valid_colors, additional_colors)[1:n_valid_categories]
-      } else {
-        valid_colors <- valid_colors[1:n_valid_categories]
-      }
+      # Two valid categories alongside missing data: keep the qualitative
+      # palette, since a two-step ramp would be hard to tell apart.
+      valid_colors <- c("#E69F00", "#0173B2")[1:n_valid_categories]
     }
 
     # Assign colors to all values (including -1 if present)
     use_colors <- character(n_categories)
     for (i in seq_along(all_values)) {
       if (all_values[i] == -1) {
-        use_colors[i] <- "#000000" # Black for missing
+        # Grey, not black: against a sequential ramp black reads as the
+        # darkest category rather than as missing.
+        use_colors[i] <- if (n_valid_categories > 2) "#9E9E9E" else "#000000"
       } else {
         # Find position in valid_values
         valid_idx <- which(valid_values == all_values[i])
@@ -165,7 +167,21 @@ plotArray_gg <- function(data,
       }
     }
   } else {
-    use_colors <- .resolve_colors(colors, n_categories)
+    # A supplied vector is read by its length. Missing data occupies a slot of
+    # its own, so a vector with one colour per valid category would otherwise
+    # be shifted by one and the last category would wrap around.
+    if (has_missing && length(colors) == n_valid_categories) {
+      use_colors <- character(n_categories)
+      for (i in seq_along(all_values)) {
+        if (all_values[i] == -1) {
+          use_colors[i] <- if (n_valid_categories > 2) "#9E9E9E" else "#000000"
+        } else {
+          use_colors[i] <- colors[which(valid_values == all_values[i])]
+        }
+      }
+    } else {
+      use_colors <- .resolve_colors(colors, n_categories)
+    }
   }
 
   # Create labels for legend (NA for -1, numbers for others)

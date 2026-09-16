@@ -17,6 +17,25 @@
 }
 
 
+#' Sequential palette for ordered categories
+#'
+#' Returns a light-to-dark green ramp. Ordered response categories carry an
+#' order, so a qualitative palette hides the very thing the plot is meant to
+#' show; a sequential ramp maps the category index onto lightness.
+#'
+#' @param n Number of steps needed.
+#' @return A character vector of hex color codes, lightest first.
+#' @keywords internal
+
+.gg_exametrika_sequential <- function(n) {
+  if (n <= 1) {
+    return("#4C9A5A")
+  }
+  ramp <- grDevices::colorRampPalette(c("#E3F0DC", "#14532D"), space = "Lab")
+  return(ramp(n))
+}
+
+
 #' Default color palette for ggExametrika
 #'
 #' Returns the package default color palette (ColorBrewer Dark2).

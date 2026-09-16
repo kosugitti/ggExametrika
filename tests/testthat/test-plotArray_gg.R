@@ -132,3 +132,39 @@ test_that("plotArray_gg validates input classes", {
     "Invalid input"
   )
 })
+
+test_that("the default palette for ordered categories is sequential", {
+  ramp <- .gg_exametrika_sequential(4)
+  expect_length(ramp, 4)
+  expect_equal(length(unique(ramp)), 4)
+
+  # lightest first: luminance decreases along the ramp
+  lum <- apply(grDevices::col2rgb(ramp), 2, function(x) {
+    sum(x * c(0.2126, 0.7152, 0.0722))
+  })
+  expect_true(all(diff(lum) < 0))
+
+  expect_equal(.gg_exametrika_sequential(1), "#4C9A5A")
+})
+
+test_that("one colour per valid category is not shifted by missing data", {
+  skip_if_not_installed("exametrika")
+
+  set.seed(456)
+  synthetic_data <- matrix(sample(0:3, 30 * 15, replace = TRUE), nrow = 30, ncol = 15)
+  synthetic_data[1, 1] <- NA
+  colnames(synthetic_data) <- paste0("Item", 1:15)
+  result <- exametrika::Biclustering(synthetic_data, nfld = 3, ncls = 4)
+
+  # Four categories and missing data means five slots. Supplying four colours
+  # used to consume the first one for missing and wrap the last category
+  # around, with only a generic recycling warning to show for it.
+  four <- c("#E3F0DC", "#A8D5A2", "#4C9A5A", "#14532D")
+  expect_no_warning(plot_four <- plotArray_gg(result, colors = four, show_legend = TRUE))
+  expect_true(inherits(plot_four, c("gtable", "gTree", "grob", "gDesc")))
+
+  # Passing every slot explicitly is still honoured.
+  five <- c("#FFFFFF", four)
+  plot_five <- plotArray_gg(result, colors = five, show_legend = TRUE)
+  expect_true(inherits(plot_five, c("gtable", "gTree", "grob", "gDesc")))
+})

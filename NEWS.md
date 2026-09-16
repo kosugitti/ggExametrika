@@ -1,3 +1,34 @@
+# ggExametrika 1.2.0
+
+`plotArray_gg()` changes what it draws by default, so the version is raised
+rather than treated as a patch.
+
+## Bug Fixes
+
+* Fix the colour assignment in `plotArray_gg()` when `colors` is supplied and
+  the data contain missing responses. Missing data occupies a slot of its own
+  in the legend, but a supplied vector was recycled across every slot without
+  reserving it, so one colour per category left the first colour on the missing
+  level and wrapped the last category back to the start. The only feedback was
+  a generic "fewer colors supplied" warning that did not mention missing data.
+  A vector is now read by its length: one colour per valid category leaves the
+  missing level at its default, and one colour per level is honoured as before.
+
+## Improvements
+
+* `plotArray_gg()` draws ordered categories with a sequential green ramp
+  instead of a qualitative palette. Response categories carry an order, and a
+  qualitative palette hides exactly the structure the plot exists to show. The
+  ramp runs light to dark, so the category index reads as lightness. Binary
+  data keep black and white.
+
+* Missing responses are drawn in grey rather than black when the sequential
+  ramp is in use, where black would read as the darkest category.
+
+* The default colour of the cluster boundary lines is a dark red for ordered
+  categories. White lines, the previous default, disappeared into the palest
+  cells of the new ramp.
+
 # ggExametrika 1.1.2
 
 Package-wide audit release: three high-severity bug fixes, a set of
