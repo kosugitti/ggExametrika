@@ -2,6 +2,8 @@
 
 ## ggExametrika 1.2.0
 
+CRAN release: 2026-09-25
+
 [`plotArray_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotArray_gg.md)
 changes what it draws by default, so the version is raised rather than
 treated as a patch.
