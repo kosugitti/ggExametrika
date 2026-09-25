@@ -1270,3 +1270,20 @@ Release ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情�
 ### 次
 
 - v1.1.3 以降の予定は未定。親の v2.1.0(多値BNM)に追随する作業が出れば、そこで再開する。
+
+## 2026-09-25 1.2.0 を CRAN へ提出・受理，Release と告知まで完了
+
+- **`tools/build_pkg.R` を最低限の形へ戻した**(`30e4c44`)。exametrika と同じく git archive 方式を撤去し，`git status --porcelain` が空でなければ止める1行に
+- `devtools::document()` で差分なし。spell_check は 1.2.0 節では colour/grey/honoured(英綴り)のみ
+- 手元 `R CMD check --as-cran`: **0/0/0**(1分35秒)。テスト 655 pass / 0 fail / 0 skip(BINET の既知 warning 1)
+- `cran-comments.md` を 1.2.0 用に書き直し(`e4e54c7`)，push
+- R-hub(linux・macos-arm64・windows)全成功。win-builder(R-devel) Status OK・check 412秒
+- **`submit_cran()` は今回固まらずに通った**(10:07 JST)。`CRAN-SUBMISSION` 更新をコミット(`39b099d`)
+- 自動チェックの列(incoming/pretest)で約2時間待たされ(6件並んでいた)，**12:02 JST に「on its way to CRAN」で受理**
+- **GitHub Release `v1.2.0`**(タグ `e4e54c7`)を公開
+- **告知は親リポジトリ Discussions #42**(日英1本)。**隣のセッションが投稿**したもので，こちらで用意した下書きとは別文面
+- `39b099d` の push も隣のセッションで済んでいる
+
+### 次
+
+- SNS 用の文面が要れば作る
