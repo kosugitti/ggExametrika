@@ -7,13 +7,15 @@
 plotGraph_gg(
   data,
   layout = "sugiyama",
-  direction = "BT",
+  direction = "TB",
   node_size = 12,
   label_size = 4,
   arrow_size = 3,
   title = TRUE,
   colors = NULL,
-  show_legend = FALSE,
+  fill_by = c("crr", "type"),
+  fill_limits = NULL,
+  show_legend = NULL,
   legend_position = "right"
 )
 }
@@ -28,10 +30,11 @@ Options include "sugiyama" (default, hierarchical), "fr" (Fruchterman-Reingold),
 Controls the direction of arrows and node placement in hierarchical layouts.
 Only applies when \code{layout = "sugiyama"} (default).
 \itemize{
-\item \strong{"BT"} (default): Bottom-to-Top. Source nodes at bottom, arrows point upward.
+\item \strong{"TB"} (default): Top-to-Bottom. Source (parent) nodes at
+top, arrows point downward. Traditional hierarchical view.
+\item \strong{"BT"}: Bottom-to-Top. Source nodes at bottom, arrows point upward.
 Use when representing progression or growth (e.g., learning paths).
-\item \strong{"TB"}: Top-to-Bottom. Source nodes at top, arrows point downward.
-Traditional hierarchical view (e.g., organizational charts).
+This was the default before version 1.3.0.
 \item \strong{"LR"}: Left-to-Right. Source nodes at left, arrows point right.
 Good for wide displays or process flows.
 \item \strong{"RL"}: Right-to-Left. Source nodes at right, arrows point left.
@@ -52,14 +55,32 @@ appended; a character vector of length equal to the number of ranks
 assigns each element as the title for the corresponding rank.}
 
 \item{colors}{Character vector. Colors for node types.
-For BNM/LDLRA: single color for Item nodes.
+For BNM with \code{fill_by = "crr"}: two colors for the low and high
+ends of the correct-response-rate gradient.
+For BNM with \code{fill_by = "type"} and LDLRA: single color for Item nodes.
 For LDB: single color for Field nodes.
 For BINET: two colors for Class and Field nodes (positional or named).
 If \code{NULL} (default), uses the default node type colors
 (Item=purple, Field=green, Class=blue).}
 
-\item{show_legend}{Logical. If \code{TRUE}, display the node type legend.
-Default is \code{FALSE}.}
+\item{fill_by}{Character. BNM only: how Item nodes are filled.
+\code{"crr"} (default) shades each node by the item's correct response
+rate (\code{data$crr}), so easy and hard items can be told apart at a
+glance; \code{"type"} uses a single color for all
+Item nodes (the behavior before version 1.3.0). Ignored for LDLRA, LDB
+and BINET.}
+
+\item{fill_limits}{Numeric vector of length 2, or \code{NULL} (default).
+Range of the correct-response-rate color scale. \code{NULL} stretches the
+scale over the observed rates, which keeps differences visible when all
+rates are close (e.g. rare symptoms); \code{c(0, 1)} fixes the scale so
+plots from different data sets can be compared. Used only with
+\code{fill_by = "crr"}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, display the legend (the
+correct-response-rate color bar for BNM with \code{fill_by = "crr"},
+otherwise the node type legend). If \code{NULL} (default), the color bar
+is shown for BNM with \code{fill_by = "crr"} and no legend otherwise.}
 
 \item{legend_position}{Character. Position of the legend.
 One of \code{"right"} (default), \code{"top"}, \code{"bottom"},
@@ -77,7 +98,8 @@ Design based on TDE figures with items as rounded rectangles and fields as diamo
 \details{
 Design follows TDE figure specifications:
 \itemize{
-\item BNM: Items shown as purple circles with numbers inside
+\item BNM: Items shown as circles with numbers inside, shaded by
+correct response rate (or a single purple with \code{fill_by = "type"})
 \item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
 \item LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes auto-removed
 \item BINET: Integrated graph with Class nodes (blue squares) and Field nodes
@@ -89,8 +111,8 @@ the Class nodes they connect
 
 Choose the direction that best represents your data structure:
 \itemize{
-\item Use \strong{BT (default)} for learning progression, skill development, or upward growth
-\item Use \strong{TB} for traditional hierarchies or causal flows
+\item Use \strong{TB (default)} for traditional hierarchies or causal flows
+\item Use \strong{BT} for learning progression, skill development, or upward growth
 \item Use \strong{LR/RL} for temporal sequences or wide-format displays
 }
 
@@ -123,17 +145,21 @@ DAG <- matrix(c(
 g <- igraph::graph_from_data_frame(DAG)
 result <- BNM(J5S10, g = g)
 
-# Default: Bottom-to-Top (arrows point upward)
+# Default: Top-to-Bottom (parents on top, arrows point downward)
 plots <- plotGraph_gg(result)
 plots[[1]]
 
 # Alternative directions
-plotGraph_gg(result, direction = "TB")[[1]] # Top-to-Bottom
+plotGraph_gg(result, direction = "BT")[[1]] # Bottom-to-Top
 plotGraph_gg(result, direction = "LR")[[1]] # Left-to-Right
 plotGraph_gg(result, direction = "RL")[[1]] # Right-to-Left
 
 # Force-directed layout (no direction parameter)
 plotGraph_gg(result, layout = "fr")[[1]]
+
+# Fixed 0-1 color scale (comparable across plots) or a single color
+plotGraph_gg(result, fill_limits = c(0, 1))[[1]]
+plotGraph_gg(result, fill_by = "type")[[1]]
 
 # Custom title
 plotGraph_gg(result, title = "My Network Model")[[1]]

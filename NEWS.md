@@ -1,3 +1,28 @@
+# ggExametrika 1.2.0.9000 (development)
+
+## New Features
+
+* `plotGraph_gg()` shades BNM item nodes by correct response rate by
+  default (new argument `fill_by = c("crr", "type")`), with a colour bar, so
+  easy and hard items can be told apart at a glance. The scale stretches over
+  the observed rates by default, which keeps differences visible when all
+  rates are close; `fill_limits = c(0, 1)` fixes it so plots from different
+  data sets share one scale. `fill_by = "type"` restores the single-colour
+  nodes; `colors` takes the low and high ends of the gradient. `show_legend`
+  now defaults to `NULL`, which shows the colour bar for this case and no
+  legend otherwise (unchanged for the other models).
+
+* `plotGraph_gg()` now draws hierarchical layouts top-to-bottom by default
+  (`direction = "TB"`): parent nodes sit at the top and arrows point down.
+  Use `direction = "BT"` for the previous bottom-to-top orientation.
+
+## Bug Fixes
+
+* `plotGraph_gg()` labelled items numbered 10 and above with their last digit
+  only ("Item10" showed as "0", "Item14" as "4"), so tests with ten or more
+  items had duplicate node labels. The lazy pattern used to extract the
+  number was read greedily by R's default regex engine; it now uses PCRE.
+
 # ggExametrika 1.2.0
 
 `plotArray_gg()` changes what it draws by default, so the version is raised

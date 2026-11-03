@@ -308,3 +308,57 @@ test_that("plotGraph_gg BINET: node sizes differ by type", {
     label = "Class nodes larger than Field nodes"
   )
 })
+
+test_that("plotGraph_gg shades BNM nodes by correct response rate", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BNM), "BNM fixture not available")
+
+  p <- plotGraph_gg(fixture_BNM)[[1]]
+  built <- ggplot2::ggplot_build(p)
+  pts <- built$data[[2]]
+  crr <- as.numeric(fixture_BNM$crr)
+  # One node per item, each filled by its own correct response rate
+  expect_equal(nrow(pts), length(crr))
+  expect_equal(length(unique(pts$fill)), length(unique(crr)))
+  # Higher rate -> darker fill on the default gradient
+  lum <- colSums(grDevices::col2rgb(pts$fill) * c(0.299, 0.587, 0.114))
+  node_crr <- p$data$crr
+  expect_true(cor(lum, node_crr) < 0)
+  # Scale follows the data by default; colour bar shown by default
+  expect_null(p$scales$get_scales("fill")$limits)
+  expect_false(identical(p$theme$legend.position, "none"))
+  p01 <- plotGraph_gg(fixture_BNM, fill_limits = c(0, 1))[[1]]
+  expect_equal(p01$scales$get_scales("fill")$limits, c(0, 1))
+  expect_error(plotGraph_gg(fixture_BNM, fill_limits = 1), "length 2")
+})
+
+test_that("plotGraph_gg puts parents on top by default", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BNM), "BNM fixture not available")
+
+  y_of <- function(p) stats::setNames(p$data$y, p$data$name)
+  edges <- igraph::as_edgelist(fixture_BNM$g)
+  y_tb <- y_of(plotGraph_gg(fixture_BNM)[[1]])
+  expect_true(all(y_tb[edges[, 1]] > y_tb[edges[, 2]]))
+  y_bt <- y_of(plotGraph_gg(fixture_BNM, direction = "BT")[[1]])
+  expect_true(all(y_bt[edges[, 1]] < y_bt[edges[, 2]]))
+})
+
+test_that("plotGraph_gg fill_by = 'type' keeps single-colour nodes", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_BNM), "BNM fixture not available")
+
+  p <- plotGraph_gg(fixture_BNM, fill_by = "type")[[1]]
+  pts <- ggplot2::ggplot_build(p)$data[[2]]
+  expect_equal(length(unique(pts$fill)), 1)
+  expect_identical(p$theme$legend.position, "none")
+  expect_s3_class(plotGraph_gg(fixture_BNM, colors = c("white", "navy"))[[1]], "gg")
+  expect_error(plotGraph_gg(fixture_BNM, colors = "navy"), "two colors")
+})
+
+test_that("node labels keep every digit of the item number", {
+  expect_identical(
+    .dag_node_number(c("Item01", "Item10", "Item14", "Item100", "PHQ9", "abc")),
+    c("1", "10", "14", "100", "9", "abc")
+  )
+})
