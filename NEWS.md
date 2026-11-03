@@ -2,6 +2,12 @@
 
 ## New Features
 
+* `combinePlots_gg()` gains `nr` and `nc` to set the number of rows and
+  columns of the grid (`combinePlots_gg(plots, 1:9, nr = 3, nc = 3)`), named
+  after the arguments of `plot.exametrika`. Either may be given alone; both
+  together are checked against the number of selected plots. The layout
+  stays automatic when neither is given.
+
 * `plotGraph_gg()` shades BNM item nodes by correct response rate by
   default (new argument `fill_by = c("crr", "type")`), with a colour bar, so
   easy and hard items can be told apart at a glance. The scale stretches over
@@ -15,6 +21,14 @@
 * `plotGraph_gg()` now draws hierarchical layouts top-to-bottom by default
   (`direction = "TB"`): parent nodes sit at the top and arrows point down.
   Use `direction = "BT"` for the previous bottom-to-top orientation.
+
+* `plotGraph_gg()` gains `show_isolated` (default `FALSE`) for BNM, LDLRA and
+  LDB. Nodes with no edges are left out of the graph by default, as LDLRA and
+  LDB already did, but are now listed in a caption under the plot
+  ("Isolated items: 5, 9") and in the message, so an unconnected item never
+  disappears without a trace. BNM used to draw them at the end of the top
+  layer; `show_isolated = TRUE` draws them in a row of their own below the
+  last layer instead.
 
 ## Bug Fixes
 

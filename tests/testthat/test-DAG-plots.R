@@ -362,3 +362,23 @@ test_that("node labels keep every digit of the item number", {
     c("1", "10", "14", "100", "9", "abc")
   )
 })
+
+test_that("isolated BNM nodes are dropped with a caption, or drawn below", {
+  skip_if_not_installed("exametrika")
+  # Item05 has no edges
+  DAG <- matrix(c("Item01", "Item02", "Item02", "Item03", "Item02", "Item04"),
+    ncol = 2, byrow = TRUE
+  )
+  g <- igraph::add_vertices(igraph::graph_from_data_frame(DAG), 1, name = "Item05")
+  res <- suppressMessages(exametrika::BNM(exametrika::J5S10, g = g))
+
+  expect_message(p <- plotGraph_gg(res)[[1]], "isolated node\\(s\\): 5")
+  expect_false("Item05" %in% p$data$name)
+  expect_identical(p$labels$caption, "Isolated items: 5")
+
+  p2 <- plotGraph_gg(res, show_isolated = TRUE)[[1]]
+  expect_true("Item05" %in% p2$data$name)
+  expect_null(p2$labels$caption)
+  y <- stats::setNames(p2$data$y, p2$data$name)
+  expect_true(y[["Item05"]] < min(y[setdiff(names(y), "Item05")]))
+})

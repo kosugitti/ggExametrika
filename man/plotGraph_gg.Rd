@@ -15,6 +15,7 @@ plotGraph_gg(
   colors = NULL,
   fill_by = c("crr", "type"),
   fill_limits = NULL,
+  show_isolated = FALSE,
   show_legend = NULL,
   legend_position = "right"
 )
@@ -77,6 +78,14 @@ rates are close (e.g. rare symptoms); \code{c(0, 1)} fixes the scale so
 plots from different data sets can be compared. Used only with
 \code{fill_by = "crr"}.}
 
+\item{show_isolated}{Logical. Whether to draw nodes with no edges
+(items or fields unrelated to all others) for BNM, LDLRA and LDB.
+\code{FALSE} (default) leaves them out of the graph but lists them in a
+caption under the plot (e.g. "Isolated items: 5, 9"), so it stays
+visible that they exist and are unconnected. \code{TRUE} draws them in
+a row of their own after the last layer of the hierarchical layout.
+Ignored for BINET.}
+
 \item{show_legend}{Logical. If \code{TRUE}, display the legend (the
 correct-response-rate color bar for BNM with \code{fill_by = "crr"},
 otherwise the node type legend). If \code{NULL} (default), the color bar
@@ -100,8 +109,8 @@ Design follows TDE figure specifications:
 \itemize{
 \item BNM: Items shown as circles with numbers inside, shaded by
 correct response rate (or a single purple with \code{fill_by = "type"})
-\item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
-\item LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes auto-removed
+\item LDLRA: Items as circles per rank/class, one plot per rank
+\item LDB: Fields shown as green diamonds, one plot per rank
 \item BINET: Integrated graph with Class nodes (blue squares) and Field nodes
 (green diamonds) as intermediates. Field nodes are smaller and placed between
 the Class nodes they connect

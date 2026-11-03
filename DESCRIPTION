@@ -1,7 +1,7 @@
 Package: ggExametrika
 Type: Package
 Title: Visualization of 'exametrika' Output Using 'ggplot2'
-Version: 1.2.0
+Version: 1.2.0.9000
 Authors@R: c(
     person(given = "Koji", family = "Kosugi", role = c("aut", "cre"), email = "kosugitti@gmail.com", comment = c(ORCID = "0000-0001-5816-0099")),
     person(given = "Daichi", family = "Kamimura", role = c("aut")))
@@ -23,4 +23,4 @@ Suggests:
     exametrika (>= 1.11.0),
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

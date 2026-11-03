@@ -52,6 +52,13 @@
 #'   rates are close (e.g. rare symptoms); \code{c(0, 1)} fixes the scale so
 #'   plots from different data sets can be compared. Used only with
 #'   \code{fill_by = "crr"}.
+#' @param show_isolated Logical. Whether to draw nodes with no edges
+#'   (items or fields unrelated to all others) for BNM, LDLRA and LDB.
+#'   \code{FALSE} (default) leaves them out of the graph but lists them in a
+#'   caption under the plot (e.g. "Isolated items: 5, 9"), so it stays
+#'   visible that they exist and are unconnected. \code{TRUE} draws them in
+#'   a row of their own after the last layer of the hierarchical layout.
+#'   Ignored for BINET.
 #' @param show_legend Logical. If \code{TRUE}, display the legend (the
 #'   correct-response-rate color bar for BNM with \code{fill_by = "crr"},
 #'   otherwise the node type legend). If \code{NULL} (default), the color bar
@@ -71,8 +78,8 @@
 #' \itemize{
 #'   \item BNM: Items shown as circles with numbers inside, shaded by
 #'         correct response rate (or a single purple with \code{fill_by = "type"})
-#'   \item LDLRA: Items as circles per rank/class, one plot per rank. Isolated nodes auto-removed
-#'   \item LDB: Fields shown as green diamonds, one plot per rank. Isolated nodes auto-removed
+#'   \item LDLRA: Items as circles per rank/class, one plot per rank
+#'   \item LDB: Fields shown as green diamonds, one plot per rank
 #'   \item BINET: Integrated graph with Class nodes (blue squares) and Field nodes
 #'         (green diamonds) as intermediates. Field nodes are smaller and placed between
 #'         the Class nodes they connect
@@ -145,6 +152,7 @@ plotGraph_gg <- function(data,
                          colors = NULL,
                          fill_by = c("crr", "type"),
                          fill_limits = NULL,
+                         show_isolated = FALSE,
                          show_legend = NULL,
                          legend_position = "right") {
   # Check class
@@ -166,7 +174,8 @@ plotGraph_gg <- function(data,
   # BNM Implementation
   # ===================================================================
   if (model_class == "BNM") {
-    g <- data$g
+    iso <- .dag_split_isolated(data$g, show_isolated, "items", "")
+    g <- iso$g
 
     # Add node attributes
     node_names <- igraph::V(g)$name
@@ -174,7 +183,7 @@ plotGraph_gg <- function(data,
     igraph::V(g)$node_type <- "Item"
 
     # Compute layout
-    lay <- .dag_compute_layout(g, layout, direction)
+    lay <- .dag_compute_layout(g, layout, direction, iso$isolated)
 
     # Apply scaling
     scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
@@ -200,7 +209,8 @@ plotGraph_gg <- function(data,
     p <- .dag_build_plot(
       g, lay, scales, node_colors, node_shapes,
       plot_title, show_legend, legend_position,
-      fill_crr = fill_crr, fill_limits = fill_limits
+      fill_crr = fill_crr, fill_limits = fill_limits,
+      caption = iso$caption
     )
 
     return(list(p))
@@ -214,15 +224,11 @@ plotGraph_gg <- function(data,
     plot_list <- vector("list", n_ranks)
 
     for (i in seq_len(n_ranks)) {
-      g <- data$g_list[[i]]
-
-      # Remove isolated nodes
-      degree <- igraph::degree(g, mode = "all")
-      isolated <- names(degree[degree == 0])
-      if (length(isolated) > 0) {
-        message("Rank ", i, ": Removing ", length(isolated), " isolated node(s)")
-        g <- igraph::delete_vertices(g, isolated)
-      }
+      # Isolated nodes: dropped (listed in a caption) unless show_isolated
+      iso <- .dag_split_isolated(
+        data$g_list[[i]], show_isolated, "items", paste0("Rank ", i, ": ")
+      )
+      g <- iso$g
 
       # Skip empty graphs
       if (igraph::vcount(g) == 0) {
@@ -236,7 +242,7 @@ plotGraph_gg <- function(data,
       igraph::V(g)$node_type <- "Item"
 
       # Compute layout and scaling
-      lay <- .dag_compute_layout(g, layout, direction)
+      lay <- .dag_compute_layout(g, layout, direction, iso$isolated)
       scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
 
       # Set node colors and shapes
@@ -258,7 +264,8 @@ plotGraph_gg <- function(data,
 
       plot_list[[i]] <- .dag_build_plot(
         g, lay, scales, node_colors, node_shapes,
-        plot_title, show_legend, legend_position
+        plot_title, show_legend, legend_position,
+        caption = iso$caption
       )
     }
 
@@ -277,15 +284,11 @@ plotGraph_gg <- function(data,
     node_shapes <- .dag_node_shapes("Field")
 
     for (i in seq_len(n_ranks)) {
-      g <- data$g_list[[i]]
-
-      # Remove isolated nodes
-      degree <- igraph::degree(g, mode = "all")
-      isolated <- names(degree[degree == 0])
-      if (length(isolated) > 0) {
-        message("Rank ", i, ": Removing ", length(isolated), " isolated node(s)")
-        g <- igraph::delete_vertices(g, isolated)
-      }
+      # Isolated nodes: dropped (listed in a caption) unless show_isolated
+      iso <- .dag_split_isolated(
+        data$g_list[[i]], show_isolated, "fields", paste0("Rank ", i, ": ")
+      )
+      g <- iso$g
 
       # Skip empty graphs
       if (igraph::vcount(g) == 0) {
@@ -299,7 +302,7 @@ plotGraph_gg <- function(data,
       igraph::V(g)$node_type <- "Field"
 
       # Compute layout and scaling
-      lay <- .dag_compute_layout(g, layout, direction)
+      lay <- .dag_compute_layout(g, layout, direction, iso$isolated)
       scales <- .dag_scale_factors(igraph::vcount(g), node_size, arrow_size, label_size)
 
       # Set title
@@ -317,7 +320,8 @@ plotGraph_gg <- function(data,
 
       plot_list[[i]] <- .dag_build_plot(
         g, lay, scales, node_colors, node_shapes,
-        plot_title, show_legend, legend_position
+        plot_title, show_legend, legend_position,
+        caption = iso$caption
       )
     }
 
@@ -484,12 +488,50 @@ plotGraph_gg <- function(data,
   g
 }
 
+# Split off nodes with no edges.
+# show_isolated = FALSE: drop them, report them in a message and a caption so
+# that an unconnected item never disappears without a trace.
+# show_isolated = TRUE: keep them; their names are returned so the layout can
+# put them in a row of their own.
+.dag_split_isolated <- function(g, show_isolated, unit, msg_prefix) {
+  degree <- igraph::degree(g, mode = "all")
+  isolated <- names(degree[degree == 0])
+  if (length(isolated) == 0) {
+    return(list(g = g, isolated = NULL, caption = NULL))
+  }
+  if (show_isolated) {
+    return(list(g = g, isolated = isolated, caption = NULL))
+  }
+  numbers <- .dag_node_number(isolated)
+  message(
+    msg_prefix, "Removing ", length(isolated), " isolated node(s): ",
+    paste(numbers, collapse = ", ")
+  )
+  list(
+    g = igraph::delete_vertices(g, isolated),
+    isolated = NULL,
+    caption = paste0("Isolated ", unit, ": ", paste(numbers, collapse = ", "))
+  )
+}
+
 # Compute graph layout matrix
-.dag_compute_layout <- function(g, layout, direction) {
+# isolated: names of edge-less nodes to place in a row after the last layer
+# (sugiyama only; otherwise they keep the position the layout gives them).
+.dag_compute_layout <- function(g, layout, direction, isolated = NULL) {
   if (layout != "sugiyama") {
     return(layout)
   }
   lay <- igraph::layout_with_sugiyama(g)$layout
+  is_iso <- igraph::V(g)$name %in% isolated
+  if (any(is_iso)) {
+    # Raw sugiyama: sources have the largest y, so "after the last layer"
+    # is one step below the smallest y among connected nodes.
+    y_conn <- if (any(!is_iso)) min(lay[!is_iso, 2]) else 1
+    x_conn <- if (any(!is_iso)) mean(range(lay[!is_iso, 1])) else 0
+    k <- sum(is_iso)
+    lay[is_iso, 2] <- y_conn - 1
+    lay[is_iso, 1] <- x_conn + seq_len(k) - (k + 1) / 2
+  }
   if (direction == "BT") {
     lay[, 2] <- -lay[, 2]
   } else if (direction == "TB") {
@@ -510,7 +552,8 @@ plotGraph_gg <- function(data,
 .dag_build_plot <- function(g, lay, scales, node_colors, node_shapes,
                             plot_title, show_legend, legend_position,
                             node_size_map = NULL, label_size_map = NULL,
-                            fill_crr = FALSE, fill_limits = NULL) {
+                            fill_crr = FALSE, fill_limits = NULL,
+                            caption = NULL) {
   # Compute expand margin so nodes are never clipped.
   # node_size (ggplot pt units) / coordinate range determines needed padding.
   # Larger nodes need proportionally more space; clamp to [0.20, 0.45].
@@ -610,6 +653,11 @@ plotGraph_gg <- function(data,
     ) +
     ggplot2::theme_void() +
     ggplot2::theme(plot.margin = ggplot2::margin(15, 15, 15, 15))
+
+  if (!is.null(caption)) {
+    p <- p + ggplot2::labs(caption = caption) +
+      ggplot2::theme(plot.caption = ggplot2::element_text(hjust = 0.5))
+  }
 
   if (!is.null(plot_title)) {
     p <- p + ggplot2::ggtitle(plot_title) +

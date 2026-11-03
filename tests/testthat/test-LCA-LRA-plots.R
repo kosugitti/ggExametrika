@@ -286,3 +286,21 @@ test_that("plotRMP_gg rejects invalid input", {
   expect_error(plotRMP_gg(NULL), "Invalid input")
   expect_error(plotRMP_gg(data.frame(x = 1)), "Invalid input")
 })
+
+test_that("combinePlots_gg arranges plots in a requested nr x nc grid", {
+  skip_if_not_installed("exametrika")
+  result <- exametrika::IRT(exametrika::J15S500, model = 2)
+  plots <- plotICC_gg(result)
+  pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
+  g <- combinePlots_gg(plots, selectPlots = 1:9, nr = 3, nc = 3)
+  expect_s3_class(g, "gtable")
+  lay <- g$layout
+  expect_equal(max(lay$t), 3)
+  expect_equal(max(lay$l), 3)
+  g2 <- combinePlots_gg(plots, selectPlots = 1:4, nc = 2)
+  expect_equal(max(g2$layout$l), 2)
+  expect_equal(max(g2$layout$t), 2)
+  expect_error(combinePlots_gg(plots, selectPlots = 1:9, nr = 2, nc = 2), "holds 4 plots")
+  expect_error(combinePlots_gg(plots, selectPlots = 1:4, nr = 0), "positive")
+})
