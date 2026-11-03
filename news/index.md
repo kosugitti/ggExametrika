@@ -1,5 +1,52 @@
 # Changelog
 
+## ggExametrika 1.2.0.9000 (development)
+
+### New Features
+
+- [`combinePlots_gg()`](https://kosugitti.github.io/ggExametrika/reference/combinePlots_gg.md)
+  gains `nr` and `nc` to set the number of rows and columns of the grid
+  (`combinePlots_gg(plots, 1:9, nr = 3, nc = 3)`), named after the
+  arguments of `plot.exametrika`. Either may be given alone; both
+  together are checked against the number of selected plots. The layout
+  stays automatic when neither is given.
+
+- [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md)
+  shades BNM item nodes by correct response rate by default (new
+  argument `fill_by = c("crr", "type")`), with a colour bar, so easy and
+  hard items can be told apart at a glance. The scale stretches over the
+  observed rates by default, which keeps differences visible when all
+  rates are close; `fill_limits = c(0, 1)` fixes it so plots from
+  different data sets share one scale. `fill_by = "type"` restores the
+  single-colour nodes; `colors` takes the low and high ends of the
+  gradient. `show_legend` now defaults to `NULL`, which shows the colour
+  bar for this case and no legend otherwise (unchanged for the other
+  models).
+
+- [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md)
+  now draws hierarchical layouts top-to-bottom by default
+  (`direction = "TB"`): parent nodes sit at the top and arrows point
+  down. Use `direction = "BT"` for the previous bottom-to-top
+  orientation.
+
+- [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md)
+  gains `show_isolated` (default `FALSE`) for BNM, LDLRA and LDB. Nodes
+  with no edges are left out of the graph by default, as LDLRA and LDB
+  already did, but are now listed in a caption under the plot (“Isolated
+  items: 5, 9”) and in the message, so an unconnected item never
+  disappears without a trace. BNM used to draw them at the end of the
+  top layer; `show_isolated = TRUE` draws them in a row of their own
+  below the last layer instead.
+
+### Bug Fixes
+
+- [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md)
+  labelled items numbered 10 and above with their last digit only
+  (“Item10” showed as “0”, “Item14” as “4”), so tests with ten or more
+  items had duplicate node labels. The lazy pattern used to extract the
+  number was read greedily by R’s default regex engine; it now uses
+  PCRE.
+
 ## ggExametrika 1.2.0
 
 CRAN release: 2026-09-25

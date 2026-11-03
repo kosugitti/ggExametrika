@@ -11,7 +11,7 @@ across items or students."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@ across items or students.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">combinePlots_gg</span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">combinePlots_gg</span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, nr <span class="op">=</span> <span class="cn">NULL</span>, nc <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,6 +69,17 @@ like <code><a href="plotICC_gg.html">plotICC_gg</a></code>, <code><a href="plotI
 Default is <code>1:6</code> (first 6 plots). Indices exceeding the list
 length are automatically excluded.</p></dd>
 
+
+<dt id="arg-nr">nr<a class="anchor" aria-label="anchor" href="#arg-nr"></a></dt>
+<dd><p>Number of rows of the grid. Default <code>NULL</code> lets
+<code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange</a></code> choose.</p></dd>
+
+
+<dt id="arg-nc">nc<a class="anchor" aria-label="anchor" href="#arg-nc"></a></dt>
+<dd><p>Number of columns of the grid. Default <code>NULL</code> lets
+<code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange</a></code> choose. The names follow the
+<code>nr</code>/<code>nc</code> arguments of <code>plot.exametrika</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -78,9 +89,11 @@ a side effect.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function uses <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange</a></code> to combine multiple
-plots. The number of rows and columns is automatically determined.
-For more control over layout, consider using <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange</a></code>
-directly with the <code>nrow</code> and <code>ncol</code> arguments.</p>
+plots. The number of rows and columns is determined automatically unless
+<code>nr</code> and/or <code>nc</code> are given. When only one of them is given the
+other follows from the number of plots. Selected plots are placed row by
+row. For more control over layout, use <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">gridExtra::grid.arrange</a></code>
+directly.</p>
     </div>
 
     <div class="section level2">
@@ -97,6 +110,8 @@ directly with the <code>nrow</code> and <code>ncol</code> arguments.</p>
 <span class="r-plt img"><img src="combinePlots_gg-1.png" alt="" width="672" height="480"></span>
 <span class="r-in"><span><span class="fu">combinePlots_gg</span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="co"># Show specific items</span></span></span>
 <span class="r-plt img"><img src="combinePlots_gg-2.png" alt="" width="672" height="480"></span>
+<span class="r-in"><span><span class="fu">combinePlots_gg</span><span class="op">(</span><span class="va">plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, nr <span class="op">=</span> <span class="fl">3</span>, nc <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="co"># 3 x 3 grid</span></span></span>
+<span class="r-plt img"><img src="combinePlots_gg-3.png" alt="" width="672" height="480"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

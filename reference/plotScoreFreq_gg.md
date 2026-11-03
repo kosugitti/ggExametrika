@@ -80,9 +80,6 @@ observed score ranges.
 # \donttest{
 library(exametrika)
 result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
-#> 
-#> Reached the maximum number of iterations.
-#> Warning: Algorithm may not have converged. Interpret results with caution.
 plot <- plotScoreFreq_gg(result)
 plot
 
