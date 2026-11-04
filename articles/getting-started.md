@@ -444,6 +444,10 @@ category-level analysis.
 ``` r
 
 result_lra_ord <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
+#> Warning in icl_exact(ZU_ex, rankProf, alpha = alpha, ncat = ncat, log_prior_cls
+#> = log(log_prior/sum(log_prior)), : ICL_exact: the posterior probability of the
+#> rank order fell below the Monte Carlo resolution in at least one field;
+#> ICL_exact is a bound there.
 ```
 
 ### plotScoreFreq_gg: Score Frequency Distribution
@@ -584,6 +588,9 @@ trp_plot
 ``` r
 
 lrd_plot <- plotLRD_gg(result_bic)
+#> Warning in .plot_student_distribution(data, Num_Students, title, colors, : The
+#> input data was supposed to be visualized with The Latent Class Distribution, so
+#> I will plot the LCD.
 lrd_plot
 ```
 
@@ -594,6 +601,9 @@ lrd_plot
 ``` r
 
 rmp_plots <- plotRMP_gg(result_bic)
+#> Warning in .plot_membership_profile(data, title, colors, linetype, show_legend,
+#> : The input data was supposed to be visualized with The Class Membership
+#> Profile, so I will plot the CMP.
 combinePlots_gg(rmp_plots, selectPlots = 1:6)
 ```
 

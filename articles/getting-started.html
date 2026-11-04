@@ -386,7 +386,11 @@ ranks.</p>
 data, providing specialized visualizations for score distributions and
 category-level analysis.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in icl_exact(ZU_ex, rankProf, alpha = alpha, ncat = ncat, log_prior_cls</span></span>
+<span><span class="co">#&gt; = log(log_prior/sum(log_prior)), : ICL_exact: the posterior probability of the</span></span>
+<span><span class="co">#&gt; rank order fell below the Monte Carlo resolution in at least one field;</span></span>
+<span><span class="co">#&gt; ICL_exact is a bound there.</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotscorefreq_gg-score-frequency-distribution">plotScoreFreq_gg: Score Frequency Distribution<a class="anchor" aria-label="anchor" href="#plotscorefreq_gg-score-frequency-distribution"></a>
 </h3>
@@ -489,6 +493,9 @@ K-1.</p>
 </h3>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lrd_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotLRD_gg.html">plotLRD_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in .plot_student_distribution(data, Num_Students, title, colors, : The</span></span>
+<span><span class="co">#&gt; input data was supposed to be visualized with The Latent Class Distribution, so</span></span>
+<span><span class="co">#&gt; I will plot the LCD.</span></span>
 <span><span class="va">lrd_plot</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-46-1.png" class="r-plt" alt="" width="672"></p>
 </div>
@@ -497,6 +504,9 @@ K-1.</p>
 </h3>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rmp_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotRMP_gg.html">plotRMP_gg</a></span><span class="op">(</span><span class="va">result_bic</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in .plot_membership_profile(data, title, colors, linetype, show_legend,</span></span>
+<span><span class="co">#&gt; : The input data was supposed to be visualized with The Class Membership</span></span>
+<span><span class="co">#&gt; Profile, so I will plot the CMP.</span></span>
 <span><span class="fu"><a href="../reference/combinePlots_gg.html">combinePlots_gg</a></span><span class="op">(</span><span class="va">rmp_plots</span>, selectPlots <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-47-1.png" class="r-plt" alt="" width="672"></p>
 </div>

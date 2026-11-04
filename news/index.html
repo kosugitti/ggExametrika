@@ -42,6 +42,11 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0.9000" id="ggexametrika-1209000-development">ggExametrika 1.2.0.9000 (development)<a class="anchor" aria-label="anchor" href="#ggexametrika-1209000-development"></a></h2>
 <div class="section level3">
+<h3 id="bug-fixes-1-2-0-9000">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0-9000"></a></h3>
+<ul><li>
+<code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code>, <code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code>, <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> and <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> now read whether a biclustering fit has latent classes (<code>method = "B"</code>) or latent ranks (<code>method = "R"</code>, Ranklustering) from the fit itself, as exametrika records it in <code>msg</code>. Until now every <code><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering()</a></code> object was treated as a rank model, so <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code> on a plain biclustering fit warned that the data “was supposed to be visualized with The Latent Rank Distribution” and labelled the axis “Latent Rank”. The redirect warning now fires in the right direction for both methods, and the same holds for the nominal, ordinal and rated biclustering fits.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="new-features-1-2-0-9000">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-2-0-9000"></a></h3>
 <ul><li><p><code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code> gains <code>nr</code> and <code>nc</code> to set the number of rows and columns of the grid (<code>combinePlots_gg(plots, 1:9, nr = 3, nc = 3)</code>), named after the arguments of <code>plot.exametrika</code>. Either may be given alone; both together are checked against the number of selected plots. The layout stays automatic when neither is given.</p></li>
 <li><p><code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> shades BNM item nodes by correct response rate by default (new argument <code>fill_by = c("crr", "type")</code>), with a colour bar, so easy and hard items can be told apart at a glance. The scale stretches over the observed rates by default, which keeps differences visible when all rates are close; <code>fill_limits = c(0, 1)</code> fixes it so plots from different data sets share one scale. <code>fill_by = "type"</code> restores the single-colour nodes; <code>colors</code> takes the low and high ends of the gradient. <code>show_legend</code> now defaults to <code>NULL</code>, which shows the colour bar for this case and no legend otherwise (unchanged for the other models).</p></li>
@@ -49,7 +54,7 @@
 <li><p><code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> gains <code>show_isolated</code> (default <code>FALSE</code>) for BNM, LDLRA and LDB. Nodes with no edges are left out of the graph by default, as LDLRA and LDB already did, but are now listed in a caption under the plot (“Isolated items: 5, 9”) and in the message, so an unconnected item never disappears without a trace. BNM used to draw them at the end of the top layer; <code>show_isolated = TRUE</code> draws them in a row of their own below the last layer instead.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-2-0-9000">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0-9000"></a></h3>
+<h3 id="bug-fixes-1-2-0-9000-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0-9000-1"></a></h3>
 <ul><li>
 <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> labelled items numbered 10 and above with their last digit only (“Item10” showed as “0”, “Item14” as “4”), so tests with ten or more items had duplicate node labels. The lazy pattern used to extract the number was read greedily by R’s default regex engine; it now uses PCRE.</li>
 </ul></div>

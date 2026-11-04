@@ -97,6 +97,7 @@ base plots of the parent exametrika package.
 library(exametrika)
 # \donttest{
 result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
+#> Warning: ICL_exact: the posterior probability of the rank order fell below the Monte Carlo resolution in at least one field; ICL_exact is a bound there.
 
 # Plot first 4 items
 plot <- plotICRP_gg(result, items = 1:4)

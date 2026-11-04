@@ -143,6 +143,7 @@ plotArray_gg(result, Clustered_lines_color = "blue")
 synthetic_data <- matrix(sample(0:3, 50 * 20, replace = TRUE), nrow = 50, ncol = 20)
 result_multi <- Biclustering(synthetic_data, nfld = 4, ncls = 5)
 #> No ID column detected. All columns treated as response data. Sequential IDs (Student1, Student2, ...) were generated. Use id= parameter to specify the ID column explicitly.
+#> Item(s) V1, V6, V8, V10, V11, V13, V14, V16, V19 correlate negatively with the rest score and may be reverse-keyed. Recode them before an order-restricted analysis; see MonotonicityCheck().
 plotArray_gg(result_multi, show_legend = TRUE, Clustered_lines_color = "darkgreen")
 
 #> TableGrob (2 x 1) "arrange": 2 grobs
