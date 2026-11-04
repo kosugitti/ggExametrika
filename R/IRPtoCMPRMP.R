@@ -508,8 +508,9 @@ plotTRP_gg <- function(data,
   )
   .validate_exametrika(data, c(class_models, rank_models))
 
-  # mode TRUE = class model, FALSE = rank model
-  mode <- any(class(data) %in% class_models)
+  # mode TRUE = class model, FALSE = rank model (a biclustering fit is
+  # decided by its msg: "B" gives classes, "R" ranks)
+  mode <- .is_class_model(data, class_models)
   xlabel <- if (mode) "Latent Class" else "Latent Rank"
 
   # Warn when the model family does not match the called function
@@ -759,7 +760,7 @@ plotLRD_gg <- function(data,
   )
   .validate_exametrika(data, c(class_models, rank_models))
 
-  is_class_model <- any(class(data) %in% class_models)
+  is_class_model <- .is_class_model(data, class_models)
   xlabel <- if (is_class_model) "Class" else "Rank"
 
   # LCA output has unnamed students: give them zero-padded names

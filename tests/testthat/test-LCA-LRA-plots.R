@@ -156,12 +156,28 @@ test_that("plotLRD_gg returns ggplot for LRA", {
   expect_s3_class(result, "gg")
 })
 
-test_that("plotLRD_gg returns ggplot for Biclustering", {
+test_that("plotLRD_gg returns ggplot for Ranklustering without a warning", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_Ranklust), "Ranklustering fixture not available")
+
+  expect_no_warning(result <- plotLRD_gg(fixture_Ranklust))
+  expect_s3_class(result, "gg")
+  expect_equal(result$labels$x, "Latent Rank")
+})
+
+test_that("plotLCD_gg / plotLRD_gg read msg of a Biclustering fit (method B gives classes)", {
   skip_if_not_installed("exametrika")
   skip_if(is.null(fixture_Biclust), "Biclustering fixture not available")
+  skip_if(is.null(fixture_Ranklust), "Ranklustering fixture not available")
 
-  result <- plotLRD_gg(fixture_Biclust)
-  expect_s3_class(result, "gg")
+  # method = "B": a class model, so plotLCD_gg is the native one
+  expect_no_warning(result <- plotLCD_gg(fixture_Biclust))
+  expect_equal(result$labels$x, "Latent Class")
+  expect_warning(plotLRD_gg(fixture_Biclust), "Latent Class Distribution")
+
+  # method = "R": a rank model, so plotLRD_gg is the native one
+  expect_warning(result <- plotLCD_gg(fixture_Ranklust), "Latent Rank Distribution")
+  expect_equal(result$labels$x, "Latent Rank")
 })
 
 test_that("plotLRD_gg warns and plots LCD for LCA input", {
@@ -234,14 +250,25 @@ test_that("plotRMP_gg returns list of ggplots for LRA", {
   expect_s3_class(result[[1]], "gg")
 })
 
-test_that("plotRMP_gg returns list of ggplots for Biclustering", {
+test_that("plotRMP_gg returns list of ggplots for Ranklustering without a warning", {
   skip_if_not_installed("exametrika")
-  skip_if(is.null(fixture_Biclust), "Biclustering fixture not available")
+  skip_if(is.null(fixture_Ranklust), "Ranklustering fixture not available")
 
-  result <- plotRMP_gg(fixture_Biclust)
+  expect_no_warning(result <- plotRMP_gg(fixture_Ranklust))
   expect_type(result, "list")
   expect_true(length(result) > 0)
   expect_s3_class(result[[1]], "gg")
+})
+
+test_that("plotCMP_gg / plotRMP_gg read msg of a Biclustering fit (method B gives classes)", {
+  skip_if_not_installed("exametrika")
+  skip_if(is.null(fixture_Biclust), "Biclustering fixture not available")
+  skip_if(is.null(fixture_Ranklust), "Ranklustering fixture not available")
+
+  expect_no_warning(result <- plotCMP_gg(fixture_Biclust))
+  expect_s3_class(result[[1]], "gg")
+  expect_warning(plotRMP_gg(fixture_Biclust), "Class Membership Profile")
+  expect_warning(plotCMP_gg(fixture_Ranklust), "Rank Membership Profile")
 })
 
 test_that("plotRMP_gg warns and plots CMP for LCA input", {

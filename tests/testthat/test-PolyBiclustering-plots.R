@@ -198,19 +198,24 @@ test_that("plotArray_gg returns output for rated Biclustering", {
   expect_true(!is.null(result))
 })
 
-test_that("plotRMP_gg returns list of ggplots for rated Biclustering", {
+# The fixture is fitted with the default method = "B", so it is a class
+# model: plotCMP_gg / plotLCD_gg are the native functions and the rank
+# versions redirect with a warning.
+test_that("plotCMP_gg returns list of ggplots for rated Biclustering", {
   skip_if_not_installed("exametrika")
   skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
 
-  result <- plotRMP_gg(fixture_ratedBiclust)
+  expect_no_warning(result <- plotCMP_gg(fixture_ratedBiclust))
   expect_type(result, "list")
   expect_s3_class(result[[1]], "gg")
+  expect_warning(plotRMP_gg(fixture_ratedBiclust), "Class Membership Profile")
 })
 
-test_that("plotLRD_gg returns ggplot for rated Biclustering", {
+test_that("plotLCD_gg returns ggplot for rated Biclustering", {
   skip_if_not_installed("exametrika")
   skip_if(is.null(fixture_ratedBiclust), "rated Biclustering fixture not available")
 
-  result <- plotLRD_gg(fixture_ratedBiclust)
+  expect_no_warning(result <- plotLCD_gg(fixture_ratedBiclust))
   expect_s3_class(result, "gg")
+  expect_warning(plotLRD_gg(fixture_ratedBiclust), "Latent Class Distribution")
 })

@@ -1287,3 +1287,26 @@ Release ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情�
 ### 次
 
 - SNS 用の文面が要れば作る
+
+## 2026-11-03 (秘書セッション: plotGraph_gg の改良)
+
+- `plotGraph_gg()`:
+  - BNM の節点を正答率で塗る(`fill_by = c("crr","type")`・`fill_limits`。既定は観測の範囲)
+  - `direction` の既定を `"TB"`(親が上)に
+  - 孤立節点は既定で外して図の下に注記(`show_isolated`)。BNM・LDLRA・LDB
+  - 10番以上の項目の番号が1桁になるバグを修正(既定の正規表現エンジンが最短一致を無視。PCRE に)
+- PHQ-9・J5S10・J15S500・J35S515 で目視と「親が子より上・座標の重複なし」を確認。全テスト 682 件通過
+- コミット 5cbde78(秘書)・5d5328b(combinePlots_gg の nr/nc のセッションが show_isolated の変更も同梱)。両方 push 済み
+- 今後 ggExametrika の管理は exametrika 担当のセッションに任せる(先生の方針)
+
+### 次
+
+- exametrika の print 側は igraph を使わない独自の配置(`R/00_plot_dag.R` の dag_layout_base)になった。plotGraph_gg も同じ配置を使うかは 3.0.0 の脱 igraph のときに決める
+
+## 2026-11-04 plotLCD/LRD/CMP/RMP の Class/Rank 判定を msg で
+
+- exametrika 2.3.0(開発版・ICL_exact と equate を含む)に対する追随確認で見つけた従来からの不具合(先生指示で修正)。
+- `.plot_student_distribution` と `.plot_membership_profile` は class() の一覧で Class/Rank を決めており，Biclustering 系は全て Rank 扱いだった。`method = "B"`(既定)の Biclustering に `plotLCD_gg` を当てると「Rank 用なので LRD を描く」と警告し軸も Latent Rank になっていた。
+- 補助関数 `.is_class_model(data, class_models)`(`R/utils-internal.R`)を追加: Biclustering 系(binary・nominal・ordinal・rated)は exametrika が返す `msg`("Class"/"Rank")で決め，それ以外は従来の一覧。BINET は exametrika 側の `msg` が "Rank" だが LCD/CMD を返す Class モデルなので一覧のまま(msg は使わない)。
+- テスト: `fixture_Ranklust`(J35S515・method = "R")を追加し，B は LCD/CMP が無警告・LRD/RMP が警告，R はその逆を確かめる。`fixture_ratedBiclust` は dataType = "rated" でも ordinalBiclustering(既定 method = "B" の Class モデル)になるので，その LRD/RMP のテストを LCD/CMP に替えた。
+- NEWS に Bug Fixes として記載。

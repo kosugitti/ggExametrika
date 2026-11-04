@@ -65,6 +65,12 @@ if (has_exametrika) {
     error = function(e) NULL
   )
 
+  # ---- Ranklustering fixture (same data, method = "R": latent ranks) ----
+  fixture_Ranklust <- tryCatch(
+    exametrika::Biclustering(exametrika::J35S515, nfld = 3, ncls = 4, method = "R"),
+    error = function(e) NULL
+  )
+
   # ---- Ordinal Biclustering fixture (synthetic small data) ----
   set.seed(42)
   .synth_ordinal <- matrix(sample(0:3, 40 * 12, replace = TRUE),

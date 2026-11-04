@@ -1,5 +1,17 @@
 # ggExametrika 1.2.0.9000 (development)
 
+## Bug Fixes
+
+* `plotLCD_gg()`, `plotLRD_gg()`, `plotCMP_gg()` and `plotRMP_gg()` now
+  read whether a biclustering fit has latent classes (`method = "B"`) or
+  latent ranks (`method = "R"`, Ranklustering) from the fit itself, as
+  exametrika records it in `msg`. Until now every `Biclustering()` object
+  was treated as a rank model, so `plotLCD_gg()` on a plain biclustering
+  fit warned that the data "was supposed to be visualized with The Latent
+  Rank Distribution" and labelled the axis "Latent Rank". The redirect
+  warning now fires in the right direction for both methods, and the same
+  holds for the nominal, ordinal and rated biclustering fits.
+
 ## New Features
 
 * `combinePlots_gg()` gains `nr` and `nc` to set the number of rows and

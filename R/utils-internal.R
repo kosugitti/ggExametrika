@@ -116,3 +116,27 @@
   b <- (yaxis2[1] * yaxis1[2] - yaxis2[2] * yaxis1[1]) / diff(yaxis1)
   a * y1 + b
 }
+
+#' Is the fitted model a class model or a rank model?
+#'
+#' The biclustering family can be either: `method = "B"` gives latent
+#' classes, `method = "R"` (Ranklustering) gives latent ranks, and the
+#' object's class is the same in both cases. exametrika records which one
+#' in `msg` ("Class" or "Rank"), so that is what decides here. Every other
+#' model is one or the other by construction, and `class_models` lists the
+#' class ones.
+#'
+#' @param data A fitted exametrika object (already validated).
+#' @param class_models Character vector of classes that are class models.
+#' @return TRUE for a class model, FALSE for a rank model.
+#' @keywords internal
+.is_class_model <- function(data, class_models) {
+  biclustering_family <- c(
+    "Biclustering", "nominalBiclustering", "ordinalBiclustering",
+    "ratedBiclustering"
+  )
+  if (any(class(data) %in% biclustering_family) && !is.null(data$msg)) {
+    return(identical(data$msg, "Class"))
+  }
+  return(any(class(data) %in% class_models))
+}
