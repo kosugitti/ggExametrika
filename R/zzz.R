@@ -17,6 +17,8 @@ utils::globalVariables(c(
   "l", "k",
   # plotGraph_gg
   "node_type", "node_number", "node_size_val", "label_size_val", "crr",
+  # plotGridSearch_gg
+  "ncls", "nfld", "status",
   # plotICBR_gg / plotICRP_gg
   "Rank", "ItemLabel",
   # plotICC_overlay_gg / plotICRF_gg / plotIIC_gg / plotTIC_gg

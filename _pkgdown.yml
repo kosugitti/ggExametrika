@@ -104,6 +104,11 @@ reference:
   - plotGraph_gg
   - plotLDPSR_gg
 
+- title: Model Selection
+  desc: Fit index of a grid search over the number of classes, ranks and fields
+  contents:
+  - plotGridSearch_gg
+
 - title: Utilities
   desc: Helper functions
   contents:

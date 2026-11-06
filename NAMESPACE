@@ -13,6 +13,7 @@ export(plotFCRP_gg)
 export(plotFRP_gg)
 export(plotFieldPIRP_gg)
 export(plotGraph_gg)
+export(plotGridSearch_gg)
 export(plotICBR_gg)
 export(plotICC_gg)
 export(plotICC_overlay_gg)
@@ -51,6 +52,8 @@ importFrom(ggplot2,
   geom_vline,
   ggplot,
   ggtitle,
+  guide_legend,
+  guides,
   labs,
   margin,
   scale_color_manual,
@@ -58,6 +61,8 @@ importFrom(ggplot2,
   scale_fill_gradientn,
   scale_fill_manual,
   scale_linetype_manual,
+  scale_shape_manual,
+  scale_size_manual,
   scale_x_continuous,
   scale_y_continuous,
   sec_axis,

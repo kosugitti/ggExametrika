@@ -1314,3 +1314,5 @@ Release ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情�
 ## 2026-11-06
 
 - exametrika 3.0.0 で `g`/`g_list`/`all_g` が消える準備: `plotGraph_gg()` の `.dag_fit_graph()` が `adj`/`adj_list`/`all_edges` から igraph を組む(旧 exametrika の BINET は `all_edges` がないので `all_g` に退避)。図は不変(グラフ同一)。例を `adj_matrix` 入力に。テスト `plotGraph_gg does not need the igraph objects in the fit` を追加。開発版 exametrika 2.3.0 で 659 件通過。
+- 先生指示で `plotGridSearch_gg()` を新設(`R/plotGridSearch_gg.R`)＝exametrika 2.3.0 の `plot(gs)` の ggplot 版。LCA/LRA は 1 本の線・バイクラは nfld ごとの線か `style="tile"` のヒートマップ(最小化する指標は低いほど濃い)。空クラスは △・失敗は空白・最適は赤の大きい点(線図では凡例に「optimum」を色スケールの要素として足し `guides(override.aes)` で線を消す)。最適点の色は `#D7191C`(パレットの橙 `#D95F02` と紛れるので `#D55E00` は使わない)。フィクスチャ `fixture_GS_LCA`/`fixture_GS_Bicl`(J15S500 の小さな格子・1 秒未満)・テスト `test-GridSearch-plots.R`(21 件)・pkgdown に Model Selection 節。
+- 副産物: 例とフィクスチャが `LRA()`/`Biclustering()` に `dataType=` を渡していた(存在しない引数＝2.3.0 の未知引数の警告で発覚)。**nominal/rated のフィクスチャは実は ordinal だった**ので，`dataFormat(response.type="nominal")` と J21S300(rated)で作り直した。

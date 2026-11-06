@@ -12,6 +12,15 @@
 
 ## Bug Fixes
 
+* The examples and test fixtures no longer pass `dataType =` to
+  `exametrika::LRA()` and `exametrika::Biclustering()`. That argument never
+  existed (the response type is read from the data) and exametrika 2.3.0
+  now warns about unknown arguments. Because the argument was ignored, the
+  "nominal" and "rated" test fixtures had in fact been ordinal fits; they are
+  now built from `dataFormat(..., response.type = "nominal")` and from the
+  rated dataset `J21S300`, so the nominal and rated plot paths are tested
+  for the first time.
+
 * `plotLCD_gg()`, `plotLRD_gg()`, `plotCMP_gg()` and `plotRMP_gg()` now
   read whether a biclustering fit has latent classes (`method = "B"`) or
   latent ranks (`method = "R"`, Ranklustering) from the fit itself, as
@@ -24,14 +33,13 @@
 
 ## New Features
 
-* The examples and test fixtures no longer pass `dataType =` to
-  `exametrika::LRA()` and `exametrika::Biclustering()`. That argument never
-  existed (the response type is read from the data) and exametrika 2.3.0
-  now warns about unknown arguments. Because the argument was ignored, the
-  "nominal" and "rated" test fixtures had in fact been ordinal fits; they are
-  now built from `dataFormat(..., response.type = "nominal")` and from the
-  rated dataset `J21S300`, so the nominal and rated plot paths are tested
-  for the first time.
+* New `plotGridSearch_gg()` draws the fit index recorded by
+  `exametrika::GridSearch()`: one line against the number of classes or
+  ranks for LCA/LRA, one line per number of fields for Biclustering (or a
+  heat map with `style = "tile"`). Settings that left a class, rank or field
+  empty are open triangles, failed settings are left blank, and the optimum
+  is a large red point. This is the ggplot2 counterpart of `plot()` on a
+  `GridSearch` result in exametrika 2.3.0.
 
 * `combinePlots_gg()` gains `nr` and `nc` to set the number of rows and
   columns of the grid (`combinePlots_gg(plots, 1:9, nr = 3, nc = 3)`), named
