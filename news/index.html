@@ -42,6 +42,11 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0.9000" id="ggexametrika-1209000-development">ggExametrika 1.2.0.9000 (development)<a class="anchor" aria-label="anchor" href="#ggexametrika-1209000-development"></a></h2>
 <div class="section level3">
+<h3 id="changes-1-2-0-9000">Changes<a class="anchor" aria-label="anchor" href="#changes-1-2-0-9000"></a></h3>
+<ul><li>
+<code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> now builds the DAG from the adjacency matrices and the edge table that exametrika returns (<code>adj</code>, <code>adj_list</code>, <code>all_edges</code>) instead of reading the igraph objects <code>g</code>, <code>g_list</code> and <code>all_g</code> from the fit. The plots are unchanged (the graphs are identical); the point is that exametrika 3.0.0 will drop those igraph objects from its results, and this version is ready for that. With an older exametrika whose BINET fit has no <code>all_edges</code>, the igraph object is still used.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-1-2-0-9000">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0-9000"></a></h3>
 <ul><li>
 <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code>, <code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code>, <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> and <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> now read whether a biclustering fit has latent classes (<code>method = "B"</code>) or latent ranks (<code>method = "R"</code>, Ranklustering) from the fit itself, as exametrika records it in <code>msg</code>. Until now every <code><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering()</a></code> object was treated as a rank model, so <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code> on a plain biclustering fit warned that the data “was supposed to be visualized with The Latent Rank Distribution” and labelled the axis “Latent Rank”. The redirect warning now fires in the right direction for both methods, and the same holds for the nominal, ordinal and rated biclustering fits.</li>

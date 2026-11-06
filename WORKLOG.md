@@ -1402,3 +1402,13 @@ Release
   ordinalBiclustering(既定 method = “B” の Class モデル)になるので，その
   LRD/RMP のテストを LCD/CMP に替えた。
 - NEWS に Bug Fixes として記載。
+
+## 2026-11-06
+
+- exametrika 3.0.0 で `g`/`g_list`/`all_g` が消える準備:
+  [`plotGraph_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGraph_gg.md)
+  の `.dag_fit_graph()` が `adj`/`adj_list`/`all_edges` から igraph
+  を組む(旧 exametrika の BINET は `all_edges` がないので `all_g`
+  に退避)。図は不変(グラフ同一)。例を `adj_matrix` 入力に。テスト
+  `plotGraph_gg does not need the igraph objects in the fit`
+  を追加。開発版 exametrika 2.3.0 で 659 件通過。

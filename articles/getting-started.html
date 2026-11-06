@@ -387,10 +387,12 @@ data, providing specialized visualizations for score distributions and
 category-level analysis.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result_lra_ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">LRA</a></span><span class="op">(</span><span class="va">J15S3810</span>, nrank <span class="op">=</span> <span class="fl">4</span>, dataType <span class="op">=</span> <span class="st">"ordinal"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in icl_exact(ZU_ex, rankProf, alpha = alpha, ncat = ncat, log_prior_cls</span></span>
-<span><span class="co">#&gt; = log(log_prior/sum(log_prior)), : ICL_exact: the posterior probability of the</span></span>
-<span><span class="co">#&gt; rank order fell below the Monte Carlo resolution in at least one field;</span></span>
-<span><span class="co">#&gt; ICL_exact is a bound there.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: LRA(): unknown argument ignored: `dataType`. Check the spelling</span></span>
+<span><span class="co">#&gt; against ?LRA.</span></span>
+<span><span class="co">#&gt; Warning: ICL_exact: the posterior probability of the rank order fell below the</span></span>
+<span><span class="co">#&gt; Monte Carlo resolution in item 3 (log10 P &lt;= -6.0): the block counts of the</span></span>
+<span><span class="co">#&gt; hard assignment run against the order there. ICL_exact is a lower bound (the</span></span>
+<span><span class="co">#&gt; true value is larger) and ICL_exact_se is NA.</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotscorefreq_gg-score-frequency-distribution">plotScoreFreq_gg: Score Frequency Distribution<a class="anchor" aria-label="anchor" href="#plotscorefreq_gg-score-frequency-distribution"></a>
 </h3>
@@ -471,7 +473,9 @@ K-1.</p>
 <p>Biclustering simultaneously clusters items (into fields) and students
 (into ranks).</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">result_bic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering</a></span><span class="op">(</span><span class="va">J35S515</span>, nfld <span class="op">=</span> <span class="fl">5</span>, nrank <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Biclustering(): unknown argument ignored: `nrank`. Check the spelling</span></span>
+<span><span class="co">#&gt; against ?Biclustering.</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plotfrp_gg-field-reference-profile">plotFRP_gg: Field Reference Profile<a class="anchor" aria-label="anchor" href="#plotfrp_gg-field-reference-profile"></a>
 </h3>

@@ -444,10 +444,12 @@ category-level analysis.
 ``` r
 
 result_lra_ord <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
-#> Warning in icl_exact(ZU_ex, rankProf, alpha = alpha, ncat = ncat, log_prior_cls
-#> = log(log_prior/sum(log_prior)), : ICL_exact: the posterior probability of the
-#> rank order fell below the Monte Carlo resolution in at least one field;
-#> ICL_exact is a bound there.
+#> Warning: LRA(): unknown argument ignored: `dataType`. Check the spelling
+#> against ?LRA.
+#> Warning: ICL_exact: the posterior probability of the rank order fell below the
+#> Monte Carlo resolution in item 3 (log10 P <= -6.0): the block counts of the
+#> hard assignment run against the order there. ICL_exact is a lower bound (the
+#> true value is larger) and ICL_exact_se is NA.
 ```
 
 ### plotScoreFreq_gg: Score Frequency Distribution
@@ -561,6 +563,8 @@ Biclustering simultaneously clusters items (into fields) and students
 ``` r
 
 result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
+#> Warning: Biclustering(): unknown argument ignored: `nrank`. Check the spelling
+#> against ?Biclustering.
 ```
 
 ### plotFRP_gg: Field Reference Profile

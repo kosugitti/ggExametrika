@@ -433,10 +433,12 @@ LRAordinalとLRAratedは、順序尺度や評定尺度の多値応答データ�
 ``` r
 
 result_lra_ord <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
-#> Warning in icl_exact(ZU_ex, rankProf, alpha = alpha, ncat = ncat, log_prior_cls
-#> = log(log_prior/sum(log_prior)), : ICL_exact: the posterior probability of the
-#> rank order fell below the Monte Carlo resolution in at least one field;
-#> ICL_exact is a bound there.
+#> Warning: LRA(): unknown argument ignored: `dataType`. Check the spelling
+#> against ?LRA.
+#> Warning: ICL_exact: the posterior probability of the rank order fell below the
+#> Monte Carlo resolution in item 3 (log10 P <= -6.0): the block counts of the
+#> hard assignment run against the order there. ICL_exact is a lower bound (the
+#> true value is larger) and ICL_exact_se is NA.
 ```
 
 ### plotScoreFreq_gg: 得点頻度分布
@@ -549,6 +551,8 @@ rmp_plots[[1]]
 ``` r
 
 result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
+#> Warning: Biclustering(): unknown argument ignored: `nrank`. Check the spelling
+#> against ?Biclustering.
 ```
 
 ### plotFRP_gg: フィールド参照プロファイル
