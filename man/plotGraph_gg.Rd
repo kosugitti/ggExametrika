@@ -151,8 +151,10 @@ DAG <- matrix(c(
   "Item02", "Item04", "Item03", "Item05",
   "Item04", "Item05"
 ), ncol = 2, byrow = TRUE)
-g <- igraph::graph_from_data_frame(DAG)
-result <- BNM(J5S10, g = g)
+items <- J5S10$ItemLabel
+adj <- matrix(0, length(items), length(items), dimnames = list(items, items))
+adj[DAG] <- 1
+result <- BNM(J5S10, adj_matrix = adj)
 
 # Default: Top-to-Bottom (parents on top, arrows point downward)
 plots <- plotGraph_gg(result)

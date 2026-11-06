@@ -1310,3 +1310,7 @@ Release ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情�
 - 補助関数 `.is_class_model(data, class_models)`(`R/utils-internal.R`)を追加: Biclustering 系(binary・nominal・ordinal・rated)は exametrika が返す `msg`("Class"/"Rank")で決め，それ以外は従来の一覧。BINET は exametrika 側の `msg` が "Rank" だが LCD/CMD を返す Class モデルなので一覧のまま(msg は使わない)。
 - テスト: `fixture_Ranklust`(J35S515・method = "R")を追加し，B は LCD/CMP が無警告・LRD/RMP が警告，R はその逆を確かめる。`fixture_ratedBiclust` は dataType = "rated" でも ordinalBiclustering(既定 method = "B" の Class モデル)になるので，その LRD/RMP のテストを LCD/CMP に替えた。
 - NEWS に Bug Fixes として記載。
+
+## 2026-11-06
+
+- exametrika 3.0.0 で `g`/`g_list`/`all_g` が消える準備: `plotGraph_gg()` の `.dag_fit_graph()` が `adj`/`adj_list`/`all_edges` から igraph を組む(旧 exametrika の BINET は `all_edges` がないので `all_g` に退避)。図は不変(グラフ同一)。例を `adj_matrix` 入力に。テスト `plotGraph_gg does not need the igraph objects in the fit` を追加。開発版 exametrika 2.3.0 で 659 件通過。

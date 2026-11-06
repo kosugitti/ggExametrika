@@ -1,5 +1,15 @@
 # ggExametrika 1.2.0.9000 (development)
 
+## Changes
+
+* `plotGraph_gg()` now builds the DAG from the adjacency matrices and the
+  edge table that exametrika returns (`adj`, `adj_list`, `all_edges`)
+  instead of reading the igraph objects `g`, `g_list` and `all_g` from the
+  fit. The plots are unchanged (the graphs are identical); the point is
+  that exametrika 3.0.0 will drop those igraph objects from its results,
+  and this version is ready for that. With an older exametrika whose BINET
+  fit has no `all_edges`, the igraph object is still used.
+
 ## Bug Fixes
 
 * `plotLCD_gg()`, `plotLRD_gg()`, `plotCMP_gg()` and `plotRMP_gg()` now

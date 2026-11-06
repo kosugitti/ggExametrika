@@ -115,8 +115,10 @@
 #'   "Item02", "Item04", "Item03", "Item05",
 #'   "Item04", "Item05"
 #' ), ncol = 2, byrow = TRUE)
-#' g <- igraph::graph_from_data_frame(DAG)
-#' result <- BNM(J5S10, g = g)
+#' items <- J5S10$ItemLabel
+#' adj <- matrix(0, length(items), length(items), dimnames = list(items, items))
+#' adj[DAG] <- 1
+#' result <- BNM(J5S10, adj_matrix = adj)
 #'
 #' # Default: Top-to-Bottom (parents on top, arrows point downward)
 #' plots <- plotGraph_gg(result)
@@ -174,7 +176,7 @@ plotGraph_gg <- function(data,
   # BNM Implementation
   # ===================================================================
   if (model_class == "BNM") {
-    iso <- .dag_split_isolated(data$g, show_isolated, "items", "")
+    iso <- .dag_split_isolated(.dag_fit_graph(data), show_isolated, "items", "")
     g <- iso$g
 
     # Add node attributes
@@ -226,7 +228,7 @@ plotGraph_gg <- function(data,
     for (i in seq_len(n_ranks)) {
       # Isolated nodes: dropped (listed in a caption) unless show_isolated
       iso <- .dag_split_isolated(
-        data$g_list[[i]], show_isolated, "items", paste0("Rank ", i, ": ")
+        .dag_fit_graph(data, i), show_isolated, "items", paste0("Rank ", i, ": ")
       )
       g <- iso$g
 
@@ -286,7 +288,7 @@ plotGraph_gg <- function(data,
     for (i in seq_len(n_ranks)) {
       # Isolated nodes: dropped (listed in a caption) unless show_isolated
       iso <- .dag_split_isolated(
-        data$g_list[[i]], show_isolated, "fields", paste0("Rank ", i, ": ")
+        .dag_fit_graph(data, i), show_isolated, "fields", paste0("Rank ", i, ": ")
       )
       g <- iso$g
 
@@ -333,7 +335,7 @@ plotGraph_gg <- function(data,
   # ===================================================================
   if (model_class == "BINET") {
     # Expand graph: insert Field nodes as intermediates between Class nodes
-    g <- .binet_expand_graph(data$all_g)
+    g <- .binet_expand_graph(.dag_fit_graph(data))
 
     # Compute layout and scaling
     lay <- .dag_compute_layout(g, layout, direction)
@@ -371,6 +373,31 @@ plotGraph_gg <- function(data,
 # ===================================================================
 # Internal helper functions for DAG visualization
 # ===================================================================
+
+# The DAG of a fit as an igraph object, built from the adjacency matrix
+# (BNM: `adj`; LDLRA/LDB: `adj_list[[i]]`) or the edge table (BINET:
+# `all_edges`, columns From/To/Field) that exametrika returns. The igraph
+# objects `g`, `g_list` and `all_g` in the fit are used only when the
+# matrix form is missing (exametrika < 2.3.0 for BINET); they go away in
+# exametrika 3.0.0.
+.dag_fit_graph <- function(data, i = NULL) {
+  if (inherits(data, "BINET")) {
+    if (!is.null(data$all_edges)) {
+      return(igraph::graph_from_data_frame(data$all_edges, directed = TRUE))
+    }
+    return(data$all_g)
+  }
+  if (is.null(i)) {
+    if (!is.null(data$adj)) {
+      return(igraph::graph_from_adjacency_matrix(data$adj))
+    }
+    return(data$g)
+  }
+  if (!is.null(data$adj_list)) {
+    return(igraph::graph_from_adjacency_matrix(data$adj_list[[i]]))
+  }
+  data$g_list[[i]]
+}
 
 # Extract short node number label from node name (e.g. "Item01" -> "1", "Item10" -> "10")
 # perl = TRUE matters: the default (TRE) engine treats the lazy `.*?` as greedy,

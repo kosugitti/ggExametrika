@@ -382,3 +382,29 @@ test_that("isolated BNM nodes are dropped with a caption, or drawn below", {
   y <- stats::setNames(p2$data$y, p2$data$name)
   expect_true(y[["Item05"]] < min(y[setdiff(names(y), "Item05")]))
 })
+
+# exametrika 3.0.0 will drop the igraph objects from the fits; the plots
+# must come from the adjacency matrices / edge table alone.
+test_that("plotGraph_gg does not need the igraph objects in the fit", {
+  skip_if(is.null(fixture_BNM) || is.null(fixture_LDLRA) ||
+    is.null(fixture_LDB) || is.null(fixture_BINET))
+  skip_if(is.null(fixture_BINET$all_edges))
+  strip <- function(fit) {
+    fit$g <- NULL
+    fit$g_list <- NULL
+    fit$all_g <- NULL
+    fit
+  }
+  for (fit in list(fixture_BNM, fixture_LDLRA, fixture_LDB, fixture_BINET)) {
+    with_g <- suppressMessages(plotGraph_gg(fit))
+    without_g <- suppressMessages(plotGraph_gg(strip(fit)))
+    expect_equal(length(without_g), length(with_g))
+    for (k in seq_along(with_g)) {
+      expect_s3_class(without_g[[k]], "ggplot")
+      expect_equal(
+        ggplot2::layer_data(without_g[[k]], 2),
+        ggplot2::layer_data(with_g[[k]], 2)
+      )
+    }
+  }
+})
