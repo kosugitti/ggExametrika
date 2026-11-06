@@ -69,8 +69,7 @@ scores and columns represent latent ranks.
 
 ``` r
 library(exametrika)
-result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
-#> Warning: LRA(): unknown argument ignored: `dataType`. Check the spelling against ?LRA.
+result <- LRA(J5S1000, nrank = 4)
 #> Warning: ICL_exact: the posterior probability of the rank order fell below the Monte Carlo resolution in item 1 (log10 P <= -6.0), item 3 (log10 P <= -6.0): the block counts of the hard assignment run against the order there. ICL_exact is a lower bound (the true value is larger) and ICL_exact_se is NA.
 plot <- plotScoreRank_gg(result)
 plot

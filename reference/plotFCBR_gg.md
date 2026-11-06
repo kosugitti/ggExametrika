@@ -26,7 +26,7 @@ plotFCBR_gg(
 
   An object of class `c("exametrika", "ordinalBiclustering")` from
   [`exametrika::Biclustering()`](https://kosugitti.github.io/exametrika/reference/Biclustering.html)
-  with `dataType = "ordinal"`.
+  on ordinal data.
 
 - fields:
 

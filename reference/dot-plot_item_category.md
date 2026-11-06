@@ -27,7 +27,7 @@ and the auto title.
 
   An object of class `c("exametrika", "LRAordinal")` from
   [`exametrika::LRA()`](https://kosugitti.github.io/exametrika/reference/LRA.html)
-  with `dataType = "ordinal"`.
+  on ordinal data.
 
 - items:
 

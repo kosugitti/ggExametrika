@@ -99,6 +99,13 @@ BINET)
 - [`plotLDPSR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotLDPSR_gg.md)
   : Plot LDPSR (Local Dependence Passing Student Rate) from exametrika
 
+## Model Selection
+
+Fit index of a grid search over the number of classes, ranks and fields
+
+- [`plotGridSearch_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGridSearch_gg.md)
+  : Plot the fit index of a grid search
+
 ## Utilities
 
 Helper functions
