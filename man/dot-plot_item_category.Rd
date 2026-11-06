@@ -19,7 +19,7 @@
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "LRAordinal")} from
-\code{exametrika::LRA()} with \code{dataType = "ordinal"}.}
+\code{exametrika::LRA()} on ordinal data.}
 
 \item{items}{Integer vector specifying which items to plot. Default is all items.}
 

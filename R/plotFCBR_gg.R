@@ -8,7 +8,7 @@
 #' each category boundary.
 #'
 #' @param data An object of class \code{c("exametrika", "ordinalBiclustering")} from
-#'   \code{exametrika::Biclustering()} with \code{dataType = "ordinal"}.
+#'   \code{exametrika::Biclustering()} on ordinal data.
 #' @param fields Integer vector specifying which fields to plot. Default is all fields.
 #' @param title Logical or character. If \code{TRUE} (default), display field labels
 #'   as subplot titles. If \code{FALSE}, no titles. If a character string,

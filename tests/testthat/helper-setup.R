@@ -30,6 +30,20 @@ head_rows_dat <- function(x, n) {
 }
 
 if (has_exametrika) {
+  # ---- GridSearch fixtures (fast: small grids on J15S500) ----
+  fixture_GS_LCA <- tryCatch(
+    suppressMessages(exametrika::GridSearch(exametrika::J15S500,
+      max_ncls = 4, fun = "LCA", index = "BIC", verbose = FALSE
+    )),
+    error = function(e) NULL
+  )
+  fixture_GS_Bicl <- tryCatch(
+    suppressMessages(exametrika::GridSearch(exametrika::J15S500,
+      max_ncls = 3, max_nfld = 3, fun = "Biclustering", index = "BIC", verbose = FALSE
+    )),
+    error = function(e) NULL
+  )
+
   # ---- IRT fixtures (fast) ----
   fixture_IRT_2PL <- tryCatch(
     exametrika::IRT(exametrika::J15S500, model = 2),
@@ -77,11 +91,11 @@ if (has_exametrika) {
     nrow = 40, ncol = 12
   )
   colnames(.synth_ordinal) <- paste0("Item", 1:12)
+  # (the response type is read from the data; `dataType =` was never an
+  # argument of Biclustering()/LRA(), so until 2026-11-06 the "nominal" and
+  # "rated" fixtures below were in fact ordinal fits)
   fixture_ordBiclust <- tryCatch(
-    exametrika::Biclustering(.synth_ordinal,
-      nfld = 2, ncls = 3,
-      dataType = "ordinal"
-    ),
+    exametrika::Biclustering(.synth_ordinal, nfld = 2, ncls = 3),
     error = function(e) NULL
   )
 
@@ -93,28 +107,23 @@ if (has_exametrika) {
   )
   colnames(.synth_nominal) <- paste0("Item", 1:12)
   fixture_nomBiclust <- tryCatch(
-    exametrika::Biclustering(.synth_nominal,
-      nfld = 2, ncls = 3,
-      dataType = "nominal"
+    exametrika::Biclustering(
+      exametrika::dataFormat(.synth_nominal, response.type = "nominal"),
+      nfld = 2, ncls = 3
     ),
     error = function(e) NULL
   )
 
   # ---- LRAordinal fixture ----
   fixture_LRAord <- tryCatch(
-    exametrika::LRA(head_rows_dat(exametrika::J15S3810, 200),
-      nrank = 3,
-      dataType = "ordinal"
-    ),
+    exametrika::LRA(head_rows_dat(exametrika::J15S3810, 200), nrank = 3),
     error = function(e) NULL
   )
 
   # ---- LRArated fixture ----
+  # J21S300 is the rated dataset (with correct answers)
   fixture_LRArated <- tryCatch(
-    exametrika::LRA(head_rows_dat(exametrika::J15S3810, 200),
-      nrank = 3,
-      dataType = "rated"
-    ),
+    exametrika::LRA(exametrika::J21S300, nrank = 3),
     error = function(e) NULL
   )
 
@@ -197,16 +206,10 @@ if (has_exametrika) {
 
   # ---- Rated Biclustering fixture (synthetic small data) ----
   # Rated data: items scored 0-4 (e.g. 5-point Likert scale)
-  set.seed(44)
-  .synth_rated <- matrix(sample(0:4, 40 * 12, replace = TRUE),
-    nrow = 40, ncol = 12
-  )
-  colnames(.synth_rated) <- paste0("Item", 1:12)
+  # method = "B": the rated Biclustering defaults to method = "R" (ranks),
+  # and the tests treat this fixture as a class model
   fixture_ratedBiclust <- tryCatch(
-    exametrika::Biclustering(.synth_rated,
-      nfld = 2, ncls = 3,
-      dataType = "rated"
-    ),
+    exametrika::Biclustering(exametrika::J21S300, nfld = 2, ncls = 3, method = "B"),
     error = function(e) NULL
   )
 
@@ -231,5 +234,5 @@ if (has_exametrika) {
   )
 
   # Clean up temporary variables
-  rm(.synth_ordinal, .synth_nominal, .synth_rated)
+  rm(.synth_ordinal, .synth_nominal)
 }

@@ -16,7 +16,7 @@ plotICBR_gg(
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "LRAordinal")} from
-\code{exametrika::LRA()} with \code{dataType = "ordinal"}.}
+\code{exametrika::LRA()} on ordinal data.}
 
 \item{items}{Integer vector specifying which items to plot. Default is all items.}
 
@@ -69,7 +69,7 @@ base plots of the parent exametrika package.
 \dontshow{if (requireNamespace("exametrika", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(exametrika)
 \donttest{
-result <- LRA(J5S1000, nrank = 4, dataType = "ordinal")
+result <- LRA(J5S1000, nrank = 4)
 
 # Plot first 4 items
 plot <- plotICBR_gg(result, items = 1:4)

@@ -16,7 +16,7 @@ plotFCBR_gg(
 }
 \arguments{
 \item{data}{An object of class \code{c("exametrika", "ordinalBiclustering")} from
-\code{exametrika::Biclustering()} with \code{dataType = "ordinal"}.}
+\code{exametrika::Biclustering()} on ordinal data.}
 
 \item{fields}{Integer vector specifying which fields to plot. Default is all fields.}
 
