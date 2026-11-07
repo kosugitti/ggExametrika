@@ -1130,6 +1130,9 @@
 <ul><li>exametrika 3.0.0 で <code>g</code>/<code>g_list</code>/<code>all_g</code> が消える準備: <code><a href="reference/plotGraph_gg.html">plotGraph_gg()</a></code> の <code>.dag_fit_graph()</code> が <code>adj</code>/<code>adj_list</code>/<code>all_edges</code> から igraph を組む(旧 exametrika の BINET は <code>all_edges</code> がないので <code>all_g</code> に退避)。図は不変(グラフ同一)。例を <code>adj_matrix</code> 入力に。テスト <code>plotGraph_gg does not need the igraph objects in the fit</code> を追加。開発版 exametrika 2.3.0 で 659 件通過。</li>
 <li>先生指示で <code><a href="reference/plotGridSearch_gg.html">plotGridSearch_gg()</a></code> を新設(<code>R/plotGridSearch_gg.R</code>)＝exametrika 2.3.0 の <code>plot(gs)</code> の ggplot 版。LCA/LRA は 1 本の線・バイクラは nfld ごとの線か <code>style="tile"</code> のヒートマップ(最小化する指標は低いほど濃い)。空クラスは △・失敗は空白・最適は赤の大きい点(線図では凡例に「optimum」を色スケールの要素として足し <code>guides(override.aes)</code> で線を消す)。最適点の色は <code>#D7191C</code>(パレットの橙 <code>#D95F02</code> と紛れるので <code>#D55E00</code> は使わない)。フィクスチャ <code>fixture_GS_LCA</code>/<code>fixture_GS_Bicl</code>(J15S500 の小さな格子・1 秒未満)・テスト <code>test-GridSearch-plots.R</code>(21 件)・pkgdown に Model Selection 節。</li>
 <li>副産物: 例とフィクスチャが <code>LRA()</code>/<code>Biclustering()</code> に <code>dataType=</code> を渡していた(存在しない引数＝2.3.0 の未知引数の警告で発覚)。<strong>nominal/rated のフィクスチャは実は ordinal だった</strong>ので，<code>dataFormat(response.type="nominal")</code> と J21S300(rated)で作り直した。</li>
+<li>3 コミット(9a40241・89a52ae・e154928)を先生承認で push。CI 3 本(R-CMD-check・test-coverage・pkgdown)成功。全テスト 680 件通過・as-cran 0/0/0(開発版 exametrika を <code>R CMD INSTALL --library=$S/lib</code> して <code>R_LIBS=$S/lib</code> で実行)。</li>
+<li>NEWS は 1.2.0.9000 の開発節に Changes/Bug Fixes/New Features の順で整理(項目の移動を文字列添字でやって節を壊したので <code>git show</code> から組み直して amend)。</li>
+<li>残=1.3.0 は exametrika 2.3.0 の CRAN 受理後に連動提出(DESCRIPTION の版上げと NEWS の見出しは提出時)。候補=plotGraph_gg の配置を exametrika の <code>dag_layout_base</code> に合わせるかは 3.0.0 で決める。</li>
 </ul></div>
 </div>
 

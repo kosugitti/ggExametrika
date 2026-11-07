@@ -1429,3 +1429,13 @@ Release
   の未知引数の警告で発覚)。**nominal/rated のフィクスチャは実は ordinal
   だった**ので，`dataFormat(response.type="nominal")` と
   J21S300(rated)で作り直した。
+- 3 コミット(9a40241・89a52ae・e154928)を先生承認で push。CI 3
+  本(R-CMD-check・test-coverage・pkgdown)成功。全テスト 680
+  件通過・as-cran 0/0/0(開発版 exametrika を
+  `R CMD INSTALL --library=$S/lib` して `R_LIBS=$S/lib` で実行)。
+- NEWS は 1.2.0.9000 の開発節に Changes/Bug Fixes/New Features
+  の順で整理(項目の移動を文字列添字でやって節を壊したので `git show`
+  から組み直して amend)。
+- 残=1.3.0 は exametrika 2.3.0 の CRAN 受理後に連動提出(DESCRIPTION
+  の版上げと NEWS の見出しは提出時)。候補=plotGraph_gg の配置を
+  exametrika の `dag_layout_base` に合わせるかは 3.0.0 で決める。
