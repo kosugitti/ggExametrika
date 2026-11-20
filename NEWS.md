@@ -2,6 +2,18 @@
 
 ## Changes
 
+* New `plotRankUpShift_gg()` and `plotRankOdds_gg()` for the ordinal
+  Ranklustering, the ggplot2 versions of the two plot types exametrika 2.3.0
+  adds (`plot(type = "RankUpShift")` and `plot(type = "RankOdds")`). The
+  first draws, per field, a heatmap of how much the probability of answering
+  each category or above rises at each rank step (rows are the steps, columns
+  the boundaries; a decrease, possible under GTM, takes the second colour).
+  The second draws box plots of the rank-up and rank-down odds by estimated
+  rank on a log axis, and also takes binary and rated Ranklustering fits.
+  With a fit from exametrika before 2.3.0, which returns neither
+  `RankUpShift` nor the ordinal odds, the values are computed from the field
+  reference profile and the memberships in the same way.
+
 * `plotGraph_gg()` now builds the DAG from the adjacency matrices and the
   edge table that exametrika returns (`adj`, `adj_list`, `all_edges`)
   instead of reading the igraph objects `g`, `g_list` and `all_g` from the

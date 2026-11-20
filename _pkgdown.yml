@@ -90,6 +90,8 @@ reference:
   - plotArray_gg
   - plotFCRP_gg
   - plotFCBR_gg
+  - plotRankUpShift_gg
+  - plotRankOdds_gg
   - plotScoreField_gg
   - plotFieldPIRP_gg
 

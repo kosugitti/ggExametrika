@@ -27,6 +27,8 @@ export(plotLDPSR_gg)
 export(plotLRD_gg)
 export(plotRMP_gg)
 export(plotRRV_gg)
+export(plotRankOdds_gg)
+export(plotRankUpShift_gg)
 export(plotScoreField_gg)
 export(plotScoreFreq_gg)
 export(plotScoreRank_gg)
@@ -41,6 +43,7 @@ importFrom(ggplot2,
   element_text,
   facet_wrap,
   geom_bar,
+  geom_boxplot,
   geom_col,
   geom_density,
   geom_hline,
@@ -58,6 +61,7 @@ importFrom(ggplot2,
   margin,
   scale_color_manual,
   scale_fill_gradient,
+  scale_fill_gradient2,
   scale_fill_gradientn,
   scale_fill_manual,
   scale_linetype_manual,
@@ -65,6 +69,8 @@ importFrom(ggplot2,
   scale_size_manual,
   scale_x_continuous,
   scale_y_continuous,
+  scale_y_discrete,
+  scale_y_log10,
   sec_axis,
   stat_function,
   theme,
