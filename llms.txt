@@ -390,6 +390,10 @@ Biclustering, IRM, and related model visualization
   Biclustering
 - [`plotFCBR_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFCBR_gg.md)
   : Plot Field Cumulative Boundary Reference from exametrika
+- [`plotRankUpShift_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRankUpShift_gg.md)
+  : Plot which category boundary moves at each rank step
+- [`plotRankOdds_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRankOdds_gg.md)
+  : Plot the rank-up and rank-down odds by rank
 - [`plotScoreField_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotScoreField_gg.md)
   : Plot Score-Field Heatmap (ScoreField) for Polytomous Biclustering
 - [`plotFieldPIRP_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotFieldPIRP_gg.md)

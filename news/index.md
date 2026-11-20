@@ -47,6 +47,22 @@
 ### New Features
 
 - New
+  [`plotRankUpShift_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRankUpShift_gg.md)
+  and
+  [`plotRankOdds_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotRankOdds_gg.md)
+  for the ordinal Ranklustering, the ggplot2 versions of the two plot
+  types exametrika 2.3.0 adds (`plot(type = "RankUpShift")` and
+  `plot(type = "RankOdds")`). The first draws, per field, a heatmap of
+  how much the probability of answering each category or above rises at
+  each rank step (rows are the steps, columns the boundaries; a
+  decrease, possible under GTM, takes the second colour). The second
+  draws box plots of the rank-up and rank-down odds by estimated rank on
+  a log axis, and also takes binary and rated Ranklustering fits. With a
+  fit from exametrika before 2.3.0, which returns neither `RankUpShift`
+  nor the ordinal odds, the values are computed from the field reference
+  profile and the memberships in the same way.
+
+- New
   [`plotGridSearch_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGridSearch_gg.md)
   draws the fit index recorded by
   [`exametrika::GridSearch()`](https://kosugitti.github.io/exametrika/reference/GridSearch.html):
