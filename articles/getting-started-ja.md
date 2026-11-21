@@ -435,10 +435,6 @@ LRAordinalとLRAratedは、順序尺度や評定尺度の多値応答データ�
 result_lra_ord <- LRA(J15S3810, nrank = 4, dataType = "ordinal")
 #> Warning: LRA(): unknown argument ignored: `dataType`. Check the spelling
 #> against ?LRA.
-#> Warning: ICL_exact: the posterior probability of the rank order fell below the
-#> Monte Carlo resolution in item 3 (log10 P <= -6.0): the block counts of the
-#> hard assignment run against the order there. ICL_exact is a lower bound (the
-#> true value is larger) and ICL_exact_se is NA.
 ```
 
 ### plotScoreFreq_gg: 得点頻度分布

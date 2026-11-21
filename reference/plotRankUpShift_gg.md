@@ -86,7 +86,6 @@ from the field reference profile in the same way.
 # \donttest{
 library(exametrika)
 result <- Biclustering(J5S1000, ncls = 5, nfld = 2, method = "R")
-#> Warning: ICL_exact: the posterior probability of the rank order fell below the Monte Carlo resolution in field 1 (log10 P <= -12.0): the block counts of the hard assignment run against the order there. ICL_exact is a lower bound (the true value is larger) and ICL_exact_se is NA.
 plotRankUpShift_gg(result)
 
 # }
