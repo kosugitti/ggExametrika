@@ -1319,3 +1319,9 @@ Release ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情�
 - 3 コミット(9a40241・89a52ae・e154928)を先生承認で push。CI 3 本(R-CMD-check・test-coverage・pkgdown)成功。全テスト 680 件通過・as-cran 0/0/0(開発版 exametrika を `R CMD INSTALL --library=$S/lib` して `R_LIBS=$S/lib` で実行)。
 - NEWS は 1.2.0.9000 の開発節に Changes/Bug Fixes/New Features の順で整理(項目の移動を文字列添字でやって節を壊したので `git show` から組み直して amend)。
 - 残=1.3.0 は exametrika 2.3.0 の CRAN 受理後に連動提出(DESCRIPTION の版上げと NEWS の見出しは提出時)。候補=plotGraph_gg の配置を exametrika の `dag_layout_base` に合わせるかは 3.0.0 で決める。
+
+## 2026-11-21
+
+- 提出前の点検(exametrika 担当セッション)。開発版 exametrika 2.3.0(6c18e60)を scratchpad のライブラリに入れて `R_LIBS` で as-cran: 2 NOTE(版番号 1.2.0.9000 が大きい・HTML Tidy)・ERROR/WARNING なし・例 26 秒・テスト 755 件通過 53 秒(警告 2 件はフィクスチャ作成時の収束注意と BINET の注意)。
+- 逆依存の確認: CRAN の 1.2.0 × exametrika 2.3.0 も 2 NOTE(ビルドの日付・HTML Tidy)・テスト 655 件通過。1.2.0 の例・テストが渡す `dataType=` に 2.3.0 が警告を出すが止まらない＝exametrika 2.3.0 の逆依存検査は通る見込み。
+- **提出の方針(先生決定)**: exametrika 2.3.0 の CRAN 受理後に 1.3.0 を出す。そのとき DESCRIPTION を 1.3.0 に・NEWS の見出しから (development) を外す・cran-comments を 1.3.0 用に。CRAN の 2.3.0 と組み合わせて R-hub・win-builder で測り直してから提出(前回 1.2.0 の win-builder は 412 秒)。Suggests の `exametrika (>= 1.11.0)` は据え置き。
