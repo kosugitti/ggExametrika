@@ -88,8 +88,10 @@ gs <- GridSearch(J15S500, max_ncls = 5, fun = "LCA", index = "BIC")
 plotGridSearch_gg(gs)
 
 
-gs_b <- GridSearch(J15S500, max_ncls = 4, max_nfld = 4,
-  fun = "Biclustering", index = "BIC")
+gs_b <- GridSearch(J15S500,
+  max_ncls = 4, max_nfld = 4,
+  fun = "Biclustering", index = "BIC"
+)
 #> 
 #> Optimal ncls/nrank is  4 and Optimal nfld is 4
 #> Running analysis with optimal parameters...

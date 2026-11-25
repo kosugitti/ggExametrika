@@ -15,6 +15,17 @@
 
 ### Bug Fixes
 
+- [`plotGridSearch_gg()`](https://kosugitti.github.io/ggExametrika/reference/plotGridSearch_gg.md)
+  no longer fails with “the condition has length \> 1” on a
+  [`GridSearch()`](https://kosugitti.github.io/exametrika/reference/GridSearch.html)
+  result from exametrika older than 2.3.0. Those results have no `index`
+  element, and `data$index` partially matched `index_vec` /
+  `index_matrix`; the fields are now read with exact matching. The
+  `exametrika` requirement in Suggests is raised to `>= 2.3.0`, the
+  version whose
+  [`GridSearch()`](https://kosugitti.github.io/exametrika/reference/GridSearch.html)
+  output the function is written for.
+
 - The examples and test fixtures no longer pass `dataType =` to
   [`exametrika::LRA()`](https://kosugitti.github.io/exametrika/reference/LRA.html)
   and
