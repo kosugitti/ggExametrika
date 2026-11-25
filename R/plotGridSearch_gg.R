@@ -42,8 +42,10 @@
 #' gs <- GridSearch(J15S500, max_ncls = 5, fun = "LCA", index = "BIC")
 #' plotGridSearch_gg(gs)
 #'
-#' gs_b <- GridSearch(J15S500, max_ncls = 4, max_nfld = 4,
-#'   fun = "Biclustering", index = "BIC")
+#' gs_b <- GridSearch(J15S500,
+#'   max_ncls = 4, max_nfld = 4,
+#'   fun = "Biclustering", index = "BIC"
+#' )
 #' plotGridSearch_gg(gs_b)
 #' plotGridSearch_gg(gs_b, style = "tile")
 #' }
@@ -163,7 +165,8 @@ plotGridSearch_gg <- function(data,
   df$series <- as.character(df$nfld)
   status_levels <- c("fit", "with empty class/field")
   df$status <- factor(
-    ifelse(df$empty, "with empty class/field", "fit"), levels = status_levels
+    ifelse(df$empty, "with empty class/field", "fit"),
+    levels = status_levels
   )
   pal <- .resolve_colors(colors, length(nfld))
   series_levels <- c(as.character(nfld), "optimum")

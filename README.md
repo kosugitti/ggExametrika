@@ -112,11 +112,11 @@ plotTIC_gg(result_grm)
 ``` r
 result_lca <- LCA(J15S500, ncls = 3)
 
-plotIRP_gg(result_lca)         # Item Reference Profile
-plotFRP_gg(result_lca)         # Field Reference Profile
-plotTRP_gg(result_lca)         # Test Reference Profile
-plotLCD_gg(result_lca)         # Latent Class Distribution
-plotCMP_gg(result_lca)         # Class Membership Profile
+plotIRP_gg(result_lca) # Item Reference Profile
+plotFRP_gg(result_lca) # Field Reference Profile
+plotTRP_gg(result_lca) # Test Reference Profile
+plotLCD_gg(result_lca) # Latent Class Distribution
+plotCMP_gg(result_lca) # Class Membership Profile
 ```
 
 ### LRA: Latent Rank Analysis
@@ -124,23 +124,23 @@ plotCMP_gg(result_lca)         # Class Membership Profile
 ``` r
 result_lra <- LRA(J15S500, nrank = 4)
 
-plotIRP_gg(result_lra)         # Item Reference Profile
-plotFRP_gg(result_lra)         # Field Reference Profile
-plotTRP_gg(result_lra)         # Test Reference Profile
-plotLRD_gg(result_lra)         # Latent Rank Distribution
-plotRMP_gg(result_lra)         # Rank Membership Profile
+plotIRP_gg(result_lra) # Item Reference Profile
+plotFRP_gg(result_lra) # Field Reference Profile
+plotTRP_gg(result_lra) # Test Reference Profile
+plotLRD_gg(result_lra) # Latent Rank Distribution
+plotRMP_gg(result_lra) # Rank Membership Profile
 ```
 
 ### LRAordinal / LRArated
 
 ``` r
-result_lra_ord <- LRA(J5S1000, nrank = 4)  # ordinal data
+result_lra_ord <- LRA(J5S1000, nrank = 4) # ordinal data
 
-plotScoreFreq_gg(result_lra_ord)   # Score Frequency Distribution
-plotScoreRank_gg(result_lra_ord)   # Score-Rank Heatmap
-plotICRP_gg(result_lra_ord)        # Item Category Reference Profile
-plotICBR_gg(result_lra_ord)        # Item Category Boundary Response (ordinal only)
-plotRMP_gg(result_lra_ord)         # Rank Membership Profile
+plotScoreFreq_gg(result_lra_ord) # Score Frequency Distribution
+plotScoreRank_gg(result_lra_ord) # Score-Rank Heatmap
+plotICRP_gg(result_lra_ord) # Item Category Reference Profile
+plotICBR_gg(result_lra_ord) # Item Category Boundary Response (ordinal only)
+plotRMP_gg(result_lra_ord) # Rank Membership Profile
 ```
 
 ### Biclustering (binary)
@@ -148,15 +148,15 @@ plotRMP_gg(result_lra_ord)         # Rank Membership Profile
 ``` r
 result_bic <- Biclustering(J35S515, nfld = 5, nrank = 6)
 
-plotFRP_gg(result_bic)         # Field Reference Profile
-plotTRP_gg(result_bic)         # Test Reference Profile
-plotLCD_gg(result_bic)         # Latent Class Distribution
-plotLRD_gg(result_bic)         # Latent Rank Distribution
-plotCMP_gg(result_bic)         # Class Membership Profile
-plotRMP_gg(result_bic)         # Rank Membership Profile
-plotCRV_gg(result_bic)         # Class Reference Vector
-plotRRV_gg(result_bic)         # Rank Reference Vector
-plotArray_gg(result_bic)       # Array Plot (heatmap)
+plotFRP_gg(result_bic) # Field Reference Profile
+plotTRP_gg(result_bic) # Test Reference Profile
+plotLCD_gg(result_bic) # Latent Class Distribution
+plotLRD_gg(result_bic) # Latent Rank Distribution
+plotCMP_gg(result_bic) # Class Membership Profile
+plotRMP_gg(result_bic) # Rank Membership Profile
+plotCRV_gg(result_bic) # Class Reference Vector
+plotRRV_gg(result_bic) # Rank Reference Vector
+plotArray_gg(result_bic) # Array Plot (heatmap)
 ```
 
 ### Biclustering (nominal / ordinal)
@@ -165,15 +165,15 @@ plotArray_gg(result_bic)       # Array Plot (heatmap)
 # Nominal Biclustering
 result_nom <- Biclustering(data, ncls = 3, nfld = 4)
 
-plotFRP_gg(result_nom, stat = "mean")   # stat: "mean", "median", or "mode"
+plotFRP_gg(result_nom, stat = "mean") # stat: "mean", "median", or "mode"
 plotFCRP_gg(result_nom, style = "line") # Field Category Response Profile (style: "line" or "bar")
-plotScoreField_gg(result_nom)           # Expected Score Heatmap (field x class/rank)
-plotCRV_gg(result_nom, stat = "mean")   # Class Reference Vector
-plotRRV_gg(result_nom, stat = "mean")   # Rank Reference Vector
-plotArray_gg(result_nom)                # Array Plot
+plotScoreField_gg(result_nom) # Expected Score Heatmap (field x class/rank)
+plotCRV_gg(result_nom, stat = "mean") # Class Reference Vector
+plotRRV_gg(result_nom, stat = "mean") # Rank Reference Vector
+plotArray_gg(result_nom) # Array Plot
 
 # Ordinal Biclustering (additional)
-plotFCBR_gg(result_ord)                 # Field Cumulative Boundary Reference (ordinal only)
+plotFCBR_gg(result_ord) # Field Cumulative Boundary Reference (ordinal only)
 ```
 
 ### LDB: Locally Dependent Biclustering
@@ -181,13 +181,13 @@ plotFCBR_gg(result_ord)                 # Field Cumulative Boundary Reference (o
 ``` r
 result_ldb <- LDB(J35S515, ncls = 6, nfld = 5)
 
-plotFRP_gg(result_ldb)         # Field Reference Profile
-plotTRP_gg(result_ldb)         # Test Reference Profile
-plotLRD_gg(result_ldb)         # Latent Rank Distribution
-plotRMP_gg(result_ldb)         # Rank Membership Profile
-plotArray_gg(result_ldb)       # Array Plot
-plotFieldPIRP_gg(result_ldb)   # Field Parent Item Reference Profile
-plotGraph_gg(result_ldb)       # DAG per rank
+plotFRP_gg(result_ldb) # Field Reference Profile
+plotTRP_gg(result_ldb) # Test Reference Profile
+plotLRD_gg(result_ldb) # Latent Rank Distribution
+plotRMP_gg(result_ldb) # Rank Membership Profile
+plotArray_gg(result_ldb) # Array Plot
+plotFieldPIRP_gg(result_ldb) # Field Parent Item Reference Profile
+plotGraph_gg(result_ldb) # DAG per rank
 ```
 
 ### BINET: Bayesian Network and Test
@@ -195,12 +195,12 @@ plotGraph_gg(result_ldb)       # DAG per rank
 ``` r
 result_binet <- BINET(J35S515, ncls = 6, nfld = 5)
 
-plotFRP_gg(result_binet)       # Field Reference Profile
-plotTRP_gg(result_binet)       # Test Reference Profile
-plotLRD_gg(result_binet)       # Latent Rank Distribution
-plotRMP_gg(result_binet)       # Rank Membership Profile
-plotArray_gg(result_binet)     # Array Plot
-plotGraph_gg(result_binet, show_edge_label = TRUE)  # DAG with edge labels
+plotFRP_gg(result_binet) # Field Reference Profile
+plotTRP_gg(result_binet) # Test Reference Profile
+plotLRD_gg(result_binet) # Latent Rank Distribution
+plotRMP_gg(result_binet) # Rank Membership Profile
+plotArray_gg(result_binet) # Array Plot
+plotGraph_gg(result_binet, show_edge_label = TRUE) # DAG with edge labels
 ```
 
 ### BNM / LDLRA: DAG Visualization (plotGraph_gg)
@@ -210,7 +210,7 @@ result_bnm <- BNM(J15S500)
 plotGraph_gg(result_bnm)
 
 result_ldlra <- LDLRA(J15S500, ncls = 5)
-plotGraph_gg(result_ldlra)     # One DAG per rank
+plotGraph_gg(result_ldlra) # One DAG per rank
 ```
 
 ## Function-Model Compatibility
