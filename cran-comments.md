@@ -4,41 +4,49 @@
 
 ## Test environments
 
-* local macOS (aarch64-apple-darwin25.0.0), R 4.6.1: 0 errors, 0 warnings,
-  0 notes
+* local macOS (aarch64-apple-darwin), R 4.6.2
 * R-hub v2: linux, macos-arm64, windows (R-devel)
 * win-builder: R-devel
 
-## Update (v1.1.2 -> v1.2.0)
+## Update (v1.2.0 -> v1.3.0)
 
-`plotArray_gg()` changes what it draws by default, so the version is raised
-rather than treated as a patch. No exported function signature changes.
+New plotting functions and changed defaults of `plotGraph_gg()`, so the minor
+version is raised. No exported function signature loses an argument.
 
-### Bug fix
+### New features
 
-* `plotArray_gg()` misassigned colours when `colors` was supplied and the data
-  contained missing responses: the missing level took the first colour and the
-  last category wrapped back to the start. A supplied vector is now read by its
-  length, so one colour per valid category leaves the missing level at its
-  default.
+* `plotGridSearch_gg()` draws the fit index recorded by
+  `exametrika::GridSearch()`.
+* `plotRankUpShift_gg()` and `plotRankOdds_gg()` for the ordinal
+  Ranklustering, the ggplot2 versions of the plot types added in
+  exametrika 2.3.0.
+* `combinePlots_gg()` gains `nr` and `nc`.
+* `plotGraph_gg()` shades BNM item nodes by correct response rate, draws
+  hierarchical layouts top-to-bottom by default and lists isolated items
+  (`fill_by`, `direction`, `show_isolated`).
 
-### Changes to the default plot
+### Bug fixes
 
-* Ordered categories are drawn with a sequential ramp instead of a qualitative
-  palette, missing responses in grey, and cluster boundary lines in dark red.
-* A single shared legend is drawn below the panels instead of one per panel.
+* `plotGraph_gg()` labelled items numbered 10 and above with their last digit
+  only.
+* The class/rank plots now read from the fit whether a biclustering has
+  classes or ranks.
+* The examples and test fixtures no longer pass a non-existent `dataType`
+  argument to exametrika, which exametrika 2.3.0 now reports.
+
+### Preparing for exametrika 3.0.0
+
+`plotGraph_gg()` builds the graphs from the adjacency matrices exametrika
+returns instead of its igraph objects, which exametrika 3.0.0 will drop. The
+plots are unchanged.
 
 ## Dependencies
 
-`exametrika` is in Suggests. Version 2.1.0 of it was accepted on CRAN on
-2026-09-25, and the suite passes against it. All Imports packages are
-available on CRAN.
+`exametrika` is in Suggests. Version 2.3.0 of it was accepted on CRAN on
+2026-11-25, and the suite passes against it. Functions that use output added
+in exametrika 2.3.0 fall back to computing it themselves with an older
+version. All Imports packages are available on CRAN.
 
 ## Test results
 
-0 failures | 0 skips | 655 passes
-
-One warning is emitted during the tests by exametrika's `BINET()` when it
-reports that an edge exceeds the maximum number of fields on the small
-synthetic test data. It is a model-side caution from the suggested
-package, not a condition raised by ggExametrika.
+0 failures | 0 skips | 755 passes

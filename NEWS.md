@@ -1,4 +1,4 @@
-# ggExametrika 1.2.0.9000 (development)
+# ggExametrika 1.3.0
 
 ## Changes
 
