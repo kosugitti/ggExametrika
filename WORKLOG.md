@@ -1325,3 +1325,17 @@ Release ノートは高重要度の3件(4PLの`lowerAsym`欠落・GRM項目情�
 - 提出前の点検(exametrika 担当セッション)。開発版 exametrika 2.3.0(6c18e60)を scratchpad のライブラリに入れて `R_LIBS` で as-cran: 2 NOTE(版番号 1.2.0.9000 が大きい・HTML Tidy)・ERROR/WARNING なし・例 26 秒・テスト 755 件通過 53 秒(警告 2 件はフィクスチャ作成時の収束注意と BINET の注意)。
 - 逆依存の確認: CRAN の 1.2.0 × exametrika 2.3.0 も 2 NOTE(ビルドの日付・HTML Tidy)・テスト 655 件通過。1.2.0 の例・テストが渡す `dataType=` に 2.3.0 が警告を出すが止まらない＝exametrika 2.3.0 の逆依存検査は通る見込み。
 - **提出の方針(先生決定)**: exametrika 2.3.0 の CRAN 受理後に 1.3.0 を出す。そのとき DESCRIPTION を 1.3.0 に・NEWS の見出しから (development) を外す・cran-comments を 1.3.0 用に。CRAN の 2.3.0 と組み合わせて R-hub・win-builder で測り直してから提出(前回 1.2.0 の win-builder は 412 秒)。Suggests の `exametrika (>= 1.11.0)` は据え置き。
+
+## 2026-11-25 1.3.0 を CRAN へ(同日受理)
+
+- 親 exametrika 2.3.0 の受理(09:11)とクラウドミラーの反映(10:21)を待って，版上げ・NEWS の見出し・cran-comments を直した(8f11152)。
+- `tools/build_pkg.R` の 5 行目(git status 空)で停止: styler の整形 4 ファイルと DESCRIPTION の roxygen 版(8.1.0→8.1.1)。DESCRIPTION は戻し，整形はコミット(f64b6a4)。
+- 1 回目の R-hub(girlish-norwayrat)で Windows だけ ERROR: Windows のバイナリが exametrika 2.2.0 のままで，2.2.0 の GridSearch には `index` が無く `data$index` が `index_vec` に前方一致→`if (minimize)` が長さ 2 以上。先生承認で `data[["index"]]`・`data[["fun"]]` に直し，Suggests を `exametrika (>= 2.3.0)` へ，NEWS の Bug Fixes に追記・cran-comments の Dependencies を書き直し(9231a17)。2.2.0 型の返り値でも "Fit index" で描けるのを確認。
+- 2 回目: 手元 as-cran 0/0/0・R-hub(councilmanic-marabou)3 機 OK・755 件通過(Windows も 2.3.0)・win-builder OK 314 秒(tests 210 秒・修正前の版は 339 秒)。
+- 先生が submit_cran → CRAN-SUBMISSION(SHA 9231a17)をコミット(2ec7a11)・push。15:56 に `[CRAN-pretest-publish]`(自動検査のみ・Result OK)。
+- タグ v1.3.0(2ec7a11)・GitHub Release v1.3.0(Latest)・exametrika の Discussions #48(日英1本)。下書きは `02_研究/exametrika_family/リリース作業/ggExametrika_release/`。
+- 気づき(未対応): NEWS の 1.3.0 節に `## Bug Fixes` が 2 つある(New Features の前後)。CRAN 版に入っているのでそのまま。
+
+### 次
+
+- CRAN のページとミラーに 1.3.0 が載るのを確かめる。次の版は exametrika 3.0.0(igraph のオブジェクトと内部 9 関数の export を外す)に連動。
