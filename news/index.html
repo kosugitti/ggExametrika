@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggExametrika</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,19 +40,19 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.2.0.9000" id="ggexametrika-1209000-development">ggExametrika 1.2.0.9000 (development)<a class="anchor" aria-label="anchor" href="#ggexametrika-1209000-development"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.3.0" id="ggexametrika-130">ggExametrika 1.3.0<a class="anchor" aria-label="anchor" href="#ggexametrika-130"></a></h2>
 <div class="section level3">
-<h3 id="changes-1-2-0-9000">Changes<a class="anchor" aria-label="anchor" href="#changes-1-2-0-9000"></a></h3>
+<h3 id="changes-1-3-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-3-0"></a></h3>
 <ul><li>
 <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> now builds the DAG from the adjacency matrices and the edge table that exametrika returns (<code>adj</code>, <code>adj_list</code>, <code>all_edges</code>) instead of reading the igraph objects <code>g</code>, <code>g_list</code> and <code>all_g</code> from the fit. The plots are unchanged (the graphs are identical); the point is that exametrika 3.0.0 will drop those igraph objects from its results, and this version is ready for that. With an older exametrika whose BINET fit has no <code>all_edges</code>, the igraph object is still used.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-2-0-9000">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0-9000"></a></h3>
+<h3 id="bug-fixes-1-3-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h3>
 <ul><li><p>The examples and test fixtures no longer pass <code>dataType =</code> to <code><a href="https://kosugitti.github.io/exametrika/reference/LRA.html" class="external-link">exametrika::LRA()</a></code> and <code><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">exametrika::Biclustering()</a></code>. That argument never existed (the response type is read from the data) and exametrika 2.3.0 now warns about unknown arguments. Because the argument was ignored, the “nominal” and “rated” test fixtures had in fact been ordinal fits; they are now built from <code>dataFormat(..., response.type = "nominal")</code> and from the rated dataset <code>J21S300</code>, so the nominal and rated plot paths are tested for the first time.</p></li>
 <li><p><code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code>, <code><a href="../reference/plotLRD_gg.html">plotLRD_gg()</a></code>, <code><a href="../reference/plotCMP_gg.html">plotCMP_gg()</a></code> and <code><a href="../reference/plotRMP_gg.html">plotRMP_gg()</a></code> now read whether a biclustering fit has latent classes (<code>method = "B"</code>) or latent ranks (<code>method = "R"</code>, Ranklustering) from the fit itself, as exametrika records it in <code>msg</code>. Until now every <code><a href="https://kosugitti.github.io/exametrika/reference/Biclustering.html" class="external-link">Biclustering()</a></code> object was treated as a rank model, so <code><a href="../reference/plotLCD_gg.html">plotLCD_gg()</a></code> on a plain biclustering fit warned that the data “was supposed to be visualized with The Latent Rank Distribution” and labelled the axis “Latent Rank”. The redirect warning now fires in the right direction for both methods, and the same holds for the nominal, ordinal and rated biclustering fits.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-1-2-0-9000">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-2-0-9000"></a></h3>
+<h3 id="new-features-1-3-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-3-0"></a></h3>
 <ul><li><p>New <code><a href="../reference/plotRankUpShift_gg.html">plotRankUpShift_gg()</a></code> and <code><a href="../reference/plotRankOdds_gg.html">plotRankOdds_gg()</a></code> for the ordinal Ranklustering, the ggplot2 versions of the two plot types exametrika 2.3.0 adds (<code>plot(type = "RankUpShift")</code> and <code>plot(type = "RankOdds")</code>). The first draws, per field, a heatmap of how much the probability of answering each category or above rises at each rank step (rows are the steps, columns the boundaries; a decrease, possible under GTM, takes the second colour). The second draws box plots of the rank-up and rank-down odds by estimated rank on a log axis, and also takes binary and rated Ranklustering fits. With a fit from exametrika before 2.3.0, which returns neither <code>RankUpShift</code> nor the ordinal odds, the values are computed from the field reference profile and the memberships in the same way.</p></li>
 <li><p>New <code><a href="../reference/plotGridSearch_gg.html">plotGridSearch_gg()</a></code> draws the fit index recorded by <code><a href="https://kosugitti.github.io/exametrika/reference/GridSearch.html" class="external-link">exametrika::GridSearch()</a></code>: one line against the number of classes or ranks for LCA/LRA, one line per number of fields for Biclustering (or a heat map with <code>style = "tile"</code>). Settings that left a class, rank or field empty are open triangles, failed settings are left blank, and the optimum is a large red point. This is the ggplot2 counterpart of <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> on a <code>GridSearch</code> result in exametrika 2.3.0.</p></li>
 <li><p><code><a href="../reference/combinePlots_gg.html">combinePlots_gg()</a></code> gains <code>nr</code> and <code>nc</code> to set the number of rows and columns of the grid (<code>combinePlots_gg(plots, 1:9, nr = 3, nc = 3)</code>), named after the arguments of <code>plot.exametrika</code>. Either may be given alone; both together are checked against the number of selected plots. The layout stays automatic when neither is given.</p></li>
@@ -61,7 +61,7 @@
 <li><p><code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> gains <code>show_isolated</code> (default <code>FALSE</code>) for BNM, LDLRA and LDB. Nodes with no edges are left out of the graph by default, as LDLRA and LDB already did, but are now listed in a caption under the plot (“Isolated items: 5, 9”) and in the message, so an unconnected item never disappears without a trace. BNM used to draw them at the end of the top layer; <code>show_isolated = TRUE</code> draws them in a row of their own below the last layer instead.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-2-0-9000-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0-9000-1"></a></h3>
+<h3 id="bug-fixes-1-3-0-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0-1"></a></h3>
 <ul><li>
 <code><a href="../reference/plotGraph_gg.html">plotGraph_gg()</a></code> labelled items numbered 10 and above with their last digit only (“Item10” showed as “0”, “Item14” as “4”), so tests with ten or more items had duplicate node labels. The lazy pattern used to extract the number was read greedily by R’s default regex engine; it now uses PCRE.</li>
 </ul></div>
