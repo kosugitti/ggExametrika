@@ -20,7 +20,7 @@ Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.1.0), ggplot2
 Imports: ggraph, ggrepel, grid, gridExtra, igraph, tidyr
 Suggests:
-    exametrika (>= 1.11.0),
+    exametrika (>= 2.3.0),
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.0

@@ -12,6 +12,13 @@
 
 ## Bug Fixes
 
+* `plotGridSearch_gg()` no longer fails with "the condition has length > 1"
+  on a `GridSearch()` result from exametrika older than 2.3.0. Those results
+  have no `index` element, and `data$index` partially matched `index_vec` /
+  `index_matrix`; the fields are now read with exact matching. The `exametrika`
+  requirement in Suggests is raised to `>= 2.3.0`, the version whose
+  `GridSearch()` output the function is written for.
+
 * The examples and test fixtures no longer pass `dataType =` to
   `exametrika::LRA()` and `exametrika::Biclustering()`. That argument never
   existed (the response type is read from the data) and exametrika 2.3.0

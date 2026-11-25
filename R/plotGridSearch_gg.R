@@ -65,8 +65,10 @@ plotGridSearch_gg <- function(data,
   .validate_exametrika(data, "GridSearch")
   style <- match.arg(style)
 
-  index_name <- if (is.null(data$index)) "Fit index" else data$index
-  unit <- if (identical(data$fun, "LRA")) "ranks" else "classes"
+  # [[ ]] not $: on an exametrika < 2.3.0 result there is no `index`, and `$`
+  # would partially match `index_vec` / `index_matrix`
+  index_name <- if (is.null(data[["index"]])) "Fit index" else data[["index"]]
+  unit <- if (identical(data[["fun"]], "LRA")) "ranks" else "classes"
   xlab <- paste("Number of", unit)
   opt_col <- "#D7191C"
   # indices that GridSearch() minimises; the others (e.g. log-likelihood) it maximises

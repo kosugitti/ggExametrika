@@ -42,10 +42,9 @@ plots are unchanged.
 
 ## Dependencies
 
-`exametrika` is in Suggests. Version 2.3.0 of it was accepted on CRAN on
-2026-11-25, and the suite passes against it. Functions that use output added
-in exametrika 2.3.0 fall back to computing it themselves with an older
-version. All Imports packages are available on CRAN.
+`exametrika (>= 2.3.0)` is in Suggests. Version 2.3.0 was accepted on CRAN on
+2026-11-25, and the suite passes against it. All Imports packages are
+available on CRAN.
 
 ## Test results
 
